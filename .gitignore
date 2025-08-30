@@ -49,3 +49,4 @@ wp-config.php
 # uncomment the next line
 #/wp-content/themes
 *.daf
+*.pdf
