@@ -1,0 +1,94 @@
+[
+  {
+    "key": "group_685e2eea0772e",
+    "title": "Audit Dates",
+    "fields": [
+      {
+        "key": "field_685e2ef0772e1",
+        "label": "Audit Dates",
+        "name": "audit_dates",
+        "type": "repeater",
+        "instructions": "",
+        "required": 0,
+        "conditional_logic": 0,
+        "wrapper": { "width": "", "class": "", "id": "" },
+        "layout": "table",
+        "button_label": "Add Row",
+        "min": 12,
+        "max": 12,
+        "sub_fields": [
+          {
+            "key": "field_685e2ef8772e2",
+            "label": "Item #",
+            "name": "item_number",
+            "type": "number",
+            "required": 1,
+            "wrapper": { "width": "10", "class": "", "id": "" },
+            "default_value": "",
+            "min": 1,
+            "max": 12,
+            "step": 1
+          },
+          {
+            "key": "field_685e2f16772e3",
+            "label": "Event",
+            "name": "event_label",
+            "type": "text",
+            "required": 1,
+            "wrapper": { "width": "40", "class": "", "id": "" }
+          },
+          {
+            "key": "field_685e2f33772e4",
+            "label": "Initial",
+            "name": "initial_date",
+            "type": "date_picker",
+            "required": 0,
+            "wrapper": { "width": "15", "class": "", "id": "" },
+            "display_format": "d-m-Y",
+            "return_format": "d-m-Y",
+            "first_day": 1
+          },
+          {
+            "key": "field_685e2f44772e5",
+            "label": "Surveillance-1",
+            "name": "surveillance_1_date",
+            "type": "date_picker",
+            "required": 0,
+            "wrapper": { "width": "15", "class": "", "id": "" },
+            "display_format": "d-m-Y",
+            "return_format": "d-m-Y",
+            "first_day": 1
+          },
+          {
+            "key": "field_685e2f5a772e6",
+            "label": "Surveillance-2",
+            "name": "surveillance_2_date",
+            "type": "date_picker",
+            "required": 0,
+            "wrapper": { "width": "15", "class": "", "id": "" },
+            "display_format": "d-m-Y",
+            "return_format": "d-m-Y",
+            "first_day": 1
+          }
+        ]
+      }
+    ],
+    "location": [
+      [
+        {
+          "param": "post_type",
+          "operator": "==",
+          "value": "client"
+        }
+      ]
+    ],
+    "menu_order": 1,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": ""
+  }
+]
