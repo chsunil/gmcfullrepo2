@@ -342,7 +342,7 @@ $contact_person_mobile_number         = get_field('contact_person_mobile_number'
     <div class="article">
         <h2>Article 4: General Requirements</h2>
         <p>The following requirements shall apply:</p>
-        <ul>
+        <ol>
             <li>Certification Audit of Client’s management system shall be performed on the basis of the requirements of applicable standard(s).</li>
             <li>The audit program shall include a two-stage initial audit, surveillance audits in the first and second years, and a recertification audit in the third year prior to expiration of certificate.</li>
             <li>An audit plan is established for each audit in contract with the Client.</li>
@@ -350,11 +350,245 @@ $contact_person_mobile_number         = get_field('contact_person_mobile_number'
             <li>Client shall make all necessary arrangements for the conduct of the audits, including provision for examining documentation and access to all processes and areas, records and personnel for the purpose of initial certification, surveillance, recertification and resolution of complaints.</li>
             <li>Client shall make provisions, where applicable, to accommodate the presence of observers (e.g. accreditation auditors or trainee auditors).</li>
             <li>Client shall comply with certification requirements.</li>
-        </ul>
+        </ol>
+    </div>
+<div class="article">
+    <h2>Article 5. Initial Certification Audit Process</h2>
+    <p>GMCSPL recognizes key guiding principles of the certification process and will conduct all activities to ensure accuracy, completeness, comparability, consistency, cost-effectiveness, reliability, validity and in particular transparency. Furthermore, all certification audit processes, from preparation to certificate issuance, will be conducted in accordance with GMCSPL Policies and Procedures available on its website.</p>
+</div>
+<div class="article">
+    <h2>Article 6. Confirmation of Certification Scope</h2>
+    <p>Audit team and Client shall discuss certification standard, certification scope (item) and address of sites with each other. If the application of scope is ambiguous, it shall be in accordance with GMCSPL criteria. Final scope shall be stated on “Scope of Certification” and confirmed by the Client.</p>
+</div>
+<div class="article">
+    <h2>Article 7. Issuing Certificate</h2>
+The certificate is granted to an applicant with a validity of three years (or less in case of transfer) after the following conditions have been met by the applicant organization:		
+    <ol><li>
+client has a documented management system that meets applicable standard or other normative documents.</li>
+<li>one Internal Audit and Management Review cycle has been completed and Non-conformities, if any, have been corrected.</li>
+    <li>the applicant meets the criteria of certification and all Major non-conformities found during Audit have been closed.</li>
+    <li>there are no adverse reports/ information/ complaints with the GMCSPL about the applicant regarding the quality and effectiveness of implementation of certification system as per GMCSPL certification criteria</li>
+    <li>the applicant has paid all the fees as per this contract.</li>
+</ol>
+</div>
+<div class="article">
+<h2>Article 8. On-going Surveillance</h2>
+<ol>
+<li>Certified client will be subjected to surveillance audits as per Audit Programme.</li>
+<li>It is mandatory to complete first Surveillance audit within 12 months from the last date of stage 2 audit and second Surveillance audit in the 2nd year.</li>
+<li>The Auditor days shall be as per GMCSPL Procedures.</li>
+<li>There may be a change is audit duration based review of stage 1, ongoing surveillance audit reports, in such cases client will be informed the changes in the effort and changes in the cost and Client has accept as this possess as a requirement to maintain certification.</li>
+</ol>
+</div>
+<div class="article">								
+<h2>Article 9. Rights & duties of Client</h2>									
+Client shall;
+<ol>
+<li>Conforms to the requirements of GMCSPL when making reference to its certification status in communication media such as the internet, brochures or advertising, or other documents,</li>
+<li>not make or permit any misleading statement regarding its certification,</li>
+<li>not use or permit the use of a certification document or any part thereof in a misleading manner,</li>
+<li>upon suspension or withdrawal of its certification, discontinues its use of all advertising matter that contains a reference to certification, as directed by GMCSPL,</li>
+<li>amends all advertising matter when the scope of certification has been reduced,</li>
+<li>not allow reference to its management system certification to be used in such a way as to imply that the GMCSPL certifies a product (including service) or process,</li>
+<li>not imply that the certification applies to activities that are outside the scope of certification, and</li>
+<li>not use its certification in such a manner that would bring GMCSPL and/or its certification system into disrepute and lose public trust.</li>
+<li>not use certification mark on laboratory test, calibration or inspection reports</li>
+<li>not use certification mark on a product or product packaging that may be interpreted as denoting product conformity.</li>
+<li>record and address complaints, report complaints to GMCSPL</li>
+<li>notify GMCSPL within 30 days of changes to Client's quality system or changes significantly affecting Client, such as a change of ownership, change in key personnel or facilities, which call “change” from now</li>
+<li>allow GMCSPL to conduct special audits at short notice to investigate complaints, or in response to changes, or as follow up on suspension.</li>
+<li>not expose auditors or others representing GMCSPL to unsafe working conditions or environments, and to provide all auditors and others appropriate protective equipment,</li>
+<li>pay GMCSPL for the Certification Activities as per the contract.</li>
+</ol>
+<p>GMCSPL has the ownership of certification documents, marks and audit reports. So long as Client maintains its status as being certified by GMCSPL pursuant to the Client's Rights and Duties as above, Client will have the non-exclusive and non-transferable right to use the Certificate, the GMCSPL Logo and any Accreditation Marks (except during Suspension as per Article 08) in Client's advertising and marketing materials and campaigns.</p>
+<p>GMCSPL shall take actions as appropriate to deal with the incorrect references to certification status or misleading use of certification documents, marks or audit reports. Such action could include requests for correction and corrective action, suspension, withdrawal of certification, publication of transgression and, if necessary, legal action.</p>
+</div>
+<div class="article">
+    <h2>Article 10. Suspension of Certification (After Granting Certification)</h2>
+<p>GMCSPL may suspend client’s certification in any of the following cases:-</p>						
+<ol>
+    <li>client does not accept on-going surveillance visit within the time agreed.</li>
+    <li>GMCSPL determines that Client does not have resources or organization to satisfy with requirements of standard applied, or the certified system does not exist.</li>
+    <li>client lost its confidence as a result of claims raised by interested parties and social conflicts.</li>
+    <li>the required actions against the changes of Certification system or requirements have not been taken by client during the specified period.</li>
+    <li>client failed to correct the nonconformities found at on-site Audit within the time agreed.</li>
+    <li>client failed to timely correct nonconformities, caused by misuse of certification mark, within one (1) month.</li>
+    <li>client didn’t pay GMCSPL for Certification activities as per the agreed fee in time.</li>
+    <li>GMCSPL determines that Client didn’t comply with obligation as defined in Article 09 of this proposal.</li>
+    <li>client used and applied the certificate (certification) to out of its scope.</li>
+    <li>it is proved that the information and/or materials provided by Client during Audit are misleading.</li>
+    <li>client does not comply with Article 15 “Notice of changes by a client” of this contract.</li>
+    <li>GMCSPL determines that Client does not comply with the contract(s) concluded with GMCSPL.</li>
+    <li>GMCSPL determines that Client does not comply with “Obligations of Certified Client” for use of GMCSPL Logo and Accreditation marks.</li>
+</ol> 									
+</div>
+<div class="article">
+    <h2>Article 11. Withdrawal of Certification (After Granting Certification)</h2>
+    <ol>
+        <li>failure to correct the reason for suspension within three months</li>
+        <li>client’s request</li>
+        <li>client discontinues the activities (manufacturing, installation, etc.) related to the scope of certification.</li>
+        <li>the certified Client is no longer identified because of its dismantlement or communication disconnecting, etc</li>
+        <li>the suspension of Client’s Certification is more than 3 times during the term of validity of its Certification.</li>
+        <li>after receipt of GMCSPL’ request to return the certificate(s), client didn’t return its certificate(s) to GMCSPL within one (1) month.</li>
+        <li>failure to make payment of any audit activity in due date.</li>
+    </ol>
+   								
+</div>
+<div class="article">
+    <h2>Article 12. Recertification</h2>
+    <p>Recertification shall be performed every three years or less and shall be planned in sufficient advance to complete the process before the date of expiry of the certificate. A fresh contract shall be prepared and agreed with the client. Recertification Audit program verifies overall continuing effectiveness of the Client’s management system in its entirety. GMCSPL shall re-issue the certificate after recertification audit and certification decision. The process for certification for a client after expiry of the certificate shall be as for initial certification.</p>
+</div>
+<div class="article">
+    <h2>Article 13. Appeals, Complaints and Disputes</h2>
+    <p>If Client has appeals, complaints and disputes relating to Certification Audit and/or certification process, Client shall submit the appeals, complaints and disputes in writing to GMCSPL. GMCSPL shall handle the appeals, complaints and disputes, filed by Client, in accordance with GMCSPL procedure (P-06). The result shall be provided to Client in writing. If a complainant is dissatisfied with the outcome of the CAB’s complaint handling process, the complainant may refer the complaints to Accreditation Body.</p>
+</div>
+<div class="article">
+    <h2>Article 14. Notice of changes by GMCSPL</h2>
+    <p>GMCSPL shall give its certified clients due notice of any changes to its requirements for certification and verify compliance as follows:</p>
+    <ol>
+        <li>GMCSPL shall inform Client about changed requirements in detail and transitional period to be observed.</li>
+        <li>Client shall submit documented implementation plan of changed requirements or its result in detail.</li>
+        <li>During surveillance audit, GMCSPL shall verify Client’s implementation and compliance of changed system based on Certification requirements changed.</li>
+    </ol>
+</div>
+<div class="article">
+    <h2>Article 15. Notice of changes by a client</h2>
+    <p>Client shall inform GMCSPL, without delay, of matters that may affect the capability of the management system to continue to fulfill the requirements of the standard used for certification. These include, for example, changes relating to:</p>
+    <ol>
+        <li>the legal, commercial, organizational status or ownership,</li>
+        <li>organization and management (e.g. key managerial, decision-making or technical staff),</li>
+        <li>contact address and sites,</li>
+        <li>scope of operations under the certified management system, and</li>
+        <li>major changes to the management system and processes.</li>
+    </ol>
+    <p>GMCSPL shall review the changes and determine the necessary action including short-notice audits in accordance with “Modification Table (D-02)” (e.g., full or partial Audit or document review).</p>
+</div>
+<div class="article">
+    <h2>Article 16. Short-notice audits</h2>
+    <p>GMCSPL may carry out audits of minimum one man-day on the certified clients at short notice to investigate complaints, or in response to changes, or as follow up on suspended clients. Client shall accept such audits and co-operate to meet the objectives of the audit.</p>
+</div>
+    <div class="article">
+        <h2>Article 17. Service Fee</h2>
+        <p>The service fee indicated in proposal is based on preliminary information provided by the client in the application for certification. GMCSPL has the right to revise the fee, terminate the contract or issue the certificate based on the available information if the information provided, by the client at the time of contract review was found erroneous. The service fee is mentioned below:</p>
+        <table>
+            <tr>
+                <th>Elements</th>
+                <th>Fee (Rs.)</th>
+                <th>Audit Man days</th>
+                <th>Remarks</th>
+            </tr>
+            <tr>
+                <td>Application</td>
+                <td>10, 000/-</td>
+                <td>4</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Audit</td>
+                <td>40,000/-</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Certificate Issue</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+           
+            <tr>
+                <td>Each Surveillance Audit</td>
+                <td>20,000/-</td>
+                <td>1.5</td>
+                <td>Annual</td>
+            </tr>
+            <tr>
+                <td>Justification for reduction or increase of man days</td>
+                <td rowspan="2">Nil</td>
+            </tr>
+        </table>
     </div>
 
-    <!-- repeat for Article 5 through Article 31, copying text from the doc -->
-
+    <div class="article">
+        <h2>Article 18. Payment Schedule</h2>
+        <ol>
+            <li>Application fee will be paid on signing of contract.</li>
+            <li>Audit Fee (initial Audit, verification audit, recertification audit etc.) and Certificate Issue fee will be paid before issue of certificate.</li>
+            <li>Surveillance Audit Fee will be paid within Fifteen days of invoicing.</li>
+        </ol>
+    </div>
+<div class="article">
+    <h2>Article 19. Payment Terms and conditions:</h2>
+    <ol>
+        <li>Service tax will be extra as applicable at the time of invoicing.</li>
+        <li>All boarding, lodging & traveling expenses shall be charged to Client at actual.</li>
+        <li>Fee once paid is non-refundable.</li>
+        <li>All fees have to be paid by Cheque/ DD/ RTGS/NEFT only in favor of ‘Global Management Certification Services Pvt. Ltd., ’ payable at Hyderabad.</li>
+        <li>Any inadvertent cancellation of an audit without reasonable justification may be charged as loss of auditor time.</li>
+        <li>Auditor Days shall be as per GMCSPL Criteria and procedures.</li>
+        <li>Surveillance audit frequency may be increased on recommendations of audit team as per GMCSPL procedure.</li>
+        <li>Any modification in certification shall be processed as per GMCSPL document ’Modification Table’ (available on demand) and shall be charged as applicable.</li>
+        <li>if the Audit team decides that nonconformity, found during Audit, should be verified through follow-up visit, verification Audit shall be performed and charged additionally.</li>
+        <li>In case the payment is delayed by the customer beyond 30 days of the receipt of invoice, GMCSPL has rights to stop the further certification process, suspend the existing certificate, initiate actions for recovery and forfeit the fee already received.</li>
+    </ol>
+</div>
+<div class="article">
+<h2>Article 20. Withdrawal of GMCSPL’ Accreditation</h2>
+<p>In case of withdrawal or suspension of the Audit scopes by accreditation body as the result of GMCSPL’s fault, GMCSPL shall do its best to restore its accreditation. No refund of fee received will be made.</p>
+</div>
+<div class="article">
+<h2>Article 21. Confidentiality:</h2>
+<p>Information about Client shall not be disclosed to a third party without written consent of Client or individual concerned except in case where required by accreditation requirements. Where GMCSPL is required by law to release confidential information to a third party, the Client or individual concerned shall be notified in advance of the information provided. Information about the client from sources other than the client (e.g complainant, regulators) shall be treated as confidential, consistent with the GMCSPL’ policy. In the following cases, the information can be disclosed to a third party without written consent of Client;</p>
+<ol>
+    <li>Information about the certification status i.e. validity, suspended or withdrawn.</li>
+    <li>Information required by accreditation body for evaluation of GMCSPL.</li>
+    <li>Information about misuse of logo or certification scope by the client.</li>
+</ol>
+</div>
+<div class="article">
+<h2>Article 22. Force Majeure</h2>
+<p>Neither party shall be liable to the other party for non-performance or delay in performance of any of its obligations under this contract due to war, natural disaster, epidemic, go-slow, lockout or any other causes reasonably beyond its control or unforeseen circumstances.</p>
+<h2>Article 23. Law</h2>
+<p>This contract shall in all respects be construed and operate as an contract made in India and in conformity with Indian Law and the construction and validity shall be governed by the Indian Laws and is subject to the exclusive jurisdiction of the Hyderabad Courts.</p>
+</div>
+<div class="article">
+<h2>Article 24. Contract Interpretation and disputes settlement</h2>
+<p>In case(s) of dispute(s) which may arise between the parties in respect of the execution, interpretation and performance of this Contract, both parties shall do their best to settle in an amicable manner, otherwise it will be referred to arbitration of Chairperson Advisory Board, GMCSPL or the person nominated by him.  The arbitration shall be held in the City of Hyderabad and shall be in accordance with the Arbitration and Conciliation Act, 1996.</p>
+</div>
+<div class="article">
+<h2>Article 25. Reliability, faithfulness and mutual co-operation</h2>
+<ol>
+    <li>Both parties shall comply with all articles stated in this contract upon mutual trust. GMCSPL shall do its duties and Client shall give best assistance to GMCSPL.</li>
+    <li>Client shall comply with all laws related to certification and give assistance for special surveillance Audit required by Accreditation body, if requested.</li>
+    <li>Client should allow trainee to participate in Audit when requested by GMCSPL.</li>
+    <li>When Client transfers its certification to another certification body, Client shall inform GMCSPL about its transfer and reason.</li>
+</ol>
+</div>
+<div class="article">
+<h2>Article 26. Limitation of Liability and Indemnity</h2>
+<p>GMCSPL liability in respect of any single event or series of events for breach of GMCSPL obligations as per this Contract shall be strictly limited to the amounts received by GMCSPL from the client in the last 12 months preceding the date of the event or events. GMCSPL is not liable for any other liability (including any third party liability or loss of order, loss of tender) claim by the client. GMCSPL is also not liable for any claims passed by its clients in case their products or services malfunction with their own clients or users. GMCSPL is also not liable for failure of commitments made by any other persons/ parties made on behalf of GMCSPL and not covered under this contract.</p>
+</div>
+<div class="article">
+<h2>Article 27. Indemnity</h2>
+The client undertakes to indemnify GMCSPL against any losses suffered by or claims made against GMCSPL as a result of misuse by the client of the licence or mark granted by GMCSPL.									
+</div>
+<div class="article">
+<h2>Article 28. Safety</h2>
+Client shall be responsible for ensuring that GMCSPL Personnel are provided adequate protective equipment’s for the safety, as applicable. Where special training is required this is to be disclosed and provided by Client in advance of a visit.
+</div>
+<div class="article">
+<h2>Article 29. The Term of Contract</h2>
+<p>This proposal shall become Contract and effective upon signing and shall continue in full force unless and until terminated by either party upon 60 days of written notice to the other party. The contract can be changed and renewed by consent in writing of both parties, if required. Upon termination, the certificate issued ceases to be valid.</p>
+</div>
+<div class="article">
+<h2>Article 30. Surveillance Activities</h2>
+<p>As a part of surveillance activity either GMCPL or Their accreditation body may conduct short time annouced or unannounced audits. Clients were advised to make necessary arrangements and provide the data as required by the auditors during the audit, failure to this condition may results into suspenssion of the certificate asper the procedure.</p>
+</div>
+<div class="article">
+<h2>Article 31. Information Requirement</h2>
+Client to inform GMCSPL without delay, of the occurrence of a serious incident or breach of regulation necessitating the involvement of the competent regulatory authority.GMCSPL May Suspend or withdral the certification Based on the special audit outcome when their was a serious accediant or breach of regulation.									
+</div>
     <div class="signature-section">
         <div class="signature">
             <p><strong>For GLOBAL MCS</strong></p>

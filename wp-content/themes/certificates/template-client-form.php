@@ -198,9 +198,9 @@ $next_stage = $current_stage_data && isset($current_stage_data['next']) ? $curre
                                             <!-- Action buttons in a single row -->
                                             <div class="mt-4 d-flex justify-content-end align-items-center">
                                                 <?php if ($has_pdf): ?>
-                                                <a href="<?php echo esc_url(get_field($pdf_field, $post_id)); ?>" target="_blank" class="btn btn-outline-primary me-2">
-                                                    <i class="bx bx-file-report me-1"></i> View PDF
-                                                </a>
+                                                <!-- <a href="<?php echo esc_url(get_field($pdf_field, $post_id)); ?>" target="_blank" class="btn btn-outline-primary me-2">
+                                                    <i class="bx bx-file-report me-1"></i> View PDF client form
+                                                </a> -->
                                                 <?php endif; ?>
                                                 <?php 
                                                  $newpdf_field = $stage_key.'_pdf';
@@ -223,7 +223,8 @@ $next_stage = $current_stage_data && isset($current_stage_data['next']) ? $curre
                                                         data-client-name="<?php echo esc_attr(get_the_title($post_id)); ?>"
                                                         data-email="<?php echo esc_attr(get_field('contact_person_contact_email_new', $post_id)); ?>"
                                                         data-pdf-url="<?php echo esc_url(get_field($pdf_field, $post_id)); ?>"
-                                                        data-pdf-filename="<?php echo esc_attr(basename(get_field($pdf_field, $post_id))); ?>">
+                                                        data-pdf-filename="<?php echo esc_attr(basename(get_field($pdf_field, $post_id))); ?>"
+                                                        data-stage="<?php echo esc_attr($stage_key); ?>">
                                                     <i class="bx bx-envelope me-1"></i> Send Email
                                                 </button>
                                                 
@@ -436,6 +437,11 @@ jQuery(document).ready(function($) {
         const stage = $(this).data('stage');
         const postId = $(this).data('post-id');
         
+        console.log('Sending email request:', {
+            stage: stage,
+            postId: postId
+        });
+        
         // Get email template data via AJAX
         $.ajax({
             url: ajaxurl,
@@ -460,12 +466,12 @@ jQuery(document).ready(function($) {
                     emailModal.show();
                 } else {
                     console.error('Error getting email template:', response.data);
-                    alert('Error getting email template. Please try again.');
+                    alert('Error getting email template. Please try again. one more time');
                 }
             },
             error: function(xhr, status, error) {
                 console.error('AJAX error:', error);
-                alert('Error getting email template. Please try again.');
+                alert('Error getting email template. Please try again. second time');
             }
         });
     });
@@ -609,26 +615,61 @@ add_action('wp_ajax_get_email_template', function() {
     $post_id = isset($_POST['post_id']) ? intval($_POST['post_id']) : 0;
     $stage = isset($_POST['stage']) ? sanitize_text_field($_POST['stage']) : '';
     
+    error_log('Email Template Debug - Received parameters:');
+    error_log('Post ID: ' . $post_id);
+    error_log('Stage: ' . $stage);
+    
     if (!$post_id || !$stage) {
+        error_log('Email Template Error - Missing required parameters');
         wp_send_json_error('Missing parameters');
     }
     
     // Get client data
     $client = get_post($post_id);
-    $client_name = $client ? $client->post_title : 'Client';
-    $certification_type = get_field('certification_type', $post_id) ?: 'qms';
+    if (!$client) {
+        error_log('Email Template Error - Client not found for post_id: ' . $post_id);
+        wp_send_json_error('Client not found');
+    }
+    
+    $client_name = $client->post_title;
+    $certification_type = get_field('certification_type', $post_id);
+    
+    error_log('Email Template Debug - Client data:');
+    error_log('Client Name: ' . $client_name);
+    error_log('Certification Type: ' . $certification_type);
+    
+    // Ensure we have a certification type
+    if (!$certification_type) {
+        $certification_type = 'qms';
+        error_log('Email Template Debug - No certification type found, defaulting to: ' . $certification_type);
+    }
+    
+    // Debug logging
+    error_log('Email Template Debug - Post ID: ' . $post_id);
+    error_log('Email Template Debug - Stage: ' . $stage);
+    error_log('Email Template Debug - Certification Type: ' . $certification_type);
     
     // Get email templates
     $certification_emails = get_certification_emails();
-    $emails = isset($certification_emails[$certification_type]) ? $certification_emails[$certification_type] : [];
-    
-    if (!isset($emails[$stage])) {
-        wp_send_json_error('Email template not found for this stage');
+    if (!$certification_emails) {
+        error_log('Email Template Error - No certification emails found');
+        wp_send_json_error('Configuration error: No email templates found');
     }
     
-    $email_template = $emails[$stage];
+    if (!isset($certification_emails[$certification_type])) {
+        error_log('Email Template Error - No templates found for certification type: ' . $certification_type);
+        wp_send_json_error('No email templates found for this certification type');
+    }
     
-    // Get PDF URL if applicable
+    $emails = $certification_emails[$certification_type];
+    
+    if (!isset($emails[$stage])) {
+        error_log('Email Template Error - Template not found for stage: ' . $stage . ' in type: ' . $certification_type);
+        error_log('Available stages: ' . print_r(array_keys($emails), true));
+        wp_send_json_error('Email template not found for stage: ' . $stage);
+    }
+    
+    $email_template = $emails[$stage];    // Get PDF URL if applicable
     $pdf_url = '';
     $pdf_name = '';
     if (!empty($email_template['pdf_field'])) {

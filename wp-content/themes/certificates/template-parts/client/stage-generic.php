@@ -83,7 +83,7 @@ if ($real_post_id) {
     $pdf_url   = get_field($field_key, $real_post_id);
 
     if ($pdf_url) {
-      echo '<a target="_blank" class="btn btn-primary btn-sm" href="'.$pdf_url.'"><i class="bx bx-file me-1"></i> View PDF</a>';
+      echo '<a target="_blank" class="btn btn-primary btn-sm" href="'.$pdf_url.'"><i class="bx bx-file me-1"></i> View PDF stage generic</a>';
     } else {
       echo '<button class="btn btn-primary btn-sm generate-pdf" data-post-id="' . $real_post_id . '" data-scheme="qms" data-stage="' . $step_key . '">
               <i class="bx bx-file-blank me-1"></i> Generate PDF for '. $step_key.'
