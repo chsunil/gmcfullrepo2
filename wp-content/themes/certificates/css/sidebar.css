@@ -1,0 +1,112 @@
+/*--------------------------------------------------------------
+# Sidebar Layout & Styling
+--------------------------------------------------------------*/
+.sidebar {
+    min-width: 250px;
+    background: #0061f2;
+    color: #fff;
+    padding: 20px 0;
+    height: 100%;
+}
+
+.sidebar-inner {
+    padding: 0 15px;
+}
+
+/* Sidebar Menu */
+.sidebar-menu {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.sidebar-menu .menu-item {
+    margin-bottom: 5px;
+}
+
+.sidebar-menu .menu-item a {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.sidebar-menu .menu-item a:hover,
+.sidebar-menu .menu-item.current-menu-item a {
+    background: #2f89fc;
+}
+
+.sidebar-menu .menu-item a i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+}
+
+/* Widget styling */
+.sidebar .widget {
+    margin-bottom: 30px;
+}
+
+.sidebar .widget-title {
+    color: #fff;
+    font-size: 18px;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .sidebar {
+        min-width: 100%;
+        margin-bottom: 20px;
+    }
+}
+
+/*--------------------------------------------------------------
+# Workflow Stage States
+--------------------------------------------------------------*/
+
+/* Disabled/Future stages - not clickable */
+.client-workflow-menu .menu-item.disabled .menu-link,
+.client-workflow-menu .menu-item[data-status="future"] .menu-link {
+    opacity: 0.5;
+    cursor: not-allowed !important;
+    pointer-events: none;
+    color: #999 !important;
+}
+
+.client-workflow-menu .menu-link.is-locked {
+    opacity: 0.5;
+    cursor: not-allowed !important;
+}
+
+/* Completed stages - green check icon */
+.client-workflow-menu .menu-item[data-status="completed"] .menu-link {
+    color: #566a7f;
+}
+
+.client-workflow-menu .menu-item[data-status="completed"] .menu-link:hover {
+    background-color: rgba(105, 108, 255, 0.08);
+}
+
+/* Current stage - highlighted */
+.client-workflow-menu .menu-item[data-status="current"] .menu-link {
+    background-color: rgba(105, 108, 255, 0.16);
+    color: #696cff;
+    font-weight: 600;
+}
+
+/* Future stages - locked appearance */
+.client-workflow-menu .menu-item[data-status="future"] .menu-link {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* Stage icons */
+.client-workflow-menu .menu-link i {
+    font-size: 14px;
+    min-width: 18px;
+}
