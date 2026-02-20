@@ -42,22 +42,57 @@ astra_footer_after();
 
 <?php
 /**
- * Sticky Action Bar - Shows on client form pages only
+ * Fixed Footer Action Bar - Shows on client form pages
+ * Supports: template-client-form.php AND page-client-single.php
  */
-if (is_page_template('template-client-form.php') && !empty($GLOBALS['client_form_data'])) :
+$show_fixed_footer = false;
+$post_id = 0;
+$is_new = true;
+$stage_key = '';
+$stages = [];
+$client_stage = '';
+$certification_type = 'qms';
+
+// Detect which template is active (robust: checks is_page_template + global $template filename)
+global $template;
+$current_template_basename = $template ? basename($template) : '';
+
+$is_client_form    = is_page_template('template-client-form.php') && !empty($GLOBALS['client_form_data']);
+$is_multi_step     = is_page_template('page-client-single.php') || $current_template_basename === 'page-client-single.php';
+
+// Source 1: template-client-form.php (uses $GLOBALS['client_form_data'])
+if ($is_client_form) :
     $data = $GLOBALS['client_form_data'];
-    
-    // Extract variables
     $post_id = $data['post_id'] ?? 0;
     $is_new = $data['is_new'] ?? true;
     $stage_key = $data['stage_key'] ?? '';
     $stages = $data['stages'] ?? [];
     $client_stage = $data['client_stage'] ?? '';
     $certification_type = $data['certification_type'] ?? 'qms';
-    
-    if (!$is_new && $post_id > 0) :
-        // Calculate stage variables
-        $current_stage_key = isset($_GET['stage']) ? sanitize_text_field($_GET['stage']) : $client_stage;
+    $show_fixed_footer = (!$is_new && $post_id > 0);
+
+// Source 2: page-client-single.php (Multi-Step ACF Form with Tabs)
+elseif ($is_multi_step) :
+    $new_id = isset($_GET['new_post_id']) ? intval($_GET['new_post_id']) : 0;
+    if ($new_id > 0) {
+        $post_id = $new_id;
+        $is_new = false;
+        $certification_type = get_field('certification_type', $post_id) ?: 'qms';
+        $client_stage = get_field('client_stage', $post_id) ?: 'draft';
+        $stage_key = isset($_GET['stage']) ? sanitize_text_field($_GET['stage']) : $client_stage;
+        
+        // Get stages from certification_stages
+        if (function_exists('get_certification_stages')) {
+            $all_stages = get_certification_stages();
+            $stages = isset($all_stages[$certification_type]) ? $all_stages[$certification_type] : [];
+        }
+        $show_fixed_footer = true;
+    }
+endif;
+
+if ($show_fixed_footer) :
+    // Calculate stage variables
+    $current_stage_key = isset($_GET['stage']) ? sanitize_text_field($_GET['stage']) : $client_stage;
         $stage = isset($stages[$current_stage_key]) ? $stages[$current_stage_key] : null;
         
         // Get email template info
@@ -73,198 +108,337 @@ if (is_page_template('template-client-form.php') && !empty($GLOBALS['client_form
             $has_pdf = false;
         }
         
-        // Use current stage key
-        $stage_key = $current_stage_key;
+    // Use current stage key
+    $stage_key = $current_stage_key;
+
+    // Check PDF availability via get_certification_pdf() (for Multi-Step template)
+    $newpdf_field = $stage_key . '_pdf';
+    $isithas_pdf = get_field($newpdf_field, $post_id);
+    
+    // Check if this stage supports PDF generation
+    $stage_has_pdf_support = false;
+    if (function_exists('get_certification_pdf')) {
+        $pdf_stages = get_certification_pdf();
+        $pdf_stage_list = isset($pdf_stages[$certification_type]) ? $pdf_stages[$certification_type] : [];
+        $stage_has_pdf_support = in_array($stage_key, $pdf_stage_list, true);
+    }
+    // Fallback: also show PDF for non-draft stages
+    if ($stage_key !== 'draft') {
+        $stage_has_pdf_support = true;
+    }
+    
+    // Build next stage URL for Multi-Step template (link-based navigation)
+    $next_stage_url = '';
+    if ($is_multi_step && $stage && !empty($stage['next'])) {
+        $next_stage_url = add_query_arg(
+            ['new_post_id' => $post_id, 'stage' => $stage['next']],
+            get_permalink()
+        );
+    }
 ?>
 <!-- ===================================== -->
-<!-- STICKY ACTION BAR (Sneat Styled)      -->
+<!-- FIXED FOOTER ACTION BAR               -->
 <!-- ===================================== -->
-<div class="sticky-action-bar">
-    <div class="container-xxl">
-        <div class="card mb-0 shadow-lg">
-            <div class="card-body p-3">
-                <div class="row align-items-center g-3">
-                    <!-- Left: Status Indicator -->
-                    <div class="col-auto">
-                        <div class="d-flex align-items-center">
-                            <i class="bx bx-info-circle text-warning fs-5 me-2"></i>
-                            <div>
-                                <div class="text-warning fw-semibold" id="save-status">Ready to save</div>
-                                <small class="text-muted d-none d-md-block">
-                                    Stage: <?php echo esc_html($stage['title'] ?? $stage_key); ?>
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Right: Action Buttons -->
-                    <div class="col text-end">
-                        <div class="btn-group" role="group">
-                            <!-- Save Button -->
-                            <button type="submit" class="btn btn-secondary" id="save-btn" form="acf-form">
-                                <i class="bx bx-save"></i>
-                                <span class="d-none d-sm-inline ms-1">Save</span>
-                            </button>
-                            
-                            <!-- PDF Button -->
-                            <?php if ($stage_key !== 'draft') : 
-                                $newpdf_field = $stage_key.'_pdf';
-                                $isithas_pdf = get_field($newpdf_field, $post_id);
-                            ?>
-                                <?php if (!$isithas_pdf) : ?>
-                                <button type="button" class="btn btn-outline-info generate-pdf" 
-                                        data-scheme="<?php echo esc_attr($certification_type); ?>" 
-                                        data-stage="<?php echo esc_attr($stage_key); ?>" 
-                                        data-post-id="<?php echo esc_attr($post_id); ?>">
-                                    <i class="bx bx-file-blank"></i>
-                                    <span class="d-none d-md-inline ms-1">Generate PDF</span>
-                                </button>
-                                <?php else : ?>
-                                <a href="<?php echo esc_url($isithas_pdf); ?>" 
-                                   target="_blank" 
-                                   class="btn btn-outline-info">
-                                    <i class="bx bx-file"></i>
-                                    <span class="d-none d-md-inline ms-1">View PDF</span>
-                                </a>
-                                <?php endif; ?>
-                            <?php endif; ?>
-                            
-                            <!-- Email Button -->
-                            <?php if ($has_email && $has_pdf) : ?>
-                            <button type="button" class="btn btn-outline-success send-email-btn" 
-                                    data-bs-toggle="modal" 
-                                    data-bs-target="#sendEmailModal"
-                                    data-post-id="<?php echo esc_attr($post_id); ?>"
-                                    data-client-name="<?php echo esc_attr(get_the_title($post_id)); ?>"
-                                    data-email="<?php echo esc_attr(get_field('contact_person_contact_email_new', $post_id)); ?>"
-                                    data-pdf-url="<?php echo esc_url(get_field($pdf_field, $post_id)); ?>"
-                                    data-pdf-filename="<?php echo esc_attr(basename(get_field($pdf_field, $post_id))); ?>"
-                                    data-stage="<?php echo esc_attr($stage_key); ?>">
-                                <i class="bx bx-envelope"></i>
-                                <span class="d-none d-md-inline ms-1">Send Email</span>
-                            </button>
-                            <?php endif; ?>
-                            
-                            <!-- Next Stage Button -->
-                            <?php if ($stage && !empty($stage['next'])) : 
-                                $next_stage_data = isset($stages[$stage['next']]) ? $stages[$stage['next']] : null;
-                                $next_stage_title = $next_stage_data ? $next_stage_data['title'] : $stage['next'];
-                            ?>
-                            <button type="button" class="btn btn-primary next-stage-btn fw-semibold" 
-                                    data-current="<?php echo esc_attr($stage_key); ?>" 
-                                    data-next="<?php echo esc_attr($stage['next']); ?>">
-                                <span class="d-none d-sm-inline">Next: </span>
-                                <?php echo esc_html($next_stage_title); ?>
-                                <i class="bx bx-right-arrow-alt ms-1"></i>
-                            </button>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<div class="fixed-footer-bar" id="fixedFooterBar">
+    <div class="fixed-footer-inner">
+        <!-- Unsaved Changes Label -->
+        <div class="footer-status">
+            <i class="bx bx-error-circle footer-status-icon" id="footer-status-icon"></i>
+            <span class="footer-status-text" id="save-status">Unsaved Changes</span>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="footer-actions">
+            <!-- Save Draft Button (uses JS to find and submit the ACF form) -->
+            <button type="button" class="footer-btn footer-btn-draft" id="save-btn" onclick="document.querySelector('.acf-form input[type=submit]').click();">
+                <i class="bx bx-save"></i>
+                <span>Save Draft</span>
+            </button>
+
+            <!-- Generate PDF / View PDF Button -->
+            <?php if ($stage_has_pdf_support && $stage_key !== 'draft') : ?>
+                <?php if ($isithas_pdf) : ?>
+                <a href="<?php echo esc_url($isithas_pdf); ?>" 
+                   target="_blank" 
+                   class="footer-btn footer-btn-pdf footer-btn footer-btn-pdf">
+                    <i class="bx bx-file"></i>
+                    <span>View PDF</span>
+                </a>
+                <?php else : ?>
+                <button type="button" class="footer-btn footer-btn-pdf generate-pdf" 
+                        data-scheme="<?php echo esc_attr($certification_type); ?>" 
+                        data-stage="<?php echo esc_attr($stage_key); ?>" 
+                        data-post-id="<?php echo esc_attr($post_id); ?>">
+                    <i class="bx bx-file-blank"></i>
+                    <span>Generate PDF</span>
+                </button>
+                <?php endif; ?>
+            <?php endif; ?>
+
+            <!-- Send Email Button -->
+            <?php if ($has_email) : ?>
+            <button type="button" class="footer-btn footer-btn-email send-email-btn" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#sendEmailModal"
+                    data-post-id="<?php echo esc_attr($post_id); ?>"
+                    data-client-name="<?php echo esc_attr(get_the_title($post_id)); ?>"
+                    data-email="<?php echo esc_attr(get_field('contact_person_contact_email_new', $post_id)); ?>"
+                    data-pdf-url="<?php echo esc_url(get_field($pdf_field, $post_id)); ?>"
+                    data-pdf-filename="<?php echo esc_attr(basename(get_field($pdf_field, $post_id))); ?>"
+                    data-stage="<?php echo esc_attr($stage_key); ?>">
+                <i class="bx bx-envelope"></i>
+                <span>Send Email</span>
+            </button>
+            <?php endif; ?>
+
+            <!-- Next Stage Button -->
+            <?php if ($stage && !empty($stage['next'])) : 
+                $next_stage_data = isset($stages[$stage['next']]) ? $stages[$stage['next']] : null;
+                $next_stage_title = $next_stage_data ? $next_stage_data['title'] : $stage['next'];
+            ?>
+                <?php if ($next_stage_url) : ?>
+                <!-- Multi-Step template: link-based navigation -->
+                <a href="<?php echo esc_url($next_stage_url); ?>" class="footer-btn footer-btn-next">
+                    <span>Next: <?php echo esc_html($next_stage_title); ?></span>
+                    <i class="bx bx-right-arrow-alt"></i>
+                </a>
+                <?php else : ?>
+                <!-- Client Form template: AJAX-based stage update -->
+                <button type="button" class="footer-btn footer-btn-next next-stage-btn" 
+                        data-current="<?php echo esc_attr($stage_key); ?>" 
+                        data-next="<?php echo esc_attr($stage['next']); ?>">
+                    <span>Next: <?php echo esc_html($next_stage_title); ?></span>
+                    <i class="bx bx-right-arrow-alt"></i>
+                </button>
+                <?php endif; ?>
+            <?php endif; ?>
         </div>
     </div>
 </div>
 
 <style>
-/* ========================================= */
-/* STICKY ACTION BAR - Sneat Style          */
-/* ========================================= */
-.sticky-action-bar {
+/* ============================================= */
+/* FIXED FOOTER ACTION BAR - Modern App Style    */
+/* ============================================= */
+.fixed-footer-bar {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
     z-index: 1040;
-    background: transparent;
-    padding: 0;
-    transform: translateY(0);
-    transition: transform 0.3s ease;
+    padding: 12px 20px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: all 0.3s ease;
 }
 
 @media (min-width: 1200px) {
-    .sticky-action-bar {
+    .fixed-footer-bar {
         left: 260px; /* Sneat sidebar width */
     }
 }
 
-.sticky-action-bar .card {
-    border-radius: 0;
-    border-top: 2px solid var(--bs-primary);
-    box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.1) !important;
+.fixed-footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 16px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 14px 20px;
+    border: 2px dashed #3b82f6;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.08);
+    flex-wrap: wrap;
 }
 
-#save-status {
+/* ---- Status Indicator ---- */
+.footer-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 160px;
+}
+
+.footer-status-icon {
+    font-size: 20px;
+    color: #f59e0b;
+}
+
+.footer-status-text {
+    font-size: 15px;
+    font-weight: 600;
+    font-style: italic;
+    color: #f59e0b;
+    white-space: nowrap;
+}
+
+.footer-status-text.saved {
+    color: #22c55e !important;
+    font-style: normal;
+}
+
+.footer-status-text.saving {
+    color: #3b82f6 !important;
+    font-style: normal;
+}
+
+.footer-status-text.unsaved {
+    color: #f59e0b !important;
+}
+
+/* ---- Action Buttons ---- */
+.footer-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.footer-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 18px;
+    border-radius: 6px;
     font-size: 14px;
-    line-height: 1.2;
-}
-
-#save-status.saved {
-    color: var(--bs-success) !important;
-}
-
-#save-status.saving {
-    color: var(--bs-info) !important;
-}
-
-#save-status.unsaved {
-    color: var(--bs-warning) !important;
-}
-
-.sticky-action-bar .btn-group {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-}
-
-.sticky-action-bar .btn {
     font-weight: 500;
-    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    white-space: nowrap;
+    line-height: 1.4;
+    border: 1.5px solid transparent;
+    background: transparent;
 }
 
+.footer-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.footer-btn:active {
+    transform: translateY(0);
+}
+
+/* Save Draft */
+.footer-btn-draft {
+    border-color: #9ca3af;
+    color: #4b5563;
+    background: #fff;
+}
+.footer-btn-draft:hover {
+    background: #f3f4f6;
+    color: #374151;
+}
+
+/* Generate PDF */
+.footer-btn-pdf {
+    border-color: #14b8a6;
+    color: #0d9488;
+    background: #fff;
+}
+.footer-btn-pdf:hover {
+    background: #f0fdfa;
+    color: #0f766e;
+}
+
+/* Send Email */
+.footer-btn-email {
+    border-color: #22c55e;
+    color: #16a34a;
+    background: #fff;
+}
+.footer-btn-email:hover {
+    background: #f0fdf4;
+    color: #15803d;
+}
+
+/* Next Stage */
+.footer-btn-next {
+    border-color: #2563eb;
+    background: #2563eb;
+    color: #fff;
+    font-weight: 600;
+}
+.footer-btn-next:hover {
+    background: #1d4ed8;
+    border-color: #1d4ed8;
+    color: #fff;
+}
+
+/* ---- Spacer for fixed footer ---- */
+.fixed-footer-spacer {
+    display: block;
+    height: 90px;
+}
+
+/* ---- Responsive ---- */
 @media (max-width: 767px) {
-    .sticky-action-bar .btn {
-        padding: 0.5rem 0.75rem;
-        font-size: 0.875rem;
+    .fixed-footer-bar {
+        padding: 8px 10px;
     }
     
-    .sticky-action-bar .card-body {
-        padding: 0.75rem !important;
+    .fixed-footer-inner {
+        padding: 10px 12px;
+        gap: 10px;
+    }
+
+    .footer-status {
+        min-width: auto;
+        width: 100%;
+    }
+    
+    .footer-btn {
+        padding: 6px 12px;
+        font-size: 13px;
+    }
+
+    .footer-btn span {
+        display: none;
+    }
+
+    .footer-btn i {
+        font-size: 18px;
+    }
+
+    .fixed-footer-spacer {
+        height: 120px;
     }
 }
 
-.sticky-action-placeholder {
-    display: block;
-    margin-top: 2rem;
-    height: 80px;
-}
-
-@media (max-width: 767px) {
-    .sticky-action-placeholder {
-        height: 60px;
+@media (max-width: 400px) {
+    .footer-actions {
+        gap: 6px;
     }
 }
 
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
+/* ---- Pulse animation on change ---- */
+@keyframes statusPulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.6; }
+    100% { opacity: 1; }
 }
 
-.sticky-action-bar.form-changed #save-status {
-    animation: pulse 0.5s ease;
+.fixed-footer-bar.form-changed .footer-status-text {
+    animation: statusPulse 0.6s ease;
 }
 </style>
 
 <script>
 /* ========================================= */
-/* STICKY ACTION BAR - Form Change Detection */
+/* FIXED FOOTER BAR - Form Change Detection  */
 /* ========================================= */
 document.addEventListener('DOMContentLoaded', function() {
-    const stickyBar = document.querySelector('.sticky-action-bar');
+    const footerBar = document.getElementById('fixedFooterBar');
     const saveStatus = document.getElementById('save-status');
+    const statusIcon = document.getElementById('footer-status-icon');
     const acfForm = document.querySelector('.acf-form');
     const saveBtn = document.getElementById('save-btn');
     
-    if (!stickyBar || !acfForm) return;
+    if (!footerBar || !acfForm) return;
     
     let hasUnsavedChanges = false;
     
@@ -272,8 +446,8 @@ document.addEventListener('DOMContentLoaded', function() {
     acfForm.addEventListener('input', function() {
         if (!hasUnsavedChanges) {
             hasUnsavedChanges = true;
-            updateSaveStatus('unsaved', 'Unsaved changes');
-            stickyBar.classList.add('form-changed');
+            updateSaveStatus('unsaved', 'Unsaved Changes');
+            footerBar.classList.add('form-changed');
         }
     });
     
@@ -293,10 +467,10 @@ document.addEventListener('DOMContentLoaded', function() {
         acf.addAction('submit_success', function() {
             hasUnsavedChanges = false;
             updateSaveStatus('saved', 'All changes saved');
-            stickyBar.classList.remove('form-changed');
+            footerBar.classList.remove('form-changed');
             
             setTimeout(function() {
-                updateSaveStatus('ready', 'Ready to save');
+                updateSaveStatus('ready', 'Ready');
             }, 3000);
         });
     }
@@ -305,24 +479,27 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateSaveStatus(type, message) {
         if (!saveStatus) return;
         
-        saveStatus.className = 'fw-semibold ' + type;
+        saveStatus.className = 'footer-status-text ' + type;
         saveStatus.textContent = message;
         
-        const icon = saveStatus.previousElementSibling;
-        if (icon) {
-            icon.className = 'bx fs-5 me-2 ';
+        if (statusIcon) {
+            statusIcon.className = 'bx footer-status-icon ';
             switch(type) {
                 case 'saved':
-                    icon.className += 'bx-check-circle text-success';
+                    statusIcon.className += 'bx-check-circle';
+                    statusIcon.style.color = '#22c55e';
                     break;
                 case 'saving':
-                    icon.className += 'bx-loader-circle bx-spin text-info';
+                    statusIcon.className += 'bx-loader-circle bx-spin';
+                    statusIcon.style.color = '#3b82f6';
                     break;
                 case 'unsaved':
-                    icon.className += 'bx-info-circle text-warning';
+                    statusIcon.className += 'bx-error-circle';
+                    statusIcon.style.color = '#f59e0b';
                     break;
                 default:
-                    icon.className += 'bx-info-circle text-muted';
+                    statusIcon.className += 'bx-check-circle';
+                    statusIcon.style.color = '#9ca3af';
             }
         }
     }
@@ -338,14 +515,18 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 <?php 
-    endif; // End !$is_new check
-endif; // End client_form_data check
+endif; // End $show_fixed_footer check
 ?>
+
+<!-- Toast Container -->
+<!-- Toast Container -->
+<div id="toast-container" class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+    <!-- Toasts will be appended here -->
+</div>
 
 <?php
 astra_body_bottom();
 wp_footer();
 ?>
 </body>
-
 </html>

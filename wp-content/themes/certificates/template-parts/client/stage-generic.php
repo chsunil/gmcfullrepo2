@@ -71,6 +71,12 @@ if ($step_key != 'f03') {
   </script>';
 }
 
+<?php
+// Hide inline action buttons — these are now handled by the Fixed Footer Bar in footer.php
+// The buttons below are rendered hidden, keeping their data attributes available for JS.
+?>
+<div class="inline-stage-actions" style="display:none !important;">
+<?php
 echo '<div class="mt-4">';
 
 // 3) PDF‐generation block
@@ -129,8 +135,7 @@ if ( $pdf_url && $templates ) {
   }
 }
 
-// 2) If we have a real post ID (i.e. the form has been saved at least once),
-//    show a Next button that links to the next-stage URL.
+// 2) Next stage link (hidden, footer handles this now)
 if ($real_post_id && $next_stage):
   $next_url = add_query_arg(
     ['new_post_id' => $real_post_id, 'stage' => $next_stage],
@@ -143,3 +148,22 @@ if ($real_post_id && $next_stage):
     </a>
   </div>
 <?php endif; ?>
+</div><!-- /.inline-stage-actions (hidden) -->
+
+<?php
+// Hide the ACF built-in submit button — the fixed footer "Save Draft" button triggers the form
+// Also add a spacer so content doesn't overlap the fixed footer
+?>
+<style>
+  /* Hide inline ACF submit button — fixed footer handles save */
+  .acf-form .acf-form-submit { 
+    visibility: hidden !important; 
+    height: 0 !important; 
+    overflow: hidden !important; 
+    margin: 0 !important; 
+    padding: 0 !important; 
+  }
+  /* Spacer to prevent content from being hidden behind fixed footer */
+  .fixed-footer-spacer { display: block; height: 100px; }
+</style>
+<div class="fixed-footer-spacer"></div>

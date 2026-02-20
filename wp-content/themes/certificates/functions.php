@@ -63,6 +63,9 @@ require_once get_stylesheet_directory() . '/includes/reports.php';
 // Include custom login redirects
 // require_once get_stylesheet_directory() . '/login-redirects.php';
 
+// Include GMC Invoice CPT
+require_once get_stylesheet_directory() . '/includes/class-gmc-invoice.php';
+
 
 // After ACF saves any front‐end form:
 add_action('acf/save_post', function($post_id){
@@ -350,6 +353,14 @@ function enqueue_theme_assets() {
     // Email functionality - Uncomment if needed
     if (is_page()) {
         wp_enqueue_script(
+            'toast-helper',
+            get_stylesheet_directory_uri() . '/js/toast-helper.js',
+            array('jquery', 'sneat-bootstrap-js'), // Depend on bootstrap
+            '1.0.0',
+            true
+        );
+
+        wp_enqueue_script(
             'send-email-js',
             get_stylesheet_directory_uri() . '/js/send-email.js',
             array('jquery', 'bootstrap-js'),
@@ -360,7 +371,7 @@ function enqueue_theme_assets() {
         wp_localize_script('send-email-js', 'wp_vars', [
             'ajax_url' => admin_url('admin-ajax.php'),
             'get_client_email_nonce' => wp_create_nonce('get_client_email_nonce'),
-            'send_pdf_email_nonce' => wp_create_nonce('send_pdf_email_nonce'),
+            'send_client_email_nonce' => wp_create_nonce('send_client_email_nonce'),
         ]);
     }
     
@@ -732,3 +743,712 @@ function gmc_get_certification_stages( $type = 'qms' ) {
     $all = get_certification_stages();
     return $all[$type] ?? [];
 }
+
+// --- Moved from template-client-form.php ---
+
+add_action('wp_ajax_update_certification_type', function() {
+    // Verify nonce
+    if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'update_certification_type_nonce')) {
+        wp_send_json_error('Invalid nonce');
+    }
+    
+    // Get parameters
+    $post_id = isset($_POST['post_id']) ? intval($_POST['post_id']) : 0;
+    $type = isset($_POST['type']) ? sanitize_text_field($_POST['type']) : '';
+    
+    if (!$post_id || !$type || !in_array($type, ['qms', 'ems'])) {
+        wp_send_json_error('Invalid parameters');
+    }
+    
+    // Update certification type
+    update_field('certification_type', $type, $post_id);
+    
+    // Reset stage to draft when changing certification type
+    update_field('client_stage', 'draft', $post_id);
+    
+    wp_send_json_success(['message' => 'Certification type updated', 'type' => $type]);
+});
+
+// Get email template data
+add_action('wp_ajax_get_email_template', function() {
+    // Verify nonce
+    if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'get_email_template_nonce')) {
+        wp_send_json_error('Invalid nonce');
+    }
+    
+    // Get parameters
+    $post_id = isset($_POST['post_id']) ? intval($_POST['post_id']) : 0;
+    $stage = isset($_POST['stage']) ? sanitize_text_field($_POST['stage']) : '';
+    
+    error_log('Email Template Debug - Received parameters:');
+    error_log('Post ID: ' . $post_id);
+    error_log('Stage: ' . $stage);
+    
+    if (!$post_id || !$stage) {
+        error_log('Email Template Error - Missing required parameters');
+        wp_send_json_error('Missing parameters');
+    }
+    
+    // Get client data
+    $client = get_post($post_id);
+    if (!$client) {
+        error_log('Email Template Error - Client not found for post_id: ' . $post_id);
+        wp_send_json_error('Client not found');
+    }
+    
+    $client_name = $client->post_title;
+    $certification_type = get_field('certification_type', $post_id);
+    
+    error_log('Email Template Debug - Client data:');
+    error_log('Client Name: ' . $client_name);
+    error_log('Certification Type: ' . $certification_type);
+    
+    // Ensure we have a certification type
+    if (!$certification_type) {
+        $certification_type = 'qms';
+        error_log('Email Template Debug - No certification type found, defaulting to: ' . $certification_type);
+    }
+    
+    // Debug logging
+    error_log('Email Template Debug - Post ID: ' . $post_id);
+    error_log('Email Template Debug - Stage: ' . $stage);
+    error_log('Email Template Debug - Certification Type: ' . $certification_type);
+    
+    // Get email templates (with safety checks)
+    $certification_emails = get_certification_emails();
+    if (!$certification_emails) {
+        error_log('Email Template Error - No certification emails found');
+        wp_send_json_error('Configuration error: No email templates found');
+    }
+
+    if (!isset($certification_emails[$certification_type])) {
+        error_log('Email Template Error - No templates found for certification type: ' . $certification_type);
+        wp_send_json_error('No email templates found for this certification type');
+    }
+
+    $emails = $certification_emails[$certification_type];
+
+    // Allow case-insensitive stage matching
+    $found_stage = null;
+    if (isset($emails[$stage])) {
+        $found_stage = $stage;
+    } else {
+        foreach ($emails as $k => $v) {
+            if (strtolower($k) === strtolower($stage)) {
+                $found_stage = $k;
+                break;
+            }
+        }
+    }
+
+    if (!$found_stage) {
+        error_log('Email Template Error - Template not found for stage: ' . $stage . ' in type: ' . $certification_type);
+        error_log('Available stages: ' . print_r(array_keys($emails), true));
+        wp_send_json_error('Email template not found for stage: ' . $stage);
+    }
+
+    $email_template = $emails[$found_stage];
+
+    // Get PDF URL if applicable
+    $pdf_url = '';
+    $pdf_name = '';
+    if (!empty($email_template['pdf_field'])) {
+        $pdf_field = $email_template['pdf_field'];
+        $pdf_url = get_field($pdf_field, $post_id);
+        if ($pdf_url) {
+            $pdf_name = basename($pdf_url);
+        }
+    }
+
+    // Get client contact email - try several fallbacks
+    $to_email = '';
+    $email_fields = [
+        'contact_person_contact_email_new',
+        'top_management_contact_person_contact_email',
+        'company_email',
+        'contact_email',
+        'email',
+        'primary_email',
+    ];
+
+    foreach ($email_fields as $ef) {
+        $val = get_field($ef, $post_id);
+        if (empty($val)) {
+            // Also check post meta
+            $val = get_post_meta($post_id, $ef, true);
+        }
+        if (!empty($val)) {
+            if (is_array($val)) {
+                // ACF may return array with 'email' key
+                if (isset($val['email'])) {
+                    $val = $val['email'];
+                } else {
+                    // Try first scalar value
+                    $val = reset($val);
+                }
+            }
+            $candidate = sanitize_email($val);
+            if (!empty($candidate)) {
+                $to_email = $candidate;
+                break;
+            }
+        }
+    }
+
+    // Fallback to post author's email
+    if (empty($to_email) && !empty($client->post_author)) {
+        $user = get_user_by('id', $client->post_author);
+        if ($user && !empty($user->user_email)) {
+            $to_email = sanitize_email($user->user_email);
+        }
+    }
+    
+    // Replace placeholders in subject and message
+    $subject = $email_template['subject'];
+    $message = $email_template['message'];
+    
+    // Replace placeholders
+    $replacements = [
+        '{{client_name}}' => $client_name,
+        '{{pdf_link}}' => $pdf_url,
+        '{{pdf_name}}' => $pdf_name,
+    ];
+    
+    foreach ($replacements as $placeholder => $value) {
+        $subject = str_replace($placeholder, $value, $subject);
+        $message = str_replace($placeholder, $value, $message);
+    }
+    
+    wp_send_json_success([
+        'to_email' => $to_email,
+        'subject' => $subject,
+        'message' => $message,
+        'pdf_url' => $pdf_url,
+        'pdf_name' => $pdf_name,
+    ]);
+});
+
+// Send client email
+add_action('wp_ajax_send_client_email', function() {
+    // Verify nonce
+    if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'send_client_email_nonce')) {
+        wp_send_json_error('Invalid nonce');
+    }
+    
+    // Get parameters
+    $post_id = isset($_POST['post_id']) ? intval($_POST['post_id']) : 0;
+    $stage = isset($_POST['stage']) ? sanitize_text_field($_POST['stage']) : '';
+    $to = isset($_POST['to']) ? sanitize_email($_POST['to']) : '';
+    $subject = isset($_POST['subject']) ? sanitize_text_field($_POST['subject']) : '';
+    $message = isset($_POST['message']) ? wp_kses_post($_POST['message']) : '';
+    
+    if (!$post_id || !$stage || !$to || !$subject || !$message) {
+        wp_send_json_error('Missing parameters');
+    }
+    
+    // Get certification type
+    $certification_type = get_field('certification_type', $post_id) ?: 'qms';
+    
+    // Get email templates
+    $certification_emails = get_certification_emails();
+    $emails = isset($certification_emails[$certification_type]) ? $certification_emails[$certification_type] : [];
+    
+    if (!isset($emails[$stage])) {
+        wp_send_json_error('Email template not found for this stage');
+    }
+    
+    $email_template = $emails[$stage];
+    
+    // Get PDF attachment if applicable — robustly try multiple possible locations
+    $attachments = [];
+    $missing_attachment_warning = '';
+    if (!empty($email_template['pdf_field'])) {
+        $pdf_url = get_field($email_template['pdf_field'], $post_id);
+        if ($pdf_url) {
+            $upload_dir = wp_upload_dir();
+
+            // Primary conversion: baseurl -> basedir
+            $pdf_path_primary = str_replace($upload_dir['baseurl'], $upload_dir['basedir'], $pdf_url);
+            $pdf_path_primary = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $pdf_path_primary);
+
+            $tried_paths = [$pdf_path_primary];
+
+            // If not found, try swapping common folder name variants
+            if (!file_exists($pdf_path_primary)) {
+                $tried_paths[] = str_replace('client_pdfs', 'client-pdfs', $pdf_path_primary);
+                $tried_paths[] = str_replace('client-pdfs', 'client_pdfs', $pdf_path_primary);
+
+                // Try uploads paths that include or omit the post_id folder
+                $filename = basename($pdf_path_primary);
+                $tried_paths[] = $upload_dir['basedir'] . DIRECTORY_SEPARATOR . 'client_pdfs' . DIRECTORY_SEPARATOR . $post_id . DIRECTORY_SEPARATOR . $filename;
+                $tried_paths[] = $upload_dir['basedir'] . DIRECTORY_SEPARATOR . 'client-pdfs' . DIRECTORY_SEPARATOR . $post_id . DIRECTORY_SEPARATOR . $filename;
+                $tried_paths[] = $upload_dir['basedir'] . DIRECTORY_SEPARATOR . $filename;
+            }
+
+            // Final attempt: check the tried paths and pick the first existing file
+            foreach ($tried_paths as $p) {
+                if (file_exists($p)) {
+                    $attachments[] = $p;
+                    break;
+                }
+            }
+
+            if (empty($attachments)) {
+                $missing_attachment_warning = 'Attachment not found. Tried: ' . implode('; ', $tried_paths);
+                error_log('Send Client Email: ' . $missing_attachment_warning . ' (post_id=' . $post_id . ', stage=' . $stage . ')');
+            }
+        } else {
+            $missing_attachment_warning = 'PDF URL is empty for field ' . $email_template['pdf_field'];
+            error_log('Send Client Email: ' . $missing_attachment_warning . ' (post_id=' . $post_id . ', stage=' . $stage . ')');
+        }
+    }
+    
+    // Set email headers
+    $admin_email = get_option('admin_email');
+    $from_name = get_bloginfo('name');
+    $headers = [
+        'Content-Type: text/html; charset=UTF-8',
+        'From: ' . $from_name . ' <' . $admin_email . '>'
+    ];
+    
+    // Debug log
+    error_log('--------------------------------------------------');
+    error_log('🚀 Attempting wp_mail:');
+    error_log('To: ' . $to);
+    error_log('Subject: ' . $subject);
+    error_log('Headers: ' . print_r($headers, true));
+    error_log('Attachments: ' . print_r($attachments, true));
+
+    // Send email
+    $sent = wp_mail($to, $subject, $message, $headers, $attachments);
+    
+    error_log('📌 wp_mail result: ' . ($sent ? 'TRUE (Success)' : 'FALSE (Failed)'));
+    global $ts_mail_errors;
+    global $phpmailer;
+    if (!$sent && isset($ts_mail_errors)) {
+        error_log('Mail Errors: ' . print_r($ts_mail_errors, true));
+    }
+    if (!$sent && isset($phpmailer)) {
+        error_log('PHPMailer Error: ' . $phpmailer->ErrorInfo);
+    }
+    error_log('--------------------------------------------------');
+    
+    if ($sent) {
+        // Log email sent
+        update_post_meta($post_id, '_email_sent_' . $stage, current_time('mysql'));
+
+        $response = ['message' => 'Email sent successfully'];
+        if (!empty($missing_attachment_warning)) {
+            $response['warning'] = $missing_attachment_warning;
+        }
+
+        wp_send_json_success($response);
+    } else {
+        $debug = 'Failed to send email';
+        if (!empty($missing_attachment_warning)) {
+            $debug .= ' — ' . $missing_attachment_warning;
+        }
+        error_log('Send Client Email Error: ' . $debug . ' (to=' . $to . ', post_id=' . $post_id . ', stage=' . $stage . ')');
+        wp_send_json_error($debug);
+    }
+});
+
+// ── Invoice: Save / Update ────────────────────────────────────────────────────
+add_action('wp_ajax_gmc_save_invoice', function() {
+    if (!wp_verify_nonce($_POST['gmc_nonce'] ?? '', 'gmc_save_invoice_nonce')) {
+        wp_send_json_error('Security check failed.');
+    }
+    if (!is_user_logged_in()) {
+        wp_send_json_error('Not logged in.');
+    }
+
+    $invoice_id  = intval($_POST['invoice_id'] ?? 0);
+    $invoice_no  = sanitize_text_field($_POST['invoice_no'] ?? '');
+    $invoice_date= sanitize_text_field($_POST['invoice_date'] ?? '');
+    $client_id   = intval($_POST['client_id'] ?? 0);
+    $gst_type    = sanitize_text_field($_POST['gst_type'] ?? 'cgst_sgst');
+    $cgst_p      = floatval($_POST['cgst_percent'] ?? 9);
+    $sgst_p      = floatval($_POST['sgst_percent'] ?? 9);
+    $igst_p      = floatval($_POST['igst_percent'] ?? 18);
+    $subtotal    = floatval($_POST['subtotal'] ?? 0);
+    $total_amt   = floatval($_POST['total_amount'] ?? 0);
+    $cgst_amt    = floatval($_POST['cgst_amount'] ?? 0);
+    $sgst_amt    = floatval($_POST['sgst_amount'] ?? 0);
+    $igst_amt    = floatval($_POST['igst_amount'] ?? 0);
+    $amt_words   = sanitize_text_field($_POST['amount_in_words'] ?? '');
+    $status      = sanitize_text_field($_POST['status'] ?? 'Unpaid');
+
+    // Line items
+    $raw_items  = $_POST['line_items'] ?? [];
+    $line_items = [];
+    foreach ($raw_items as $item) {
+        $desc = sanitize_text_field($item['description'] ?? '');
+        $amt  = floatval($item['amount'] ?? 0);
+        if ($desc || $amt) {
+            $line_items[] = ['description' => $desc, 'amount' => $amt];
+        }
+    }
+
+    // Create or Update Post
+    $post_title = $invoice_no ?: ('Invoice - ' . date('Y-m-d'));
+    if ($invoice_id > 0) {
+        $result = wp_update_post(['ID' => $invoice_id, 'post_title' => $post_title], true);
+    } else {
+        $result = wp_insert_post([
+            'post_type'   => 'gmc_invoice',
+            'post_status' => 'publish',
+            'post_title'  => $post_title,
+        ], true);
+    }
+
+    if (is_wp_error($result)) {
+        wp_send_json_error($result->get_error_message());
+    }
+
+    $post_id = $invoice_id > 0 ? $invoice_id : $result;
+
+    // Save ACF fields
+    update_field('invoice_no',     $invoice_no,  $post_id);
+    update_field('invoice_date',   $invoice_date,$post_id);
+    update_field('client_id',      $client_id,   $post_id);
+    update_field('gst_type',       $gst_type,    $post_id);
+    update_field('cgst_percent',   $cgst_p,      $post_id);
+    update_field('sgst_percent',   $sgst_p,      $post_id);
+    update_field('igst_percent',   $igst_p,      $post_id);
+    update_field('subtotal',       $subtotal,    $post_id);
+    update_field('cgst_amount',    $cgst_amt,    $post_id);
+    update_field('sgst_amount',    $sgst_amt,    $post_id);
+    update_field('igst_amount',    $igst_amt,    $post_id);
+    update_field('total_amount',   $total_amt,   $post_id);
+    update_field('amount_in_words',$amt_words,   $post_id);
+    update_field('status',         $status,      $post_id);
+    update_field('line_items',     $line_items,  $post_id);
+
+    // Generate PDF (on create or update)
+    $pdf_url = gmc_generate_invoice_pdf_for_post($post_id);
+    if ($pdf_url) {
+        update_post_meta($post_id, 'invoice_pdf_url', $pdf_url);
+    }
+
+    $action_label = $invoice_id > 0 ? 'updated' : 'created';
+    $list_url = add_query_arg('invoice_saved', $action_label, site_url('/invoices/'));
+
+    wp_send_json_success([
+        'message'  => $action_label === 'created' ? 'Invoice created successfully!' : 'Invoice updated successfully!',
+        'post_id'  => $post_id,
+        'redirect' => $list_url,
+    ]);
+});
+
+// ── Invoice: Record Payment ───────────────────────────────────────────────────
+add_action('wp_ajax_gmc_record_payment', function() {
+    if (!wp_verify_nonce($_POST['nonce'] ?? '', 'gmc_payment_nonce')) {
+        wp_send_json_error('Security check failed.');
+    }
+    if (!is_user_logged_in()) {
+        wp_send_json_error('Not logged in.');
+    }
+
+    $post_id      = intval($_POST['post_id'] ?? 0);
+    $pay_date     = sanitize_text_field($_POST['payment_date'] ?? '');
+    $pay_amount   = floatval($_POST['amount'] ?? 0);
+    $pay_mode     = sanitize_text_field($_POST['payment_mode'] ?? '');
+    $pay_ref      = sanitize_text_field($_POST['reference_no'] ?? '');
+
+    if (!$post_id || $pay_amount <= 0 || !$pay_date || !$pay_mode) {
+        wp_send_json_error('Missing required fields.');
+    }
+
+    // Append payment to repeater
+    $existing = get_field('payments_received', $post_id) ?: [];
+    $existing[] = [
+        'payment_date' => $pay_date,
+        'amount'       => $pay_amount,
+        'payment_mode' => $pay_mode,
+        'reference_no' => $pay_ref,
+    ];
+    update_field('payments_received', $existing, $post_id);
+
+    // Auto-update status
+    $total    = (float)(get_field('total_amount', $post_id) ?? 0);
+    $paid_sum = array_sum(array_column($existing, 'amount'));
+    if ($paid_sum >= $total) {
+        update_field('status', 'Paid', $post_id);
+    } elseif ($paid_sum > 0) {
+        update_field('status', 'Partial', $post_id);
+    }
+
+    wp_send_json_success(['message' => 'Payment recorded.']);
+});
+
+// ── Invoice: PDF Generation (helper) ─────────────────────────────────────────
+function gmc_generate_invoice_pdf_for_post($post_id) {
+    try {
+        $autoload = WP_PLUGIN_DIR . '/client-pdf-generator/dompdf/vendor/autoload.php';
+        if (!file_exists($autoload)) return '';
+        require_once $autoload;
+
+        $invoice_no   = get_field('invoice_no',     $post_id) ?: 'invoice';
+        $invoice_date = get_field('invoice_date',   $post_id) ?: '';
+        $gst_type     = get_field('gst_type',       $post_id) ?: 'cgst_sgst';
+        $cgst_p       = (float)(get_field('cgst_percent', $post_id) ?? 9);
+        $sgst_p       = (float)(get_field('sgst_percent', $post_id) ?? 9);
+        $igst_p       = (float)(get_field('igst_percent', $post_id) ?? 18);
+        $cgst_amt     = (float)(get_field('cgst_amount',  $post_id) ?? 0);
+        $sgst_amt     = (float)(get_field('sgst_amount',  $post_id) ?? 0);
+        $igst_amt     = (float)(get_field('igst_amount',  $post_id) ?? 0);
+        $total_amt    = (float)(get_field('total_amount', $post_id) ?? 0);
+        $amt_words    = get_field('amount_in_words', $post_id) ?: '';
+        $line_items   = get_field('line_items', $post_id) ?: [];
+
+        $client_id      = get_field('client_id', $post_id);
+        $client_name    = '';
+        $client_address = '';
+        $client_gst     = '';
+        if ($client_id) {
+            $client_name    = get_field('organization_name', $client_id) ?: get_the_title($client_id);
+            $addr           = get_field('address', $client_id);
+            $client_address = $addr['head_office'] ?? '';
+            $client_gst     = get_field('cgt_regn_no', $client_id) ?: '';
+        }
+
+        // Build HTML for PDF
+        $rows = '';
+        foreach ($line_items as $i => $item) {
+            $rows .= '<tr>'.
+                '<td style="text-align:center">' . ($i+1) . '.</td>'.
+                '<td>' . esc_html($item['description']) . '</td>'.
+                '<td style="text-align:right">' . number_format((float)$item['amount'], 2) . '</td>'.
+            '</tr>';
+        }
+        $c = count($line_items);
+        if ($gst_type === 'cgst_sgst') {
+            $rows .= sprintf('<tr><td style="text-align:center">%d.</td><td>CGST @ %s%%</td><td style="text-align:right">%s</td></tr>', $c+1, $cgst_p, number_format($cgst_amt,2));
+            $rows .= sprintf('<tr><td style="text-align:center">%d.</td><td>SGST @ %s%%</td><td style="text-align:right">%s</td></tr>', $c+2, $sgst_p, number_format($sgst_amt,2));
+        } else {
+            $rows .= sprintf('<tr><td style="text-align:center">%d.</td><td>IGST @ %s%%</td><td style="text-align:right">%s</td></tr>', $c+1, $igst_p, number_format($igst_amt,2));
+        }
+        $rows .= '<tr><td colspan="2" style="text-align:right"><strong>Total:</strong></td><td style="text-align:right"><strong>'.number_format($total_amt,2).'</strong></td></tr>';
+
+        $client_gst_html = $client_gst ? '<br><strong>GST No:</strong> ' . esc_html($client_gst) : '';
+        $addr_lines      = nl2br(esc_html($client_address));
+        $inv_no_esc      = esc_html($invoice_no);
+        $inv_date_esc    = esc_html($invoice_date);
+        $client_name_esc = esc_html($client_name);
+        $amt_words_esc   = esc_html($amt_words);
+
+        $html = <<<HTML
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+@page { margin: 3in 1in 1in 1in; }
+body { font-family: "Times New Roman", serif; font-size: 11pt; color: #000; }
+h2 { text-align: center; font-size: 14pt; text-decoration: underline; letter-spacing: 3px; margin: 0 0 4px 0; }
+.co { text-align: center; font-size: 10pt; margin: 0 0 2px 0; }
+.sub { text-align: center; font-size: 9.5pt; border-bottom: 1px solid #000; padding-bottom: 4px; margin-bottom: 6px; }
+table { border-collapse: collapse; width: 100%; }
+td, th { border: 1px solid #333; padding: 4px 6px; vertical-align: top; }
+th { font-weight: bold; background: #f0f0f0; }
+.lbl { font-weight: bold; white-space: nowrap; }
+.r { text-align: right; }
+.c { text-align: center; }
+.nb td { border: none; padding: 2px 0; }
+.sign { text-align: right; padding-top: 28px; font-size: 10pt; }
+</style>
+</head>
+<body>
+<h2>INVOICE</h2>
+<p class="co"><strong>Global Management Certification Services Pvt. Ltd.</strong></p>
+<p class="sub">Plot No.141, Kavuri Hills, Phase-1, Madhapur, Hyderabad - 500033 | Ph: 040-40199657</p>
+
+<table>
+<tr>
+  <td style="width:60%;border-right:none;">
+    <table class="nb">
+      <tr><td><strong>To,</strong></td></tr>
+      <tr><td><strong>{$client_name_esc}</strong></td></tr>
+      <tr><td>{$addr_lines}{$client_gst_html}</td></tr>
+    </table>
+  </td>
+  <td style="width:40%;padding:0;vertical-align:top;">
+    <table style="width:100%;border:none;border-collapse:collapse;">
+      <tr><td class="lbl" style="border:none;border-bottom:1px solid #ccc;padding:3px 6px;">INV. No</td>     <td style="border:none;border-bottom:1px solid #ccc;padding:3px 6px;">{$inv_no_esc}</td></tr>
+      <tr><td class="lbl" style="border:none;border-bottom:1px solid #ccc;padding:3px 6px;">Date</td>        <td style="border:none;border-bottom:1px solid #ccc;padding:3px 6px;">{$inv_date_esc}</td></tr>
+      <tr><td class="lbl" style="border:none;border-bottom:1px solid #ccc;padding:3px 6px;">PAN No</td>      <td style="border:none;border-bottom:1px solid #ccc;padding:3px 6px;">AAGCG3405N</td></tr>
+      <tr><td class="lbl" style="border:none;border-bottom:1px solid #ccc;padding:3px 6px;">GST Regn. No.</td><td style="border:none;border-bottom:1px solid #ccc;padding:3px 6px;">36AAGCG3405N1ZH</td></tr>
+      <tr><td class="lbl" style="border:none;padding:3px 6px;">SAC Code</td>                                  <td style="border:none;padding:3px 6px;">998214</td></tr>
+    </table>
+  </td>
+</tr>
+</table>
+
+<table style="margin-top:-1px;">
+  <thead>
+    <tr>
+      <th class="c" style="width:7%;">S.No</th>
+      <th>Description of Services</th>
+      <th class="r" style="width:22%;">Amount (Rs.)</th>
+    </tr>
+  </thead>
+  <tbody>{$rows}</tbody>
+</table>
+
+<table style="margin-top:-1px;">
+  <tr>
+    <td style="width:38%;"><strong>Payment Terms:</strong><br>100% on presentation.</td>
+    <td><strong>Amount in Words:</strong><br><em>{$amt_words_esc} only</em></td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <strong>Bank Account Details:</strong><br>
+      Global Management Certification Services Pvt. Ltd.<br>
+      Bank: State Bank of India &nbsp;|&nbsp; Branch: Road No.1, KPHB Colony, Kukatpally, Hyderabad<br>
+      A/c No.: 67384332714 &nbsp;|&nbsp; IFSC Code: SBIN0070743
+    </td>
+  </tr>
+</table>
+
+<div class="sign">
+  For Global Management Certification Services Pvt. Ltd.<br><br><br>
+  <em>Authorized Signatory</em>
+</div>
+</body>
+</html>
+HTML;
+
+        $dompdf = new Dompdf\Dompdf();
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+        $pdf_content = $dompdf->output();
+
+        // Save file to uploads
+        $upload    = wp_upload_dir();
+        $safe_name = preg_replace('/[^a-zA-Z0-9_\-]/', '-', $invoice_no);
+        $filename  = 'invoice-' . $safe_name . '-' . $post_id . '.pdf';
+        $filepath  = $upload['path'] . '/' . $filename;
+        $fileurl   = $upload['url']  . '/' . $filename;
+        file_put_contents($filepath, $pdf_content);
+        return $fileurl;
+    } catch (Exception $e) {
+        error_log('GMC Invoice PDF Error: ' . $e->getMessage());
+        return '';
+    }
+}
+
+// ── Invoice: Generate PDF via AJAX ────────────────────────────────────────────
+add_action('wp_ajax_gmc_generate_invoice_pdf', function() {
+    if (!wp_verify_nonce($_POST['nonce'] ?? '', 'gmc_payment_nonce')) {
+        wp_send_json_error('Security check failed.');
+    }
+    if (!is_user_logged_in()) {
+        wp_send_json_error('Not logged in.');
+    }
+    $post_id = intval($_POST['post_id'] ?? 0);
+    if (!$post_id) {
+        wp_send_json_error('Invalid post ID.');
+    }
+    $pdf_url = gmc_generate_invoice_pdf_for_post($post_id);
+    if (!$pdf_url) {
+        wp_send_json_error('PDF generation failed. Check server logs.');
+    }
+    update_post_meta($post_id, 'invoice_pdf_url', $pdf_url);
+    wp_send_json_success(['pdf_url' => $pdf_url, 'message' => 'PDF generated.']);
+});
+
+// ── Invoice: Send Email via AJAX ──────────────────────────────────────────────
+add_action('wp_ajax_gmc_send_invoice_email', function() {
+    if (!wp_verify_nonce($_POST['nonce'] ?? '', 'gmc_payment_nonce')) {
+        wp_send_json_error('Security check failed.');
+    }
+    if (!is_user_logged_in()) {
+        wp_send_json_error('Not logged in.');
+    }
+
+    $post_id = intval($_POST['post_id'] ?? 0);
+    $to      = sanitize_email($_POST['to'] ?? '');
+    $subject = sanitize_text_field($_POST['subject'] ?? '');
+    $message = sanitize_textarea_field($_POST['message'] ?? '');
+    $pdf_url = esc_url_raw($_POST['pdf_url'] ?? '');
+
+    if (!$to || !is_email($to) || !$subject || !$message) {
+        wp_send_json_error('Missing required fields (To, Subject, Message).');
+    }
+
+    $headers = [
+        'Content-Type: text/html; charset=UTF-8',
+        'From: Global Management Certification Services <noreply@' . parse_url(site_url(), PHP_URL_HOST) . '>',
+    ];
+
+    // Attach PDF if URL is from our uploads directory
+    $attachments = [];
+    if ($pdf_url) {
+        $upload_dir = wp_upload_dir();
+        // Convert URL to filesystem path
+        $filepath = str_replace($upload_dir['baseurl'], $upload_dir['basedir'], $pdf_url);
+        $filepath = wp_normalize_path($filepath);
+        if (file_exists($filepath)) {
+            $attachments[] = $filepath;
+        }
+    }
+
+    $html_message = '<html><body>' . nl2br(esc_html($message)) . '</body></html>';
+
+    $sent = wp_mail($to, $subject, $html_message, $headers, $attachments);
+
+    if ($sent) {
+        // Log that email was sent
+        $existing_notes = get_post_meta($post_id, 'email_log', true) ?: [];
+        $existing_notes[] = [
+            'date' => current_time('d/m/Y H:i'),
+            'to'   => $to,
+        ];
+        update_post_meta($post_id, 'email_log', $existing_notes);
+        wp_send_json_success(['message' => 'Email sent to ' . $to]);
+    } else {
+        wp_send_json_error('wp_mail failed. Check your mail configuration (SMTP/Mailpit).');
+    }
+});
+
+// ── Invoice: Delete via AJAX ──────────────────────────────────────────────────
+add_action('wp_ajax_gmc_delete_invoice', function() {
+    if (!wp_verify_nonce($_POST['nonce'] ?? '', 'gmc_payment_nonce')) {
+        wp_send_json_error('Security check failed.');
+    }
+    if (!is_user_logged_in() || !current_user_can('delete_posts')) {
+        wp_send_json_error('Permission denied.');
+    }
+
+    $post_id = intval($_POST['post_id'] ?? 0);
+    if (!$post_id) {
+        wp_send_json_error('Invalid invoice ID.');
+    }
+
+    // Ensure we're deleting the right post type
+    if (get_post_type($post_id) !== 'gmc_invoice') {
+        wp_send_json_error('Invalid post type.');
+    }
+
+    // Delete the associated PDF file from disk if it exists
+    $pdf_url = get_post_meta($post_id, 'invoice_pdf_url', true);
+    if ($pdf_url) {
+        $upload_dir = wp_upload_dir();
+        $filepath   = str_replace($upload_dir['baseurl'], $upload_dir['basedir'], $pdf_url);
+        $filepath   = wp_normalize_path($filepath);
+        if (file_exists($filepath)) {
+            @unlink($filepath);
+        }
+    }
+
+    $result = wp_delete_post($post_id, true); // true = force delete (bypass trash)
+
+    if ($result) {
+        wp_send_json_success(['message' => 'Invoice deleted.']);
+    } else {
+        wp_send_json_error('Could not delete the invoice. Please try again.');
+    }
+});
+

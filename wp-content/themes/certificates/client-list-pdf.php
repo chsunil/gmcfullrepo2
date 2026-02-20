@@ -120,7 +120,7 @@ $auditors = get_users(array('role' => 'auditor'));
                             <th data-breakpoints="xs">Assigned Employee</th>
                             <th>Client Status</th>
                             <th data-breakpoints="xs">Created Date</th>
-                            <th>Audit Dates</th> 
+                            <th>Actions</th> 
                             </tr></thead>';
                                         echo '<tbody>';
                                         $audit_page = get_page_by_path('dates');
@@ -136,7 +136,22 @@ $auditors = get_users(array('role' => 'auditor'));
                                             $client_status = get_field('client_stage', $post_id);
                                             $created_date = get_the_date('d M Y', $post_id);
                                             // Get the generated PDF URL if available
-                                            $pdf_url = get_field('f03_pdf', $post_id);
+                                            // Get the generated PDF URL if available
+                                            // Dynamic PDF URL Fetching
+                                            $emails = get_certification_emails();
+                                            $pdf_url = '';
+                                            
+                                            // Ensure certification type is lowercase for array key, check both raw and lowered
+                                            $cert_key = strtolower($certification_type); 
+
+                                            // Check if we have a config for this type and stage
+                                            if (isset($emails[$cert_key][$client_status])) {
+                                                $pdf_field_key = $emails[$cert_key][$client_status]['pdf_field'] ?? '';
+                                                if ($pdf_field_key) {
+                                                     $pdf_url = get_field($pdf_field_key, $post_id);
+                                                }
+                                            }
+                                            
                                             $pdf_button = '';
                                             if ($pdf_url) {
                                                 $pdf_button =   '<a href="' . esc_url($pdf_url) . '" target="_blank" class="btn btn-primary btn-sm"><i class="fa-regular fa-file-pdf"></i></a>';
@@ -146,8 +161,10 @@ $auditors = get_users(array('role' => 'auditor'));
                                                 // need to remove here
                                             }
                                             $audit_url = add_query_arg('id', $post_id, $audit_base);
-                                            $audit_link = '<a href="' . esc_url($audit_url) . '" class="btn btn-primary btn-sm"><span class="fa-calendar-alt fas" style="margin-right:5px"></span>'
-                                                . 'View Dates</a>';
+                                            $audit_link = '<a href="' . esc_url($audit_url) . '" class="btn btn-primary btn-sm"><span class="fa-calendar-alt fas" style="margin-right:5px"></span>' . 'View Dates</a>';
+                                                
+                                            $invoice_url = add_query_arg(['client_id' => $post_id], site_url('/invoice-form/'));
+                                            $invoice_link = '<a href="' . esc_url($invoice_url) . '" class="btn btn-secondary btn-sm ms-1"><span class="fas fa-file-invoice-dollar" style="margin-right:5px"></span>' . 'Invoice</a>';
 
                                             echo '<tr>';
 
@@ -165,7 +182,7 @@ $auditors = get_users(array('role' => 'auditor'));
                                     <?php echo '</td>';
                                             echo '<td class="text-uppercase">' . esc_html($client_status) . '</td>';
                                             echo '<td>' . esc_html($created_date) . '</td>';
-                                            echo '<td>' . $audit_link . '</td>';
+                                            echo '<td>' . $audit_link . $invoice_link . '</td>';
                                             echo '</tr>';
                                         }
 
@@ -209,27 +226,7 @@ $auditors = get_users(array('role' => 'auditor'));
                 </div>
                 <!-- / Content -->
 
-                <!-- Footer -->
-                <footer class="content-footer footer bg-footer-theme">
-                    <div class=" d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
-                        <div class="mb-2 mb-md-0">
-                            © <?php echo date('Y'); ?> GMC
-                        </div>
-                    </div>
-                </footer>
-                <!-- / Footer -->
-
-                <div class="content-backdrop fade"></div>
-            </div>
-            <!-- Content wrapper -->
-        </div>
-        <!-- / Layout page -->
-    </div>
-
-    <!-- Overlay -->
-    <div class="layout-overlay layout-menu-toggle"></div>
-</div>
-<!-- / Layout wrapper -->
+                <?php get_template_part('template-parts/content-footer'); ?>
 <!-- Modal for Sending Email -->
 <!-- ... (keep existing modal code unchanged) ... -->
 

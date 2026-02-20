@@ -197,6 +197,18 @@ function get_certification_emails() {
                 'pdf_field' => 'sheet6_pdf',
             ],
 
+            // --- ADDED MISSING EMS STAGES ---
+            'f03' => ['subject' => 'EMS Certification Agreement (F-03)', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the Certification Agreement (F-03).</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>Certifications Team</p>', 'pdf_field' => 'f03_pdf'],
+            'f05' => ['subject' => 'EMS Audit Team Allocation (F-05)', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the Audit Team Allocation (F-05).</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>Certifications Team</p>', 'pdf_field' => 'f05_pdf'],
+            'f06' => ['subject' => 'EMS Document Review Report (F-06)', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the Document Review Report (F-06).</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>Certifications Team</p>', 'pdf_field' => 'f06_pdf'],
+            'f07' => ['subject' => 'EMS Audit Schedule (F-07)', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the Audit Schedule (F-07).</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>Certifications Team</p>', 'pdf_field' => 'f07_pdf'],
+            'f08' => ['subject' => 'EMS Certificate Issuance (F-08)', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the Certificate (F-08).</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>Certifications Team</p>', 'pdf_field' => 'f08_pdf'],
+            'f11' => ['subject' => 'EMS Invoice / Billing Details (F-11)', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the Invoice/Billing Details (F-11).</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>Billing Team</p>', 'pdf_field' => 'f11_pdf'],
+            'f09' => ['subject' => 'EMS Stage 1 Audit Report (F-09)', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the Stage 1 Audit Report (F-09).</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>Certifications Team</p>', 'pdf_field' => 'f09_pdf'],
+            'f10' => ['subject' => 'EMS Non-Conformity (F-10)', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the Non-Conformity Report (F-10).</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>Certifications Team</p>', 'pdf_field' => 'f10_pdf'],
+            'f12' => ['subject' => 'EMS Scope of Certification (F-12)', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the Scope of Certification (F-12).</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>Certifications Team</p>', 'pdf_field' => 'f12_pdf'],
+            'f14' => ['subject' => 'EMS Conflict of Interest Declaration (F-14)', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the Conflict of Interest Declaration (F-14).</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>Certifications Team</p>', 'pdf_field' => 'f14_pdf'],
+
         ], // end 'ems'
 
 
@@ -308,6 +320,50 @@ function get_certification_emails() {
                 'pdf_field' => 'f15_pdf',
             ],
 
+            // --- ADDED MISSING QMS STAGES ---
+            'f01' => ['subject' => 'QMS Application (F-01)', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the QMS Application (F-01).</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>QMS Team</p>', 'pdf_field' => 'f01_pdf'],
+            'f02' => ['subject' => 'QMS Application Review (F-02)', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the Application Review (F-02).</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>QMS Team</p>', 'pdf_field' => 'f02_pdf'],
+            'f14' => ['subject' => 'QMS Conflict of Interest (F-14)', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the Conflict of Interest Declaration (F-14).</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>QMS Team</p>', 'pdf_field' => 'f14_pdf'],
+            'f05a' => ['subject' => 'Audit Team Allocation Plan', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the Audit Team Allocation Plan.</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>QMS Team</p>', 'pdf_field' => 'f05a_pdf'],
+            'sheet12' => ['subject' => 'QMS Audit Notification Email (Sheet 12)', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the Audit Notification.</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>QMS Team</p>', 'pdf_field' => 'sheet12_pdf'],
+            'f08a' => ['subject' => 'Audit Schedule', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the Audit Schedule.</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>QMS Team</p>', 'pdf_field' => 'f08a_pdf'],
+            'f09' => ['subject' => 'Stage 1 Audit Report (F-09)', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the Stage 1 Audit Report (F-09).</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>QMS Team</p>', 'pdf_field' => 'f09_pdf'],
+            'f12' => ['subject' => 'Scope of Certification (F-12)', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the Scope of Certification (F-12).</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>QMS Team</p>', 'pdf_field' => 'f12_pdf'],
+            'f13a' => ['subject' => 'Attendance Sheet', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the Attendance Sheet.</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>QMS Team</p>', 'pdf_field' => 'f13a_pdf'],
+            'f16' => ['subject' => 'Audit Programme', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the Audit Programme.</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>QMS Team</p>', 'pdf_field' => 'f16_pdf'],
+            'f17' => ['subject' => 'On Going Surveillance Plan', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the On Going Surveillance Plan.</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>QMS Team</p>', 'pdf_field' => 'f17_pdf'],
+            'f24' => ['subject' => 'Customer Feedback Form', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the Customer Feedback Form.</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>QMS Team</p>', 'pdf_field' => 'f24_pdf'],
+            'f19' => ['subject' => 'Checklist for Certification Decision', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the Checklist for Certification Decision.</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>QMS Team</p>', 'pdf_field' => 'f19_pdf'],
+            'f25' => ['subject' => 'Assessment Check List', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the Assessment Check List.</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>QMS Team</p>', 'pdf_field' => 'f25_pdf'],
+            'f10' => ['subject' => 'Non-Conformity Report', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the Non-Conformity Report.</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>QMS Team</p>', 'pdf_field' => 'f10_pdf'],
+
+            // Surveillance Years
+            'f69s1' => ['subject' => 'Surveillance Audit 1 Reg (F69S1)', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the Surveillance Audit 1 Registration.</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>QMS Team</p>', 'pdf_field' => 'f69s1_pdf'],
+            'f05s1' => ['subject' => 'Audit Team Allocation Plan (S1)', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the Audit Team Allocation Plan (S1).</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>QMS Team</p>', 'pdf_field' => 'f05s1_pdf'],
+            'f14s1' => ['subject' => 'Conflict of Interest Declaration (S1)', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the S1 Declaration.</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>QMS Team</p>', 'pdf_field' => 'f14s1_pdf'],
+            'Sheet25' => ['subject' => 'Surveillance Audit 1 Reg Sub', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the document.</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>QMS Team</p>', 'pdf_field' => 'Sheet25_pdf'],
+            'f08s1' => ['subject' => 'Audit Schedule (S1)', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the S1 Audit Schedule.</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>QMS Team</p>', 'pdf_field' => 'f08s1_pdf'],
+            'f13s1' => ['subject' => 'Attendance Sheet (S1)', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the S1 Attendance Sheet.</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>QMS Team</p>', 'pdf_field' => 'f13s1_pdf'],
+            'f21s1' => ['subject' => 'Audit Report (S1)', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the S1 Audit Report.</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>QMS Team</p>', 'pdf_field' => 'f21s1_pdf'],
+            'f16s1' => ['subject' => 'Audit Programme (S1)', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the S1 Audit Programme.</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>QMS Team</p>', 'pdf_field' => 'f16s1_pdf'],
+            'f17s1' => ['subject' => 'On Going Surveillance Plan (S1)', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the S1 Surveillance Plan.</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>QMS Team</p>', 'pdf_field' => 'f17s1_pdf'],
+            'f19s1' => ['subject' => 'Checklist for Certification Decision (S1)', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the S1 Checklist.</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>QMS Team</p>', 'pdf_field' => 'f19s1_pdf'],
+            'f24s1' => ['subject' => 'Customer Feedback Form (S1)', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the S1 Customer Feedback Form.</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>QMS Team</p>', 'pdf_field' => 'f24s1_pdf'],
+            'f15s1' => ['subject' => 'Correspondence Details (S1)', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the S1 Correspondence Details.</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>QMS Team</p>', 'pdf_field' => 'f15s1_pdf'],
+
+            'f69s2' => ['subject' => 'Surveillance Audit 2 Reg (F69S2)', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the Surveillance Audit 2 Registration.</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>QMS Team</p>', 'pdf_field' => 'f69s2_pdf'],
+            'f05s2' => ['subject' => 'Audit Team Allocation Plan (S2)', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the Audit Team Allocation Plan (S2).</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>QMS Team</p>', 'pdf_field' => 'f05s2_pdf'],
+            'f14s2' => ['subject' => 'Conflict of Interest Declaration (S2)', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the S2 Declaration.</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>QMS Team</p>', 'pdf_field' => 'f14s2_pdf'],
+            'sheet36' => ['subject' => 'Surveillance Audit 2 Reg Sub', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the document.</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>QMS Team</p>', 'pdf_field' => 'sheet36_pdf'],
+            'f08s2' => ['subject' => 'Audit Schedule (S2)', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the S2 Audit Schedule.</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>QMS Team</p>', 'pdf_field' => 'f08s2_pdf'],
+            'f13s2' => ['subject' => 'Attendance Sheet (S2)', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the S2 Attendance Sheet.</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>QMS Team</p>', 'pdf_field' => 'f13s2_pdf'],
+            'f21s2' => ['subject' => 'Audit Report (S2)', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the S2 Audit Report.</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>QMS Team</p>', 'pdf_field' => 'f21s2_pdf'],
+            'f16s2' => ['subject' => 'Audit Programme (S2)', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the S2 Audit Programme.</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>QMS Team</p>', 'pdf_field' => 'f16s2_pdf'],
+            'f17s2' => ['subject' => 'On Going Surveillance Plan (S2)', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the S2 Surveillance Plan.</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>QMS Team</p>', 'pdf_field' => 'f17s2_pdf'],
+            'f19s2' => ['subject' => 'Checklist for Certification Decision (S2)', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the S2 Checklist.</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>QMS Team</p>', 'pdf_field' => 'f19s2_pdf'],
+            'f15s2' => ['subject' => 'Correspondence Details (S2)', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the S2 Correspondence Details.</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>QMS Team</p>', 'pdf_field' => 'f15s2_pdf'],
+            'f24s2' => ['subject' => 'Customer Feedback Form (S2)', 'message' => '<p>Dear {{client_name}},</p><p>Please find attached the S2 Customer Feedback Form.</p><p>Download: <a href="{{pdf_link}}">{{pdf_name}}</a></p><p>Regards,<br/>QMS Team</p>', 'pdf_field' => 'f24s2_pdf'],
+
         ], // end 'qms'
 
     ];
@@ -315,7 +371,15 @@ function get_certification_emails() {
 
 function get_certification_pdf() {
     return [
-        'ems' => ['f03', 'sheet6', 'f06', 'f08', 'f11'],
-        'qms' => ['f03', 'sheet6', 'f06', 'f08', 'f11'],
+        'ems' => [
+            'f01', 'f02', 'f03', 'f05', 'f06', 'f07', 'f08', 'f11', 'f09', 'f10', 'f12', 'f13', 'f14', 'sheet6'
+        ],
+        'qms' => [
+            'f01', 'f02', 'f03', 'f05', 'f14', 'sheet6', 'f08', 'f06', 'f11', 'f13', 'f05a', 'f07', 'sheet12', 'f08a', 'f09', 'f12', 'f13a', 'f16', 'f17', 'f24', 'f19', 'f15', 'f25', 'f10',
+            // Surveillance S1
+            'f69s1', 'f05s1', 'f14s1', 'Sheet25', 'f08s1', 'f13s1', 'f21s1', 'f16s1', 'f17s1', 'f19s1', 'f24s1', 'f15s1',
+            // Surveillance S2
+            'f69s2', 'f05s2', 'f14s2', 'sheet36', 'f08s2', 'f13s2', 'f21s2', 'f16s2', 'f17s2', 'f19s2', 'f15s2', 'f24s2'
+        ],
     ];
 }

@@ -220,10 +220,21 @@ $stages = $all_certification_stages[$certification_type] ?? [];
             }
             ?>
 
+            <?php 
+            // Generate link URL if editing an existing client
+            $link_url = 'javascript:void(0);';
+            if (!$is_new) {
+                $link_url = add_query_arg(
+                    ['new_post_id' => $post_id, 'stage' => $stage_key],
+                    get_permalink()
+                );
+            }
+            ?>
+
             <li class="menu-item <?php echo $is_active ? 'active' : ''; ?> <?php echo !$is_enabled ? 'disabled' : ''; ?>" 
                 data-status="<?php echo esc_attr($status); ?>">
-              <a href="javascript:void(0);"
-                class="menu-link m-0 <?php echo !$is_enabled ? 'is-locked text-muted' : ''; ?>"
+              <a href="<?php echo esc_url($link_url); ?>"
+                class="menu-link m-0 px-1<?php echo !$is_enabled ? 'is-locked text-muted' : ''; ?>"
                 data-stage="<?php echo esc_attr($stage_key); ?>"
                 <?php echo !$is_enabled ? 'aria-disabled="true"' : ''; ?>>
                 <?php if ($status === 'completed'): ?>
@@ -320,7 +331,16 @@ endforeach; ?>
                     <div>Settings</div>
                 </a>
             </li>
-
+<li class="menu-item <?php echo is_page("invoices")
+                ? "active"
+                : ""; ?>">
+                <a href="<?php echo site_url(
+                    "/invoices/"
+                ); ?>" class="menu-link mx-0">
+                    <i class="menu-icon tf-icons bx bx-receipt"></i>
+                    <div>Invoices</div>
+                </a>
+            </li>
             <li class="menu-header small text-uppercase">
                 <span class="menu-header-text">Account</span>
             </li>
@@ -461,7 +481,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // ---- Auto-open current stage on load
   const current = sidebar.querySelector('.menu-item[data-status="current"] .menu-link');
-  if (current) current.click();
+  if (current) {
+      // Only auto-click if it's an internal JS link (SPA mode)
+      // Real URLs (Multi-Step mode) are already loaded by the browser, clicking them causes a reload loop
+      if (current.getAttribute('href') === 'javascript:void(0);') {
+          current.click();
+      }
+  }
 
 });
 </script>

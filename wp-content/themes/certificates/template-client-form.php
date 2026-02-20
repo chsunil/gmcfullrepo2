@@ -220,29 +220,32 @@ $next_stage = $current_stage_data && isset($current_stage_data['next']) ? $curre
                                                 ?>
                                             </div>
                                             
-                                            <!-- Action buttons in a single row -->
-                                            <div class="mt-4 d-flex justify-content-end align-items-center">
-                                                <?php if ($has_pdf): ?>
-                                                <!-- <a href="<?php echo esc_url(get_field($pdf_field, $post_id)); ?>" target="_blank" class="btn btn-outline-primary me-2">
-                                                    <i class="bx bx-file-report me-1"></i> View PDF client form
-                                                </a> -->
-                                                <?php endif; ?>
+                                            <!-- Hide ACF's built-in submit button — fixed bar handles save -->
+                                            <style>.acf-form .acf-form-submit { visibility: hidden !important; height: 0 !important; overflow: hidden !important; margin: 0 !important; padding: 0 !important; }</style>
+                                            
+                                            <!-- Fixed Action Bar -->
+                                            <div class="fixed-bottom d-flex justify-content-end align-items-center gap-2 px-4 py-3" style="background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-top: 2px dashed #5a8dee; z-index: 1040;">
+                                                <!-- Save / Update Client Button -->
+                                                <button type="button" class="btn btn-secondary" id="footer-save-btn" onclick="var s=document.querySelector('.acf-form input[type=submit]'); if(s) s.click();">
+                                                    <i class="bx bx-save me-1"></i> <?php echo esc_html($submit . ' ' . $stage_key); ?>
+                                                </button>
+
                                                 <?php 
                                                  $newpdf_field = $stage_key.'_pdf';
-                                             $isithas_pdf = get_field($newpdf_field, $post_id);
+                                                 $isithas_pdf = get_field($newpdf_field, $post_id);
                                                 ?>
                                                 <?php if ($stage_key !== 'draft' && !$isithas_pdf): ?>
-                                                <button type="button" class="btn btn-outline-secondary generate-pdf me-2" 
+                                                <button type="button" class="btn btn-outline-secondary generate-pdf" 
                                                         data-scheme="qms" data-stage="<?php echo esc_attr($stage_key); ?>" 
                                                         data-post-id="<?php echo esc_attr($post_id); ?>">
                                                     <i class="bx bx-file-blank me-1"></i> Generate PDF
                                                 </button>
                                                 <?php elseif ($stage_key !== 'draft' && $isithas_pdf) : ?>
-                                                <a class="btn btn-outline-primary me-2" href="<?php echo $isithas_pdf; ?>" target="_blank"><i class="bx bx-file me-1"></i>View PDF</a>
+                                                <a class="btn btn-outline-primary" href="<?php echo $isithas_pdf; ?>" target="_blank"><i class="bx bx-file me-1"></i>View PDF</a>
                                                 <?php endif; ?>
                                                 
                                                 <?php if ($has_email) : ?>
-                                                <button type="button" class="btn btn-outline-primary send-email-btn text-capitalize me-2" 
+                                                <button type="button" class="btn btn-outline-primary send-email-btn text-capitalize" 
                                                         data-bs-toggle="modal" data-bs-target="#sendEmailModal"
                                                         data-post-id="<?php echo esc_attr($post_id); ?>"
                                                         data-client-name="<?php echo esc_attr(get_the_title($post_id)); ?>"
@@ -252,7 +255,6 @@ $next_stage = $current_stage_data && isset($current_stage_data['next']) ? $curre
                                                         data-stage="<?php echo esc_attr($stage_key); ?>">
                                                     <i class="bx bx-envelope me-1"></i> Send Email
                                                 </button>
-                                                
                                                 <?php endif; ?>
                                                 
                                                 <?php if (!empty($stage['next'])) : ?>
@@ -264,6 +266,8 @@ $next_stage = $current_stage_data && isset($current_stage_data['next']) ? $curre
                                                 </button>
                                                 <?php endif; ?>
                                             </div>
+                                            <!-- Spacer for fixed bar -->
+                                            <div style="height: 80px;"></div>
                                         </div>
                                         <?php 
                                         // Include send email modal for stages that have PDF
@@ -429,6 +433,8 @@ jQuery(document).ready(function($) {
     
     // Handle generate PDF button clicks
     // Buttons use class `generate-pdf` in markup so listen for that
+    /*
+    // DISABLED: Handled by client-pdf-generator plugin (js/generate-pdf.js)
     $(document).on('click', '.generate-pdf', function() {
         const stage = $(this).data('stage');
         const postId = $(this).data('post-id');
@@ -474,6 +480,7 @@ jQuery(document).ready(function($) {
             }
         });
     });
+    */
     
     // Handle send email button clicks
     $(document).on('click', '.send-email-btn', function() {
@@ -483,6 +490,11 @@ jQuery(document).ready(function($) {
         const fallbackEmail = $btn.data('email') || '';
         const fallbackPdfUrl = $btn.data('pdf-url') || '';
         const fallbackPdfFilename = $btn.data('pdf-filename') || '';
+        
+        // Disable button while loading template
+        $btn.prop('disabled', true);
+        const originalText = $btn.html();
+        $btn.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
 
         console.log('Sending email request:', {
             stage: stage,
@@ -531,12 +543,24 @@ jQuery(document).ready(function($) {
                     emailModal.show();
                 } else {
                     console.error('Error getting email template:', response.data);
-                    alert('Error getting email template. Please try again1.');
+                    if (typeof showToast === 'function') {
+                        showToast('Error getting email template. Please try again.', 'danger');
+                    } else {
+                        alert('Error getting email template. Please try again.');
+                    }
                 }
             },
             error: function(xhr, status, error) {
                 console.error('AJAX error:', error);
-                alert('Error getting email template. Please try again2.');
+                if (typeof showToast === 'function') {
+                    showToast('Error getting email template. Please try again.', 'danger');
+                } else {
+                    alert('Error getting email template. Please try again.');
+                }
+            },
+            complete: function() {
+                // Restore button state
+                $btn.prop('disabled', false).html(originalText);
             }
         });
     });
@@ -581,15 +605,27 @@ jQuery(document).ready(function($) {
                     if (modalInstance) modalInstance.hide();
                     
                     // Show success message
-                    alert('Email sent successfully!');
+                    if (typeof showToast === 'function') {
+                        showToast('Email sent successfully!', 'success');
+                    } else {
+                        alert('Email sent successfully!');
+                    }
                 } else {
                     console.error('Error sending email:', response.data);
-                    alert('Error sending email: ' + response.data);
+                    if (typeof showToast === 'function') {
+                        showToast('Error sending email: ' + response.data, 'danger');
+                    } else {
+                        alert('Error sending email: ' + response.data);
+                    }
                 }
             },
             error: function(xhr, status, error) {
                 console.error('AJAX error:', error);
-                alert('Error sending email. Please try again.');
+                if (typeof showToast === 'function') {
+                    showToast('Error sending email. Please try again.', 'danger');
+                } else {
+                    alert('Error sending email. Please try again.');
+                }
             },
             complete: function() {
                 $('#sendEmailBtn').prop('disabled', false).text('Send Email');
@@ -627,431 +663,13 @@ jQuery(document).ready(function($) {
 
 <?php
 // Add AJAX handlers for client stage and certification type updates
-add_action('wp_ajax_update_client_stage', function() {
-    // Verify nonce
-    if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'update_client_stage_nonce')) {
-        wp_send_json_error('Invalid nonce');
-    }
-    
-    // Get parameters
-    $post_id = isset($_POST['post_id']) ? intval($_POST['post_id']) : 0;
-    $next_stage = isset($_POST['next_stage']) ? sanitize_text_field($_POST['next_stage']) : '';
-    
-    if (!$post_id || !$next_stage) {
-        wp_send_json_error('Missing parameters');
-    }
-    
-    // Update client stage
-    update_field('client_stage', $next_stage, $post_id);
-    
-    wp_send_json_success(['message' => 'Client stage updated', 'stage' => $next_stage]);
-});
+// AJAX handlers have been moved to functions.php to ensure they load correctly.
+// See functions.php for:
+// - update_client_stage
+// - update_certification_type
+// - get_email_template
+// - send_client_email
 
-add_action('wp_ajax_update_certification_type', function() {
-    // Verify nonce
-    if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'update_certification_type_nonce')) {
-        wp_send_json_error('Invalid nonce');
-    }
-    
-    // Get parameters
-    $post_id = isset($_POST['post_id']) ? intval($_POST['post_id']) : 0;
-    $type = isset($_POST['type']) ? sanitize_text_field($_POST['type']) : '';
-    
-    if (!$post_id || !$type || !in_array($type, ['qms', 'ems'])) {
-        wp_send_json_error('Invalid parameters');
-    }
-    
-    // Update certification type
-    update_field('certification_type', $type, $post_id);
-    
-    // Reset stage to draft when changing certification type
-    update_field('client_stage', 'draft', $post_id);
-    
-    wp_send_json_success(['message' => 'Certification type updated', 'type' => $type]);
-});
-
-    // Get email template data
-    add_action('wp_ajax_get_email_template', function() {
-    // Verify nonce
-    if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'get_email_template_nonce')) {
-        wp_send_json_error('Invalid nonce');
-    }
-    
-    // Get parameters
-    $post_id = isset($_POST['post_id']) ? intval($_POST['post_id']) : 0;
-    $stage = isset($_POST['stage']) ? sanitize_text_field($_POST['stage']) : '';
-    
-    error_log('Email Template Debug - Received parameters:');
-    error_log('Post ID: ' . $post_id);
-    error_log('Stage: ' . $stage);
-    
-    if (!$post_id || !$stage) {
-        error_log('Email Template Error - Missing required parameters');
-        wp_send_json_error('Missing parameters');
-    }
-    
-    // Get client data
-    $client = get_post($post_id);
-    if (!$client) {
-        error_log('Email Template Error - Client not found for post_id: ' . $post_id);
-        wp_send_json_error('Client not found');
-    }
-    
-    $client_name = $client->post_title;
-    $certification_type = get_field('certification_type', $post_id);
-    
-    error_log('Email Template Debug - Client data:');
-    error_log('Client Name: ' . $client_name);
-    error_log('Certification Type: ' . $certification_type);
-    
-    // Ensure we have a certification type
-    if (!$certification_type) {
-        $certification_type = 'qms';
-        error_log('Email Template Debug - No certification type found, defaulting to: ' . $certification_type);
-    }
-    
-    // Debug logging
-    error_log('Email Template Debug - Post ID: ' . $post_id);
-    error_log('Email Template Debug - Stage: ' . $stage);
-    error_log('Email Template Debug - Certification Type: ' . $certification_type);
-    
-    // Get email templates (with safety checks)
-    $certification_emails = get_certification_emails();
-    if (!$certification_emails) {
-        error_log('Email Template Error - No certification emails found');
-        wp_send_json_error('Configuration error: No email templates found');
-    }
-
-    if (!isset($certification_emails[$certification_type])) {
-        error_log('Email Template Error - No templates found for certification type: ' . $certification_type);
-        wp_send_json_error('No email templates found for this certification type');
-    }
-
-    $emails = $certification_emails[$certification_type];
-
-    // Allow case-insensitive stage matching
-    $found_stage = null;
-    if (isset($emails[$stage])) {
-        $found_stage = $stage;
-    } else {
-        foreach ($emails as $k => $v) {
-            if (strtolower($k) === strtolower($stage)) {
-                $found_stage = $k;
-                break;
-            }
-        }
-    }
-
-    if (!$found_stage) {
-        error_log('Email Template Error - Template not found for stage: ' . $stage . ' in type: ' . $certification_type);
-        error_log('Available stages: ' . print_r(array_keys($emails), true));
-        wp_send_json_error('Email template not found for stage: ' . $stage);
-    }
-
-    $email_template = $emails[$found_stage];
-
-    // Get PDF URL if applicable
-    $pdf_url = '';
-    $pdf_name = '';
-    if (!empty($email_template['pdf_field'])) {
-        $pdf_field = $email_template['pdf_field'];
-        $pdf_url = get_field($pdf_field, $post_id);
-        if ($pdf_url) {
-            $pdf_name = basename($pdf_url);
-        }
-    }
-
-    // Get client contact email - try several fallbacks
-    $to_email = '';
-    $email_fields = [
-        'contact_person_contact_email_new',
-        'top_management_contact_person_contact_email',
-        'company_email',
-        'contact_email',
-        'email',
-        'primary_email',
-    ];
-
-    foreach ($email_fields as $ef) {
-        $val = get_field($ef, $post_id);
-        if (empty($val)) {
-            // Also check post meta
-            $val = get_post_meta($post_id, $ef, true);
-        }
-        if (!empty($val)) {
-            if (is_array($val)) {
-                // ACF may return array with 'email' key
-                if (isset($val['email'])) {
-                    $val = $val['email'];
-                } else {
-                    // Try first scalar value
-                    $val = reset($val);
-                }
-            }
-            $candidate = sanitize_email($val);
-            if (!empty($candidate)) {
-                $to_email = $candidate;
-                break;
-            }
-        }
-    }
-
-    // Fallback to post author's email
-    if (empty($to_email) && !empty($client->post_author)) {
-        $user = get_user_by('id', $client->post_author);
-        if ($user && !empty($user->user_email)) {
-            $to_email = sanitize_email($user->user_email);
-        }
-    }
-    
-    // Replace placeholders in subject and message
-    $subject = $email_template['subject'];
-    $message = $email_template['message'];
-    
-    // Replace placeholders
-    $replacements = [
-        '{{client_name}}' => $client_name,
-        '{{pdf_link}}' => $pdf_url,
-        '{{pdf_name}}' => $pdf_name,
-    ];
-    
-    foreach ($replacements as $placeholder => $value) {
-        $subject = str_replace($placeholder, $value, $subject);
-        $message = str_replace($placeholder, $value, $message);
-    }
-    
-    wp_send_json_success([
-        'to_email' => $to_email,
-        'subject' => $subject,
-        'message' => $message,
-        'pdf_url' => $pdf_url,
-        'pdf_name' => $pdf_name,
-    ]);
-});
-
-// Generate client PDF
-add_action('wp_ajax_generate_client_pdf', function() {
-    // Verify nonce
-    if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'generate_client_pdf_nonce')) {
-        wp_send_json_error('Invalid nonce');
-    }
-    
-    // Get parameters
-    $post_id = isset($_POST['post_id']) ? intval($_POST['post_id']) : 0;
-    $stage = isset($_POST['stage']) ? sanitize_text_field($_POST['stage']) : '';
-    
-    if (!$post_id || !$stage) {
-        wp_send_json_error('Missing parameters');
-    }
-    
-    // Get client data
-    $client = get_post($post_id);
-    if (!$client) {
-        wp_send_json_error('Client not found');
-    }
-    
-    // Get certification type
-    $certification_type = get_field('certification_type', $post_id) ?: 'qms';
-    
-    // Get certification emails to find PDF field name
-    $certification_emails = get_certification_emails();
-    $emails = isset($certification_emails[$certification_type]) ? $certification_emails[$certification_type] : [];
-    $pdf_field = isset($emails[$stage]['pdf_field']) ? $emails[$stage]['pdf_field'] : '';
-    
-    if (empty($pdf_field)) {
-        // If no PDF field is defined for this stage, use a default naming convention
-        $pdf_field = $stage . '_pdf';
-    }
-    
-    // Generate PDF using TCPDF or other PDF library
-    // This is a placeholder - you'll need to implement the actual PDF generation
-    // based on your existing PDF generation code
-    
-    // For demonstration, we'll create a simple PDF using TCPDF if available
-    if (class_exists('TCPDF')) {
-        // Create new PDF document
-        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-        
-        // Set document information
-        $pdf->SetCreator('GMC');
-        $pdf->SetAuthor('GMC');
-        $pdf->SetTitle($stage . ' - ' . $client->post_title);
-        $pdf->SetSubject($stage . ' Form');
-        
-        // Set default header data
-        $pdf->SetHeaderData('', 0, $stage . ' - ' . $client->post_title, 'Generated on ' . date('Y-m-d H:i:s'));
-        
-        // Set margins
-        $pdf->SetMargins(15, 15, 15);
-        $pdf->SetHeaderMargin(5);
-        $pdf->SetFooterMargin(10);
-        
-        // Set auto page breaks
-        $pdf->SetAutoPageBreak(TRUE, 25);
-        
-        // Add a page
-        $pdf->AddPage();
-        
-        // Set font
-        $pdf->SetFont('helvetica', '', 10);
-        
-        // Add content
-        $html = '<h1>' . $stage . ' - ' . $client->post_title . '</h1>';
-        $html .= '<p>Generated on ' . date('Y-m-d H:i:s') . '</p>';
-        $html .= '<hr>';
-        
-        // Add form fields based on stage
-        $field_group = isset($certification_stages[$certification_type][$stage]['group']) ? $certification_stages[$certification_type][$stage]['group'] : '';
-        if ($field_group) {
-            $fields = acf_get_fields($field_group);
-            if ($fields) {
-                $html .= '<table border="1" cellpadding="5">';
-                foreach ($fields as $field) {
-                    $value = get_field($field['name'], $post_id);
-                    if (is_array($value)) {
-                        $value = implode(', ', $value);
-                    }
-                    $html .= '<tr><th>' . $field['label'] . '</th><td>' . $value . '</td></tr>';
-                }
-                $html .= '</table>';
-            }
-        }
-        
-        // Write HTML content
-        $pdf->writeHTML($html, true, false, true, false, '');
-        
-        // Close and output PDF document
-        $upload_dir = wp_upload_dir();
-        $pdf_dir = $upload_dir['basedir'] . '/client-pdfs/' . $post_id;
-        
-        // Create directory if it doesn't exist
-        if (!file_exists($pdf_dir)) {
-            wp_mkdir_p($pdf_dir);
-        }
-        
-        // Generate filename
-        $filename = $stage . '-' . sanitize_title($client->post_title) . '-' . date('Ymd-His') . '.pdf';
-        $pdf_path = $pdf_dir . '/' . $filename;
-        $pdf_url = $upload_dir['baseurl'] . '/client-pdfs/' . $post_id . '/' . $filename;
-        
-        // Save PDF to file
-        $pdf->Output($pdf_path, 'F');
-        
-        // Update ACF field with PDF URL
-        update_field($pdf_field, $pdf_url, $post_id);
-        
-        wp_send_json_success([
-            'message' => 'PDF generated successfully',
-            'pdf_url' => $pdf_url
-        ]);
-    } else {
-        // If TCPDF is not available, return an error
-        wp_send_json_error('PDF generation library not available');
-    }
-});
-
-// Send client email
-add_action('wp_ajax_send_client_email', function() {
-    // Verify nonce
-    if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'send_client_email_nonce')) {
-        wp_send_json_error('Invalid nonce');
-    }
-    
-    // Get parameters
-    $post_id = isset($_POST['post_id']) ? intval($_POST['post_id']) : 0;
-    $stage = isset($_POST['stage']) ? sanitize_text_field($_POST['stage']) : '';
-    $to = isset($_POST['to']) ? sanitize_email($_POST['to']) : '';
-    $subject = isset($_POST['subject']) ? sanitize_text_field($_POST['subject']) : '';
-    $message = isset($_POST['message']) ? wp_kses_post($_POST['message']) : '';
-    
-    if (!$post_id || !$stage || !$to || !$subject || !$message) {
-        wp_send_json_error('Missing parameters');
-    }
-    
-    // Get certification type
-    $certification_type = get_field('certification_type', $post_id) ?: 'qms';
-    
-    // Get email templates
-    $certification_emails = get_certification_emails();
-    $emails = isset($certification_emails[$certification_type]) ? $certification_emails[$certification_type] : [];
-    
-    if (!isset($emails[$stage])) {
-        wp_send_json_error('Email template not found for this stage');
-    }
-    
-    $email_template = $emails[$stage];
-    
-    // Get PDF attachment if applicable — robustly try multiple possible locations
-    $attachments = [];
-    $missing_attachment_warning = '';
-    if (!empty($email_template['pdf_field'])) {
-        $pdf_url = get_field($email_template['pdf_field'], $post_id);
-        if ($pdf_url) {
-            $upload_dir = wp_upload_dir();
-
-            // Primary conversion: baseurl -> basedir
-            $pdf_path_primary = str_replace($upload_dir['baseurl'], $upload_dir['basedir'], $pdf_url);
-            $pdf_path_primary = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $pdf_path_primary);
-
-            $tried_paths = [$pdf_path_primary];
-
-            // If not found, try swapping common folder name variants
-            if (!file_exists($pdf_path_primary)) {
-                $tried_paths[] = str_replace('client_pdfs', 'client-pdfs', $pdf_path_primary);
-                $tried_paths[] = str_replace('client-pdfs', 'client_pdfs', $pdf_path_primary);
-
-                // Try uploads paths that include or omit the post_id folder
-                $filename = basename($pdf_path_primary);
-                $tried_paths[] = $upload_dir['basedir'] . DIRECTORY_SEPARATOR . 'client_pdfs' . DIRECTORY_SEPARATOR . $post_id . DIRECTORY_SEPARATOR . $filename;
-                $tried_paths[] = $upload_dir['basedir'] . DIRECTORY_SEPARATOR . 'client-pdfs' . DIRECTORY_SEPARATOR . $post_id . DIRECTORY_SEPARATOR . $filename;
-                $tried_paths[] = $upload_dir['basedir'] . DIRECTORY_SEPARATOR . $filename;
-            }
-
-            // Final attempt: check the tried paths and pick the first existing file
-            foreach ($tried_paths as $p) {
-                if (file_exists($p)) {
-                    $attachments[] = $p;
-                    break;
-                }
-            }
-
-            if (empty($attachments)) {
-                $missing_attachment_warning = 'Attachment not found. Tried: ' . implode('; ', $tried_paths);
-                error_log('Send Client Email: ' . $missing_attachment_warning . ' (post_id=' . $post_id . ', stage=' . $stage . ')');
-            }
-        } else {
-            $missing_attachment_warning = 'PDF URL is empty for field ' . $email_template['pdf_field'];
-            error_log('Send Client Email: ' . $missing_attachment_warning . ' (post_id=' . $post_id . ', stage=' . $stage . ')');
-        }
-    }
-    
-    // Set email headers
-    $headers = [
-        'Content-Type: text/html; charset=UTF-8',
-    ];
-    
-    // Send email
-    $sent = wp_mail($to, $subject, $message, $headers, $attachments);
-    
-    if ($sent) {
-        // Log email sent
-        update_post_meta($post_id, '_email_sent_' . $stage, current_time('mysql'));
-
-        $response = ['message' => 'Email sent successfully'];
-        if (!empty($missing_attachment_warning)) {
-            $response['warning'] = $missing_attachment_warning;
-        }
-
-        wp_send_json_success($response);
-    } else {
-        $debug = 'Failed to send email';
-        if (!empty($missing_attachment_warning)) {
-            $debug .= ' — ' . $missing_attachment_warning;
-        }
-        error_log('Send Client Email Error: ' . $debug . ' (to=' . $to . ', post_id=' . $post_id . ', stage=' . $stage . ')');
-        wp_send_json_error($debug);
-    }
-});
 
 
 
