@@ -7,13 +7,13 @@
  */
 ?>
                 <!-- Footer -->
-                <footer class="content-footer footer bg-footer-theme">
+                <!-- <footer class="content-footer footer bg-footer-theme">
                     <div class="d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
                         <div class="mb-2 mb-md-0">
                             © <?php echo date('Y'); ?> GMC
                         </div>
                     </div>
-                </footer>
+                </footer> -->
                 <!-- / Footer -->
 
                 <div class="content-backdrop fade"></div>

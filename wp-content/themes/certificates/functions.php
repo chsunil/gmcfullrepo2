@@ -1077,6 +1077,8 @@ add_action('wp_ajax_gmc_save_invoice', function() {
     $igst_amt    = floatval($_POST['igst_amount'] ?? 0);
     $amt_words   = sanitize_text_field($_POST['amount_in_words'] ?? '');
     $status      = sanitize_text_field($_POST['status'] ?? 'Unpaid');
+    $team_member = sanitize_text_field($_POST['team_member'] ?? '');
+    $gst_regn_no = sanitize_text_field($_POST['gst_regn_no'] ?? '');
 
     // Line items
     $raw_items  = $_POST['line_items'] ?? [];
@@ -1123,6 +1125,8 @@ add_action('wp_ajax_gmc_save_invoice', function() {
     update_field('amount_in_words',$amt_words,   $post_id);
     update_field('status',         $status,      $post_id);
     update_field('line_items',     $line_items,  $post_id);
+    update_field('team_member',    $team_member, $post_id);
+    update_field('gst_regn_no',    $gst_regn_no, $post_id);
 
     // Generate PDF (on create or update)
     $pdf_url = gmc_generate_invoice_pdf_for_post($post_id);
@@ -1181,8 +1185,111 @@ add_action('wp_ajax_gmc_record_payment', function() {
     wp_send_json_success(['message' => 'Payment recorded.']);
 });
 
+// ── Invoice: Update Payment Entry ─────────────────────────────────────────────
+add_action('wp_ajax_gmc_update_payment', function() {
+    if (!wp_verify_nonce($_POST['nonce'] ?? '', 'gmc_payment_nonce')) {
+        wp_send_json_error('Security check failed.');
+    }
+    if (!is_user_logged_in()) {
+        wp_send_json_error('Not logged in.');
+    }
+
+    $post_id    = intval($_POST['post_id'] ?? 0);
+    $index      = intval($_POST['payment_index'] ?? -1);
+    $pay_date   = sanitize_text_field($_POST['payment_date'] ?? '');
+    $pay_amount = floatval($_POST['amount'] ?? 0);
+    $pay_mode   = sanitize_text_field($_POST['payment_mode'] ?? '');
+    $pay_ref    = sanitize_text_field($_POST['reference_no'] ?? '');
+
+    if (!$post_id || $index < 0 || $pay_amount <= 0 || !$pay_date || !$pay_mode) {
+        wp_send_json_error('Missing required fields.');
+    }
+
+    $payments = get_field('payments_received', $post_id) ?: [];
+    if (!isset($payments[$index])) {
+        wp_send_json_error('Payment entry not found.');
+    }
+
+    $payments[$index] = [
+        'payment_date' => $pay_date,
+        'amount'       => $pay_amount,
+        'payment_mode' => $pay_mode,
+        'reference_no' => $pay_ref,
+    ];
+    update_field('payments_received', $payments, $post_id);
+
+    // Auto-update status
+    $total    = (float)(get_field('total_amount', $post_id) ?? 0);
+    $paid_sum = array_sum(array_column($payments, 'amount'));
+    if ($paid_sum >= $total) {
+        update_field('status', 'Paid', $post_id);
+    } elseif ($paid_sum > 0) {
+        update_field('status', 'Partial', $post_id);
+    } else {
+        update_field('status', 'Unpaid', $post_id);
+    }
+
+    $new_paid_sum = $paid_sum;
+    $new_balance  = $total - $new_paid_sum;
+    $new_status   = $paid_sum >= $total ? 'Paid' : ($paid_sum > 0 ? 'Partial' : 'Unpaid');
+
+    wp_send_json_success([
+        'message'  => 'Payment updated.',
+        'paid_sum' => $new_paid_sum,
+        'balance'  => $new_balance,
+        'status'   => $new_status,
+    ]);
+});
+
+// ── Invoice: Delete Payment Entry ─────────────────────────────────────────────
+add_action('wp_ajax_gmc_delete_payment', function() {
+    if (!wp_verify_nonce($_POST['nonce'] ?? '', 'gmc_payment_nonce')) {
+        wp_send_json_error('Security check failed.');
+    }
+    if (!is_user_logged_in()) {
+        wp_send_json_error('Not logged in.');
+    }
+
+    $post_id = intval($_POST['post_id'] ?? 0);
+    $index   = intval($_POST['payment_index'] ?? -1);
+
+    if (!$post_id || $index < 0) {
+        wp_send_json_error('Missing required fields.');
+    }
+
+    $payments = get_field('payments_received', $post_id) ?: [];
+    if (!isset($payments[$index])) {
+        wp_send_json_error('Payment entry not found.');
+    }
+
+    array_splice($payments, $index, 1);
+    update_field('payments_received', $payments, $post_id);
+
+    // Auto-update status
+    $total    = (float)(get_field('total_amount', $post_id) ?? 0);
+    $paid_sum = array_sum(array_column($payments, 'amount'));
+    if ($paid_sum >= $total && $total > 0) {
+        update_field('status', 'Paid', $post_id);
+    } elseif ($paid_sum > 0) {
+        update_field('status', 'Partial', $post_id);
+    } else {
+        update_field('status', 'Unpaid', $post_id);
+    }
+
+    $new_status = ($paid_sum >= $total && $total > 0) ? 'Paid' : ($paid_sum > 0 ? 'Partial' : 'Unpaid');
+
+    wp_send_json_success([
+        'message'  => 'Payment deleted.',
+        'paid_sum' => $paid_sum,
+        'balance'  => $total - $paid_sum,
+        'status'   => $new_status,
+    ]);
+});
+
 // ── Invoice: PDF Generation (helper) ─────────────────────────────────────────
-function gmc_generate_invoice_pdf_for_post($post_id) {
+// $mode = 'email' → branded header/footer inside PDF (for emailing)
+// $mode = 'print' → blank margins for pre-printed letterpad
+function gmc_generate_invoice_pdf_for_post($post_id, $mode = 'email') {
     try {
         $autoload = WP_PLUGIN_DIR . '/client-pdf-generator/dompdf/vendor/autoload.php';
         if (!file_exists($autoload)) return '';
@@ -1200,6 +1307,8 @@ function gmc_generate_invoice_pdf_for_post($post_id) {
         $total_amt    = (float)(get_field('total_amount', $post_id) ?? 0);
         $amt_words    = get_field('amount_in_words', $post_id) ?: '';
         $line_items   = get_field('line_items', $post_id) ?: [];
+        $team_member  = get_field('team_member', $post_id) ?: '';
+        $comp_gst     = get_field('gst_regn_no', $post_id) ?: '36AAGCG3405N1ZH';
 
         $client_id      = get_field('client_id', $post_id);
         $client_name    = '';
@@ -1212,7 +1321,7 @@ function gmc_generate_invoice_pdf_for_post($post_id) {
             $client_gst     = get_field('cgt_regn_no', $client_id) ?: '';
         }
 
-        // Build HTML for PDF
+        // Build line-item rows
         $rows = '';
         foreach ($line_items as $i => $item) {
             $rows .= '<tr>'.
@@ -1237,6 +1346,45 @@ function gmc_generate_invoice_pdf_for_post($post_id) {
         $client_name_esc = esc_html($client_name);
         $amt_words_esc   = esc_html($amt_words);
 
+        // ── Mode-dependent sections ──────────────────────────────────────────
+        if ($mode === 'email') {
+            // Branded margins
+            $page_css = '@page { margin: 20mm 20mm 25mm 20mm; }';
+
+            // Logo (base64-embedded)
+            $logo_path = ABSPATH . 'wp-content/uploads/2025/03/GMS-300x277.jpg';
+            $logo_b64  = '';
+            if (file_exists($logo_path)) {
+                $logo_b64 = 'data:image/jpeg;base64,' . base64_encode(file_get_contents($logo_path));
+            }
+
+            $header_html = <<<HEADER
+<div style="text-align:center;margin-bottom:15px;">
+    <img src="{$logo_b64}" style="height:70px;margin-bottom:8px;" alt="Global MCS">
+    <div style="font-size:16pt;font-weight:bold;color:#1a3c5e;margin-bottom:4px;">
+        Global Management Certification Services Pvt. Ltd.
+    </div>
+    <div style="font-size:10pt;color:#444;border-bottom:2px solid #2e7d32;padding-bottom:10px;margin-bottom:15px;">
+        Flat No.402, Plot No.410, Matrusri Nagar, Miyapur, Hyderabad-500 049, India.<br>
+        Phone: 040 - 4855 9001 &nbsp;|&nbsp; E-mail: info@mcsglobal.in &nbsp;|&nbsp; Web: www.mcsglobal.in
+    </div>
+</div>
+HEADER;
+
+            $footer_html = <<<FOOTER
+<div style="margin-top:40px;border-top:1px solid #ddd;padding-top:10px;text-align:center;font-size:9pt;color:#666;">
+    <strong>Global Management Certification Services Pvt. Ltd.</strong><br>
+    Flat No.402, Plot No.410, Matrusri Nagar, Miyapur, Hyderabad-500 049, India.<br>
+    Phone: 040 - 4855 9001 &nbsp;|&nbsp; E-mail: info@mcsglobal.in &nbsp;|&nbsp; Web: www.mcsglobal.in
+</div>
+FOOTER;
+        } else {
+            // Print mode — large margins for letterpad, no header/footer
+            $page_css    = '@page { margin: 75mm 20mm 40mm 20mm; }';
+            $header_html = '';
+            $footer_html = '';
+        }
+
         $html = <<<HTML
 <!DOCTYPE html>
 <html>
@@ -1244,25 +1392,22 @@ function gmc_generate_invoice_pdf_for_post($post_id) {
 <meta charset="UTF-8">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-@page { margin: 3in 1in 1in 1in; }
-body { font-family: "Times New Roman", serif; font-size: 11pt; color: #000; }
-h2 { text-align: center; font-size: 14pt; text-decoration: underline; letter-spacing: 3px; margin: 0 0 4px 0; }
-.co { text-align: center; font-size: 10pt; margin: 0 0 2px 0; }
-.sub { text-align: center; font-size: 9.5pt; border-bottom: 1px solid #000; padding-bottom: 4px; margin-bottom: 6px; }
-table { border-collapse: collapse; width: 100%; }
-td, th { border: 1px solid #333; padding: 4px 6px; vertical-align: top; }
-th { font-weight: bold; background: #f0f0f0; }
+{$page_css}
+body { font-family: "Times New Roman", serif; font-size: 11pt; color: #000; line-height: 1.4; }
+h2 { text-align: center; font-size: 16pt; text-decoration: underline; letter-spacing: 4px; margin: 15px 0 20px 0; }
+table { border-collapse: collapse; width: 100%; margin-bottom: 20px; }
+td, th { border: 1px solid #333; padding: 8px 10px; vertical-align: top; }
+th { font-weight: bold; background: #f5f5f5; }
 .lbl { font-weight: bold; white-space: nowrap; }
 .r { text-align: right; }
 .c { text-align: center; }
-.nb td { border: none; padding: 2px 0; }
-.sign { text-align: right; padding-top: 28px; font-size: 10pt; }
+.nb td { border: none; padding: 4px 0; }
+.sign { text-align: right; padding-top: 40px; font-size: 11pt; line-height: 1.6; }
 </style>
 </head>
 <body>
+{$header_html}
 <h2>INVOICE</h2>
-<p class="co"><strong>Global Management Certification Services Pvt. Ltd.</strong></p>
-<p class="sub">Plot No.141, Kavuri Hills, Phase-1, Madhapur, Hyderabad - 500033 | Ph: 040-40199657</p>
 
 <table>
 <tr>
@@ -1278,7 +1423,7 @@ th { font-weight: bold; background: #f0f0f0; }
       <tr><td class="lbl" style="border:none;border-bottom:1px solid #ccc;padding:3px 6px;">INV. No</td>     <td style="border:none;border-bottom:1px solid #ccc;padding:3px 6px;">{$inv_no_esc}</td></tr>
       <tr><td class="lbl" style="border:none;border-bottom:1px solid #ccc;padding:3px 6px;">Date</td>        <td style="border:none;border-bottom:1px solid #ccc;padding:3px 6px;">{$inv_date_esc}</td></tr>
       <tr><td class="lbl" style="border:none;border-bottom:1px solid #ccc;padding:3px 6px;">PAN No</td>      <td style="border:none;border-bottom:1px solid #ccc;padding:3px 6px;">AAGCG3405N</td></tr>
-      <tr><td class="lbl" style="border:none;border-bottom:1px solid #ccc;padding:3px 6px;">GST Regn. No.</td><td style="border:none;border-bottom:1px solid #ccc;padding:3px 6px;">36AAGCG3405N1ZH</td></tr>
+      <tr><td class="lbl" style="border:none;border-bottom:1px solid #ccc;padding:3px 6px;">GST Regn. No.</td><td style="border:none;border-bottom:1px solid #ccc;padding:3px 6px;">{$comp_gst}</td></tr>
       <tr><td class="lbl" style="border:none;padding:3px 6px;">SAC Code</td>                                  <td style="border:none;padding:3px 6px;">998214</td></tr>
     </table>
   </td>
@@ -1312,14 +1457,17 @@ th { font-weight: bold; background: #f0f0f0; }
 </table>
 
 <div class="sign">
-  For Global Management Certification Services Pvt. Ltd.<br><br><br>
+  For Global Management Certification Services Pvt. Ltd.<br>
+  <div style="margin: 15px 0; font-weight: bold;">{$team_member}</div>
   <em>Authorized Signatory</em>
 </div>
+{$footer_html}
 </body>
 </html>
 HTML;
 
         $dompdf = new Dompdf\Dompdf();
+        $dompdf->set_option('isRemoteEnabled', true);
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
@@ -1328,7 +1476,7 @@ HTML;
         // Save file to uploads
         $upload    = wp_upload_dir();
         $safe_name = preg_replace('/[^a-zA-Z0-9_\-]/', '-', $invoice_no);
-        $filename  = 'invoice-' . $safe_name . '-' . $post_id . '.pdf';
+        $filename  = 'invoice-' . $safe_name . '-' . $post_id . '-' . $mode . '.pdf';
         $filepath  = $upload['path'] . '/' . $filename;
         $fileurl   = $upload['url']  . '/' . $filename;
         file_put_contents($filepath, $pdf_content);
@@ -1351,12 +1499,24 @@ add_action('wp_ajax_gmc_generate_invoice_pdf', function() {
     if (!$post_id) {
         wp_send_json_error('Invalid post ID.');
     }
-    $pdf_url = gmc_generate_invoice_pdf_for_post($post_id);
-    if (!$pdf_url) {
+
+    // Generate both versions
+    $email_url = gmc_generate_invoice_pdf_for_post($post_id, 'email');
+    $print_url = gmc_generate_invoice_pdf_for_post($post_id, 'print');
+
+    if (!$email_url && !$print_url) {
         wp_send_json_error('PDF generation failed. Check server logs.');
     }
-    update_post_meta($post_id, 'invoice_pdf_url', $pdf_url);
-    wp_send_json_success(['pdf_url' => $pdf_url, 'message' => 'PDF generated.']);
+
+    // Store both URLs
+    if ($email_url) update_post_meta($post_id, 'invoice_pdf_url', $email_url);
+    if ($print_url) update_post_meta($post_id, 'invoice_pdf_print_url', $print_url);
+
+    wp_send_json_success([
+        'pdf_url'       => $email_url,
+        'pdf_print_url' => $print_url,
+        'message'       => 'Both PDFs generated (Email + Print).',
+    ]);
 });
 
 // ── Invoice: Send Email via AJAX ──────────────────────────────────────────────
@@ -1449,6 +1609,30 @@ add_action('wp_ajax_gmc_delete_invoice', function() {
         wp_send_json_success(['message' => 'Invoice deleted.']);
     } else {
         wp_send_json_error('Could not delete the invoice. Please try again.');
+    }
+});
+
+// ── Client: Delete via AJAX ───────────────────────────────────────────────────
+add_action('wp_ajax_gmc_delete_client', function() {
+    $post_id = intval($_POST['post_id'] ?? 0);
+    $nonce   = sanitize_text_field($_POST['nonce'] ?? '');
+
+    if (!wp_verify_nonce($nonce, 'gmc_client_delete_nonce')) {
+        wp_send_json_error('Security check failed.');
+    }
+    if (!is_user_logged_in() || !current_user_can('administrator')) {
+        wp_send_json_error('Permission denied.');
+    }
+    if (!$post_id || get_post_type($post_id) !== 'client') {
+        wp_send_json_error('Invalid client.');
+    }
+
+    $result = wp_delete_post($post_id, true); // permanent delete
+
+    if ($result) {
+        wp_send_json_success(['message' => 'Client deleted.']);
+    } else {
+        wp_send_json_error('Could not delete the client.');
     }
 });
 

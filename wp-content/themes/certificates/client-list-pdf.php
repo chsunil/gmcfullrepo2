@@ -166,6 +166,17 @@ $auditors = get_users(array('role' => 'auditor'));
                                             $invoice_url = add_query_arg(['client_id' => $post_id], site_url('/invoice-form/'));
                                             $invoice_link = '<a href="' . esc_url($invoice_url) . '" class="btn btn-secondary btn-sm ms-1"><span class="fas fa-file-invoice-dollar" style="margin-right:5px"></span>' . 'Invoice</a>';
 
+                                            $delete_btn = '';
+                                            if (in_array('administrator', $roles)) {
+                                                $nonce = wp_create_nonce('gmc_client_delete_nonce');
+                                                $delete_btn = sprintf(
+                                                    ' <button type="button" class="btn btn-danger btn-sm ms-1 delete-client-btn" data-post-id="%d" data-client-name="%s" data-nonce="%s" title="Delete Client"><span class="fas fa-trash"></span>Delete</button>',
+                                                    $post_id,
+                                                    esc_attr($client_name),
+                                                    $nonce
+                                                );
+                                            }
+
                                             echo '<tr>';
 
                                             echo '<td> <a href="/create-client/?new_post_id=' . $post_id . '&stage=' . urlencode($client_status) . '">' . esc_html($client_name) . '</a></td>';
@@ -182,7 +193,7 @@ $auditors = get_users(array('role' => 'auditor'));
                                     <?php echo '</td>';
                                             echo '<td class="text-uppercase">' . esc_html($client_status) . '</td>';
                                             echo '<td>' . esc_html($created_date) . '</td>';
-                                            echo '<td>' . $audit_link . $invoice_link . '</td>';
+                                            echo '<td>' . $audit_link . $invoice_link . $delete_btn . '</td>';
                                             echo '</tr>';
                                         }
 
@@ -227,7 +238,117 @@ $auditors = get_users(array('role' => 'auditor'));
                 <!-- / Content -->
 
                 <?php get_template_part('template-parts/content-footer'); ?>
-<!-- Modal for Sending Email -->
-<!-- ... (keep existing modal code unchanged) ... -->
+<!-- ── Delete Confirmation Modal ────────────────────────────── -->
+<div class="modal fade" id="deleteClientModal" tabindex="-1" aria-labelledby="deleteClientModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="deleteClientModalLabel">
+                    <i class="bx bx-trash me-1"></i> Delete Client
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center py-4">
+                <i class="bx bx-error-circle text-danger" style="font-size:3rem;"></i>
+                <p class="mt-3 mb-1">Are you sure you want to delete client</p>
+                <p class="fw-bold fs-5" id="del-client-name">—</p>
+                <p class="text-muted small">This action cannot be undone. The client and all associated data will be permanently removed.</p>
+                <input type="hidden" id="del-post-id">
+                <input type="hidden" id="del-nonce">
+                <div id="del-error" class="alert alert-danger mt-3 d-none"></div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">Cancel</button>
+                <button class="btn btn-danger px-4" id="confirm-delete-client-btn">
+                    <i class="bx bx-trash me-1"></i> Yes, Delete It
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ── Toast ────────────────────────────────────────────────── -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index:9999">
+    <div id="gmc-toast" class="toast align-items-center text-white border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body" id="toast-message"></div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
 
 <?php get_footer(); ?>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // ── Delete Client Handler ───────────────────────────────────────────────
+    const ajaxUrl = '<?php echo admin_url("admin-ajax.php"); ?>';
+    const deleteBtnModal = new bootstrap.Modal(document.getElementById('deleteClientModal'));
+    let activeRow = null;
+
+    document.querySelectorAll('.delete-client-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            activeRow = this.closest('tr');
+            document.getElementById('del-post-id').value = this.dataset.postId;
+            document.getElementById('del-nonce').value = this.dataset.nonce;
+            document.getElementById('del-client-name').textContent = this.dataset.clientName;
+            document.getElementById('del-error').classList.add('d-none');
+            deleteBtnModal.show();
+        });
+    });
+
+    document.getElementById('confirm-delete-client-btn').addEventListener('click', function() {
+        const pid = document.getElementById('del-post-id').value;
+        const nonce = document.getElementById('del-nonce').value;
+        const btn = this;
+        const errorDiv = document.getElementById('del-error');
+
+        btn.disabled = true;
+        btn.innerHTML = '<span class="fas fa-spinner fa-spin me-1"></span> Deleting...';
+
+        const fd = new FormData();
+        fd.append('action',  'gmc_delete_client');
+        fd.append('post_id', pid);
+        fd.append('nonce',   nonce);
+
+        fetch(ajaxUrl, {
+            method: 'POST',
+            body: fd
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                deleteBtnModal.hide();
+                showToast(data.data.message || 'Client deleted successfully', 'success');
+                if (activeRow) {
+                    activeRow.style.transition = 'all 0.5s ease';
+                    activeRow.style.opacity = '0';
+                    activeRow.style.transform = 'translateX(20px)';
+                    setTimeout(() => activeRow.remove(), 500);
+                }
+            } else {
+                errorDiv.textContent = data.data || 'Could not delete client.';
+                errorDiv.classList.remove('d-none');
+            }
+        })
+        .catch(err => {
+            errorDiv.textContent = 'Network error occurred.';
+            errorDiv.classList.remove('d-none');
+        })
+        .finally(() => {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="bx bx-trash me-1"></i> Yes, Delete It';
+        });
+    });
+
+    function showToast(message, type = 'success') {
+        const toastEl = document.getElementById('gmc-toast');
+        const toastMsg = document.getElementById('toast-message');
+        toastMsg.textContent = message;
+        toastEl.classList.remove('bg-success', 'bg-danger');
+        toastEl.classList.add(type === 'success' ? 'bg-success' : 'bg-danger');
+        const toast = new bootstrap.Toast(toastEl);
+        toast.show();
+    }
+});
+</script>

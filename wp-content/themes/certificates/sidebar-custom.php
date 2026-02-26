@@ -365,8 +365,18 @@ endforeach; ?>
 
         </ul>
 
-        <!-- 🔼 YOUR ORIGINAL MENU HTML ENDS HERE -->
+    </div>
 
+    <!-- Collapse Toggle -->
+    <div class="menu-toggle-wrapper px-2 py-2">
+        <ul class="menu-inner p-0 m-0">
+            <li class="menu-item w-100">
+                <a href="javascript:void(0);" id="menu-toggle-btn" class="menu-link mx-0">
+                    <i class="menu-icon tf-icons bx bx-chevron-left-circle" style="font-size: 1.4rem;"></i>
+                    <div class="menu-text">Collapse Menu</div>
+                </a>
+            </li>
+        </ul>
     </div>
 
 </aside>
@@ -492,5 +502,38 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 
+<?php endif; // End $is_create_client 
+?>
 
-<?php endif; ?>
+<script>
+/**
+ * Sidebar Collapse Toggle & Persist
+ */
+document.addEventListener('DOMContentLoaded', function() {
+    const wrapper = document.querySelector('.layout-wrapper');
+    const toggleBtn = document.getElementById('menu-toggle-btn');
+    const COLLAPSED_CLASS = 'layout-menu-collapsed';
+    const STORAGE_KEY = 'sidebar-collapsed-state';
+
+    if (!wrapper || !toggleBtn) {
+        console.warn('Sidebar Sidebar Toggle: wrapper or button not found');
+        return;
+    }
+
+    // 1. Initial State from localStorage
+    const savedState = localStorage.getItem(STORAGE_KEY);
+    if (savedState === 'true') {
+        wrapper.classList.add(COLLAPSED_CLASS);
+    }
+
+    // 2. Toggle Handler
+    toggleBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const isCollapsed = wrapper.classList.toggle(COLLAPSED_CLASS);
+        localStorage.setItem(STORAGE_KEY, isCollapsed);
+        
+        // Trigger window resize for DataTables etc.
+        window.dispatchEvent(new Event('resize'));
+    });
+});
+</script>

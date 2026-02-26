@@ -3,6 +3,12 @@
  * Template Name: Invoice Form
  */
 
+// Enqueue flatpickr
+add_action('wp_enqueue_scripts', function() {
+    wp_enqueue_style('flatpickr-css', 'https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css', [], '4.6.13');
+    wp_enqueue_script('flatpickr-js', 'https://cdn.jsdelivr.net/npm/flatpickr', [], '4.6.13', true);
+});
+
 get_header();
 
 // Determine Action (Create or Edit)
@@ -28,6 +34,8 @@ $data = [
     'total_amount'   => 0,
     'amount_in_words'=> '',
     'status'         => 'Unpaid',
+    'team_member'    => '',
+    'gst_regn_no'    => '36AAGCG3405N1ZH', // Default GST
 ];
 
 if ($is_editing) {
@@ -41,6 +49,8 @@ if ($is_editing) {
     $data['amount_in_words'] = get_field('amount_in_words', $invoice_id) ?: '';
     $data['status']          = get_field('status', $invoice_id) ?: 'Unpaid';
     $data['gst_type']        = get_field('gst_type', $invoice_id) ?: 'cgst_sgst';
+    $data['team_member']     = get_field('team_member', $invoice_id) ?: '';
+    $data['gst_regn_no']     = get_field('gst_regn_no', $invoice_id) ?: '36AAGCG3405N1ZH';
 
     $raw_items = get_field('line_items', $invoice_id);
     if ($raw_items) {
@@ -73,8 +83,12 @@ if (!$is_editing && empty($data['invoice_no'])) {
         ],
         'fields' => 'ids',
     ]);
+    // Financial month index: April=01, May=02, ..., March=12
+    $fin_month = ($month - 4 + 12) % 12 + 1;
+    $fin_month_str = str_pad($fin_month, 2, '0', STR_PAD_LEFT);
+    
     $seq = str_pad($count_query->found_posts + 1, 3, '0', STR_PAD_LEFT);
-    $data['invoice_no'] = $seq . '/' . date('m') . '/' . substr($fy_start, 2) . '-' . substr($fy_end, 2);
+    $data['invoice_no'] = $seq . '/' . $fin_month_str . '/' . substr($fy_start, 2) . '-' . substr($fy_end, 2);
 }
 ?>
 
@@ -178,7 +192,7 @@ if (!$is_editing && empty($data['invoice_no'])) {
                                                     </tr>
                                                     <tr>
                                                         <td class="meta-label">GST Regn. No.</td>
-                                                        <td><span class="static-field">36 AAGCG3405N1ZH</span></td>
+                                                        <td><input type="text" name="gst_regn_no" class="form-control form-control-sm" value="<?php echo esc_attr($data['gst_regn_no']); ?>"></td>
                                                     </tr>
                                                     <tr>
                                                         <td class="meta-label">SAC CODE</td>
@@ -304,7 +318,10 @@ if (!$is_editing && empty($data['invoice_no'])) {
                                     <!-- Footer -->
                                     <div class="text-end mt-4">
                                         <div>For Global Management Certification Services Pvt. Ltd.</div>
-                                        <div class="mt-5"><em>Authorized Signatory</em></div>
+                                        <div class="mt-3 mb-3" style="min-height: 100px;">
+                                            
+                                        </div>
+                                        <div><em>Authorized Signatory</em></div>
                                     </div>
 
                                 </div><!-- /.invoice-paper -->
@@ -359,6 +376,45 @@ if (!$is_editing && empty($data['invoice_no'])) {
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+
+    // ── Invoice Date Picker & Dynamic No ─────────────────────────────────────
+    const dateInput = document.getElementById('invoice-date');
+    const invNoInput = document.querySelector('input[name="invoice_no"]');
+    const isEditing = <?php echo $is_editing ? 'true' : 'false'; ?>;
+
+    if (typeof flatpickr !== 'undefined' && dateInput) {
+        flatpickr(dateInput, {
+            dateFormat: 'd/m/Y',
+            allowInput: true,
+            onChange: function(selectedDates, dateStr) {
+                if (isEditing || !invNoInput) return;
+                
+                // Parse dd/mm/yyyy
+                const parts = dateStr.split('/');
+                if (parts.length !== 3) return;
+                
+                const d = parseInt(parts[0]);
+                const m = parseInt(parts[1]);
+                const y = parseInt(parts[2]);
+                
+                // Financial Year
+                const fy_start = m >= 4 ? y : y - 1;
+                const fy_end = fy_start + 1;
+                const fy_str = String(fy_start).slice(-2) + '-' + String(fy_end).slice(-2);
+                
+                // Financial Month Index
+                const fin_month = (m - 4 + 12) % 12 + 1;
+                const fin_month_str = String(fin_month).padStart(2, '0');
+                
+                const currentInvNo = invNoInput.value;
+                const invParts = currentInvNo.split('/');
+                
+                // We keep the sequence (part 0) if it exists, otherwise use '001'
+                const seq = (invParts.length > 0 && invParts[0]) ? invParts[0] : '001';
+                invNoInput.value = seq + '/' + fin_month_str + '/' + fy_str;
+            }
+        });
+    }
 
     // ── Client Selector ─────────────────────────────────────────────────────
     const clientSelector = document.getElementById('client-selector');
