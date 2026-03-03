@@ -754,3 +754,7 @@ table#invoices-table th.no-sort {
 .layout-menu-collapsed .app-brand .astra-logo-svg {
     width: 35px;
 }
+
+.trx_addons_scroll_to_top {
+    display: none !important;
+}

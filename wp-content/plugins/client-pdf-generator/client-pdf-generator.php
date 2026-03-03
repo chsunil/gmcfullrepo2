@@ -75,3 +75,38 @@ function cpdf_handle_generate_pdf() {
 
     wp_send_json_success(['pdf_url' => $url]);
 }
+
+// 4) DELETE PDF AJAX handler
+add_action('wp_ajax_delete_pdf', 'cpdf_handle_delete_pdf');
+function cpdf_handle_delete_pdf() {
+    check_ajax_referer('cpdf_generate_pdf', 'nonce');
+
+    $post_id = intval($_POST['post_id'] ?? 0);
+    $stage   = sanitize_text_field($_POST['stage']  ?? '');
+
+    if (!$post_id || !$stage) {
+        wp_send_json_error(['message' => 'Invalid parameters']);
+    }
+
+    $field_key = "{$stage}_pdf";
+    $pdf_url   = get_field($field_key, $post_id);
+
+    if ($pdf_url) {
+        // Attempt to delete physical file
+        $upload_dir = wp_upload_dir();
+        $base_url   = trailingslashit($upload_dir['baseurl']) . 'client_pdfs/';
+        $base_path  = trailingslashit($upload_dir['basedir']) . 'client_pdfs/';
+        
+        $filename   = str_replace($base_url, '', $pdf_url);
+        $file_path  = $base_path . $filename;
+
+        if (file_exists($file_path)) {
+            unlink($file_path);
+        }
+
+        // Clear ACF field
+        update_field($field_key, '', $post_id);
+    }
+
+    wp_send_json_success(['message' => 'PDF deleted successfully']);
+}

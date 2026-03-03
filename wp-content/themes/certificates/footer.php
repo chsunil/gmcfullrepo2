@@ -158,20 +158,26 @@ if ($show_fixed_footer) :
             <!-- Generate PDF / View PDF Button -->
             <?php if ($stage_has_pdf_support && $stage_key !== 'draft') : ?>
                 <?php if ($isithas_pdf) : ?>
-                <a href="<?php echo esc_url($isithas_pdf); ?>" 
-                   target="_blank" 
-                   class="footer-btn footer-btn-pdf footer-btn footer-btn-pdf">
-                    <i class="bx bx-file"></i>
-                    <span>View PDF</span>
-                </a>
+                    <a href="<?php echo esc_url($isithas_pdf); ?>" 
+                       target="_blank" 
+                       class="footer-btn footer-btn-pdf">
+                        <i class="bx bx-file"></i>
+                        <span>View PDF</span>
+                    </a>
+                    <button type="button" class="footer-btn footer-btn-delete delete-pdf" 
+                            data-post-id="<?php echo esc_attr($post_id); ?>" 
+                            data-stage="<?php echo esc_attr($stage_key); ?>" 
+                            title="Delete & Regenerate">
+                        <i class="bx bx-trash"></i>
+                    </button>
                 <?php else : ?>
-                <button type="button" class="footer-btn footer-btn-pdf generate-pdf" 
-                        data-scheme="<?php echo esc_attr($certification_type); ?>" 
-                        data-stage="<?php echo esc_attr($stage_key); ?>" 
-                        data-post-id="<?php echo esc_attr($post_id); ?>">
-                    <i class="bx bx-file-blank"></i>
-                    <span>Generate PDF</span>
-                </button>
+                    <button type="button" class="footer-btn footer-btn-pdf generate-pdf" 
+                            data-scheme="<?php echo esc_attr($certification_type); ?>" 
+                            data-stage="<?php echo esc_attr($stage_key); ?>" 
+                            data-post-id="<?php echo esc_attr($post_id); ?>">
+                        <i class="bx bx-file-blank"></i>
+                        <span>Generate PDF</span>
+                    </button>
                 <?php endif; ?>
             <?php endif; ?>
 
@@ -354,6 +360,17 @@ if ($show_fixed_footer) :
 .footer-btn-email:hover {
     background: #f0fdf4;
     color: #15803d;
+}
+
+/* Delete PDF */
+.footer-btn-delete {
+    border-color: #ef4444;
+    color: #dc2626;
+    background: #fff;
+}
+.footer-btn-delete:hover {
+    background: #fef2f2;
+    color: #b91c1c;
 }
 
 /* Next Stage */

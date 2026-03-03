@@ -1150,7 +1150,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function buildEmailBody(invoiceNo, clientName, total, pdfUrl, viewUrl) {
         const link = pdfUrl || viewUrl;
-        return `Dear ${clientName},\n\nPlease find enclosed the invoice ${invoiceNo} for ₹ ${total}.\n\n${link ? 'View/Download Invoice: ' + link + '\n\n' : ''}Payment is due as per our agreed payment terms.\n\nFor any queries, please contact us.\n\nWarm regards,\nGlobal Management Certification Services Pvt. Ltd.`;
+        return `Dear ${clientName},\n\nPlease find enclosed the invoice ${invoiceNo} for ₹ ${total}.\n\n${link ? '' : ''}\nPayment is due as per our agreed payment terms.\n\nFor any queries, please contact us.\n\nWarm regards,\nGlobal Management Certification Services Pvt. Ltd.`;
     }
 
     document.querySelectorAll('.send-email-btn').forEach(function(btn) {

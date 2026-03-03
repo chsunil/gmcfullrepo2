@@ -241,7 +241,15 @@ $next_stage = $current_stage_data && isset($current_stage_data['next']) ? $curre
                                                     <i class="bx bx-file-blank me-1"></i> Generate PDF
                                                 </button>
                                                 <?php elseif ($stage_key !== 'draft' && $isithas_pdf) : ?>
-                                                <a class="btn btn-outline-primary" href="<?php echo $isithas_pdf; ?>" target="_blank"><i class="bx bx-file me-1"></i>View PDF</a>
+                                                <div class="d-inline-flex align-items-center gap-2">
+                                                    <a class="btn btn-outline-primary" href="<?php echo $isithas_pdf; ?>" target="_blank"><i class="bx bx-file me-1"></i>View PDF</a>
+                                                    <button type="button" class="btn btn-outline-danger delete-pdf" 
+                                                            data-post-id="<?php echo esc_attr($post_id); ?>" 
+                                                            data-stage="<?php echo esc_attr($stage_key); ?>" 
+                                                            title="Delete & Regenerate">
+                                                        <i class="bx bx-trash"></i>
+                                                    </button>
+                                                </div>
                                                 <?php endif; ?>
                                                 
                                                 <?php if ($has_email) : ?>
