@@ -5,6 +5,47 @@
  * 
  * @since 6.4.1
  */
+/**
+ * Get an ASE option as an array and normalize malformed values.
+ *
+ * Some sites may store malformed option payloads (e.g. strings), which can
+ * trigger fatal errors on PHP 8+ when string offsets are accessed as arrays.
+ *
+ * @since 8.4.2
+ *
+ * @param string    $option_name Option name.
+ * @param bool|null $autoload    Whether to autoload option.
+ * @return array
+ */
+function asenha_get_option_array(  $option_name, $autoload = null  ) {
+    $option_value = get_option( $option_name, array() );
+    if ( is_array( $option_value ) ) {
+        return $option_value;
+    }
+    $normalized_value = array();
+    if ( is_object( $option_value ) ) {
+        $normalized_value = (array) $option_value;
+    } elseif ( is_string( $option_value ) && '' !== trim( $option_value ) ) {
+        $maybe_unserialized = maybe_unserialize( $option_value );
+        if ( is_array( $maybe_unserialized ) ) {
+            $normalized_value = $maybe_unserialized;
+        } elseif ( is_object( $maybe_unserialized ) ) {
+            $normalized_value = (array) $maybe_unserialized;
+        } elseif ( is_string( $maybe_unserialized ) && '' !== trim( $maybe_unserialized ) ) {
+            $maybe_json = json_decode( $maybe_unserialized, true );
+            if ( is_array( $maybe_json ) ) {
+                $normalized_value = $maybe_json;
+            }
+        }
+    }
+    if ( null === $autoload ) {
+        update_option( $option_name, $normalized_value );
+    } else {
+        update_option( $option_name, $normalized_value, $autoload );
+    }
+    return $normalized_value;
+}
+
 if ( false === get_option( ASENHA_SLUG_U ) ) {
     add_option(
         ASENHA_SLUG_U,
@@ -30,14 +71,14 @@ if ( false === get_option( ASENHA_SLUG_U . '_extra' ) ) {
     );
 }
 // Bugfix in v7.1.2 for Custom Content Type module
-$options_extra = get_option( ASENHA_SLUG_U . '_extra', array() );
+$options_extra = asenha_get_option_array( ASENHA_SLUG_U . '_extra', true );
 if ( !isset( $options_extra['cfgroup_next_field_id'] ) ) {
     $options_extra['cfgroup_next_field_id'] = 1;
     update_option( ASENHA_SLUG_U . '_extra', $options_extra, true );
 }
 // Move Admin Menu Organizer options storage to extra table since v7.8.5
 if ( !isset( $options_extra['admin_menu'] ) ) {
-    $options = get_option( ASENHA_SLUG_U, array() );
+    $options = asenha_get_option_array( ASENHA_SLUG_U, true );
     $options_extra['admin_menu']['custom_menu_order'] = ( isset( $options['custom_menu_order'] ) ? $options['custom_menu_order'] : '' );
     unset($options['custom_menu_order']);
     $options_extra['admin_menu']['custom_menu_titles'] = ( isset( $options['custom_menu_titles'] ) ? $options['custom_menu_titles'] : '' );
@@ -74,7 +115,7 @@ function asenha_register_admin_menu() {
  * @since 1.0.0
  */
 function asenha_add_settings_page() {
-    $options = get_option( ASENHA_SLUG_U, array() );
+    $options = asenha_get_option_array( ASENHA_SLUG_U, true );
     ?>
 	<div class="wrap asenha">
 
@@ -407,7 +448,7 @@ function asenha_add_settings_page() {
 	</div>
 	<?php 
     // Record the number of times changes were saved as well as the date of last save
-    $asenha_stats = get_option( ASENHA_SLUG_U . '_stats', array() );
+    $asenha_stats = asenha_get_option_array( ASENHA_SLUG_U . '_stats', false );
     $changes_saved = ( isset( $_GET['settings-updated'] ) && 'true' == $_GET['settings-updated'] ? true : false );
     if ( $changes_saved ) {
         $current_date = date( 'Y-m-d', time() );
@@ -442,7 +483,7 @@ function is_yearend_promo_period() {
         $is_yearend_promo_period = true;
         // Clear out last year's promo nudge dismissal data
         $current_year = date( 'Y', time() );
-        $asenha_stats = get_option( ASENHA_SLUG_U . '_stats', array() );
+        $asenha_stats = asenha_get_option_array( ASENHA_SLUG_U . '_stats', false );
         if ( isset( $asenha_stats['promo_nudge_dismissed'] ) && $asenha_stats['promo_nudge_dismissed'] ) {
             $last_dismissed_year = date( 'Y', strtotime( $asenha_stats['promo_nudge_dismissed_date'] ) );
             if ( $current_year > $last_dismissed_year ) {
@@ -538,7 +579,7 @@ function asenha_admin_scripts(  $hook_suffix  ) {
     ;
     $current_screen = get_current_screen();
     // Get all WP Enhancements options, default to empty array in case it's not been created yet
-    $options = get_option( 'admin_site_enhancements', array() );
+    $options = asenha_get_option_array( 'admin_site_enhancements', true );
     // For main page of this plugin
     if ( is_asenha() ) {
         wp_enqueue_style(
@@ -648,6 +689,21 @@ function asenha_admin_scripts(  $hook_suffix  ) {
         $wp_scripts = wp_scripts();
         $wp_scripts->remove( 'wp-tinymce' );
         wp_register_tinymce_scripts( $wp_scripts, true );
+        $admin_page_script_dependencies = array(
+            'asenha-jsticky',
+            'asenha-jbox',
+            'asenha-js-cookie',
+            'asenha-codemirror-htmlmixed-mode',
+            'asenha-codemirror-xml-mode',
+            'asenha-codemirror-javascript-mode',
+            'asenha-codemirror-css-mode',
+            'asenha-codemirror-markdown-mode',
+            'asenha-datatables',
+            'wp-color-picker',
+            'wp-mediaelement',
+            'wp-tinymce-root',
+            'wp-tinymce'
+        );
         // Main style and script for the admin page
         wp_enqueue_style(
             'asenha-admin-page',
@@ -663,21 +719,7 @@ function asenha_admin_scripts(  $hook_suffix  ) {
         wp_enqueue_script(
             'asenha-admin-page',
             ASENHA_URL . 'assets/js/admin-page.js',
-            array(
-                'asenha-jsticky',
-                'asenha-jbox',
-                'asenha-js-cookie',
-                'asenha-codemirror-htmlmixed-mode',
-                'asenha-codemirror-xml-mode',
-                'asenha-codemirror-javascript-mode',
-                'asenha-codemirror-css-mode',
-                'asenha-codemirror-markdown-mode',
-                'asenha-datatables',
-                'wp-color-picker',
-                'wp-mediaelement',
-                'wp-tinymce-root',
-                'wp-tinymce'
-            ),
+            $admin_page_script_dependencies,
             ASENHA_VERSION,
             false
         );
@@ -876,11 +918,6 @@ function asenha_admin_scripts(  $hook_suffix  ) {
     if ( array_key_exists( 'hide_admin_notices', $options ) && $options['hide_admin_notices'] ) {
         $hide_for_nonadmins = ( isset( $options['hide_admin_notices_for_nonadmins'] ) ? $options['hide_admin_notices_for_nonadmins'] : false );
         $minimum_capability = 'manage_options';
-        if ( function_exists( 'bwasenha_fs' ) ) {
-            if ( $hide_for_nonadmins && bwasenha_fs()->can_use_premium_code__premium_only() ) {
-                $minimum_capability = 'read';
-            }
-        }
         if ( current_user_can( $minimum_capability ) ) {
             wp_enqueue_style(
                 'asenha-jbox',
@@ -925,7 +962,7 @@ function asenha_admin_scripts(  $hook_suffix  ) {
             }
         }
     }
-    $asenha_stats = get_option( ASENHA_SLUG_U . '_stats', array() );
+    $asenha_stats = asenha_get_option_array( ASENHA_SLUG_U . '_stats', false );
     $hide_promo_nudge = false;
     $is_yearend_promo_period = is_yearend_promo_period();
     // Pass on ASENHA stats to admin-page.js to determine whether to show support nudge
@@ -1210,7 +1247,7 @@ function is_asenha() {
 function asenha_have_supported() {
     if ( isset( $_REQUEST ) && current_user_can( 'manage_options' ) ) {
         if ( wp_verify_nonce( sanitize_text_field( $_REQUEST['nonce'] ), 'asenha-' . get_current_user_id() ) ) {
-            $asenha_stats = get_option( ASENHA_SLUG_U . '_stats', array() );
+            $asenha_stats = asenha_get_option_array( ASENHA_SLUG_U . '_stats', false );
             $asenha_stats['have_supported'] = true;
             $asenha_stats['support_nudge_dismissed'] = true;
             $success = update_option( ASENHA_SLUG_U . '_stats', $asenha_stats, false );
@@ -1236,7 +1273,7 @@ function asenha_dismiss_upgrade_nudge() {
     if ( isset( $_REQUEST ) && current_user_can( 'manage_options' ) ) {
         if ( wp_verify_nonce( sanitize_text_field( $_REQUEST['nonce'] ), 'asenha-' . get_current_user_id() ) ) {
             $current_date = date( 'Y-m-d', time() );
-            $asenha_stats = get_option( ASENHA_SLUG_U . '_stats', array() );
+            $asenha_stats = asenha_get_option_array( ASENHA_SLUG_U . '_stats', false );
             $asenha_stats['upgrade_nudge_dismissed'] = true;
             $asenha_stats['upgrade_nudge_dismissed_date'] = $current_date;
             $success = update_option( ASENHA_SLUG_U . '_stats', $asenha_stats, false );
@@ -1262,7 +1299,7 @@ function asenha_dismiss_promo_nudge() {
     if ( isset( $_REQUEST ) && current_user_can( 'manage_options' ) ) {
         if ( wp_verify_nonce( sanitize_text_field( $_REQUEST['nonce'] ), 'asenha-' . get_current_user_id() ) ) {
             $current_date = date( 'Y-m-d', time() );
-            $asenha_stats = get_option( ASENHA_SLUG_U . '_stats', array() );
+            $asenha_stats = asenha_get_option_array( ASENHA_SLUG_U . '_stats', false );
             $asenha_stats['promo_nudge_dismissed'] = true;
             $asenha_stats['promo_nudge_dismissed_date'] = $current_date;
             $success = update_option( ASENHA_SLUG_U . '_stats', $asenha_stats, false );
@@ -1287,7 +1324,7 @@ function asenha_dismiss_promo_nudge() {
 function asenha_dismiss_support_nudge() {
     if ( isset( $_REQUEST ) && current_user_can( 'manage_options' ) ) {
         if ( wp_verify_nonce( sanitize_text_field( $_REQUEST['nonce'] ), 'asenha-' . get_current_user_id() ) ) {
-            $asenha_stats = get_option( ASENHA_SLUG_U . '_stats', array() );
+            $asenha_stats = asenha_get_option_array( ASENHA_SLUG_U . '_stats', false );
             $asenha_stats['support_nudge_dismissed'] = true;
             $success = update_option( ASENHA_SLUG_U . '_stats', $asenha_stats, false );
             if ( $success ) {

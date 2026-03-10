@@ -193,10 +193,14 @@ $logo_url = plugins_url('assets/images/logo.jpg', dirname(__FILE__));
     /* ── Page layout — match f03.php working approach ── */
     @page {
         size: A4;
-        margin: 5mm 5mm 5mm 5mm;
+        margin: 10mm 13mm 10mm 13mm;
     }
     body {
-        margin: 15px 15px 5px 15px;
+        font-family: Arial, sans-serif;
+        font-size: 11pt;
+        color: #000;
+        line-height: 1.35;
+        margin: 0; /* Let @page handle margins */
     }
 
     .page-break { page-break-before: always; }
@@ -226,6 +230,7 @@ $logo_url = plugins_url('assets/images/logo.jpg', dirname(__FILE__));
         width: 100%;
         border-collapse: collapse;
         margin-bottom: 0;
+        border: 1px solid #000;
     }
     table.form-table td, table.form-table th {
         border: 1px solid #000;
@@ -674,29 +679,11 @@ function qms01_footer($page, $total = 5) {
      ═══════════════════════════════════════════════════════ -->
 <div class="page-break"></div>
 
-<table class="form-table">
-    <!-- Description of Technical Resources -->
-    <tr>
-        <td class="lbl" style="width:28%;">Description of<br>Technical resources</td>
-        <td class="val h24">Machinery and Technical Staff: <?= $tech_staff ?></td>
-    </tr>
-
-    <!-- Consultancy -->
-    <tr>
-        <td class="lbl">Consultancy<br>Organization/<br>Consultant</td>
-        <td>
-            <?= $consult_data ?>
-            <span style="float:right;">
-                <span class="cb"><?= qms01_checkbox($self_prepared) ?></span> Self-Prepared
-            </span>
-        </td>
-    </tr>
-</table>
 
 <!-- EPME Matrix heading -->
 <table class="form-table" style="margin-top:4px;">
     <tr>
-        <td colspan="12" style="font-weight:bold;padding:3px 5px;background:#e8e8e8;text-align:center;font-size:9pt;">
+        <td colspan="10" style="font-weight:bold;padding:3px 5px;background:#e8e8e8;text-align:center;font-size:9pt;">
             Employee, Process, Machinery or Equipment Details- Site specific
         </td>
     </tr>
@@ -752,10 +739,11 @@ function qms01_footer($page, $total = 5) {
                 $row_data[$ck] = $epme_matrix[$data_key][$ck] ?? '';
             }
         }
+        $is_full_grey = ($row_label === '4.0: Employees (give break-up as below)');
         $is_bold = in_array($row_label, ['4.0: Employees (give break-up as below)', 'Total Employees']);
     ?>
     <tr>
-        <td class="matrix-row-lbl" style="<?= $is_bold ? 'font-weight:bold;' : '' ?>"><?= esc_html($row_label) ?></td>
+        <td class="matrix-row-lbl" style="<?= $is_bold ? 'font-weight:bold;' : '' ?><?= $is_full_grey ? 'background:#e8e8e8;' : '' ?>"><?= esc_html($row_label) ?></td>
         <?php if ($data_key): ?>
             <?php foreach ($col_keys as $ck): ?>
                 <td class="matrix-cell" style="height:14px;"><?= esc_html($row_data[$ck] ?? '') ?></td>

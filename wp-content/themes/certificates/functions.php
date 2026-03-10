@@ -1321,6 +1321,11 @@ function gmc_generate_invoice_pdf_for_post($post_id, $mode = 'email') {
             $client_gst     = get_field('cgt_regn_no', $client_id) ?: '';
         }
 
+        $status       = get_field('status', $post_id) ?: 'Unpaid';
+        $is_paid      = (strtolower($status) === 'paid');
+        $title        = $is_paid ? 'INVOICE' : 'PROFORMA INVOICE';
+        $inv_prefix   = $is_paid ? 'INV. No' : 'P.INV. No';
+
         // Build line-item rows
         $rows = '';
         foreach ($line_items as $i => $item) {
@@ -1348,8 +1353,8 @@ function gmc_generate_invoice_pdf_for_post($post_id, $mode = 'email') {
 
         // ── Mode-dependent sections ──────────────────────────────────────────
         if ($mode === 'email') {
-            // Branded margins
-            $page_css = '@page { margin: 20mm 20mm 25mm 20mm; }';
+            // Branded margins (1 inch = 25.4mm)
+            $page_css = 'html{ margin-left:15mm; margin-right:15mm; margin-top:10mm; margin-bottom:10mm; }';
 
             // Logo (base64-embedded)
             $logo_path = ABSPATH . 'wp-content/uploads/2025/03/GMS-300x277.jpg';
@@ -1361,29 +1366,42 @@ function gmc_generate_invoice_pdf_for_post($post_id, $mode = 'email') {
             $header_html = <<<HEADER
 <div style="text-align:center;margin-bottom:15px;">
     <img src="{$logo_b64}" style="height:70px;margin-bottom:8px;" alt="Global MCS">
-    <div style="font-size:16pt;font-weight:bold;color:#1a3c5e;margin-bottom:4px;">
-        Global Management Certification Services Pvt. Ltd.
-    </div>
-    <div style="font-size:10pt;color:#444;border-bottom:2px solid #2e7d32;padding-bottom:10px;margin-bottom:15px;">
-        Flat No.402, Plot No.410, Matrusri Nagar, Miyapur, Hyderabad-500 049, India.<br>
-        Phone: 040 - 4855 9001 &nbsp;|&nbsp; E-mail: info@mcsglobal.in &nbsp;|&nbsp; Web: www.mcsglobal.in
-    </div>
 </div>
 HEADER;
 
             $footer_html = <<<FOOTER
-<div style="margin-top:40px;border-top:1px solid #ddd;padding-top:10px;text-align:center;font-size:9pt;color:#666;">
-    <strong>Global Management Certification Services Pvt. Ltd.</strong><br>
-    Flat No.402, Plot No.410, Matrusri Nagar, Miyapur, Hyderabad-500 049, India.<br>
-    Phone: 040 - 4855 9001 &nbsp;|&nbsp; E-mail: info@mcsglobal.in &nbsp;|&nbsp; Web: www.mcsglobal.in
+<div style="margin-top:20px;">
+    <div style="color: #2e7d32; font-size: 20pt; font-weight: bold; border-top: 2px solid #2e7d32; padding-top: 5px;">
+        Global Management Certification Services Pvt. Ltd.
+    </div>
+    <table style="width:100%; border:none; margin-top:5px;" class="nb">
+        <tr>
+            <td style="width:50%; border:none; font-size:9pt; color:#333;">
+                Flat No.402, Plot No.410, Matrusri Nagar, Miyapur,<br>
+                Hyderabad-500 049, Telangana, India.
+            </td>
+            <td style="width:50%; border:none; font-size:9pt; color:#333; text-align:right;">
+                Phone: 040 - 4855 9001<br>
+                E-mail: info@mcsglobal.in | Web: www.mcsglobal.in
+            </td>
+        </tr>
+    </table>
 </div>
 FOOTER;
         } else {
-            // Print mode — large margins for letterpad, no header/footer
-            $page_css    = '@page { margin: 75mm 20mm 40mm 20mm; }';
+            // Print mode — large top margin for letterpad
+            $page_css    = 'html{ margin-left:20mm; margin-right:20mm; margin-top:75mm; margin-bottom:25mm; }';
             $header_html = '';
             $footer_html = '';
         }
+
+        // Signature image (base64-embedded)
+        $sign_path = get_stylesheet_directory() . '/sneat-assets/img/invoicesign.jpeg';
+        $sign_b64  = '';
+        if (file_exists($sign_path)) {
+            $sign_b64 = 'data:image/jpeg;base64,' . base64_encode(file_get_contents($sign_path));
+        }
+        $sign_img_html = $sign_b64 ? '<img src="' . $sign_b64 . '" style="height:80px;">' : '';
 
         $html = <<<HTML
 <!DOCTYPE html>
@@ -1393,75 +1411,89 @@ FOOTER;
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 {$page_css}
-body { font-family: "Times New Roman", serif; font-size: 11pt; color: #000; line-height: 1.4; }
-h2 { text-align: center; font-size: 16pt; text-decoration: underline; letter-spacing: 4px; margin: 15px 0 20px 0; }
-table { border-collapse: collapse; width: 100%; margin-bottom: 20px; }
-td, th { border: 1px solid #333; padding: 8px 10px; vertical-align: top; }
-th { font-weight: bold; background: #f5f5f5; }
-.lbl { font-weight: bold; white-space: nowrap; }
+body { font-family: "Times New Roman", serif; font-size: 11pt; color: #000; line-height: 1.3; }
+h2 { text-align: center; font-size: 16pt; text-decoration: underline; letter-spacing: 2px; margin: 10px 0 20px 0; font-weight: bold; }
+table { border-collapse: collapse; width: 100%; margin-bottom: 0px; }
+td, th { border: 1px solid #333; padding: 6px 10px; vertical-align: top; }
+th { font-weight: bold; background: #f2f2f2; }
+.lbl { font-weight: bold; white-space: nowrap; width: 50%; }
 .r { text-align: right; }
 .c { text-align: center; }
-.nb td { border: none; padding: 4px 0; }
-.sign { text-align: right; padding-top: 40px; font-size: 11pt; line-height: 1.6; }
+.nb td { border: none; padding: 2px 0; }
+.metadata-table td { padding: 4px 8px; border: 1px solid #333; }
+.sign-box { text-align: right; margin-top: 20px; }
 </style>
 </head>
 <body>
 {$header_html}
-<h2>INVOICE</h2>
+<h2>{$title}</h2>
 
-<table>
+<table style="border: 1px solid #333;">
 <tr>
-  <td style="width:60%;border-right:none;">
-    <table class="nb">
-      <tr><td><strong>To,</strong></td></tr>
-      <tr><td><strong>{$client_name_esc}</strong></td></tr>
-      <tr><td>{$addr_lines}{$client_gst_html}</td></tr>
-    </table>
+  <td style="width:60%; border:none; border-right: 1px solid #333;">
+    <div style="margin-bottom: 5px;"><strong>To,</strong></div>
+    <div style="font-weight: bold;">{$client_name_esc}</div>
+    <div style="font-size: 10pt;">{$addr_lines}{$client_gst_html}</div>
   </td>
-  <td style="width:40%;padding:0;vertical-align:top;">
-    <table style="width:100%;border:none;border-collapse:collapse;">
-      <tr><td class="lbl" style="border:none;border-bottom:1px solid #ccc;padding:3px 6px;">INV. No</td>     <td style="border:none;border-bottom:1px solid #ccc;padding:3px 6px;">{$inv_no_esc}</td></tr>
-      <tr><td class="lbl" style="border:none;border-bottom:1px solid #ccc;padding:3px 6px;">Date</td>        <td style="border:none;border-bottom:1px solid #ccc;padding:3px 6px;">{$inv_date_esc}</td></tr>
-      <tr><td class="lbl" style="border:none;border-bottom:1px solid #ccc;padding:3px 6px;">PAN No</td>      <td style="border:none;border-bottom:1px solid #ccc;padding:3px 6px;">AAGCG3405N</td></tr>
-      <tr><td class="lbl" style="border:none;border-bottom:1px solid #ccc;padding:3px 6px;">GST Regn. No.</td><td style="border:none;border-bottom:1px solid #ccc;padding:3px 6px;">{$comp_gst}</td></tr>
-      <tr><td class="lbl" style="border:none;padding:3px 6px;">SAC Code</td>                                  <td style="border:none;padding:3px 6px;">998214</td></tr>
+  <td style="width:40%; padding:0; border:none;">
+    <table class="metadata-table" style="width:100%; border:none;">
+      <tr><td class="lbl">{$inv_prefix}</td>   <td>{$inv_no_esc}</td></tr>
+      <tr><td class="lbl">Date</td>           <td>{$inv_date_esc}</td></tr>
+      <tr><td class="lbl">PAN No</td>         <td>AAGCG3405N</td></tr>
+      <tr><td class="lbl">GST Regn. No.</td>  <td>{$comp_gst}</td></tr>
+      <tr><td class="lbl" style="border-bottom:none;">SAC CODE</td> <td style="border-bottom:none;">998214</td></tr>
     </table>
   </td>
 </tr>
 </table>
 
-<table style="margin-top:-1px;">
+<table style="margin-top:20px;">
   <thead>
     <tr>
-      <th class="c" style="width:7%;">S.No</th>
-      <th>Description of Services</th>
-      <th class="r" style="width:22%;">Amount (Rs.)</th>
+      <th class="c" style="width:8%;">S.No</th>
+      <th>Description</th>
+      <th class="r" style="width:25%;">Total Amount (Rs.)</th>
     </tr>
   </thead>
-  <tbody>{$rows}</tbody>
+  <tbody>
+    {$rows}
+  </tbody>
 </table>
 
-<table style="margin-top:-1px;">
+<table style="margin-top:20px; border: 1px solid #333;">
   <tr>
-    <td style="width:38%;"><strong>Payment Terms:</strong><br>100% on presentation.</td>
-    <td><strong>Amount in Words:</strong><br><em>{$amt_words_esc} only</em></td>
-  </tr>
-  <tr>
-    <td colspan="2">
-      <strong>Bank Account Details:</strong><br>
-      Global Management Certification Services Pvt. Ltd.<br>
-      Bank: State Bank of India &nbsp;|&nbsp; Branch: Road No.1, KPHB Colony, Kukatpally, Hyderabad<br>
-      A/c No.: 67384332714 &nbsp;|&nbsp; IFSC Code: SBIN0070743
+    <td style="width:40%; border:none; border-right: 1px solid #333;">
+        <strong>Payment Terms:</strong><br>
+        100% on presentation.
+    </td>
+    <td style="border:none;">
+        <strong>Amount in Words:</strong><br>
+        <em>{$amt_words_esc}</em>
     </td>
   </tr>
 </table>
 
-<div class="sign">
-  For Global Management Certification Services Pvt. Ltd.<br>
-  <div style="margin: 15px 0; font-weight: bold;">{$team_member}</div>
-  <em>Authorized Signatory</em>
+<table style="margin-top:20px; border: 1px solid #333;">
+  <tr>
+    <td style="border:none;">
+      <strong>Bank Account Details:</strong><br>
+      Global Management Certification Services Pvt. Ltd.<br>
+      Bank : State Bank of India.<br>
+      Branch : Road No.1, KPHB Colony, Kukatpally, Hyd.<br>
+      A/c No. : 67384332714<br>
+      IFSC Code : SBIN0070743
+    </td>
+  </tr>
+</table>
+
+<div class="sign-box">
+  <div>{$sign_img_html}</div>
 </div>
-{$footer_html}
+
+<div style="position: absolute; bottom: 0; width: 100%;">
+    {$footer_html}
+</div>
+
 </body>
 </html>
 HTML;

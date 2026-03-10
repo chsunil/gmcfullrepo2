@@ -1,12 +1,67 @@
 ## Changelog
 
-**Admin and Site Enhancements (ASE) v1.0.0** was released on October 17, 2022. Since then, there have been **83 _major_ releases** (e.g. 1.1.0 ) and **185 _minor_ releases** (e.g. 4.9.1), for a **total of 268 releases**.
+**Admin and Site Enhancements (ASE) v1.0.0** was released on October 17, 2022. Since then, there have been **84 _major_ releases** (e.g. 1.1.0 ) and **187 _minor_ releases** (e.g. 4.9.1), for a **total of 271 releases**.
 
 Each **_major release_** usually corresponds with the addition of one new module/feature. Each module/feature usually is the equivalent of one (or more) single-purpose plugin. Each **_minor release_** usually contain one or more bugfix or improvements to existing modules/features.
 
 [**Upgrade to ASE Pro**](https://www.wpase.com/chnlg-to-web). Lifetime Deal (LTD) available.
 
-### 8.3.2 (2025.02.09) - ASE Free and Pro
+### 8.4.2 (2026.03.02) - ASE Free and Pro
+
+* **[FIXED in Free] Content Management >> Content Duplication**: fixed missing 'Duplicate' link in post actions row in the post listing screen since v8.4.1 introduced a security fix for this module. Props to st@n, @ilanaw, @michoscopic, @lineadiconfine, @dannyfoo and @webkatdesign for [reporting](https://wordpress.org/support/topic/duplicate-post-page-7-4-1-bug/) the bug.
+
+* **[IMPROVED in Pro] Security >> Two-Factor Authentication (2FA)**: Grace period notice that urges users with the relevant roles to set up 2FA is now excluded from being hidden by the Hide Admin Notices module. This ensures that those users see it when they log in.
+
+* **[FIXED in Pro] Plugin Activation**: fixed a fatal error that occurs in a certain scenario during plugin activation. Props to Alistair W. for reporting the issue and facilitating the troubleshooting process.
+
+* **[FIXED in Pro] Content Management >> Media Categories**: fixed a PHP warning that occurs in a certain scenario.
+
+* **[FIXED in Pro] Content Management >> Custom Content Types >> Custom Field Groups**: fixed a fatal error that occurs when trying to edit a Bricks template for a taxonomy archive when a custom field group is attached to that taxonomy and no specific taxonomy term has been selected to preview the archive in the builder. Props to David W. for reporting the issue in detail (with error stack trace) and facilitating the troubleshooting process.
+
+* **[FIXED in Pro] Content Management >> Content Order**: Fixed a bug that affects non-hierarchical post types causing duplicating menu_order in pairs of posts, posts occasionally / randomly being nested as child post during drag and dropping, and drag-and-dropping not working reliably when dragging a bit too far to the right hand side in the 'Order' page. Props to Christian S. for reporting the issue in detail, with screen recordings, and facilitating the troubleshooting process further.
+
+* **[FIXED in Pro] Utilities >> File Manager**: fixed a fatal error that occurs in a scenario where mime_content_type() is not available in PHP because magic module is disabled. Props to Bill J. for reporting the issue in detail.
+
+* **[FIXED in Pro] Utilities >> Local User Avatar**: fixed an issue with `get_avatar_url()` override always returning URL for the `thumbnail` size of the avatar and ignoring size parameter. This for example, can break Bricks builder's `{author_avatar:512}` dynamic tag. Props to Martin Ž. for reporting the issue in detail.
+
+* **[TRANSLATION in Free and Pro]** ASE is now being translated into [38 languages](https://translate.wpase.com/):
+  * **Added new/improved translation** for:
+    * ASE Free: Updated Vietnamese, Portuguese (Brazil), Polish, Persian, Norwegian, Arabic.
+    * ASE Pro: Updated Spanish (Spain), Catalan, Hungarian, Vietnamese, Norwegian, Portuguese (Brazil), Danish.
+
+### 8.4.1 (2026.02.23) - ASE Free and Pro
+
+* **[SECURITY FIX in Free] Content Management >> Content Duplication**: fixed "Broken Access Control" vulnerability with CVSS severity "Medium (5.4)"" that could cause "Information Disclosure" as responsiblly disclosed by security researcher Jakub Herman via Pathstack. In practical terms, this for example, can allow a logged-in user with contributor role to duplicate (and then view) password-protected content created by an administrator via the admin bar duplication link of the password-protected post in the frontend.
+
+* **[IMPROVED and FIXED in Pro] Utilities >> Form Builder**: 
+  * **Added bulk export / import for forms** via an "Export / Import Forms" button in the forms listing page, which links to the Form Builder section in ASE settings "Export | Import" section. You can choose to export all forms, or manually select which forms to export.
+  * **Added bulk export / import for style templates** via an "Export / Import Style Templates" button in the forms listing page, which links to the Form Builder section in ASE settings "Export | Import" section. You can choose to export all style templates, or manually select which style templates to export.
+  * **Added bulk export for form entries** via an "Export Entries" button in the forms listing page, which links to the Form Builder section in ASE settings "Export | Import" section. You can choose to export entries from a particular form, and customize what entry data will be exported, set the output format (CSV, Excel or JSON) and set a data range to filter by. Props to Uli L., Richard L. and Dave P. for prompting this improvement.
+  * **Security hardening for the upload field** by removing trust in client-sent constraints and enforcing server-side file policy.
+  * **Stop recording IP address** during form submissions.
+  * **Fixed custom CSS classes not being output** for "Display" field types, e.g. HTML field. Props to Yan for reporting the issue.
+
+* **[FIXED in Free and Pro] Content Management >> Content Order**: fixed layout issue in the content order page caused by CSS being overridden by the MetForm Pro plugin's CSS. Props to @once-master for prompting this fix.
+
+* **[FIXED in Pro] Security >> CAPTCHA Protectino >> ALTCHA**: fixed a JS error in Firefox browser related to `@wordpress/interactivity` when an ALTCHA field is included in a form via the Form Builder module. Props to Yan for reporting the issue.
+
+* **[TRANSLATION in Free and Pro]** ASE is now being translated into [38 languages](https://translate.wpase.com/):
+  * **Added new/improved translation** for:
+    * ASE Free: Updated Serbian, Turkish, Spanish (Spain), Portuguese (Brazil), Polish, Persian, Norwegian, Dutch, Danish, Azerbaijani, Albanian
+    * ASE Pro: Updated Norwegian. Completed Serbian (special props to [Igor E.](https://wordpress.org/support/users/igorel/)).
+
+### 8.4.0 (2026.02.16) - ASE Free and Pro
+
+* **[ADDED in Pro] Security >> Two-Factor Authentication**: Add an extra verification step during login for some or all user roles with grace period settings. Supported methods are authenticator app (TOTP), recovery codes and email. Compatible with the Change Login URL, Limit Login Attempts and CAPTCHA Protection modules. Props to Sebastian, Laurent F., Jonathan, Carlos d.A. Silvan L., Luethi, Ramyt I., Ammar, Marcel S., Drijen S., Stefan B., Timothy L. and Cory V. for prompting this addition.
+
+* **[FIXED in Free and Pro] Disable Components >> Disable Gutenberg**: fixed a PHP fatal error that occurs in a certain scenario. Props to [@d79](https://wordpress.org/support/users/d79/) for [reporting](https://wordpress.org/support/topic/bug-disable-gutenberg-%e2%86%92-fatal-error/) this in detail with the error entry log.
+
+* **[TRANSLATION in Free and Pro]** ASE is now being translated into [38 languages](https://translate.wpase.com/):
+  * **Added new/improved translation** for:
+    * ASE Free: updated Danish, Spanish (Chile), Russian, Portuguese (Brazil), Polish, Persian, German, Dutch (Netherlands), Dutch (Belgium)
+    * ASE Pro: updated Danish, Portuguese (Brazil)
+
+### 8.3.2 (2026.02.09) - ASE Free and Pro
 
 * **[IMPROVED in Free and Pro] Security >> Limit Login Attempts**:
   * ASE Free: when an IP address is locked out because it's exceeded the allowed failed login attempts amount, there will be a "Release Lock" button shown in a new "Actions" column in the "Failed login attempts" list within the Limit Login Attempts module. This will easily remove the IP address from lockout and allow the user on that IP address to attempt another set of login attempts. Props to [Michael K.](https://wordpress.org/support/users/michoscopic/) for [prompting](https://wordpress.org/support/topic/any-way-to-unblock-user-after-limit-login-attempts/) this improvement.
@@ -35,7 +90,7 @@ Each **_major release_** usually corresponds with the addition of one new module
     * ASE Free - Update Ukrainian, Spanish (Spain), Portuguese (Brazil), Polish, Norwegian, French, Dutch, Arabic.
     * ASE Pro - Update Norwegian, Portuguese (Brazil), Polish.
 
-### 8.3.1 (2025.02.02) - ASE Free and Pro
+### 8.3.1 (2026.02.02) - ASE Free and Pro
 
 * **[IMPROVED in Free and Pro] Admin Interface >> Hide Admin Notices**: notice/ad from BdThemes Element Pack Pro plugin is now properly moved to the notices panel. Props to Alexander P. for reporting the issue.
 
@@ -62,7 +117,7 @@ Each **_major release_** usually corresponds with the addition of one new module
     * ASE Free - Updated Spanish (Spain), Portuguese (Brazil), Polish, French, Dutch,.
     * ASE Pro - Updated Polish.
 
-### 8.3.0 (2025.01.26) - ASE Free and Pro
+### 8.3.0 (2026.01.26) - ASE Free and Pro
 
 * **[ADDED in Free and Pro] Content Management >> Media Files Visibility Control**: in ASE Free, this module will limit media library in a way that only administrators can see all media files. Non-administrator users will only see media files they uploaded themselves in the media library and in the modal window to add/insert media. ASE Pro adds an option to specify which non-administrator user roles will be limited to only seeing media files they uploaded themselves. 
 
@@ -90,7 +145,7 @@ Each **_major release_** usually corresponds with the addition of one new module
     * ASE Free - Updated Vietnamese, Russian, Portuguese (Brazil), Polish, Norwegian, Dutch (Belgian), Dutch, Bengali (Bangladesh)
     * ASE Pro - Indonesian, Vietnamese, Polish, Norwegian, Portuguese (Brazil).
 
-### 8.2.3 (2025.01.19) - ASE Free and Pro
+### 8.2.3 (2026.01.19) - ASE Free and Pro
 
 * **[IMPROVED in Free and Pro] Admin Interface >> Admin Menu Organizer**: added an option to make the "Collapse Menu" toggler sticky at the bottom of the admin menu. Props to [@outdoorsdev1](https://wordpress.org/support/users/outdoorsdev1/) for [suggesting this](https://wordpress.org/support/topic/request-make-expand-collapse-menu-item-in-wordpress-admin-navigation-sticky/) and sharing the code snippets this improvement is based upon.
 
@@ -119,7 +174,7 @@ Each **_major release_** usually corresponds with the addition of one new module
     * ASE Free - Updated Portuguese (Brazil), Polish, Persian, Danish.
     * ASE Pro - Updated Portuguese (Brazil).
 
-### 8.2.2 (2025.01.12) - ASE Free and Pro
+### 8.2.2 (2026.01.12) - ASE Free and Pro
 
 * **[IMPROVED in Pro] Utilities >> File Manager**:
   * 'Download' a file previous would open the file URL in a new browser tab for several file types. It will now properly initiate a download.
@@ -144,7 +199,7 @@ Each **_major release_** usually corresponds with the addition of one new module
     * ASE Free - Added Azerbaijani, props to [Saeid BGrn](https://profiles.wordpress.org/saeead/), and Dutch (Belgium), props to [Pieterjan D.](https://profiles.wordpress.org/nekojonez/). Updated Spanish (Spain), Portuguese (Brazil), Polish, Persian, Norwegian, Indonesian, German (Formal), Dutch, Arabic.
     * ASE Pro - Updated Indonesian.
 
-### 8.2.1 (2025.01.06) - ASE Free and Pro
+### 8.2.1 (2026.01.06) - ASE Free and Pro
 
 * **[IMPROVED in Pro] Admin Interface >> Admin Logo**: admin logo is now loaded in a way that prevents layout shift in the admin menu panel.
 
