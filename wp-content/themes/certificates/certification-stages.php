@@ -89,7 +89,7 @@ function get_certification_stages() {
             'f01' => ['title'   => 'F-01 QMS Application', 'group'   => 'group_68173ed286e57', 'next'    => 'f02'],
             'f02' => ['title' => 'F-02 QMS Application Review', 'group' => 'group_f02_technical_review', 'next' => 'f03'],
             'f03' => ['title' => 'F-03 Certification Agreement', 'group' => 'group_qms_f03', 'next' => 'f05'],
-            'f05' => ['title' => 'F-05 Audit Team Allocation', 'group' => 'group_f05_ems_audit_team_allocation_plan_stage_1', 'next' => 'f14'],
+            'f05' => ['title' => 'F-05 Audit Team Allocation', 'group' => 'group_qms_f05', 'next' => 'f14'],
             'f14' => ['title' => 'F-14 Conflict of Interest Declaration', 'group' => 'group_qms_f14', 'next' => 'sheet6'],
             'sheet6' => ['title' => 'Sheet6 QMS – Audit Notification Email', 'group' => 'group_qms_sheet6',  'next' => 'f08'],
             'f08' => ['title' => 'F-08 Certificate Issuance', 'group' => 'group_qms_f08', 'next' => 'f06'],

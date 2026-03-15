@@ -60,7 +60,7 @@ if ($is_editing) {
     $client_id = get_field('client_id', $invoice_id);
     if ($client_id) {
         $data['client_id']      = $client_id;
-        $data['client_name']    = get_field('organization_name', $client_id) ?: get_the_title($client_id);
+        $data['client_name']    = gmc_get_organization_name($client_id) ?: get_the_title($client_id);
         $data['client_address'] = get_field('address', $client_id)['head_office'] ?? '';
         $data['client_gst']     = get_field('cgt_regn_no', $client_id) ?: '';
     }
@@ -149,14 +149,14 @@ if (!$is_editing && empty($data['invoice_no'])) {
                                                         <option value="">-- Select Client --</option>
                                                         <?php foreach ($clients as $c): ?>
                                                         <option value="<?php echo $c->ID; ?>"
-                                                            data-name="<?php echo esc_attr(get_field('organization_name', $c->ID) ?: $c->post_title); ?>"
+                                                            data-name="<?php echo esc_attr(gmc_get_organization_name($c->ID) ?: $c->post_title); ?>"
                                                             data-address="<?php
                                                                 $addr = get_field('address', $c->ID);
                                                                 echo esc_attr($addr['head_office'] ?? '');
                                                             ?>"
                                                             data-gst="<?php echo esc_attr(get_field('cgt_regn_no', $c->ID) ?: ''); ?>"
                                                             <?php selected($data['client_id'], $c->ID); ?>>
-                                                            <?php echo esc_html(get_field('organization_name', $c->ID) ?: $c->post_title); ?>
+                                                            <?php echo esc_html(gmc_get_organization_name($c->ID) ?: $c->post_title); ?>
                                                         </option>
                                                         <?php endforeach; ?>
                                                     </select>

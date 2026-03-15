@@ -224,7 +224,7 @@ $toast_type = 'success';
                                                 if ($d) $sort_date = $d->format('Ymd');
                                             }
                                             $client_id   = get_field('client_id', $pid);
-                                            $client_name = $client_id ? (get_field('organization_name', $client_id) ?: get_the_title($client_id)) : '—';
+                                            $client_name = $client_id ? (gmc_get_organization_name($client_id) ?: get_the_title($client_id)) : '—';
                                             $total       = (float)(get_field('total_amount', $pid) ?? 0);
                                             $subtotal    = (float)(get_field('subtotal', $pid) ?? 0);
                                             $gst_type    = get_field('gst_type', $pid) ?: 'cgst_sgst';

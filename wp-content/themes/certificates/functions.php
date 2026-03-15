@@ -66,9 +66,28 @@ require_once get_stylesheet_directory() . '/includes/reports.php';
 // Include GMC Invoice CPT
 require_once get_stylesheet_directory() . '/includes/class-gmc-invoice.php';
 
+/**
+ * Helper to safely get organization name (string) regardless of ACF returning array
+ */
+function gmc_get_organization_name($post_id) {
+    $org_name = get_field('organization_name', $post_id);
+    if (is_array($org_name)) {
+        // If it's an array, return the first non-empty value
+        foreach ($org_name as $val) {
+            if (!empty($val) && is_string($val)) return $val;
+        }
+        return '';
+    }
+    return is_string($org_name) ? $org_name : '';
+}
+
 
 // After ACF saves any front‐end form:
 add_action('acf/save_post', function($post_id){
+  // Prevent infinite loop
+  static $is_updating = false;
+  if ($is_updating) return;
+
   // Only for our Client CPT on front-end
   if ( get_post_type($post_id) !== 'client' ) return;
 
@@ -77,14 +96,17 @@ add_action('acf/save_post', function($post_id){
     $next = sanitize_text_field($_POST['acf_next_stage']);
     update_post_meta($post_id, 'client_stage', $next);
   }
-   $org_name = get_field( 'organization_name', $post_id );
-   if ($org_name){
-     wp_update_post([
+
+  $org_name = gmc_get_organization_name($post_id);
+  if ($org_name) {
+    $is_updating = true;
+    wp_update_post([
         'ID'         => $post_id,
         'post_title' => $org_name,
         'post_name'  => sanitize_title( $org_name ),
     ]);
-   }
+    $is_updating = false;
+  }
 }, 20 );
 
 
@@ -476,6 +498,7 @@ add_action('wp_head', function () {
 
 
 add_filter('acf/load_value/name=technical_review_items', 'prefill_f02_technical_review_rows', 10, 3);
+add_filter('acf/load_value/name=tech_review_2', 'prefill_f02_technical_review_rows', 10, 3);
 function prefill_f02_technical_review_rows($value, $post_id, $field) {
     if (!empty($value)) return $value;
 
@@ -493,9 +516,8 @@ function prefill_f02_technical_review_rows($value, $post_id, $field) {
 
     return array_map(function ($requirement) {
         return [
-            'field_f02_requirement' => $requirement, // static
-            'field_f02_review'      => '',           // user will fill
-            'field_f02_conclusion'  => '',           // dropdown
+            'reviewtext' => '', // Matrix flexible row subfield
+            'status'     => '', // Matrix flexible row subfield
         ];
     }, $rows);
 }

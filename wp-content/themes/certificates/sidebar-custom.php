@@ -22,6 +22,11 @@ if (isset($_GET['new_post_id']) && intval($_GET['new_post_id']) > 0) {
 $client_stage = get_field("client_stage", $post_id) ?: "draft";
 $certification_type = get_field("certification_type", $post_id) ?: "qms";
 
+// Use ?stage= URL param to highlight the viewed stage; fall back to stored client_stage
+$active_stage = (isset($_GET['stage']) && !empty($_GET['stage']))
+    ? sanitize_text_field($_GET['stage'])
+    : $client_stage;
+
 // Detect client form template
 $is_create_client = is_page_template("template-client-form.php");
 
@@ -186,8 +191,8 @@ $stages = $all_certification_stages[$certification_type] ?? [];
     if (empty($group_visible)) {
         continue;
     }
-    // Determine if this group should be open
-    $is_group_open = in_array($client_stage, $group_visible, true);
+    // Determine if this group should be open (based on viewed stage, not stored stage)
+    $is_group_open = in_array($active_stage, $group_visible, true);
     ?>
 
     <li class="menu-item <?php echo $is_group_open ? "active open" : ""; ?>">
@@ -207,7 +212,7 @@ $stages = $all_certification_stages[$certification_type] ?? [];
             }
 
             $stage = $stages[$stage_key];
-            $is_active = $stage_key === $client_stage;
+            $is_active = $stage_key === $active_stage;
             $is_enabled = in_array($stage_key, $enabled_stages, true);
             
             // Determine status: 'completed', 'current', or 'future'

@@ -28,7 +28,7 @@ $client_name    = '';
 $client_address = '';
 $client_gst     = '';
 if ($client_id) {
-    $client_name    = get_field('organization_name', $client_id) ?: get_the_title($client_id);
+    $client_name    = gmc_get_organization_name($client_id) ?: get_the_title($client_id);
     $addr           = get_field('address', $client_id);
     $client_address = $addr['head_office'] ?? '';
     $client_gst     = get_field('cgt_regn_no', $client_id) ?: '';

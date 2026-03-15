@@ -414,7 +414,10 @@ jQuery(document).ready(function($) {
         const currentStage = $(this).data('current');
         const nextStage = $(this).data('next');
         const postId = <?php echo $post_id; ?>;
-        
+        const $btn = $(this);
+
+        $btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-1"></span> Moving...');
+
         // Update client stage via AJAX
         $.ajax({
             url: ajaxurl,
@@ -427,14 +430,19 @@ jQuery(document).ready(function($) {
             },
             success: function(response) {
                 if (response.success) {
-                    // Reload the page to show the updated tabs
-                    window.location.reload();
+                    // Navigate to the next stage URL (updates ?stage= param)
+                    const nextUrl = new URL(window.location.href);
+                    nextUrl.searchParams.set('stage', nextStage);
+                    nextUrl.searchParams.set('new_post_id', postId);
+                    window.location.href = nextUrl.toString();
                 } else {
                     console.error('Error updating client stage:', response.data);
+                    $btn.prop('disabled', false).html('Next: ' + nextStage + ' <i class="bx bx-right-arrow-alt ms-1"></i>');
                 }
             },
             error: function(xhr, status, error) {
                 console.error('AJAX error:', error);
+                $btn.prop('disabled', false).html('Next: ' + nextStage + ' <i class="bx bx-right-arrow-alt ms-1"></i>');
             }
         });
     });

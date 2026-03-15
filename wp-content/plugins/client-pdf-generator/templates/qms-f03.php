@@ -98,29 +98,61 @@
             margin: 5mm 5mm 5mm 5mm;
             size: A4;
         }
+        html{ margin-left:15mm; margin-right:15mm; margin-top:10mm; margin-bottom:10mm; }
 
         .page-number:before {
             content: counter(page);
         }
         .dynamic{
-            color:#00B050
+            /* color:#00B050 */
         }
     </style>
 </head>
 
 <body>
-<?php 
-$org                 = get_field('organization_name', $post_id);
-$proposal_ref_no     = get_field('proposal_ref_no', $post_id) ?: '—';
-$accreditation       = get_field('accreditation', $post_id) ?: '—';
-$cert_scheme         = get_field('cert_scheme', $post_id) ?: '—';
+<?php
+// ── Core fields ───────────────────────────────────────────────────────────────
+$org             = esc_html(get_field('f03company_name', $post_id) ?: '');
+$proposal_ref_no = esc_html(get_field('proposal_ref_no', $post_id)   ?: '');
+$accreditation   = esc_html(get_field('accreditation', $post_id)     ?: '');
+$cert_scheme     = esc_html(get_field('cert_scheme', $post_id)       ?: '');
+$scope_of_certification = esc_html(get_field('scope_of_certification', $post_id) ?: '');
 
-$contact_person         = get_field('contact_person_top_management', $post_id) ?: '—';
-$firstst_site_address         = get_field('1st_site_address', $post_id) ?: '—';
-$contact_person_contact_mobile         = get_field('contact_person_contact_mobile', $post_id) ?: '—';
-$scope_of_certification         = get_field('scope_of_certification', $post_id) ?: '—';
-$contact_person_mobile_number         = get_field('contact_person_mobile_number', $post_id) ?: '—';
+// ── Address — group "address" → sub-field head_office ─────────────────────────
+$addr_grp             = get_field('address', $post_id) ?: [];
+$firstst_site_address = esc_html($addr_grp['head_office'] ?? '');
 
+// ── Top Management — group "contact_person" → top_management / mobile_number ──
+$top_mgmt                    = get_field('contact_person', $post_id) ?: [];
+$contact_person              = esc_html($top_mgmt['top_management'] ?? '');
+$contact_person_mobile_number = esc_html($top_mgmt['mobile_number'] ?? '');
+
+// ── Agreement date from audit dates page (post meta) ─────────────────────────
+$dated_raw = get_post_meta($post_id, 'agreement_date_initial', true);
+$f03_dated = '';
+if (!empty($dated_raw)) {
+    $ts = strtotime($dated_raw);
+    $f03_dated = $ts ? date('d/m/Y', $ts) : esc_html($dated_raw);
+}
+
+// ── F-02 man-days (used as auto-fill source for service fee table) ────────────
+$f02_amc      = get_field('audit_man_days_calculation', $post_id) ?: [];
+$f02_subtotal = isset($f02_amc['sub_total_md_st_md_rounded_to_total']) ? (float)$f02_amc['sub_total_md_st_md_rounded_to_total'] : 0;
+$f02_surv_md  = $f02_subtotal > 0 ? round($f02_subtotal / 3, 2) : '';
+
+// ── Article 17 Service Fee — ACF group "f03_service_fee" (auto-fills from F-02) ──
+$sf = get_field('f03_service_fee', $post_id) ?: [];
+// Fee column (Rs.) — from ACF, default values shown in PDF
+$sf_app_fee   = esc_html(!empty($sf['application_fee'])          ? $sf['application_fee']          : '10,000');
+$sf_audit_fee = esc_html(!empty($sf['audit_fee'])                ? $sf['audit_fee']                : '');
+$sf_cert_fee  = esc_html(!empty($sf['certificate_issue_fee'])    ? $sf['certificate_issue_fee']    : '');
+$sf_surv_fee  = esc_html(!empty($sf['each_surveillance_audit_fee']) ? $sf['each_surveillance_audit_fee'] : '');
+$sf_just_fee  = esc_html(!empty($sf['justification_fee'])        ? $sf['justification_fee']        : '');
+// Man-days column — ACF value, else auto-fill from F-02 calculations
+$sf_app_md    = esc_html(!empty($sf['application_man_days'])  ? $sf['application_man_days']  : '');
+$sf_audit_md  = esc_html(!empty($sf['audit_man_days'])        ? $sf['audit_man_days']        : ($f02_subtotal > 0 ? $f02_subtotal : ''));
+$sf_surv_md   = esc_html(!empty($sf['surveillance_man_days']) ? $sf['surveillance_man_days'] : ($f02_surv_md !== '' ? $f02_surv_md : ''));
+$sf_surv_rem  = esc_html(!empty($sf['surveillance_remarks'])  ? $sf['surveillance_remarks']  : 'Annual');
 ?>
     <div class="center">
 
@@ -271,7 +303,7 @@ $contact_person_mobile_number         = get_field('contact_person_mobile_number'
                 <td>Information Requirement</td>
             </tr>
             <tr>
-                <td>31</td>
+                <td>32</td>
                 <td>Parties to the Contract</td>
             </tr>
         </tbody>
@@ -284,7 +316,7 @@ $contact_person_mobile_number         = get_field('contact_person_mobile_number'
         </tr>
         <tr>
             <td>Dated:</td>
-            <td class="dynamic">_________________________</td>
+            <td class="dynamic"><?= $f03_dated ?: '_________________________' ?></td>
         </tr>
         <tr>
             <td>Revision No:</td>
@@ -471,42 +503,43 @@ Client shall;
     <div class="article">
         <h2>Article 17. Service Fee</h2>
         <p>The service fee indicated in proposal is based on preliminary information provided by the client in the application for certification. GMCSPL has the right to revise the fee, terminate the contract or issue the certificate based on the available information if the information provided, by the client at the time of contract review was found erroneous. The service fee is mentioned below:</p>
-        <table>
-            <tr>
-                <th>Elements</th>
-                <th>Fee (Rs.)</th>
-                <th>Audit Man days</th>
-                <th>Remarks</th>
-            </tr>
-            <tr>
-                <td>Application</td>
-                <td>10, 000/-</td>
-                <td>4</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Audit</td>
-                <td>40,000/-</td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Certificate Issue</td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-           
-            <tr>
-                <td>Each Surveillance Audit</td>
-                <td>20,000/-</td>
-                <td>1.5</td>
-                <td>Annual</td>
-            </tr>
-            <tr>
-                <td>Justification for reduction or increase of man days</td>
-                <td rowspan="2">Nil</td>
-            </tr>
+        <table class="toc">
+            <thead>
+                <tr>
+                    <th>Elements</th>
+                    <th>Fee (Rs.)</th>
+                    <th>Audit Man days</th>
+                    <th>Remarks</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Application</td>
+                    <td><?= $sf_app_fee ? "{$sf_app_fee}/-" : '' ?></td>
+                    <td rowspan="3" style="text-align:center;vertical-align:middle;"><?= $sf_audit_md ?></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Audit</td>
+                    <td><?= $sf_audit_fee ? "{$sf_audit_fee}/-" : '' ?></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Certificate Issue</td>
+                    <td><?= $sf_cert_fee ? "{$sf_cert_fee}/-" : '' ?></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Each Surveillance Audit</td>
+                    <td><?= $sf_surv_fee ? "{$sf_surv_fee}/-" : '' ?></td>
+                    <td style="text-align:center;"><?= $sf_surv_md ?></td>
+                    <td><?= $sf_surv_rem ?></td>
+                </tr>
+                <tr>
+                    <td>Justification for reduction or increase of man days</td>
+                    <td colspan="3" style="text-align:center;"><?= $sf_just_fee ?></td>
+                </tr>
+            </tbody>
         </table>
     </div>
 
@@ -606,10 +639,10 @@ Client to inform GMCSPL without delay, of the occurrence of a serious incident o
         </div>
     </div>
 
-    <div class="footer">
+    <div style="clear:both; margin-top:20px; border-top:1px solid #000; padding-top:4px; font-size:10pt;">
         <div class="left">Global MCS</div>
-        <div class="page-number"></div>
         <div class="right">F-03 QMS (Version 5.00, 30.10.2023)</div>
+        <div style="clear:both;"></div>
     </div>
 
 </body>

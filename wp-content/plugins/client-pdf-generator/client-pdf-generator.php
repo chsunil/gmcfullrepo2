@@ -15,7 +15,7 @@ add_action('init', function () {
 
 // 2) Enqueue our JS
 add_action('wp_enqueue_scripts', function () {
-    wp_enqueue_script('cpdf-generate-pdf', plugin_dir_url(__FILE__) . 'assets/js/generate-pdf.js', ['jquery'], '1.3', true);
+    wp_enqueue_script('cpdf-generate-pdf', plugin_dir_url(__FILE__) . 'assets/js/generate-pdf.js', ['jquery', 'toast-helper'], '1.3', true);
     wp_localize_script('cpdf-generate-pdf', 'cpdf_vars', [
         'ajax_url'           => admin_url('admin-ajax.php'),
         'generate_pdf_nonce' => wp_create_nonce('cpdf_generate_pdf'),

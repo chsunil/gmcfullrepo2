@@ -154,23 +154,23 @@ $auditors = get_users(array('role' => 'auditor'));
                                             
                                             $pdf_button = '';
                                             if ($pdf_url) {
-                                                $pdf_button =   '<a href="' . esc_url($pdf_url) . '" target="_blank" class="btn btn-primary btn-sm"><i class="fa-regular fa-file-pdf"></i></a>';
-                                                $pdf_button .= ' <button class="btn btn-danger btn-sm delete-pdf" data-post-id="' . $post_id . '" data-stage="' . $client_status . '" title="Delete & Regenerate"><i class="fa-solid fa-trash"></i></button>';
-                                                $pdf_button .= ' <button class="btn btn-info btn-sm send-email-btn" data-post-id="' . $post_id . '" data-pdf-url="' . $pdf_url . '" data-email="' . get_field('contact_email', $post_id) . '"><i class="fa-regular fa-envelope"></i> Send Email</button>';
+                                                $pdf_button =   '<a href="' . esc_url($pdf_url) . '" target="_blank" class="btn btn-primary "><i class="fa-regular fa-file-pdf"></i></a>';
+                                                $pdf_button .= ' <button class="btn btn-danger  delete-pdf" data-post-id="' . $post_id . '" data-stage="' . $client_status . '" title="Delete & Regenerate"><i class="fa-solid fa-trash"></i> Delete PDF </button>';
+                                                $pdf_button .= ' <button class="btn btn-info  send-email-btn" data-post-id="' . $post_id . '" data-pdf-url="' . $pdf_url . '" data-email="' . get_field('contact_email', $post_id) . '"><i class="fa-regular fa-envelope"></i> Send Email</button>';
                                             } else {
-                                                $pdf_button =   '<button class="btn btn-success btn-sm generate-pdf" data-post-id="' . $post_id . '" data-stage="' . $client_status . '"><i class="fa-solid fa-file-circle-plus"></i>Generate PDF</button>';
+                                                $pdf_button =   '<button class="btn btn-success generate-pdf" data-post-id="' . $post_id . '" data-stage="' . $client_status . '"><i class="fa-solid fa-file-circle-plus"></i>Generate PDF</button>';
                                             }
                                             $audit_url = add_query_arg('id', $post_id, $audit_base);
-                                            $audit_link = '<a href="' . esc_url($audit_url) . '" class="btn btn-primary btn-sm"><span class="fa-calendar-alt fas" style="margin-right:5px"></span>' . 'View Dates</a>';
+                                            $audit_link = '<a href="' . esc_url($audit_url) . '" class="btn btn-primary"><span class="fa-calendar-alt fas" style="margin-right:5px"></span>' . 'View Dates</a>';
                                                 
                                             $invoice_url = add_query_arg(['client_id' => $post_id], site_url('/invoice-form/'));
-                                            $invoice_link = '<a href="' . esc_url($invoice_url) . '" class="btn btn-secondary btn-sm ms-1"><span class="fas fa-file-invoice-dollar" style="margin-right:5px"></span>' . 'Invoice</a>';
+                                            $invoice_link = '<a href="' . esc_url($invoice_url) . '" class="btn btn-secondary  ms-1"><span class="fas fa-file-invoice-dollar" style="margin-right:5px"></span>' . 'Invoice</a>';
 
                                             $delete_btn = '';
                                             if (in_array('administrator', $roles)) {
                                                 $nonce = wp_create_nonce('gmc_client_delete_nonce');
                                                 $delete_btn = sprintf(
-                                                    ' <button type="button" class="btn btn-danger btn-sm ms-1 delete-client-btn" data-post-id="%d" data-client-name="%s" data-nonce="%s" title="Delete Client"><span class="fas fa-trash"></span>Delete</button>',
+                                                    ' <button type="button" class="btn btn-danger  ms-1 delete-client-btn" data-post-id="%d" data-client-name="%s" data-nonce="%s" title="Delete Client"><span class="fas fa-trash"></span>Delete</button>',
                                                     $post_id,
                                                     esc_attr($client_name),
                                                     $nonce

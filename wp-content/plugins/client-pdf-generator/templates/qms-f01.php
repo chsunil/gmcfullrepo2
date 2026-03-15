@@ -23,41 +23,37 @@ function qms01_checkbox($checked = false) {
 // Pull all fields
 // ──────────────────────────────────────────────
 $org_name          = qms01_field('organization_name', $post_id);
-$head_office       = qms01_field('head_office', $post_id);
-$main_site         = qms01_field('main_operative_site', $post_id);
-$other_sites       = qms01_field('other_sites', $post_id);
+
+// Address — ACF group "address" with sub-fields head_office, main_operative_site, other_sites
+$addr_grp    = get_field('address', $post_id) ?: [];
+$head_office = esc_html($addr_grp['head_office']          ?? '');
+$main_site   = esc_html($addr_grp['main_operative_site']  ?? '');
+$other_sites = esc_html($addr_grp['other_sites']          ?? '');
 
 // Organisation type
-$org_type_val      = get_field('organization_type', $post_id); // Select or text
+$org_type_val      = get_field('organization_type', $post_id);
 
-// Client type / certification type
-$client_type_val   = get_field('client_type', $post_id);
-$is_initial        = ($client_type_val === 'initial');
-$is_recert         = ($client_type_val === 're_certification');
-$is_trans_surv     = ($client_type_val === 'transfer_surveillance');
-$is_trans_recert   = ($client_type_val === 'transfer_recertification');
+// Previous certification — choices stored as exact labels (return_format = value)
+$client_type_val   = get_field('previous_certification', $post_id);
+$is_initial        = ($client_type_val === 'Initial Certification');
+$is_recert         = ($client_type_val === 'Re-Certification');
+$is_trans_surv     = ($client_type_val === 'Transfer at Surveillance');
+$is_trans_recert   = ($client_type_val === 'Transfer at Re Certification');
 
-// Top management – try both prefixed and plain sub-field names
-$tm_group = get_field('contact_person_top_management_group', $post_id);
-// Fallback: try direct field keys known from ACF export
-$tm_name       = qms01_field('top_management', $post_id);
-$tm_mobile     = qms01_field('mobile_number', $post_id);
-if (!$tm_name) {
-    $tm_name   = qms01_field('contact_person_top_management', $post_id);
-}
-if (!$tm_mobile) {
-    $tm_mobile = qms01_field('contact_person_mobile_number', $post_id);
-}
+// Top Management — ACF group "contact_person" with sub-fields top_management, designation, mobile_number, contact_email_new
+$top_mgmt  = get_field('contact_person', $post_id) ?: [];
+$tm_name   = esc_html($top_mgmt['top_management']     ?? '');
+$tm_mobile = esc_html($top_mgmt['mobile_number']      ?? '');
 
-// Contact Person group
-$contact        = get_field('contact_person', $post_id);
-$cp_name        = isset($contact['contact_person_name']) ? esc_html($contact['contact_person_name']) : '';
-$cp_position    = isset($contact['contact_position'])    ? esc_html($contact['contact_position'])    : '';
-$cp_mobile      = isset($contact['contact_mobile'])      ? esc_html($contact['contact_mobile'])      : '';
-$cp_fax         = isset($contact['fax'])                 ? esc_html($contact['fax'])                 : '';
-$cp_tel         = isset($contact['tel'])                 ? esc_html($contact['tel'])                 : '';
-$cp_email       = isset($contact['contact_email'])       ? esc_html($contact['contact_email'])       : '';
-$cp_website     = isset($contact['website'])             ? esc_html($contact['website'])             : '';
+// Contact Person (F-01 specific) — ACF group "f01contact_person" with sub-fields contact_person_name, contact_position, contact_mobile, contact_email, fax, tel, website
+$f01cp       = get_field('f01contact_person', $post_id) ?: [];
+$cp_name     = esc_html($f01cp['contact_person_name'] ?? '');
+$cp_position = esc_html($f01cp['contact_position']    ?? '');
+$cp_mobile   = esc_html($f01cp['contact_mobile']      ?? '');
+$cp_fax      = esc_html($f01cp['fax']                 ?? '');
+$cp_tel      = esc_html($f01cp['tel']                 ?? '');
+$cp_email    = esc_html($f01cp['contact_email']       ?? '');
+$cp_website  = esc_html($f01cp['website']             ?? '');
 
 // Certification & Scope
 $products_services  = qms01_field('products_services', $post_id);
@@ -122,8 +118,53 @@ $mach_office     = isset($machinery_group['20:_Major_Machinery_Equipmentsoffice'
 $mach_mos        = isset($machinery_group['20:_Major_Machinery_Equipmentsmain_operative_site'])       ? esc_html($machinery_group['20:_Major_Machinery_Equipmentsmain_operative_site'])       : '';
 $mach_ts         = isset($machinery_group['20:_Major_Machinery_Equipmentstemporary_sites_if_any'])    ? esc_html($machinery_group['20:_Major_Machinery_Equipmentstemporary_sites_if_any'])    : '';
 
-// EPME matrix
-$epme_matrix = get_field('epme_matrix', $post_id);
+// EPME matrix – try new epme_dynamic field first, then epme_matrix (which may also hold the new format)
+$epme_dynamic_val = get_field('epme_dynamic', $post_id);
+$epme_matrix      = get_field('epme_matrix',  $post_id);
+
+// Detect which source holds the new dynamic format (has a 'matrix' sub-key)
+$epme_raw = null;
+if ( !empty($epme_dynamic_val) && is_array($epme_dynamic_val) && isset($epme_dynamic_val['matrix']) ) {
+    $epme_raw = $epme_dynamic_val;
+} elseif ( !empty($epme_matrix) && is_array($epme_matrix) && isset($epme_matrix['matrix']) ) {
+    // epme_matrix field was saved with the new epme_dynamic format
+    $epme_raw = $epme_matrix;
+}
+
+if ( $epme_raw !== null ) {
+    // New dynamic format: extract dept names and matrix data
+    $epme_source = (array)$epme_raw['matrix'];
+    $epme_depts  = [];
+    foreach ( array_merge(
+        (array)( $epme_raw['office_depts'] ?? [] ),
+        (array)( $epme_raw['main_depts']   ?? [] ),
+        (array)( $epme_raw['temp_depts']   ?? [] )
+    ) as $d ) {
+        $d = trim($d);
+        if ( $d !== '' && strtolower($d) !== 'n/a' && !in_array($d, $epme_depts) ) {
+            $epme_depts[] = $d;
+        }
+    }
+} else {
+    // Legacy flat format: ['dept_name' => ['Off1st'=>val, ...]]
+    $epme_source = is_array($epme_matrix) ? $epme_matrix : [];
+    $epme_depts  = [
+        'Top Management', 'Purchase', 'Stores', 'HR + Safety', 'QC/QA',
+        'Marketing', 'Design',
+        'Production (Full time) Managerial', 'Production (Full time) Non Managerial',
+    ];
+}
+
+// Fixed rows (label => data key in epme_source)
+$epme_fixed_rows = [
+    'Part time'     => 'Part time',
+    'Temporary'     => 'Temporary',
+    'Contract'      => 'Contract',
+    'Others @@'     => 'Others@@',   // epme_dynamic uses 'Others@@'; legacy uses 'Others @@'
+    'Out of above how many are working away from Organization.' => 'Out of above how many are working away from Organization',
+];
+
+$col_keys = ['Off1st','Off2nd','Off3rd','mos1st','mos2nd','mos3rd','ts1st','ts2nd','ts3rd'];
 
 // Transfer
 $transfer_val      = get_field('for_transferring_certification_from_other_certification_body__', $post_id);
@@ -195,6 +236,8 @@ $logo_url = plugins_url('assets/images/logo.jpg', dirname(__FILE__));
         size: A4;
         margin: 10mm 13mm 10mm 13mm;
     }
+    html{ margin-left:15mm; margin-right:15mm; margin-top:10mm; margin-bottom:10mm; }
+     /* Fallback for DOMPDF which doesn't support @page margins */
     body {
         font-family: Arial, sans-serif;
         font-size: 11pt;
@@ -315,7 +358,6 @@ function qms01_footer($page, $total = 5) {
     <tr>
         <td class="header-logo" rowspan="2">
              <img alt="" src="data:image/jpeg;base64,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" />
-      
         </td>
         <td class="header-company">
             <div class="co-name">GLOBAL MANAGEMENT CERTIFICATION SERVICES PVT. LTD.</div>
@@ -706,53 +748,103 @@ function qms01_footer($page, $total = 5) {
         <td class="matrix-hdr">3rd</td>
     </tr>
     <?php
-    // Build row definitions matching the PDF
-    $matrix_rows = [
-        '1.0: Process/Activities/ Operations' => 'Process_Operations',
-        '2.0: Major Machinery/Equipment\'s'   => 'Major_Machinery',
-        '3.0:Shifts'                           => 'Shifts',
-        '4.0: Employees (give break-up as below)' => null,
-        'Top Management'                       => 'Top Management',
-        'Purchase'                             => 'Purchase',
-        'Stores'                               => 'Stores',
-        'HR + Safety'                          => 'HR + Safety',
-        'QC/QA'                                => 'QC/QA',
-        'Marketing'                            => 'Marketing',
-        'Design'                               => 'Design',
-        'Production (Full time) Managerial'    => 'Production (Full time) Managerial',
-        'Production (Full time) Non Managerial'=> 'Production (Full time) Non Managerial',
-        'Part time'                            => 'Part time',
-        'Temporary'                            => 'Temporary',
-        'Contract'                             => 'Contract',
-        'Others @@'                            => 'Others @@',
-        'Out of above how many are working away from Organization.' => 'Out of above how many are working away from Organization',
-        'Total Employees'                      => 'Total Employees',
-    ];
-
-    $col_keys = ['Off1st','Off2nd','Off3rd','mos1st','mos2nd','mos3rd','ts1st','ts2nd','ts3rd'];
-
-    foreach ($matrix_rows as $row_label => $data_key):
-        // Try to get data from epme_matrix array
-        $row_data = [];
-        if ($data_key && !empty($epme_matrix) && is_array($epme_matrix)) {
-            foreach ($col_keys as $ck) {
-                $row_data[$ck] = $epme_matrix[$data_key][$ck] ?? '';
-            }
-        }
-        $is_full_grey = ($row_label === '4.0: Employees (give break-up as below)');
-        $is_bold = in_array($row_label, ['4.0: Employees (give break-up as below)', 'Total Employees']);
+    // ── Row 1.0: Process/Operations — text per site type (spans 3 shift cols each) ──
+    // Source: 'process' ACF group (ops_office, ops_mos, ops_ts)
+    // Fallback: epme_source['Process_Operations'] columns (legacy)
+    $po_off = $ops_office ?: implode(' / ', array_filter([$epme_source['Process_Operations']['Off1st'] ?? '', $epme_source['Process_Operations']['Off2nd'] ?? '', $epme_source['Process_Operations']['Off3rd'] ?? '']));
+    $po_mos = $ops_mos    ?: implode(' / ', array_filter([$epme_source['Process_Operations']['mos1st'] ?? '', $epme_source['Process_Operations']['mos2nd'] ?? '', $epme_source['Process_Operations']['mos3rd'] ?? '']));
+    $po_ts  = $ops_ts     ?: implode(' / ', array_filter([$epme_source['Process_Operations']['ts1st']  ?? '', $epme_source['Process_Operations']['ts2nd']  ?? '', $epme_source['Process_Operations']['ts3rd']  ?? '']));
     ?>
     <tr>
-        <td class="matrix-row-lbl" style="<?= $is_bold ? 'font-weight:bold;' : '' ?><?= $is_full_grey ? 'background:#e8e8e8;' : '' ?>"><?= esc_html($row_label) ?></td>
-        <?php if ($data_key): ?>
-            <?php foreach ($col_keys as $ck): ?>
-                <td class="matrix-cell" style="height:14px;"><?= esc_html($row_data[$ck] ?? '') ?></td>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <td colspan="9" style="background:#e8e8e8;">&nbsp;</td>
-        <?php endif; ?>
+        <td class="matrix-row-lbl" style="font-size:9pt;">1.0: Process/Activities/ Operations</td>
+        <td colspan="3" class="matrix-cell" style="text-align:left;font-size:9pt;"><?= esc_html($po_off) ?></td>
+        <td colspan="3" class="matrix-cell" style="text-align:left;font-size:9pt;"><?= esc_html($po_mos) ?></td>
+        <td colspan="3" class="matrix-cell" style="text-align:left;font-size:9pt;"><?= esc_html($po_ts) ?></td>
+    </tr>
+
+    <?php
+    // ── Row 2.0: Major Machinery — text per site type (spans 3 shift cols each) ──
+    // Source: '20:_Major_Machinery_Equipments' ACF group (mach_office, mach_mos, mach_ts)
+    // Fallback: epme_source['Major_Machinery'] columns (legacy)
+    $mm_off = $mach_office ?: implode(' / ', array_filter([$epme_source['Major_Machinery']['Off1st'] ?? '', $epme_source['Major_Machinery']['Off2nd'] ?? '', $epme_source['Major_Machinery']['Off3rd'] ?? '']));
+    $mm_mos = $mach_mos    ?: implode(' / ', array_filter([$epme_source['Major_Machinery']['mos1st'] ?? '', $epme_source['Major_Machinery']['mos2nd'] ?? '', $epme_source['Major_Machinery']['mos3rd'] ?? '']));
+    $mm_ts  = $mach_ts     ?: implode(' / ', array_filter([$epme_source['Major_Machinery']['ts1st']  ?? '', $epme_source['Major_Machinery']['ts2nd']  ?? '', $epme_source['Major_Machinery']['ts3rd']  ?? '']));
+    ?>
+    <tr>
+        <td class="matrix-row-lbl" style="font-size:9pt;">2.0: Major Machinery/Equipment&#39;s</td>
+        <td colspan="3" class="matrix-cell" style="text-align:left;font-size:9pt;"><?= esc_html($mm_off) ?></td>
+        <td colspan="3" class="matrix-cell" style="text-align:left;font-size:9pt;"><?= esc_html($mm_mos) ?></td>
+        <td colspan="3" class="matrix-cell" style="text-align:left;font-size:9pt;"><?= esc_html($mm_ts) ?></td>
+    </tr>
+
+    <?php
+    // ── Row 3.0: Shifts — numeric per shift column ───────────────────────────
+    $shifts_row = [];
+    foreach ($col_keys as $ck) {
+        $shifts_row[$ck] = $epme_source['Shifts'][$ck] ?? '';
+    }
+    ?>
+    <tr>
+        <td class="matrix-row-lbl" style="font-size:9pt;">3.0: Shifts</td>
+        <?php foreach ($col_keys as $ck): ?>
+            <td class="matrix-cell" style="height:14px;"><?= esc_html($shifts_row[$ck]) ?></td>
+        <?php endforeach; ?>
+    </tr>
+
+    <!-- Employee section header -->
+    <tr>
+        <td class="matrix-row-lbl" style="font-weight:bold;background:#e8e8e8;">4.0: Employees (give break-up as below)</td>
+        <td colspan="9" style="background:#e8e8e8;">&nbsp;</td>
+    </tr>
+
+    <?php
+    // ── Dynamic dept rows ────────────────────────────────────────────────────
+    foreach ($epme_depts as $dept):
+        $row_data = [];
+        foreach ($col_keys as $ck) {
+            $row_data[$ck] = $epme_source[$dept][$ck] ?? '';
+        }
+    ?>
+    <tr>
+        <td class="matrix-row-lbl"><?= esc_html($dept) ?></td>
+        <?php foreach ($col_keys as $ck): ?>
+            <td class="matrix-cell" style="height:14px;"><?= esc_html($row_data[$ck]) ?></td>
+        <?php endforeach; ?>
     </tr>
     <?php endforeach; ?>
+
+    <?php
+    // ── Fixed rows (Part time, Temporary, etc.) ──────────────────────────────
+    foreach ($epme_fixed_rows as $display_label => $data_key):
+        $row_data = [];
+        foreach ($col_keys as $ck) {
+            // Try epme_dynamic key first, then display label (legacy fallback)
+            $row_data[$ck] = $epme_source[$data_key][$ck]
+                          ?? $epme_source[$display_label][$ck]
+                          ?? '';
+        }
+    ?>
+    <tr>
+        <td class="matrix-row-lbl"><?= esc_html($display_label) ?></td>
+        <?php foreach ($col_keys as $ck): ?>
+            <td class="matrix-cell" style="height:14px;"><?= esc_html($row_data[$ck]) ?></td>
+        <?php endforeach; ?>
+    </tr>
+    <?php endforeach; ?>
+
+    <?php
+    // ── Total Employees row ──────────────────────────────────────────────────
+    $total_row = [];
+    foreach ($col_keys as $ck) {
+        $total_row[$ck] = $epme_source['Total Employees'][$ck] ?? '';
+    }
+    ?>
+    <tr>
+        <td class="matrix-row-lbl" style="font-weight:bold;">Total Employees</td>
+        <?php foreach ($col_keys as $ck): ?>
+            <td class="matrix-cell" style="height:14px;font-weight:bold;"><?= esc_html($total_row[$ck]) ?></td>
+        <?php endforeach; ?>
+    </tr>
 
     <!-- Note row -->
     <tr>

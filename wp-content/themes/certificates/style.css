@@ -758,3 +758,7 @@ table#invoices-table th.no-sort {
 .trx_addons_scroll_to_top {
     display: none !important;
 }
+.acf-input-append, .acf-input-prepend {
+    height:40px !important;
+    padding-top:15px;
+}
