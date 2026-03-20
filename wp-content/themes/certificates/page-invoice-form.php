@@ -220,7 +220,7 @@ if (!$is_editing && empty($data['invoice_no'])) {
                                                 <td><input type="text" name="line_items[<?php echo $i; ?>][description]" class="form-control form-control-sm item-desc" value="<?php echo esc_attr($item['description']); ?>"></td>
                                                 <td><input type="number" step="0.01" name="line_items[<?php echo $i; ?>][amount]" class="form-control form-control-sm item-amount text-end" value="<?php echo esc_attr($item['amount']); ?>"></td>
                                                 <td class="no-print text-center">
-                                                    <button type="button" class="btn btn-sm btn-link text-danger remove-item"><i class="bx bx-trash"></i></button>
+                                                    <button type="button" class="btn btn-sm btn-link text-danger remove-item"><i class="bx bx-trash"></i>Delete</button>
                                                 </td>
                                             </tr>
                                             <?php endforeach; ?>

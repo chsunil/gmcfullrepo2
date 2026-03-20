@@ -247,7 +247,7 @@ $next_stage = $current_stage_data && isset($current_stage_data['next']) ? $curre
                                                             data-post-id="<?php echo esc_attr($post_id); ?>" 
                                                             data-stage="<?php echo esc_attr($stage_key); ?>" 
                                                             title="Delete & Regenerate">
-                                                        <i class="bx bx-trash"></i>
+                                                        <i class="bx bx-trash"></i> Delete
                                                     </button>
                                                 </div>
                                                 <?php endif; ?>

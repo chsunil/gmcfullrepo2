@@ -16,6 +16,18 @@
 define('CHILD_THEME_ASTRA_CHILD_VERSION', '1.0.0');
 add_theme_support('page-attributes');
 
+// ── ACF Local JSON — save/load from theme acf-json folder ────────────────────
+add_filter('acf/settings/save_json', function() {
+    return get_stylesheet_directory() . '/acf-json';
+});
+add_filter('acf/settings/load_json', function( $paths ) {
+    $paths[] = get_stylesheet_directory() . '/acf-json';
+    return $paths;
+});
+
+// ── Form-specific includes ────────────────────────────────────────────────────
+require_once get_stylesheet_directory() . '/includes/f11-load-values.php';
+
 /**
  * Ensure ACF front-end forms work even inside a shortcode.
  */
@@ -72,13 +84,19 @@ require_once get_stylesheet_directory() . '/includes/class-gmc-invoice.php';
 function gmc_get_organization_name($post_id) {
     $org_name = get_field('organization_name', $post_id);
     if (is_array($org_name)) {
-        // If it's an array, return the first non-empty value
+        // Clone/group field — try common sub-keys first
+        foreach (['organization_name', 'name', 'title'] as $key) {
+            if (!empty($org_name[$key]) && is_string($org_name[$key])) return $org_name[$key];
+        }
+        // Then any string value
         foreach ($org_name as $val) {
             if (!empty($val) && is_string($val)) return $val;
         }
-        return '';
+    } elseif (!empty($org_name) && is_string($org_name)) {
+        return $org_name;
     }
-    return is_string($org_name) ? $org_name : '';
+    // Ultimate fallback: post title is always synced to org name on save
+    return get_post_field('post_title', $post_id) ?: '';
 }
 
 

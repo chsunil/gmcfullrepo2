@@ -168,7 +168,7 @@ if ($show_fixed_footer) :
                             data-post-id="<?php echo esc_attr($post_id); ?>" 
                             data-stage="<?php echo esc_attr($stage_key); ?>" 
                             title="Delete & Regenerate">
-                        <i class="bx bx-trash"></i>
+                        <i class="bx bx-trash"></i> Delete
                     </button>
                 <?php else : ?>
                     <button type="button" class="footer-btn footer-btn-pdf generate-pdf" 

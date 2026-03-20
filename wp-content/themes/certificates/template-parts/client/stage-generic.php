@@ -91,7 +91,7 @@ if ($real_post_id) {
     if ($pdf_url) {
       echo '<div class="d-flex align-items-center gap-2">';
       echo '<a target="_blank" class="btn btn-primary btn-sm" href="'.$pdf_url.'"><i class="bx bx-file me-1"></i> View PDF</a>';
-      echo '<button class="btn btn-danger btn-sm delete-pdf" data-post-id="' . $real_post_id . '" data-stage="' . $step_key . '" title="Delete & Regenerate"><i class="bx bx-trash"></i></button>';
+      echo '<button class="btn btn-danger btn-sm delete-pdf" data-post-id="' . $real_post_id . '" data-stage="' . $step_key . '" title="Delete & Regenerate"><i class="bx bx-trash"></i>Delete</button>';
       echo '</div>';
     } else {
       echo '<button class="btn btn-primary btn-sm generate-pdf" data-post-id="' . $real_post_id . '" data-scheme="qms" data-stage="' . $step_key . '">
