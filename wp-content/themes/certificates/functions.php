@@ -25,6 +25,10 @@ add_filter('acf/settings/load_json', function( $paths ) {
     return $paths;
 });
 
+// ── ACF 6.6.2+ — preserve mixed-case & special-char field names ──────────────
+// Fields like Approved_By, prepared_by:, s2_Ref_No: must not be lowercased.
+add_filter('acf/settings/convert_field_name_to_lowercase', '__return_false');
+
 // ── Form-specific includes ────────────────────────────────────────────────────
 require_once get_stylesheet_directory() . '/includes/f11-load-values.php';
 
@@ -77,6 +81,21 @@ require_once get_stylesheet_directory() . '/includes/reports.php';
 
 // Include GMC Invoice CPT
 require_once get_stylesheet_directory() . '/includes/class-gmc-invoice.php';
+
+/**
+ * Format a date string using the WordPress admin date format (Settings → General).
+ * Accepts Y-m-d, Ymd, or d/m/Y input — returns formatted string safe for HTML output.
+ */
+function gmc_format_date( $raw ) {
+    if ( ! $raw ) return '';
+    $ts = false;
+    foreach ( [ 'Y-m-d', 'Ymd', 'd/m/Y', 'Y/m/d' ] as $fmt ) {
+        $dt = DateTime::createFromFormat( $fmt, trim( $raw ) );
+        if ( $dt ) { $ts = $dt->getTimestamp(); break; }
+    }
+    if ( ! $ts ) $ts = strtotime( trim( $raw ) );
+    return $ts ? esc_html( date_i18n( get_option( 'date_format' ), $ts ) ) : esc_html( $raw );
+}
 
 /**
  * Helper to safely get organization name (string) regardless of ACF returning array
@@ -755,9 +774,12 @@ function send_pdf_email() {
 }
 
 add_action('wp_ajax_nopriv_send_pdf_email', 'send_pdf_email');
-// Disable ACF clone field to edit
+// Disable ACF clone fields that are explicitly marked readonly in their JSON definition.
+// Clone fields with "readonly": 0 (default) remain editable in the admin.
 add_filter('acf/prepare_field/type=clone', function($field) {
-    $field['disabled'] = true;
+    if ( ! empty($field['readonly']) ) {
+        $field['disabled'] = true;
+    }
     return $field;
 });
 

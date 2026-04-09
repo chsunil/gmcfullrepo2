@@ -2,12 +2,14 @@
 /**
  * QMS – F-15s2 Correspondence & Communication Details (Surveillance Year 2)
  * ACF Group: group_f5e9a27b67e6
- * Fields (seamless group "s2_new_field"):
- *   s2_company_name:         — clone of field_org_name
- *   s2_correspondence_address — clone
- *   s2_contact_person        — clone
- *   s2_preferred_mode_of_communication — checkbox
- * Standalone: s2_visiting_card — image
+ * Fields (seamless group "new_field"):
+ *   company_name:            — clone of field_org_name
+ *   correspondence_address   — clone of field_68173ed29add4
+ *   contact_person           — clone of field_68173ed2aa379
+ *   preferred_mode_of_communication — checkbox
+ *   (two unnamed clone fields: field_0029, field_69759125ae2a3)
+ * Standalone:
+ *   visiting_card            — image
  */
 if ( ! defined('ABSPATH') ) exit;
 
@@ -28,19 +30,59 @@ if ( ! function_exists('f15s2_val') ) {
     }
 }
 
-$grp = get_field( 's2_new_field', $post_id );
+// Fetch the seamless group (new_field)
+$grp = get_field( 'f15s2new_field', $post_id );
 
-$org_raw = is_array($grp) ? ($grp['s2_company_name:'] ?? null) : null;
-$org     = ( $org_raw && ! is_array($org_raw) ) ? esc_html($org_raw)
-         : ( is_array($org_raw) ? f15s2_val($org_raw) : esc_html( get_post_field('post_title', $post_id) ) );
+$org_raw = null;
+if ( is_array($grp) ) {
+    $org_raw = $grp['company_name:'] ?? null;
+}
+$org = ( $org_raw && ! is_array($org_raw) ) ? esc_html($org_raw)
+     : ( is_array($org_raw) ? f15s2_val($org_raw) : esc_html( get_post_field('post_title', $post_id) ) );
 
-$address = f15s2_val( is_array($grp) ? ($grp['s2_correspondence_address'] ?? null) : null );
-$contact = f15s2_val( is_array($grp) ? ($grp['s2_contact_person'] ?? null) : null );
+$address = '';
+if ( is_array($grp) ) {
+    $addr_raw = $grp['correspondence_address'] ?? null;
+    $address  = is_string($addr_raw) ? esc_html($addr_raw)
+              : ( is_array($addr_raw) ? f15s2_val($addr_raw) : '' );
+}
+// Fallback to get_post_meta for head_office if group read failed
+if ( ! $address ) {
+    $address = esc_html( get_post_meta( $post_id, 'head_office', true ) ?: '' );
+}
 
-$pref_mode_raw = is_array($grp) ? ($grp['s2_preferred_mode_of_communication'] ?? []) : [];
+// Contact person group (seamless clone of f01contact_person → sub-fields)
+$contact_data = [];
+if ( is_array($grp) ) {
+    $cp_raw = $grp['contact_person'] ?? null;
+    if ( is_array($cp_raw) ) {
+        $contact_data = $cp_raw;
+    }
+}
+// Fallback: read directly
+if ( empty($contact_data) ) {
+    $contact_data = get_field( 'f01contact_person', $post_id ) ?: [];
+}
+$contact_name  = esc_html( $contact_data['contact_person_name'] ?? '' );
+$contact_pos   = esc_html( $contact_data['contact_position']    ?? '' );
+$contact_mob   = esc_html( $contact_data['contact_mobile']      ?? '' );
+$contact_email = esc_html( $contact_data['contact_email']       ?? '' );
+$contact_tel   = esc_html( $contact_data['tel']                 ?? '' );
+$contact_fax   = esc_html( $contact_data['fax']                 ?? '' );
+$contact_web   = esc_html( $contact_data['website']             ?? '' );
+
+// Date — surv1 audit date
+$form_date_raw = get_post_meta( $post_id, 'stage2_audit_surveillance_audit_date_surv2', true );
+$form_date     = $form_date_raw
+    ? ( function_exists('gmc_format_date') ? gmc_format_date($form_date_raw) : esc_html($form_date_raw) )
+    : '';
+
+// Preferred mode of communication (checkbox — returns array of selected values)
+$pref_mode_raw = is_array($grp) ? ($grp['preferred_mode_of_communication'] ?? []) : [];
 $pref_mode = is_array($pref_mode_raw) ? esc_html( implode(', ', $pref_mode_raw) ) : f15s2_val($pref_mode_raw);
 
-$card_raw = get_field( 's2_visiting_card', $post_id );
+// Visiting card image
+$card_raw = get_field( 'f15s2visiting_card', $post_id );
 $card_url = is_array($card_raw) ? ($card_raw['url'] ?? '') : (string)$card_raw;
 ?><!DOCTYPE html>
 <html>
@@ -67,14 +109,38 @@ th, td { border: 1px solid #555; padding: 5px 6px; vertical-align: top; text-ali
 <div class="section-title">Contact Information</div>
 <table>
     <tr><td class="lbl">Company Name</td><td><?= $org ?></td></tr>
-    <tr><td class="lbl">Correspondence Address</td><td><?= $address ?></td></tr>
-    <tr><td class="lbl">Contact Person</td><td><?= $contact ?></td></tr>
+    <tr><td class="lbl">Correspondence Address</td><td><?= $address ?: '-' ?></td></tr>
+    <tr><td class="lbl">Contact Person</td><td><?= $contact_name ?: '-' ?></td></tr>
+    <?php if ( $contact_pos ) : ?>
+    <tr><td class="lbl">Designation</td><td><?= $contact_pos ?></td></tr>
+    <?php endif; ?>
+    <?php if ( $contact_mob ) : ?>
+    <tr><td class="lbl">Mobile</td><td><?= $contact_mob ?></td></tr>
+    <?php endif; ?>
+    <?php if ( $contact_email ) : ?>
+    <tr><td class="lbl">Email</td><td><?= $contact_email ?></td></tr>
+    <?php endif; ?>
+    <?php if ( $contact_tel ) : ?>
+    <tr><td class="lbl">Landline No.</td><td><?= $contact_tel ?></td></tr>
+    <?php endif; ?>
+    <?php if ( $contact_fax ) : ?>
+    <tr><td class="lbl">Fax No.</td><td><?= $contact_fax ?></td></tr>
+    <?php endif; ?>
+    <?php if ( $contact_web ) : ?>
+    <tr><td class="lbl">Website</td><td><?= $contact_web ?></td></tr>
+    <?php endif; ?>
     <tr><td class="lbl">Preferred Mode of Communication</td><td><?= $pref_mode ?: '-' ?></td></tr>
 </table>
 
 <?php if ( $card_url ) : ?>
 <div class="section-title">Visiting Card</div>
 <p><img src="<?= esc_url($card_url) ?>" style="max-width:200px; max-height:120px;" alt="Visiting Card" /></p>
+<?php endif; ?>
+
+<?php if ( $form_date ) : ?>
+<table style="margin-bottom:8px;">
+    <tr><td class="lbl">Date</td><td><?= $form_date ?></td></tr>
+</table>
 <?php endif; ?>
 
 <table style="margin-top:30px;">

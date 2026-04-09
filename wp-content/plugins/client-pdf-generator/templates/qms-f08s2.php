@@ -1,162 +1,205 @@
 <?php
 /**
- * QMS – F-08s2 Audit Schedule (Surveillance Year 2)
+ * QMS – F-08S2 Audit Schedule (Surveillance Audit-2)
  * ACF Group: group_cca0f89f58c2
- * Fields:
- *   s2_organization_name  — clone of field_org_name
- *   s2_Ref_No:            — clone of field_68554bdf55898
- *   s2_location           — clone of field_68173ed29add4
- *   s2_issue_date         — clone of field_audit_date_value
- *   s2_Temporary_Sites_if_any — clone of field_temporary_sites
- *   s2_standards          — clone of field_scope_cert
- *   s2_ict_details_if_any — clone
- *   s2_observers_if_any*  — clone
- *   s2_interpreters_if_any* — clone
- *   s2_scope_covered      — textarea
- *   s2_authorized_signatory — text
- *   field_4b864c1de36d    — repeater (unnamed) with sub-fields:
- *       s2_time, s2_date, s2_activityprocess_area, s2_auditor, s2_auditee
+ *
+ * Seamless clones (prefix_name=0) — read by source meta key:
+ *   organization_name   ← field_org_name
+ *   proposal_ref_no     ← field_68554bdf55898 (clone name: Ref_No:)
+ *   head_office         ← field_68173ed29add4 (clone name: location)
+ *   main_operative_site ← field_temporary_sites (clone name: Temporary_Sites_if_any)
+ *   cert_scheme         ← field_scope_cert (clone name: standards)
+ *   ict_details_if_any  ← field_audited_company_declaration
+ *   observers_if_any*   ← broken clone (empty source)
+ *   interpreters_if_any*← broken clone (empty source)
+ *
+ * Own fields:
+ *   f08s2scope_covered (textarea)
+ *   f08s2authorized_signatory (text)
+ *   (unnamed repeater, key field_6970cd4aa63fc): date, time, lead_auditor, coauditor, auditee
  */
 if ( ! defined('ABSPATH') ) exit;
 
-$LOGO = '';
-require __DIR__ . '/_logo.inc.php';
-
-if ( ! function_exists('f08s2_val') ) {
-    function f08s2_val( $v, $fb = '-' ) {
-        if ( $v === null || $v === '' || $v === false ) return $fb;
+if ( ! function_exists('f08s2v') ) {
+    function f08s2v( $key, $post_id, $fallback = '-' ) {
+        $v = get_field( $key, $post_id );
+        if ( empty($v) ) return $fallback;
         if ( is_array($v) ) {
-            foreach ( ['display_name','label','name','value'] as $k ) {
-                if ( ! empty($v[$k]) && is_string($v[$k]) ) return esc_html($v[$k]);
-            }
-            $flat = array_filter( array_map( fn($i) => is_string($i) ? trim($i) : '', $v ) );
-            return esc_html( implode(', ', $flat) ) ?: $fb;
+            if ( isset($v['display_name']) ) return esc_html( $v['display_name'] );
+            $flat = array_filter( array_map( fn($i) => is_string($i) ? $i : ( $i['label'] ?? $i['value'] ?? '' ), $v ) );
+            return esc_html( implode(', ', $flat) ) ?: $fallback;
         }
-        return esc_html( (string) $v );
+        return esc_html( $v );
     }
 }
 
-$org_raw  = get_field( 's2_organization_name', $post_id );
-$org      = ( $org_raw && ! is_array($org_raw) ) ? esc_html($org_raw)
-          : ( is_array($org_raw) ? f08s2_val($org_raw) : esc_html( get_post_field('post_title', $post_id) ) );
+// ── Top-level fields (read by source meta key) ────────────────────────────────
+$org        = function_exists('gmc_get_organization_name')
+              ? gmc_get_organization_name($post_id)
+              : f08s2v('organization_name', $post_id);
+$ref_no     = get_post_meta( $post_id, 'proposal_ref_no', true ) ?: '-';
+$location   = get_post_meta( $post_id, 'head_office', true ) ?: '-';
+$date_raw   = get_post_meta( $post_id, 'stage2_audit_surveillance_audit_date_surv2', true );
+$issue_date = function_exists('gmc_format_date') ? gmc_format_date($date_raw) : esc_html($date_raw);
+$temp_sites = esc_html( get_post_meta( $post_id, 'main_operative_site', true ) ?: '-' );
+$standard   = esc_html( get_post_meta( $post_id, 'cert_scheme', true ) ?: '-' );
+$ict        = f08s2v('ict_details_if_any',       $post_id);
+$observer   = f08s2v('observers_if_any*',        $post_id);
+$interp     = f08s2v('interpreters_if_any*',     $post_id);
+$scope      = f08s2v('f08s2scope_covered',        $post_id);
+$auth_sign  = f08s2v('f08s2authorized_signatory', $post_id, '');
 
-$ref_no   = f08s2_val( get_field( 's2_Ref_No:', $post_id ) );
-$location = f08s2_val( get_field( 's2_location', $post_id ) );
-$date     = f08s2_val( get_field( 's2_issue_date', $post_id ) );
-$temp     = f08s2_val( get_field( 's2_Temporary_Sites_if_any', $post_id ) );
-$standard = f08s2_val( get_field( 's2_standards', $post_id ) );
-$ict      = f08s2_val( get_field( 's2_ict_details_if_any', $post_id ) );
-$observer = f08s2_val( get_field( 's2_observers_if_any*', $post_id ) );
-$interp   = f08s2_val( get_field( 's2_interpreters_if_any*', $post_id ) );
-$scope    = f08s2_val( get_field( 's2_scope_covered', $post_id ) );
-$auth_sig = f08s2_val( get_field( 's2_authorized_signatory', $post_id ) );
-$schedule = get_field( 'field_4b864c1de36d', $post_id );
-if ( ! is_array($schedule) ) $schedule = [];
-?><!DOCTYPE html>
+// ── Schedule repeater ─────────────────────────────────────────────────────────
+$schedule = get_field('field_8a7753b993db', $post_id) ?: [];
+
+// ── Logo ──────────────────────────────────────────────────────────────────────
+$LOGO = '';
+require __DIR__ . '/_logo.inc.php';
+
+// ── Stage checkboxes — Surv1 ticked ──────────────────────────────────────────
+$stages = [
+    'stage1'             => 'Stage-1',
+    'stage2'             => 'Stage-2',
+    'recertification'    => 'Re Certification',
+    'surveillance_surv1' => 'Surveillance Audit (Surv1)',
+    'surveillance_surv2' => 'Surveillance Audit (Surv2)',
+];
+?>
+<!doctype html>
 <html>
 <head>
-<meta charset="UTF-8">
-<style>
-body { font-family: Arial, sans-serif; font-size: 10px; color: #000; margin: 0; padding: 8px; }
-table { width: 100%; border-collapse: collapse; margin-bottom: 8px; }
-th, td { border: 1px solid #555; padding: 4px 5px; vertical-align: top; text-align: left; }
-th { background: #d9d9d9; font-weight: bold; text-align: center; font-size: 9px; text-transform: uppercase; }
-.lbl { background: #f2f2f2; font-weight: bold; white-space: nowrap; }
-.h-logo { border: none; text-align: center; }
-.no-border { border: none !important; }
-.center { text-align: center; }
-.title-row th { background: #c6c6c6; font-size: 12px; text-transform: uppercase; }
-.note { font-size: 9px; color: #444; margin-top: 6px; }
-</style>
+  <meta charset="utf-8">
+  <style>
+    @page { margin: 18mm 15mm 15mm 15mm; }
+    body   { font-family: Arial, sans-serif; font-size: 11px; color: #000; margin: 0; padding: 0; line-height: 1.4; }
+    table  { width: 100%; border-collapse: collapse; margin-bottom: 6px; }
+    th, td { border: 1px solid #000; padding: 4px 5px; vertical-align: top; }
+    th     { background: #e8e8e8; font-weight: bold; text-align: left; }
+    .header-logo  { width: 15%; text-align: center; border: none; vertical-align: middle; }
+    .header-logo img { max-width: 80px; max-height: 70px; }
+    .header-title { text-align: center; font-size: 14px; font-weight: bold; }
+    .header-form  { text-align: center; font-size: 10px; }
+    .header-stage { width: 22%; border: 1px solid #000; vertical-align: top; padding: 4px 6px; font-size: 10px; }
+    .stage-item   { margin-bottom: 4px; font-size: 10px; }
+    .cb-on        { font-weight: bold; }
+    .cb-off       { color: #666; }
+    .sched-head th { background: #c8c8c8; text-align: center; font-size: 10px; }
+    .sched-date   { width: 12%; text-align: center; }
+    .sched-time   { width: 16%; text-align: center; }
+    .sched-area   { width: 40%; }
+    .sched-auditor{ width: 16%; }
+    .sched-auditee{ width: 16%; }
+    .label  { font-weight: bold; width: 28%; background: #f0f0f0; }
+    .note   { font-size: 9px; color: #333; margin-top: 8px; }
+    .no-b   { border: none !important; background: transparent !important; }
+  </style>
 </head>
 <body>
 
+<!-- ══ HEADER ════════════════════════════════════════════════════════════════ -->
 <table>
-  <thead>
-    <tr>
-      <?php if ( $LOGO ) : ?>
-      <td rowspan="2" class="no-border" style="width:15%; text-align:center;">
-        <img alt="GMCSPL Logo" src="<?= $LOGO ?>" style="max-height:60px; width:auto;" />
-      </td>
-      <?php endif; ?>
-      <th colspan="<?= $LOGO ? 4 : 5 ?>" class="title-row" style="font-size:12px;">Audit Schedule</th>
-      <td rowspan="2" class="no-border" style="width:20%; font-size:9px; vertical-align:top; padding-top:4px;">
-        <strong>Surveillance Audit – Year 2</strong>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="<?= $LOGO ? 4 : 5 ?>" class="center" style="font-size:9px;">
-        F-08s2 &nbsp;|&nbsp; <strong>Version 1.00</strong>
-      </td>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td class="lbl">Organization</td>
-      <td colspan="3" style="color:#00604b;"><?= $org ?></td>
-      <td class="lbl">Ref No.</td>
-      <td style="color:#00604b;"><?= $ref_no ?></td>
-    </tr>
-    <tr>
-      <td class="lbl">Location</td>
-      <td colspan="3" style="color:#00604b;"><?= $location ?></td>
-      <td class="lbl">Issue Date</td>
-      <td style="color:#00604b;"><?= $date ?></td>
-    </tr>
-    <tr>
-      <td class="lbl">Temporary Sites if any</td>
-      <td colspan="3" style="color:#00604b;"><?= $temp ?></td>
-      <td class="lbl">Standard(s)</td>
-      <td style="color:#00604b;"><?= $standard ?></td>
-    </tr>
-    <tr>
-      <td class="lbl">ICT Details if any</td>
-      <td style="color:#00604b;"><?= $ict ?></td>
-      <td class="lbl">Observers if any*</td>
-      <td style="color:#00604b;"><?= $observer ?></td>
-      <td class="lbl">Interpreters if any*</td>
-      <td style="color:#00604b;"><?= $interp ?></td>
-    </tr>
-    <tr>
-      <td class="lbl">Scope Covered</td>
-      <td colspan="5" style="color:#00604b;"><?= nl2br( esc_html( (string) get_field('s2_scope_covered', $post_id) ) ) ?></td>
-    </tr>
-    <tr>
-      <td class="lbl">Authorized Signatory</td>
-      <td colspan="5" style="color:#00604b;"><?= $auth_sig ?></td>
-    </tr>
-  </tbody>
-</table>
-
-<!-- Schedule rows -->
-<table>
-  <thead>
-    <tr>
-      <th>Date</th>
-      <th>Time</th>
-      <th colspan="2">Activity / Process Area</th>
-      <th>Auditor</th>
-      <th>Auditee</th>
-    </tr>
-  </thead>
-  <tbody>
-    <?php if ( ! empty($schedule) ) : ?>
-      <?php foreach ( $schedule as $row ) : ?>
-        <tr>
-          <td><?= esc_html( $row['s2_date'] ?? '-' ) ?></td>
-          <td><?= esc_html( $row['s2_time'] ?? '-' ) ?></td>
-          <td colspan="2"><?= nl2br( esc_html( $row['s2_activityprocess_area'] ?? '-' ) ) ?></td>
-          <td><?= esc_html( $row['s2_auditor'] ?? '-' ) ?></td>
-          <td><?= esc_html( $row['s2_auditee'] ?? '-' ) ?></td>
-        </tr>
-      <?php endforeach; ?>
-    <?php else : ?>
-      <tr><td colspan="6" class="center" style="color:#888; font-style:italic; padding:10px;">No schedule entries.</td></tr>
+  <tr>
+    <?php if ( $LOGO ) : ?>
+    <td class="header-logo no-b" rowspan="2">
+      <img src="<?= $LOGO ?>" alt="Logo">
+    </td>
     <?php endif; ?>
-  </tbody>
+    <td class="header-title">Audit Schedule</td>
+    <td class="header-stage" rowspan="2">
+      <?php foreach ( $stages as $key => $label ) :
+        $on = ( $key === 'surveillance_surv2' );
+      ?>
+      <div class="stage-item <?= $on ? 'cb-on' : 'cb-off' ?>">
+        <?= $on ? '[X]' : '[&nbsp;&nbsp;]' ?> <?= esc_html($label) ?>
+      </div>
+      <?php endforeach; ?>
+    </td>
+  </tr>
+  <tr>
+    <td class="header-form">F-08S2 &nbsp;<strong>(Version 1.00)</strong></td>
+  </tr>
 </table>
 
-<p class="note">* Each man-day is equivalent to 8 working hours excluding lunch and travel. &nbsp;* Role and responsibility of Observers / Interpreters if any.</p>
+<!-- ══ INFO TABLE ════════════════════════════════════════════════════════════ -->
+<table>
+  <tr>
+    <td class="label">Organization</td>
+    <td colspan="3"><?= esc_html($org) ?></td>
+    <td class="label">Ref No.</td>
+    <td><?= esc_html($ref_no) ?></td>
+  </tr>
+  <tr>
+    <td class="label">Location</td>
+    <td colspan="3"><?= esc_html($location) ?></td>
+    <td class="label">Date</td>
+    <td><?= $issue_date ?></td>
+  </tr>
+  <tr>
+    <td class="label">Temporary Sites if any</td>
+    <td colspan="3"><?= $temp_sites ?></td>
+    <td class="label">Standard(s)</td>
+    <td><?= $standard ?></td>
+  </tr>
+  <tr>
+    <td class="label">ICT details if any</td>
+    <td colspan="5"><?= $ict ?></td>
+  </tr>
+  <tr>
+    <td class="label">Observers if any*</td>
+    <td colspan="3"><?= nl2br(esc_html($observer)) ?></td>
+    <td class="label">Interpreters if any*</td>
+    <td><?= nl2br(esc_html($interp)) ?></td>
+  </tr>
+  <tr>
+    <td class="label">Scope Covered</td>
+    <td colspan="5"><?= $scope ?></td>
+  </tr>
+  <?php if ( $auth_sign ) : ?>
+  <tr>
+    <td class="label">Authorized Signatory</td>
+    <td colspan="5"><?= esc_html($auth_sign) ?></td>
+  </tr>
+  <?php endif; ?>
+</table>
+
+<!-- ══ SCHEDULE TABLE ════════════════════════════════════════════════════════ -->
+<table class="sched-head">
+  <tr>
+    <th class="sched-date">Date</th>
+    <th class="sched-time">Time</th>
+    <th class="sched-area">Lead Auditor</th>
+    <th class="sched-auditor">Co-Auditor</th>
+    <th class="sched-auditee">Auditee</th>
+  </tr>
+  <?php if ( is_array($schedule) && count($schedule) ) : ?>
+    <?php foreach ( $schedule as $row ) :
+      $raw_date = $row['date'] ?? '';
+      $row_date = $raw_date
+          ? ( function_exists('gmc_format_date') ? gmc_format_date($raw_date) : esc_html($raw_date) )
+          : '-';
+      $time_str = esc_html( $row['time']        ?? '-' );
+      $lead_aud = esc_html( $row['lead_auditor'] ?? '-' );
+      $co_aud   = esc_html( $row['coauditor']    ?? '-' );
+      $auditee  = esc_html( $row['auditee']      ?? '-' );
+    ?>
+    <tr>
+      <td class="sched-date"><?= esc_html($row_date) ?></td>
+      <td class="sched-time"><?= $time_str ?></td>
+      <td class="sched-area"><?= $lead_aud ?></td>
+      <td class="sched-auditor"><?= $co_aud ?></td>
+      <td class="sched-auditee"><?= $auditee ?></td>
+    </tr>
+    <?php endforeach; ?>
+  <?php else : ?>
+    <tr><td colspan="5" style="text-align:center;color:#999;">No schedule entries found.</td></tr>
+  <?php endif; ?>
+</table>
+
+<!-- ══ FOOTER ════════════════════════════════════════════════════════════════ -->
+<p class="note">
+  * Each man-day is equivalent to 8 working hours excluding lunch and travel.<br>
+  * Role and responsibility of Observers / Interpreters if any.
+</p>
 
 </body>
 </html>

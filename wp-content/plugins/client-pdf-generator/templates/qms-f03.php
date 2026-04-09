@@ -128,7 +128,7 @@ $contact_person              = esc_html($top_mgmt['top_management'] ?? '');
 $contact_person_mobile_number = esc_html($top_mgmt['mobile_number'] ?? '');
 
 // ── Agreement date from audit dates page (post meta) ─────────────────────────
-$dated_raw = get_post_meta($post_id, 'agreement_date_initial', true);
+$dated_raw = get_post_meta($post_id, 'agreement_initial', true);
 $f03_dated = '';
 if (!empty($dated_raw)) {
     $ts = strtotime($dated_raw);

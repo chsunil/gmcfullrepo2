@@ -2,11 +2,11 @@
 /**
  * QMS – F-13s2 Attendance Sheet (Surveillance Year 2)
  * ACF Group: group_d958093fc637
- * Fields (seamless group):
- *   s2_organization_name — clone of field_org_name
- *   s2_f13Ref_No         — clone of field_qms_f05_7
- *   s2_f13Date           — clone of field_0016 (date_picker)
- * Repeater: s2_ATTENDANCE_SHEET → s2_sno, s2_name, s2_designation_&_department, s2_opening_meeting, s2_closing_meeting
+ * Fields (seamless group, prefix_name=0):
+ *   organization_name — clone of field_org_name
+ *   f13Ref_No         — clone of field_qms_f05_7
+ *   f13Date           — clone of field_0016 (date_picker)
+ * Repeater: ATTENDANCE_SHEET → sno, name, designation_&_department, opening_meeting, closing_meeting
  */
 if ( ! defined('ABSPATH') ) exit;
 
@@ -27,16 +27,17 @@ if ( ! function_exists('f13s2_val') ) {
     }
 }
 
-$org_raw = get_field( 's2_organization_name', $post_id );
+$org_raw = get_field( 'organization_name', $post_id );
 $org     = ( $org_raw && ! is_array($org_raw) ) ? esc_html($org_raw)
          : ( is_array($org_raw) ? f13s2_val($org_raw) : esc_html( get_post_field('post_title', $post_id) ) );
 
-$ref_no   = f13s2_val( get_field( 's2_f13Ref_No', $post_id ) );
-$date_raw = get_field( 's2_f13Date', $post_id );
-$date     = $date_raw ? ( preg_match('/^\d{4}-\d{2}-\d{2}/', $date_raw)
-            ? date('d/m/Y', strtotime($date_raw)) : esc_html($date_raw) ) : '-';
+// f13Ref_No is a seamless clone of field_qms_f05_7 → proposal_ref_no
+$ref_no   = esc_html( get_post_meta( $post_id, 'proposal_ref_no', true ) ?: '-' );
+// f13Date — use actual Surv-1 audit date
+$date_raw = get_post_meta( $post_id, 'stage2_audit_surveillance_audit_date_surv2', true );
+$date     = $date_raw ? ( function_exists('gmc_format_date') ? gmc_format_date($date_raw) : esc_html($date_raw) ) : '-';
 
-$rows = get_field( 's2_ATTENDANCE_SHEET', $post_id );
+$rows = get_field( 'f13s2ATTENDANCE_SHEET', $post_id );
 if ( ! is_array($rows) ) $rows = [];
 ?><!DOCTYPE html>
 <html>
@@ -76,7 +77,7 @@ th { background: #d9d9d9; font-weight: bold; text-align: center; font-size: 9px;
 
 <div class="section-title">Attendance Record</div>
 <table>
-    <thead>
+    
         <tr>
             <th style="width:6%;">S.No</th>
             <th style="width:28%;">Name</th>
@@ -84,22 +85,22 @@ th { background: #d9d9d9; font-weight: bold; text-align: center; font-size: 9px;
             <th style="width:19%;">Opening Meeting</th>
             <th style="width:19%;">Closing Meeting</th>
         </tr>
-    </thead>
-    <tbody>
+    
+    
     <?php if ( $rows ) :
         foreach ( $rows as $r ) : ?>
         <tr>
-            <td class="center"><?= esc_html( $r['s2_sno'] ?? '' ) ?></td>
-            <td><?= esc_html( $r['s2_name'] ?? '' ) ?></td>
-            <td><?= esc_html( $r['s2_designation_&_department'] ?? '' ) ?></td>
-            <td class="center"><?= esc_html( $r['s2_opening_meeting'] ?? '' ) ?></td>
-            <td class="center"><?= esc_html( $r['s2_closing_meeting'] ?? '' ) ?></td>
+            <td class="center"><?= esc_html( $r['sno'] ?? '' ) ?></td>
+            <td><?= esc_html( $r['name'] ?? '' ) ?></td>
+            <td><?= esc_html( $r['designation_&_department'] ?? '' ) ?></td>
+            <td class="center"><?= esc_html( $r['opening_meeting'] ?? '' ) ?></td>
+            <td class="center"><?= esc_html( $r['closing_meeting'] ?? '' ) ?></td>
         </tr>
         <?php endforeach; ?>
     <?php else : ?>
         <tr><td colspan="5" class="no-data">No attendance records.</td></tr>
     <?php endif; ?>
-    </tbody>
+    
 </table>
 
 <table style="margin-top:20px;">

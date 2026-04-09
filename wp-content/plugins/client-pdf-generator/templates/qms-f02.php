@@ -104,8 +104,8 @@ $season_months  = isset($pap['season_auditmonths'])           ? esc_html($pap['s
 
 // Audit programme months — audit_dates post meta → ACF date_picker → empty
 $init_month  = f02_audit_date('stage1_audit_initial', $post_id, 'M Y');
-$surv1_month = f02_audit_date('stage2_audit_surv1',   $post_id, 'M Y');
-$surv2_month = f02_audit_date('stage2_audit_surv2',   $post_id, 'M Y');
+$surv1_month = f02_audit_date('stage2_audit_surveillance_audit_date_surv1', $post_id, 'M Y');
+$surv2_month = f02_audit_date('stage2_audit_surveillance_audit_date_surv2', $post_id, 'M Y');
 
 // ── Proposed Audit Team (user fields with return_format=id) ──────────────────
 $pat            = get_field('proposed_audit_team', $post_id);
@@ -190,12 +190,12 @@ function f02_annexure_status($data, $label) {
 // ACF date_picker stores raw as Ymd (20260227); we convert to Y-m-d before formatting.
 function f02_audit_date($meta_key, $post_id, $format = 'd/m/Y', $fallback = '') {
     static $acf_map = [
-        'application_review_date_initial' => 'f2reviweddate',
-        'stage1_audit_initial'            => 'initial_audit_to_be_held_in',
-        'stage2_audit_surv1'              => '1st_surveillance_in_',
-        'stage2_audit_surv2'              => '2nd_Surveillance_in',
-        'internal_audit_initial'          => 'internal_audit_date',
-        'mrm_date_initial'                => 'mrm-audit_date',
+        'application_review_date_initial'            => 'f2reviweddate',
+        'stage1_audit_initial'                       => 'initial_audit_to_be_held_in',
+        'stage2_audit_surveillance_audit_date_surv1' => '1st_surveillance_in_',
+        'stage2_audit_surveillance_audit_date_surv2' => '2nd_Surveillance_in',
+        'internal_audit_date_initial'                => 'internal_audit_date',
+        'mrm_date_initial'                           => 'mrm-audit_date',
     ];
 
     // 1. Audit dates post meta (Y-m-d)

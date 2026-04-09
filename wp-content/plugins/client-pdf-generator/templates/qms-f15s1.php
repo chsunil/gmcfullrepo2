@@ -40,8 +40,42 @@ if ( is_array($grp) ) {
 $org = ( $org_raw && ! is_array($org_raw) ) ? esc_html($org_raw)
      : ( is_array($org_raw) ? f15s1_val($org_raw) : esc_html( get_post_field('post_title', $post_id) ) );
 
-$address = f15s1_val( is_array($grp) ? ($grp['correspondence_address'] ?? null) : null );
-$contact = f15s1_val( is_array($grp) ? ($grp['contact_person'] ?? null) : null );
+$address = '';
+if ( is_array($grp) ) {
+    $addr_raw = $grp['correspondence_address'] ?? null;
+    $address  = is_string($addr_raw) ? esc_html($addr_raw)
+              : ( is_array($addr_raw) ? f15s1_val($addr_raw) : '' );
+}
+// Fallback to get_post_meta for head_office if group read failed
+if ( ! $address ) {
+    $address = esc_html( get_post_meta( $post_id, 'head_office', true ) ?: '' );
+}
+
+// Contact person group (seamless clone of f01contact_person → sub-fields)
+$contact_data = [];
+if ( is_array($grp) ) {
+    $cp_raw = $grp['contact_person'] ?? null;
+    if ( is_array($cp_raw) ) {
+        $contact_data = $cp_raw;
+    }
+}
+// Fallback: read directly
+if ( empty($contact_data) ) {
+    $contact_data = get_field( 'f01contact_person', $post_id ) ?: [];
+}
+$contact_name  = esc_html( $contact_data['contact_person_name'] ?? '' );
+$contact_pos   = esc_html( $contact_data['contact_position']    ?? '' );
+$contact_mob   = esc_html( $contact_data['contact_mobile']      ?? '' );
+$contact_email = esc_html( $contact_data['contact_email']       ?? '' );
+$contact_tel   = esc_html( $contact_data['tel']                 ?? '' );
+$contact_fax   = esc_html( $contact_data['fax']                 ?? '' );
+$contact_web   = esc_html( $contact_data['website']             ?? '' );
+
+// Date — surv1 audit date
+$form_date_raw = get_post_meta( $post_id, 'stage2_audit_surveillance_audit_date_surv1', true );
+$form_date     = $form_date_raw
+    ? ( function_exists('gmc_format_date') ? gmc_format_date($form_date_raw) : esc_html($form_date_raw) )
+    : '';
 
 // Preferred mode of communication (checkbox — returns array of selected values)
 $pref_mode_raw = is_array($grp) ? ($grp['preferred_mode_of_communication'] ?? []) : [];
@@ -75,14 +109,38 @@ th, td { border: 1px solid #555; padding: 5px 6px; vertical-align: top; text-ali
 <div class="section-title">Contact Information</div>
 <table>
     <tr><td class="lbl">Company Name</td><td><?= $org ?></td></tr>
-    <tr><td class="lbl">Correspondence Address</td><td><?= $address ?></td></tr>
-    <tr><td class="lbl">Contact Person</td><td><?= $contact ?></td></tr>
+    <tr><td class="lbl">Correspondence Address</td><td><?= $address ?: '-' ?></td></tr>
+    <tr><td class="lbl">Contact Person</td><td><?= $contact_name ?: '-' ?></td></tr>
+    <?php if ( $contact_pos ) : ?>
+    <tr><td class="lbl">Designation</td><td><?= $contact_pos ?></td></tr>
+    <?php endif; ?>
+    <?php if ( $contact_mob ) : ?>
+    <tr><td class="lbl">Mobile</td><td><?= $contact_mob ?></td></tr>
+    <?php endif; ?>
+    <?php if ( $contact_email ) : ?>
+    <tr><td class="lbl">Email</td><td><?= $contact_email ?></td></tr>
+    <?php endif; ?>
+    <?php if ( $contact_tel ) : ?>
+    <tr><td class="lbl">Landline No.</td><td><?= $contact_tel ?></td></tr>
+    <?php endif; ?>
+    <?php if ( $contact_fax ) : ?>
+    <tr><td class="lbl">Fax No.</td><td><?= $contact_fax ?></td></tr>
+    <?php endif; ?>
+    <?php if ( $contact_web ) : ?>
+    <tr><td class="lbl">Website</td><td><?= $contact_web ?></td></tr>
+    <?php endif; ?>
     <tr><td class="lbl">Preferred Mode of Communication</td><td><?= $pref_mode ?: '-' ?></td></tr>
 </table>
 
 <?php if ( $card_url ) : ?>
 <div class="section-title">Visiting Card</div>
 <p><img src="<?= esc_url($card_url) ?>" style="max-width:200px; max-height:120px;" alt="Visiting Card" /></p>
+<?php endif; ?>
+
+<?php if ( $form_date ) : ?>
+<table style="margin-bottom:8px;">
+    <tr><td class="lbl">Date</td><td><?= $form_date ?></td></tr>
+</table>
 <?php endif; ?>
 
 <table style="margin-top:30px;">

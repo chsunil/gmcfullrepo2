@@ -1,172 +1,158 @@
 <?php
-
 /**
- * QMS – F-13a Attendance Sheet
- * Template for displaying audit team attendance and participation
+ * QMS – F-13a Attendance Sheet (Stage-2 / Surveillance)
  * ACF Group: group_6885acad944c2
+ *
+ * Clone fields (prefix_name=0) — source meta keys:
+ *   f13adate             → field_0023          → stage2_audit_surveillance_audit_date_initial
+ *   f13aorganization_name→ field_org_name       → organization_name
+ *   f13aRef_No           → field_69b4128404509  → f03proposal_ref_no
+ *
+ * Repeater:
+ *   f13aattendance_sheet (field_6885acad97488)
+ *     → sno, name, designation_&_department, opening_meeting, closing_meeting
  */
+if ( ! defined('ABSPATH') ) exit;
 
-if (!defined('ABSPATH')) exit;
+$LOGO = '';
+require __DIR__ . '/_logo.inc.php';
 
-function qms13a_field($key, $post_id) {
-    $val = get_field($key, $post_id);
-    return !empty($val) ? $val : '-';
+// ── Helpers ──────────────────────────────────────────────────────────────────
+if ( ! function_exists('f13a_val') ) {
+    function f13a_val( $v, $fallback = '-' ) {
+        if ( $v === null || $v === '' || $v === false ) return $fallback;
+        if ( is_array($v) ) {
+            if ( isset($v['display_name']) ) return esc_html( $v['display_name'] );
+            if ( isset($v['label']) )        return esc_html( $v['label'] );
+            $flat = array_filter( array_map( fn($i) => is_string($i) ? $i : '', $v ) );
+            return esc_html( implode(', ', $flat) ) ?: $fallback;
+        }
+        return esc_html( (string) $v );
+    }
 }
 
-// Fetch ACF fields
-$org_name           = qms13a_field('organization_name', $post_id);
-$ref_no             = qms13a_field('ref_no', $post_id);
-$audit_date         = qms13a_field('audit_date', $post_id);
-$audit_stage        = qms13a_field('audit_stage', $post_id);
-$attendance_data    = qms13a_field('attendance_data', $post_id);
+// ── Fields ───────────────────────────────────────────────────────────────────
+// Organization Name
+$org_raw = get_post_meta( $post_id, 'organization_name', true );
+if ( ! $org_raw ) {
+    $org_raw = function_exists('gmc_get_organization_name')
+        ? gmc_get_organization_name( $post_id )
+        : get_post_field( 'post_title', $post_id );
+}
+$org = esc_html( (string) $org_raw );
 
-?>
+// Ref No — source: f03proposal_ref_no
+$ref_no = esc_html( get_post_meta( $post_id, 'f03proposal_ref_no', true ) ?: '' );
+if ( ! $ref_no ) $ref_no = esc_html( get_post_meta( $post_id, 'proposal_ref_no', true ) ?: '-' );
+
+// Date — field_0023 → stage2_audit_surveillance_audit_date_initial
+$date_raw = get_post_meta( $post_id, 'stage2_audit_surveillance_audit_date_initial', true );
+$date = function_exists('gmc_format_date') ? gmc_format_date( $date_raw ) : esc_html( $date_raw ?: '-' );
+
+// Attendance repeater — use field key for reliability
+$rows = get_field( 'field_6885acad97488', $post_id );
+if ( ! is_array($rows) ) $rows = [];
+?><!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            font-size: 11px;
-            color: #333;
-        }
-
-        h1, h2 {
-            text-align: center;
-            margin: 0;
-            padding: 0;
-        }
-
-        h1 {
-            font-size: 17px;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-
-        h2 {
-            font-size: 13px;
-            margin-bottom: 20px;
-        }
-
-        .section-title {
-            background: #e8e8e8;
-            font-weight: bold;
-            padding: 7px;
-            margin-top: 15px;
-            border: 1px solid #999;
-            font-size: 11px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 8px;
-            font-size: 10px;
-        }
-
-        th, td {
-            border: 1px solid #999;
-            padding: 6px;
-            text-align: left;
-            vertical-align: top;
-        }
-
-        th {
-            background: #f0f0f0;
-            font-weight: bold;
-        }
-
-        .label {
-            width: 30%;
-            font-weight: bold;
-            background: #f9f9f9;
-        }
-
-        .present {
-            text-align: center;
-            background: #d4edda;
-        }
-
-        .absent {
-            text-align: center;
-            background: #f8d7da;
-        }
-    </style>
+<meta charset="UTF-8">
+<style>
+@page { size: A4 portrait; margin: 12mm 10mm 12mm 10mm; }
+body  { font-family: Arial, sans-serif; font-size: 10px; color: #000; margin: 0; padding: 0; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 8px; }
+th, td { border: 1px solid #555; padding: 5px 6px; vertical-align: top; text-align: left; }
+th { background: #d9d9d9; font-weight: bold; text-align: center; font-size: 9px; text-transform: uppercase; }
+.no-border { border: none !important; background: transparent !important; }
+.lbl  { background: #f2f2f2; font-weight: bold; width: 22%; white-space: nowrap; }
+.title-cell { text-align: center; vertical-align: middle; }
+.section-hdr td { background: #c6c6c6; font-weight: bold; font-size: 9px; text-transform: uppercase; }
+.center { text-align: center; }
+.no-data { text-align: center; color: #888; font-style: italic; padding: 12px; }
+</style>
 </head>
-
 <body>
-    <!-- Header -->
-    <h1>ATTENDANCE SHEET</h1>
-    <h2>F-13a (QMS Certification)</h2>
 
-    <!-- Audit Information -->
-    <div class="section-title">AUDIT INFORMATION</div>
-    <table>
-        <tr>
-            <td class="label">Organization Name</td>
-            <td><?= esc_html($org_name) ?></td>
-        </tr>
-        <tr>
-            <td class="label">Reference No.</td>
-            <td><?= esc_html($ref_no) ?></td>
-        </tr>
-        <tr>
-            <td class="label">Audit Date</td>
-            <td><?= esc_html($audit_date) ?></td>
-        </tr>
-        <tr>
-            <td class="label">Audit Stage</td>
-            <td><?= esc_html($audit_stage) ?></td>
-        </tr>
-    </table>
-
-    <!-- Attendance Table -->
-    <div class="section-title">ATTENDEE ATTENDANCE RECORD</div>
-    <table>
-        <tr>
-            <th>Name</th>
-            <th>Role/Department</th>
-            <th>Day 1</th>
-            <th>Day 2</th>
-            <th>Day 3</th>
-            <th>Signature</th>
-        </tr>
-        <?php if (!empty($attendance_data) && is_array($attendance_data)) : ?>
-            <?php foreach ($attendance_data as $attendee) : ?>
-                <tr>
-                    <td><?= isset($attendee['name']) ? esc_html($attendee['name']) : '-' ?></td>
-                    <td><?= isset($attendee['role']) ? esc_html($attendee['role']) : '-' ?></td>
-                    <td class="<?= isset($attendee['day1']) && $attendee['day1'] ? 'present' : '' ?>">
-                        <?= isset($attendee['day1']) && $attendee['day1'] ? '✓' : '-' ?>
-                    </td>
-                    <td class="<?= isset($attendee['day2']) && $attendee['day2'] ? 'present' : '' ?>">
-                        <?= isset($attendee['day2']) && $attendee['day2'] ? '✓' : '-' ?>
-                    </td>
-                    <td class="<?= isset($attendee['day3']) && $attendee['day3'] ? 'present' : '' ?>">
-                        <?= isset($attendee['day3']) && $attendee['day3'] ? '✓' : '-' ?>
-                    </td>
-                    <td>_________</td>
-                </tr>
-            <?php endforeach; ?>
-        <?php else : ?>
-            <tr>
-                <td colspan="6" style="text-align: center; color: #999;">No attendance data recorded</td>
-            </tr>
+<!-- Header -->
+<table style="margin-bottom:6px;">
+    <tr>
+        <?php if ( $LOGO ) : ?>
+        <td class="no-border" style="width:13%; text-align:center; vertical-align:middle;">
+            <img alt="GMCSPL Logo" src="<?= $LOGO ?>" style="max-height:50px; width:auto;" />
+        </td>
         <?php endif; ?>
-    </table>
+        <td class="no-border title-cell" colspan="<?= $LOGO ? 1 : 2 ?>">
+            <strong style="font-size:14px; text-transform:uppercase; letter-spacing:1px;">Attendance Sheet</strong><br>
+            <span style="font-size:10px; color:#444;">F-13a &nbsp;|&nbsp; QMS Certification &nbsp;|&nbsp; Version 1.00</span>
+        </td>
+        <td class="no-border" style="width:22%; font-size:8px; vertical-align:top; padding-top:2px;">
+            <strong>F-13a (Version 1.00)</strong><br>QMS
+        </td>
+    </tr>
+</table>
 
-    <!-- Instructions -->
-    <div style="margin-top: 15px; padding: 10px; background: #f9f9f9; border: 1px solid #ddd; font-size: 10px;">
-        <strong>Instructions:</strong><br/>
-        • All attendees must sign the attendance sheet daily<br/>
-        • Mark attendance for each day of the audit<br/>
-        • Contact the audit lead for any absence or modification
-    </div>
+<!-- Audit Details -->
+<table style="margin-bottom:6px;">
+    <tr class="section-hdr"><td colspan="4">Audit Details</td></tr>
+    <tr>
+        <td class="lbl">Organization Name</td>
+        <td colspan="3"><?= $org ?: '&nbsp;' ?></td>
+    </tr>
+    <tr>
+        <td class="lbl">Ref No.</td>
+        <td><?= $ref_no ?></td>
+        <td class="lbl">Date</td>
+        <td><?= $date ?></td>
+    </tr>
+</table>
 
-    <!-- Footer -->
-    <div style="margin-top: 20px; text-align: center; font-size: 9px; color: #666; page-break-inside: avoid;">
-        <hr style="border: none; border-top: 1px solid #ccc; margin: 10px 0;">
-        <p>Attendance Sheet | QMS Certification Audit | Generated by GMCSPL</p>
-    </div>
+<!-- Attendance Record -->
+<table>
+    <thead>
+        <tr class="section-hdr"><td colspan="5">Attendance Record</td></tr>
+        <tr>
+            <th style="width:6%;">S.No</th>
+            <th style="width:28%;">Name</th>
+            <th style="width:28%;">Designation &amp; Department</th>
+            <th style="width:19%;">Opening Meeting</th>
+            <th style="width:19%;">Closing Meeting</th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php if ( ! empty($rows) ) : ?>
+        <?php foreach ( $rows as $row ) :
+            $sno      = isset($row['sno'])                      ? esc_html($row['sno']) : '';
+            $name     = isset($row['name'])                     ? esc_html($row['name']) : '-';
+            $desig    = isset($row['designation_&_department']) ? esc_html($row['designation_&_department']) : '-';
+            $open_mt  = isset($row['opening_meeting'])          ? esc_html($row['opening_meeting']) : '-';
+            $close_mt = isset($row['closing_meeting'])          ? esc_html($row['closing_meeting']) : '-';
+        ?>
+        <tr>
+            <td class="center"><?= $sno ?></td>
+            <td><?= $name ?></td>
+            <td><?= $desig ?></td>
+            <td class="center"><?= $open_mt ?></td>
+            <td class="center"><?= $close_mt ?></td>
+        </tr>
+        <?php endforeach; ?>
+    <?php else : ?>
+        <tr><td colspan="5" class="no-data">No attendance records entered yet.</td></tr>
+    <?php endif; ?>
+    </tbody>
+</table>
+
+<!-- Signature Row -->
+<table style="margin-top:20px;">
+    <tr>
+        <td style="width:50%; height:50px; vertical-align:bottom; text-align:center;">
+            <strong>Lead Auditor</strong><br>
+            Signature: _____________________ &nbsp; Date: ___________
+        </td>
+        <td style="width:50%; height:50px; vertical-align:bottom; text-align:center;">
+            <strong>Management Representative</strong><br>
+            Signature: _____________________ &nbsp; Date: ___________
+        </td>
+    </tr>
+</table>
+
 </body>
 </html>

@@ -1,0 +1,442 @@
+{
+  "key": "group_cca0f89f58c2",
+  "title": "QMS – F08S2: Audit Schedule (Surveillance Year 2)",
+  "fields": [
+    {
+      "key": "field_03d255a0c0d1",
+      "label": "Organization Name",
+      "name": "f08s2organization_name",
+      "aria-label": "",
+      "type": "clone",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "formula": "",
+      "calculated_format": "",
+      "blank_if_zero": 0,
+      "readonly": 0,
+      "clone": [
+        "field_org_name"
+      ],
+      "display": "seamless",
+      "layout": "block",
+      "prefix_label": 0,
+      "prefix_name": 0
+    },
+    {
+      "key": "field_a8b054ffc5d2",
+      "label": "Ref No.:",
+      "name": "f08s2Ref_No:",
+      "aria-label": "",
+      "type": "clone",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "formula": "",
+      "calculated_format": "",
+      "blank_if_zero": 0,
+      "readonly": 0,
+      "clone": [
+        "field_68554bdf55898"
+      ],
+      "display": "seamless",
+      "layout": "block",
+      "prefix_label": 0,
+      "prefix_name": 0
+    },
+    {
+      "key": "field_37e85da520cd",
+      "label": "Location",
+      "name": "f08s2location",
+      "aria-label": "",
+      "type": "clone",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "formula": "",
+      "calculated_format": "",
+      "blank_if_zero": 0,
+      "readonly": 0,
+      "clone": [
+        "field_68173ed29add4"
+      ],
+      "display": "seamless",
+      "layout": "block",
+      "prefix_label": 0,
+      "prefix_name": 0
+    },
+    {
+      "key": "field_363561fef77c",
+      "label": "Temporary Sites if any",
+      "name": "f08s2Temporary_Sites_if_any",
+      "aria-label": "",
+      "type": "clone",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "clone": [
+        "field_temporary_sites"
+      ],
+      "display": "seamless",
+      "layout": "block",
+      "prefix_label": 0,
+      "prefix_name": 0
+    },
+    {
+      "key": "field_86283ff398bd",
+      "label": "Standard(s)",
+      "name": "f08s2standards",
+      "aria-label": "",
+      "type": "clone",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "formula": "",
+      "calculated_format": "",
+      "blank_if_zero": 0,
+      "readonly": 0,
+      "clone": [
+        "field_scope_cert"
+      ],
+      "display": "seamless",
+      "layout": "block",
+      "prefix_label": 0,
+      "prefix_name": 0
+    },
+    {
+      "key": "field_4a0b0b2c003e",
+      "label": "ICT details if any",
+      "name": "f08s2ict_details_if_any",
+      "aria-label": "",
+      "type": "clone",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "formula": "",
+      "calculated_format": "",
+      "blank_if_zero": 0,
+      "readonly": 0,
+      "clone": [
+        "field_audited_company_declaration"
+      ],
+      "display": "seamless",
+      "layout": "block",
+      "prefix_label": 0,
+      "prefix_name": 0
+    },
+    {
+      "key": "field_64312d61b1de",
+      "label": "Observers if any*",
+      "name": "f08s2observers_if_any*",
+      "aria-label": "",
+      "type": "clone",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "formula": "",
+      "calculated_format": "",
+      "blank_if_zero": 0,
+      "readonly": 0,
+      "clone": "",
+      "display": "seamless",
+      "layout": "block",
+      "prefix_label": 0,
+      "prefix_name": 0
+    },
+    {
+      "key": "field_ac9356cdd420",
+      "label": "Interpreters if any*",
+      "name": "f08s2interpreters_if_any*",
+      "aria-label": "",
+      "type": "clone",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "formula": "",
+      "calculated_format": "",
+      "blank_if_zero": 0,
+      "readonly": 0,
+      "clone": "",
+      "display": "seamless",
+      "layout": "block",
+      "prefix_label": 0,
+      "prefix_name": 0
+    },
+    {
+      "key": "field_187220d38c7f",
+      "label": "Scope Covered",
+      "name": "f08s2scope_covered",
+      "aria-label": "",
+      "type": "textarea",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "new_lines": "wpautop",
+      "maxlength": "",
+      "placeholder": "",
+      "rows": ""
+    },
+    {
+      "key": "field_9d475657e8b7",
+      "label": "Authorized Signatory",
+      "name": "f08s2authorized_signatory",
+      "aria-label": "",
+      "type": "text",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": ""
+    },
+    {
+      "key": "field_8a7753b993db",
+      "label": "",
+      "name": "f08s2table",
+      "aria-label": "",
+      "type": "repeater",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "formula": "",
+      "calculated_format": "",
+      "blank_if_zero": 0,
+      "readonly": 0,
+      "layout": "table",
+      "pagination": 0,
+      "min": 0,
+      "max": 0,
+      "collapsed": "",
+      "button_label": "Add Row",
+      "rows_per_page": 20,
+      "sub_fields": [
+        {
+          "key": "field_ec8b9ed3b48d",
+          "label": "date",
+          "name": "date",
+          "aria-label": "",
+          "type": "date_picker",
+          "instructions": "",
+          "required": 0,
+          "conditional_logic": 0,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "formula": "",
+          "calculated_format": "",
+          "blank_if_zero": 0,
+          "readonly": 0,
+          "display_format": "d/m/Y",
+          "return_format": "d/m/Y",
+          "first_day": 1,
+          "allow_in_bindings": 0,
+          "default_to_current_date": 0,
+          "parent_repeater": "field_6970cd4aa63fc"
+        },
+        {
+          "key": "field_c8ee9c48cbe0",
+          "label": "Time",
+          "name": "time",
+          "aria-label": "",
+          "type": "time_picker",
+          "instructions": "",
+          "required": 0,
+          "conditional_logic": 0,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "formula": "",
+          "calculated_format": "",
+          "blank_if_zero": 0,
+          "readonly": 0,
+          "display_format": "g:i a",
+          "return_format": "g:i a",
+          "allow_in_bindings": 0,
+          "parent_repeater": "field_6970cd4aa63fc"
+        },
+        {
+          "key": "field_66f8f80c5f59",
+          "label": "Lead Auditor",
+          "name": "lead_auditor",
+          "aria-label": "",
+          "type": "text",
+          "instructions": "",
+          "required": 0,
+          "conditional_logic": 0,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "formula": "",
+          "calculated_format": "",
+          "blank_if_zero": 0,
+          "readonly": 0,
+          "default_value": "",
+          "maxlength": "",
+          "allow_in_bindings": 0,
+          "placeholder": "",
+          "prepend": "",
+          "append": "",
+          "parent_repeater": "field_6970cd4aa63fc"
+        },
+        {
+          "key": "field_d2c24a612d11",
+          "label": "Co-Auditor",
+          "name": "coauditor",
+          "aria-label": "",
+          "type": "text",
+          "instructions": "",
+          "required": 0,
+          "conditional_logic": 0,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "formula": "",
+          "calculated_format": "",
+          "blank_if_zero": 0,
+          "readonly": 0,
+          "default_value": "",
+          "maxlength": "",
+          "allow_in_bindings": 0,
+          "placeholder": "",
+          "prepend": "",
+          "append": "",
+          "parent_repeater": "field_6970cd4aa63fc"
+        },
+        {
+          "key": "field_cc299de3a784",
+          "label": "Auditor",
+          "name": "auditee",
+          "aria-label": "",
+          "type": "text",
+          "instructions": "",
+          "required": 0,
+          "conditional_logic": 0,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "formula": "",
+          "calculated_format": "",
+          "blank_if_zero": 0,
+          "readonly": 0,
+          "default_value": "",
+          "maxlength": "",
+          "allow_in_bindings": 0,
+          "placeholder": "",
+          "prepend": "",
+          "append": "",
+          "parent_repeater": "field_6970cd4aa63fc"
+        }
+      ]
+    },
+    {
+      "key": "field_a6fd6a037edf",
+      "label": "Notes",
+      "name": "",
+      "aria-label": "",
+      "type": "message",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "formula": "",
+      "calculated_format": "",
+      "blank_if_zero": 0,
+      "readonly": 0,
+      "message": "* Each man-day is equivalent to 8 working hours excluding lunch and travel",
+      "new_lines": "wpautop",
+      "esc_html": 0
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "post_type",
+        "operator": "==",
+        "value": "client"
+      }
+    ]
+  ],
+  "menu_order": 6,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "hide_on_screen": "",
+  "active": true,
+  "description": "",
+  "show_in_rest": 0,
+  "display_title": "",
+  "modified": 1775304465
+}

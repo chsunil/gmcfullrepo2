@@ -1,0 +1,88 @@
+{
+    "key": "group_67d5a040cd192",
+    "title": "USER META",
+    "fields": [
+        {
+            "key": "field_67d5a041288f2",
+            "label": "NAC Support",
+            "name": "nac_support",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "1.0": "1.0 - Agriculture, fishing",
+                "2.0": "2.0 - Mining and Quarrying",
+                "3.0": "3.0 - Food products, beverages and tobacco",
+                "4.0": "4.0 - Textiles and textile products",
+                "5.0": "5.0 - Leather and Leather products",
+                "6.0": "6.0 - Wood and wood products",
+                "7.0": "7.0 - Pulp, Paper and paper products",
+                "8.0": "8.0 - Publishing companies",
+                "9.0": "9.0 - Printing companies",
+                "10.0": "10.0 - Manuf. of coke and refined petroleum products",
+                "11.0": "11.0 - Nuclear fuel",
+                "12.0": "12.0 - Chemicals, chemical products and fibers",
+                "13.0": "13.0 - Pharmaceuticals",
+                "14.0": "14.0 - Rubber and plastic products",
+                "15.0": "15.0 - Non-metallic mineral products",
+                "16.0": "16.0 - Concrete, cement, lime, plaster, etc.",
+                "17.0": "17.0 - Basic metals and fabricated metal products",
+                "18.0": "18.0 - Machinery and equipment",
+                "19.0": "19.0 - Electrical and optical equipment",
+                "20.0": "20.0 - Shipbuilding",
+                "21.0": "21.0 - Shipbuilding",
+                "22.0": "22.0 - Other transport equipment",
+                "23.0": "23.0 - Manufacturing not elsewhere classified",
+                "24.0": "24.0 - Recycling",
+                "25.0": "25.0 - Electricity Supply",
+                "26.0": "26.0 - Gas Supply",
+                "27.0": "27.0 - Water Supply",
+                "28.0": "28.0 - Construction",
+                "29.0": "29.0 - Wholesale and retail trade: Repair of motor vehicles, motorcycles and personal and household goods",
+                "30.0": "30.0 - Hotels and restaurants",
+                "31.0": "31.0 - Transport, storage and communication",
+                "32.0": "32.0 - Financial intermediation; real estate; renting",
+                "33.0": "33.0 - Information Technology",
+                "34.0": "34.0 - Engineering services",
+                "35.0": "35.0 - Other Services",
+                "36.0": "36.0 - Public administration",
+                "37.0": "37.0 - Education",
+                "38.0": "38.0 - Health and social work",
+                "39.0": "39.0 - Other social services"
+            },
+            "default_value": [],
+            "return_format": "value",
+            "multiple": 1,
+            "allow_null": 0,
+            "allow_in_bindings": 0,
+            "ui": 0,
+            "ajax": 0,
+            "placeholder": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "user_form",
+                "operator": "==",
+                "value": "all"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0
+}

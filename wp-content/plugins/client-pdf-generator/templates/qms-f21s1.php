@@ -2,197 +2,216 @@
 /**
  * QMS – F-21s1 Surveillance Year 1 Audit Report
  * ACF Group: group_6974d4071dadf
- * Uses same field names as qms-f11.php (prefix_name=0 clones share meta keys).
+ *
+ * Seamless clones (prefix_name=0) — read via source meta key:
+ *   f21s1organization_name      → organization_name
+ *   f21s1address                → head_office  (clones address group field_6996ae3512093)
+ *   f21s1audit_ref_no           → proposal_ref_no  (field_68554bdf55898)
+ *   f21s1management_representative → contact_person_name  (field_68173ed2aa379)
+ *   f21s1top_management         → get_field('field_6974d40899d31')
+ *   f21s1audit_criteria_standard → cert_scheme  (field_68173ed2b0218)
+ *   f21s1exclusions             → exclusions_only_for_iso_9001  (field_6817433c24058)
+ *   f21s1audit_scope_confirmed  → scope_of_certification  (field_68173ed2a657a)
+ *   f21s1functional_units       → get_field('field_68480952e7d39')
+ *   f21s1dates_of_audit         → stage2_audit_surveillance_audit_date_surv1 / certification_decision_date_surv1
+ *   f21s1technical_code         → technical_code_area  (field_67fe8e52fc7e0)
+ *   f21s1audit_team             → audit_team_allocation_plan repeater  (field_6970b191d4bbc)
+ *   f21s1mrm_date               → mrm_date_surv1  (field_0033)
+ *
+ * Own fields (get_field by name):
+ *   f21s1audit_objectives (textarea)
+ *   f21s1brief_profile_of_the_organization_including__main_products_services__and_customers (textarea)
+ *   f21s1positive_features (textarea)
+ *   f21s1review_of_stage_1_audit_report (textarea)
+ *   f21s1evaluation_of_internal_audits (group):
+ *       f21s1verified (text), internal_audit_date (clone field_0030=internal_audit_date_surv1),
+ *       frequency (clone field_6860433f0ff57), no_of_non_conformities (text)
+ *   f21s1evaluation_of_management_review (text)
+ *   f21s1usage_of_certification_documents_and_logos (text)
+ *   f21s1review_of_any_changes (text)
+ *   f21s1continuing_operational_controls (text)
+ *   f21s1customer_complients_and_corrective_action_taken (text)
+ *   f21s1observations_areas_for_potential_improvement (text)
+ *   f21s1any_devation_from_audit_plan_with_reasons (text)
+ *   f21s1significant_issues_impacting_the_audit_program (text)
+ *   f21s1significant_issues_affecting_management_system_since_last_audit_took_place (text)
+ *   f21s1any_unresolved_issues_if_any (text)
+ *   f21s1any_planned_activities_for_continual_improvement (text)
+ *   f21s1capability_of_management_system_to_meet_applicable_requirments_and_exceed_outcomes (text)
+ *   f21s1nonconformities_identified_during_this_assessment (text)
+ *   f21s1follow-up_measures_if_required (text)
+ *   f21s1appropriateness_of_certification_scope (radio: Confirmed/Not Confirmed)
+ *   f21s1fulfillment_of_audit_objectives (radio: Confirmed/Not Confirmed)
+ *   f21s1additional_requirments_if_any (text)
+ *   overall_comment_on_the_compliance_... (text, no f21s1 prefix)
+ *   performance_of_the_management_system_... (text, no f21s1 prefix)
+ *   f21s1next_assessment (radio: Surveillance-1 / Surveillance-2 / Re Certification)
+ *   f21s1stage2_planned_on (date_picker)
+ *   f21s1recommendations (checkbox)
+ *   f21s1remarks (textarea)
+ *   f21s1lead_auditor (group): lead_auditor (user, return_format=array), signature (text)
+ *   f21s1attachments (checkbox)
  */
 if ( ! defined('ABSPATH') ) exit;
 
 $LOGO = '';
 require __DIR__ . '/_logo.inc.php';
 
-if ( ! function_exists('f21s1_val') ) {
-    function f21s1_val( $v, $fallback = '-' ) {
-        if ( $v === null || $v === '' || $v === false ) return $fallback;
-        if ( is_array($v) ) {
-            foreach ( ['display_name','label','value'] as $k ) {
-                if ( ! empty($v[$k]) && is_string($v[$k]) ) return esc_html($v[$k]);
-            }
-            $flat = array_filter( array_map( fn($i) => is_string($i) ? $i : '', $v ) );
-            return esc_html( implode(', ', $flat) ) ?: $fallback;
-        }
-        return esc_html( (string) $v );
+// ── Seamless clone fields (read via source meta key) ─────────────────────────
+$org     = esc_html( gmc_get_organization_name($post_id) );
+$address = esc_html( get_post_meta($post_id, 'head_office', true) ?: '' );
+$audit_ref = esc_html( get_post_meta($post_id, 'proposal_ref_no', true) ?: '' );
+$standard  = esc_html( get_post_meta($post_id, 'cert_scheme', true) ?: '-' );
+$exclusions= esc_html( get_post_meta($post_id, 'exclusions_only_for_iso_9001', true) ?: '-' );
+$audit_scope = esc_html( get_post_meta($post_id, 'scope_of_certification', true) ?: '-' );
+$tech_code   = esc_html( get_post_meta($post_id, 'technical_code_area', true) ?: '-' );
+
+// Management representative (seamless clone of f01contact_person group)
+$mgr_rep_raw = get_post_meta($post_id, 'contact_person_name', true)
+    ?: get_post_meta($post_id, 'f01contact_person', true);
+if ( is_array($mgr_rep_raw) ) {
+    $mgr_rep = esc_html( implode(', ', array_filter(array_map('strval', $mgr_rep_raw))) ?: '' );
+} else {
+    $mgr_rep = esc_html( (string)$mgr_rep_raw ?: '-' );
+}
+
+// Top management (clone of field_6974d40899d31)
+$top_mgmt_raw = get_field('field_6974d40899d31', $post_id);
+if ( is_array($top_mgmt_raw) ) {
+    $top_mgmt = esc_html( $top_mgmt_raw['display_name'] ?? implode(', ', array_filter(array_map('strval', $top_mgmt_raw))) );
+} else {
+    $top_mgmt = esc_html( (string)$top_mgmt_raw ?: '-' );
+}
+
+// Functional units (clone of field_68480952e7d39)
+$func_raw = get_field('field_68480952e7d39', $post_id)
+    ?: get_post_meta($post_id, 'functional_units_processes_audited', true);
+$func_units = is_array($func_raw)
+    ? esc_html( implode(', ', array_filter(array_map('strval', $func_raw))) )
+    : esc_html( (string)$func_raw ?: '' );
+
+// Dates of audit (surv1 audit date from audit_dates, falls back to cert decision date)
+$audit_date = gmc_format_date(
+    get_post_meta($post_id, 'stage2_audit_surveillance_audit_date_surv1', true)
+    ?: get_post_meta($post_id, 'certification_decision_date_surv1', true)
+);
+
+// Audit team repeater (clone of field_6970b191d4bbc = audit_team_allocation_plan)
+$audit_team = get_field('field_6970b191d4bbc', $post_id) ?: [];
+
+// MRM date (clone of field_0033 = mrm_date_surv1)
+$mrm_date = gmc_format_date( get_post_meta($post_id, 'mrm_date_surv1', true) );
+
+// ── Evaluation of Internal Audits (group) ────────────────────────────────────
+$ia_grp      = get_field('f21s1evaluation_of_internal_audits', $post_id) ?: [];
+$ia_verified = esc_html( $ia_grp['f21s1verified'] ?? '' );
+$ia_freq     = esc_html( $ia_grp['frequency'] ?? '' );
+$ia_ncs      = esc_html( $ia_grp['no_of_non_conformities'] ?? '' );
+$ia_date     = gmc_format_date( get_post_meta($post_id, 'internal_audit_date_surv1', true) );
+
+// ── Flat own fields ──────────────────────────────────────────────────────────
+$audit_objectives = get_field('f21s1audit_objectives', $post_id) ?: '';
+$brief_profile    = get_field('f21s1brief_profile_of_the_organization_including__main_products_services__and_customers', $post_id) ?: '';
+$positive_features= get_field('f21s1positive_features', $post_id) ?: '';
+$review_of_ncs    = get_field('f21s1review_of_stage_1_audit_report', $post_id) ?: '';
+$eval_mgmt_review = esc_html( get_field('f21s1evaluation_of_management_review', $post_id) ?: '' );
+$logo_usage       = esc_html( get_field('f21s1usage_of_certification_documents_and_logos', $post_id) ?: '' );
+$changes_text     = esc_html( get_field('f21s1review_of_any_changes', $post_id) ?: '' );
+$cont_op_ctrl     = esc_html( get_field('f21s1continuing_operational_controls', $post_id) ?: '' );
+$complaints       = esc_html( get_field('f21s1customer_complients_and_corrective_action_taken', $post_id) ?: '' );
+$observations     = esc_html( get_field('f21s1observations_areas_for_potential_improvement', $post_id) ?: '' );
+$dev_plan         = esc_html( get_field('f21s1any_devation_from_audit_plan_with_reasons', $post_id) ?: '' );
+$dev_issues       = esc_html( get_field('f21s1significant_issues_impacting_the_audit_program', $post_id) ?: '' );
+$dev_changes      = esc_html( get_field('f21s1significant_issues_affecting_management_system_since_last_audit_took_place', $post_id) ?: '' );
+$dev_unreslv      = esc_html( get_field('f21s1any_unresolved_issues_if_any', $post_id) ?: '' );
+$planned_act      = esc_html( get_field('f21s1any_planned_activities_for_continual_improvement', $post_id) ?: '' );
+$sb_capability    = esc_html( get_field('f21s1capability_of_management_system_to_meet_applicable_requirments_and_exceed_outcomes', $post_id) ?: '' );
+$sb_ncs_dur       = esc_html( get_field('f21s1nonconformities_identified_during_this_assessment', $post_id) ?: '' );
+$sb_followup      = esc_html( get_field('f21s1follow-up_measures_if_required', $post_id) ?: '' );
+$approp_scope     = get_field('f21s1appropriateness_of_certification_scope', $post_id) ?: '';
+$fulfill_obj      = get_field('f21s1fulfillment_of_audit_objectives', $post_id) ?: '';
+$add_req          = esc_html( get_field('f21s1additional_requirments_if_any', $post_id) ?: '' );
+
+// These two fields have no f21s1 prefix in the JSON
+$overall_cmt = esc_html( get_field('overall_comment_on_the_compliance_of_the_system_to_the_requirements_of_the_standard_for_meeting_organization_policies_and_objectives', $post_id) ?: '' );
+$perf_cycle  = esc_html( get_field('performance_of_the_management_system_over_the_period_of_certification_and_review_of_previous_audit_reports', $post_id) ?: '' );
+
+// ── Conclusion fields ────────────────────────────────────────────────────────
+$next_assmnt   = get_field('f21s1next_assessment', $post_id) ?: '';
+$tentative_date= gmc_format_date( get_field('f21s1stage2_planned_on', $post_id) );
+$recs          = get_field('f21s1recommendations', $post_id) ?: [];
+$remarks_text  = esc_html( get_field('f21s1remarks', $post_id) ?: '' );
+
+// ── Lead Auditor group ───────────────────────────────────────────────────────
+$la_grp  = get_field('f21s1lead_auditor', $post_id) ?: [];
+$la_user = $la_grp['lead_auditor'] ?? null;  // return_format=array
+if ( is_array($la_user) ) {
+    $la_name = esc_html( $la_user['display_name'] ?? '' );
+} elseif ( is_numeric($la_user) && (int)$la_user > 0 ) {
+    $u = get_userdata((int)$la_user);
+    $la_name = $u ? esc_html($u->display_name) : '';
+} else {
+    $la_name = esc_html( (string)($la_user ?: '') );
+}
+$la_sig = esc_html( $la_grp['signature'] ?? '' );
+
+// Attachments checkbox
+$attachments = get_field('f21s1attachments', $post_id) ?: [];
+
+// ── Build audit team by role (from repeater) ─────────────────────────────────
+$lead_name   = '';
+$co_auditors = [];
+$auditors    = [];
+foreach ( (array)$audit_team as $row ) {
+    if ( ! is_array($row) ) continue;
+    $role    = $row['f05_team_role'] ?? $row['role'] ?? '';
+    $uid_val = $row['f05_team_name'] ?? $row['name'] ?? null;
+    $nm = '';
+    if ( is_array($uid_val) && isset($uid_val['display_name']) ) {
+        $nm = $uid_val['display_name'];
+    } elseif ( is_numeric($uid_val) && (int)$uid_val > 0 ) {
+        $u  = get_userdata((int)$uid_val);
+        $nm = $u ? $u->display_name : '';
+    } elseif ( is_string($uid_val) ) {
+        $nm = $uid_val;
+    }
+    if ( ! $nm ) continue;
+    if ( stripos($role, 'lead') !== false ) {
+        $lead_name = $nm;
+    } elseif ( stripos($role, 'co') !== false ) {
+        $co_auditors[] = $nm;
+    } else {
+        $auditors[] = $nm;
     }
 }
-if ( ! function_exists('f21s1_date') ) {
-    function f21s1_date( $v, $fallback = '-' ) {
-        if ( ! $v ) return $fallback;
-        if ( preg_match('/^\d{4}-\d{2}-\d{2}/', $v) ) return date('d/m/Y', strtotime($v));
-        return esc_html($v);
-    }
-}
-
-// ── Top-level fields ──────────────────────────────────────────────────────────
-$org_raw = get_field('organization_name', $post_id);
-if ( is_array($org_raw) ) {
-    $org = $org_raw['organization_name'] ?? reset($org_raw) ?? '';
-} elseif ( $org_raw ) {
-    $org = (string) $org_raw;
-} else {
-    $org = get_post_field('post_title', $post_id);
-}
-$org = esc_html((string) $org);
-
-$addr_grp = get_field('f11address', $post_id) ?: get_field('address', $post_id) ?: [];
-$address  = is_array($addr_grp) ? ($addr_grp['head_office'] ?? '') : (string) $addr_grp;
-
-$audit_ref = f21s1_val( get_field('audit_refno', $post_id) ?: get_field('proposal_ref_no', $post_id) );
-
-$mgr_rep_raw = get_field('f11management_representative', $post_id) ?: get_field('f01contact_person', $post_id);
-$mgr_rep = is_array($mgr_rep_raw)
-    ? esc_html($mgr_rep_raw['contact_person_name'] ?? reset($mgr_rep_raw) ?? '-')
-    : f21s1_val($mgr_rep_raw);
-
-$top_mgmt_grp = get_field('f11top_management', $post_id) ?: get_field('contact_person', $post_id);
-$top_mgmt = is_array($top_mgmt_grp)
-    ? esc_html($top_mgmt_grp['top_management'] ?? $top_mgmt_grp['contact_person_name'] ?? reset($top_mgmt_grp) ?? '-')
-    : f21s1_val($top_mgmt_grp);
-
-$standard    = f21s1_val( get_field('f11audit_criteria_standard', $post_id) ?: get_field('cert_scheme', $post_id) );
-$exclusions  = f21s1_val( get_field('f11exclusions', $post_id) ?: get_field('exclusions_only_for_iso_9001', $post_id) );
-$audit_objectives = get_field('f11audit_objectives', $post_id) ?: 'To evaluate the compliance of the management system with the requirements of the standard.';
-$audit_scope = f21s1_val( get_field('f11audit_scope_confirmed', $post_id) ?: get_field('scope_of_certification', $post_id) );
-
-$audit_sites_raw = get_field('audit_sites', $post_id);
-if ( ! $audit_sites_raw ) {
-    $audit_sites_raw = is_array($addr_grp) ? ($addr_grp['head_office'] ?? '') : (string) $addr_grp;
-}
-$audit_sites = f21s1_val($audit_sites_raw, '-');
-
-$audit_date = f21s1_date( get_field('f11dates_of_audit', $post_id) );
-$tech_code  = f21s1_val( get_field('technical_code', $post_id) ?: get_field('technical_code_area', $post_id) );
-$audit_team = get_field('audit_team', $post_id) ?: get_field('f05_audit_team', $post_id) ?: [];
-$recs       = get_field('recommendations', $post_id) ?: [];
-$stage2_date = f21s1_date( get_field('stage2_planned_on', $post_id) );
-
-$la_group = get_field('lead_auditor', $post_id);
-if ( is_array($la_group) ) {
-    $la_raw  = $la_group['lead_auditor'] ?? null;
-    $la_name = is_array($la_raw) ? f21s1_val($la_raw) : esc_html((string)($la_raw ?: '-'));
-    $la_sig  = esc_html($la_group['signature'] ?? '-');
-} else {
-    $la_name = esc_html((string)($la_group ?: '-'));
-    $la_sig  = '-';
-}
-if ( ! $la_name ) $la_name = '-';
-
-$review_report  = get_field('review_of_stage_1_audit_report', $post_id) ?: '-';
-$reviewer_name  = esc_html( get_field('reviewer', $post_id) ?: '-' );
-$review_date    = f21s1_date( get_field('review_date', $post_id) );
-$sb_important   = esc_html( get_field('important_points_for_planning_forthcoming_audit_on-siteict_if_any', $post_id) ?: '-' );
-
-// ── Section A ─────────────────────────────────────────────────────────────────
-$sec_a = get_field('section_a', $post_id) ?: [];
-$brief_profile  = $sec_a['Brief_Profile_of_the_Organization'] ?? '';
-$products       = $sec_a['products_services:'] ?? '';
-$major_customers= $sec_a['major_customers:'] ?? '';
-$achievements   = $sec_a['major_achievements'] ?? '';
-$mgmt_docs      = $sec_a["client's_management_system_documentation"] ?? '';
-$location       = $sec_a["client's_location_and_site-specific_conditions"] ?? $address ?? '';
-$processes_raw  = $sec_a['client_processes'] ?? '';
-$processes      = is_array($processes_raw) ? implode(', ', array_filter(array_map(fn($i) => is_string($i) ? $i : '', $processes_raw))) : (string) $processes_raw;
-$other_notes    = $sec_a['other'] ?? '';
-$working_hours  = $sec_a['working_hours:'] ?? '';
-$shifts         = $sec_a['no_of_shifts:'] ?? '';
-$employees      = $sec_a['No_of_Employees:'] ?? '';
-$machinery_raw  = $sec_a['machinery_equipments_servers_systems:'] ?? '';
-$machinery      = is_array($machinery_raw) ? implode(', ', array_filter(array_map(fn($r) => is_string($r) ? $r : '', (array)$r))) : (string)$machinery_raw;
-$objectives_tgts = $sec_a['organization_objectives_and_targets'] ?? '';
-$statutory_raw  = $sec_a['applicable_statutory_and_regulatory_requirements'] ?? '';
-$statutory      = is_array($statutory_raw) ? f21s1_val($statutory_raw) : esc_html((string)$statutory_raw);
-$complaints     = $sec_a['customer_complaints_if_any:'] ?? 'No significant complaints received.';
-$risks          = $sec_a['risks_and_opportunities'] ?? '';
-$awareness      = $sec_a['awareness'] ?? '';
-$outsourcing_raw = $sec_a['outsourcing'] ?? [];
-if ( is_array($outsourcing_raw) && isset($outsourcing_raw[0]) ) {
-    $outsourcing = implode('; ', array_filter(array_map(fn($r) => is_array($r) ? trim(($r['process'] ?? '')) : (string)$r, $outsourcing_raw)));
-} else {
-    $outsourcing = is_string($outsourcing_raw) ? $outsourcing_raw : '';
-}
-$ia_key  = 'status_of_internal_audits_along_with_effectiveness_of_corrective_and_preventive_actions:';
-$ia_grp  = $sec_a[$ia_key] ?? [];
-$ia_date = f21s1_date( is_array($ia_grp) ? ($ia_grp['internal_audit_date'] ?? '') : '' );
-$ia_freq = esc_html( is_array($ia_grp) ? ($ia_grp['frequency'] ?? '-') : '-' );
-$ia_ncs  = esc_html( is_array($ia_grp) ? ($ia_grp['no_of_non_conformities'] ?? '-') : '-' );
-
-$mr_grp     = $sec_a['status_of_management_review'] ?? [];
-$mr_agenda  = esc_html( is_array($mr_grp) ? ($mr_grp['all_the_agenda_points_like_complaints_feedbacks'] ?? '-') : '-' );
-$mr_ia_date = f21s1_date( is_array($mr_grp) ? ($mr_grp['date_of_internal_audit'] ?? '') : '' );
-$mr_mrm_date= f21s1_date( is_array($mr_grp) ? ($mr_grp['date_of_management_review'] ?? '') : '' );
-
-$employees_verified = $sec_a['no_of_employees_scope_exclusions_as_per_application'] ?? 'Yes';
-$eff_emp_raw = $sec_a['effective_number_of_employees'] ?? '';
-$eff_emp     = is_array($eff_emp_raw) ? f21s1_val($eff_emp_raw) : esc_html((string)$eff_emp_raw);
-$sa_scope    = esc_html( is_array($sec_a['scope'] ?? '') ? f21s1_val($sec_a['scope']) : (string)($sec_a['scope'] ?? '') );
-$sa_excl     = esc_html( is_array($sec_a['exclusions'] ?? '') ? f21s1_val($sec_a['exclusions']) : (string)($sec_a['exclusions'] ?? '') );
-$sa_justif   = esc_html( is_array($sec_a['justification_for_exclusions'] ?? '') ? f21s1_val($sec_a['justification_for_exclusions']) : (string)($sec_a['justification_for_exclusions'] ?? '') );
-$areas_concern = esc_html( $sec_a['areas_of_concernimprovements'] ?? '-' );
-$strong_pts  = esc_html( $sec_a['strong_points'] ?? '-' );
-$ict_raw     = $sec_a['ict_used_and_their_effectiveness_and_comments_is_any'] ?? 'N/A';
-$ict_info    = is_array($ict_raw) ? f21s1_val($ict_raw) : esc_html((string)$ict_raw);
-
-$changes_grp = $sec_a['any_changes_observed'] ?? [];
-$chg_name    = esc_html( is_array($changes_grp) ? ($changes_grp['name'] ?? 'Nil') : 'Nil' );
-$chg_addr    = esc_html( is_array($changes_grp) ? ($changes_grp['address'] ?? 'Nil') : 'Nil' );
-$chg_scope   = esc_html( is_array($changes_grp) ? ($changes_grp['scope'] ?? 'Nil') : 'Nil' );
-$chg_manpwr  = esc_html( is_array($changes_grp) ? ($changes_grp['manpower'] ?? 'Nil') : 'Nil' );
-
-$dev_grp     = $sec_a['deviations_changes_unresolved_issues_if_yes_specify'] ?? [];
-$dev_plan    = esc_html( is_array($dev_grp) ? ($dev_grp['was_there_any_deviation_from_the_audit_plan'] ?? '-') : '-' );
-$dev_issues  = esc_html( is_array($dev_grp) ? ($dev_grp['Were_there_any_significant_issues_impacting_the_audit_program'] ?? '-') : '-' );
-$dev_changes = esc_html( is_array($dev_grp) ? ($dev_grp['Were_there_any_significant_changes_that_have_affected_the_management_system_of_the_client_since_the_last_audit_took_place'] ?? '-') : '-' );
-$dev_unreslv = esc_html( is_array($dev_grp) ? ($dev_grp['Any_un_resolved_issues_identified'] ?? '-') : '-' );
-
-// ── Section B ─────────────────────────────────────────────────────────────────
-$sec_b        = get_field('section_b', $post_id) ?: [];
-$sb_concerns  = esc_html( $sec_b['areas_of_concern_that_could_be_classified_as_nonconformity_during_the_stage_2_audit'] ?? '-' );
-$sb_info      = esc_html( $sec_b['client_to_provide_following_information_and_records_for_detailed_examination_during_stage_2'] ?? '-' );
-$sb_capability= esc_html( $sec_b['capability_of_the_ms_to_meet_applicable_requirements_and_expected_outcomes'] ?? '-' );
-$sb_followings= esc_html( $sec_b['the_followings_need_to_be_addressed_along_with_the_issues_identified_in_the_document_review_report'] ?? '-' );
-$sb_obj_raw   = $sec_b['status_of_audit_objectives'] ?? 'Fulfilled';
-$sb_obj_status= is_array($sb_obj_raw) ? f21s1_val($sb_obj_raw) : esc_html((string)$sb_obj_raw);
-$sb_comments  = esc_html( $sec_b['comments'] ?? '-' );
+if ( ! $lead_name ) $lead_name = $la_name;
 ?><!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <style>
-@page { margin: 12mm 10mm 14mm 10mm; }
+@page { margin: 12mm 10mm 12mm 10mm; }
 body { font-family: Arial, sans-serif; font-size: 9.5px; color: #000; margin: 0; padding: 0; line-height: 1.4; }
 table { width: 100%; border-collapse: collapse; margin-bottom: 5px; }
 th, td { border: 1px solid #333; padding: 4px 5px; vertical-align: top; }
 th { font-weight: bold; background: #f0f0f0; text-align: left; }
-.no-border td, .no-border th { border: none; background: transparent; }
+.no-border { border: none !important; background: transparent !important; }
 .center { text-align: center; }
-.pagebreak { page-break-before: always; }
-.h-logo { border: none; text-align: center; vertical-align: middle; }
-.h-title { text-align: center; font-size: 13px; font-weight: bold; vertical-align: middle; }
-.h-sub { font-size: 9px; color: #333; }
-.lbl { font-weight: bold; background: #f5f5f5; width: 22%; }
-.val { width: 28%; }
-.sec-hdr { background: #d9d9d9; font-weight: bold; font-size: 10px; }
-.sn-td { text-align: center; width: 4%; }
-.footer {
-    position: fixed; bottom: 0; left: 0; right: 0;
-    font-size: 7.5px; text-align: center; border-top: 1px solid #999; padding-top: 2px; color: #333;
-}
+.lbl { font-weight: bold; background: #f5f5f5; width: 30%; white-space: nowrap; }
+.lbl-sm { font-weight: bold; background: #f5f5f5; width: 22%; }
+.sec-hdr { background: #d9d9d9; font-weight: bold; font-size: 10px; text-transform: uppercase; }
+.h-title { text-align: center; font-size: 13px; font-weight: bold; }
+.chk { font-family: monospace; font-size: 11px; }
 </style>
 </head>
 <body>
 
-<?php if ( $LOGO ) : ?>
-<table style="margin-top:60px;">
+<!-- ====== HEADER ====== -->
+<?php if ($LOGO) : ?>
+<table style="margin-bottom:4px;">
   <tr>
-    <td class="h-logo no-border" style="border:none; text-align:center;">
-      <img alt="GMCSPL Logo" src="<?= $LOGO ?>" style="max-height:70px; width:auto;" />
+    <td class="no-border" style="text-align:center;">
+      <img alt="GMCSPL Logo" src="<?= $LOGO ?>" style="max-height:65px; width:auto;" />
     </td>
   </tr>
 </table>
@@ -200,338 +219,287 @@ th { font-weight: bold; background: #f0f0f0; text-align: left; }
 
 <table>
   <tr>
-    <td colspan="2" class="h-title" style="border:none; text-align:center;">
-      SURVEILLANCE YEAR 1 – AUDIT REPORT
+    <td colspan="4" class="h-title" style="border:none; text-align:center; padding:4px 0;">
+      Audit Report
     </td>
   </tr>
   <tr>
-    <td class="lbl">Audit Ref No.</td>
+    <td class="lbl-sm">Client</td>
+    <td colspan="3" style="font-weight:bold;"><?= $org ?></td>
+  </tr>
+  <tr>
+    <td class="lbl-sm">Address</td>
+    <td colspan="3"><?= $address ?></td>
+  </tr>
+  <tr>
+    <td class="lbl-sm">Audit Ref No.</td>
     <td><?= $audit_ref ?></td>
-  </tr>
-  <tr>
-    <td class="lbl">Client</td>
-    <td><?= $org ?></td>
-  </tr>
-  <tr>
-    <td class="lbl">Address</td>
-    <td><?= esc_html($address) ?></td>
-  </tr>
-  <tr>
-    <td class="lbl">Site</td>
-    <td><?= $audit_sites ?></td>
+    <td class="lbl-sm">Type</td>
+    <td>
+      <span class="chk"><?= ($next_assmnt === 'Surveillance-1') ? '[X]' : '[ ]' ?></span> Surveillance 1 &nbsp;
+      <span class="chk">[ ]</span> Re-certification
+    </td>
   </tr>
 </table>
 
+<p style="font-size:8px; color:#555; font-style:italic; margin:4px 0;">
+  <em>Disclaimer: The Auditing is based on a sampling process of the available information. GLOBAL MANAGEMENT CERTIFICATION SERVICES PRIVATE LIMITED | Flat No.402, Plot No.410, Matrusri Nagar, Miyapur, Hyderabad-500 049 | Tel: 040-48559001 | E-mail: info@mcsglobal.in | www.mcsglobal.in</em>
+</p>
+<p style="font-size:8px; color:#555; font-style:italic; margin:2px 0;">
+  F-21 Version 1.00 &nbsp;|&nbsp; QMS Surveillance Year 1
+</p>
+
+<!-- ====== AUDIT DETAILS ====== -->
 <table>
-  <tr><td colspan="6" class="sec-hdr">Audit Details</td></tr>
+  <tr><td colspan="4" class="sec-hdr">Audit Details</td></tr>
   <tr>
-    <td class="lbl">Management Representative</td>
+    <td class="lbl-sm">Management Representative</td>
     <td><?= $mgr_rep ?></td>
-    <td class="lbl">Top Management</td>
-    <td colspan="3"><?= $top_mgmt ?></td>
+    <td class="lbl-sm">Top Management</td>
+    <td><?= $top_mgmt ?></td>
   </tr>
   <tr>
-    <td class="lbl">Audit Criteria [Standard]</td>
-    <td colspan="2"><?= $standard ?></td>
-    <td class="lbl">Exclusion (ISO 9001)</td>
-    <td colspan="2"><?= $exclusions ?></td>
+    <td class="lbl-sm">Audit Criteria [Standard]</td>
+    <td><?= $standard ?></td>
+    <td class="lbl-sm">Exclusion (ISO 9001)</td>
+    <td><?= $exclusions ?></td>
   </tr>
   <tr>
-    <td class="lbl">Audit Objectives</td>
-    <td colspan="5"><?= nl2br(esc_html($audit_objectives)) ?></td>
+    <td class="lbl-sm">Audit Objectives</td>
+    <td colspan="3"><?= nl2br(esc_html($audit_objectives)) ?></td>
   </tr>
   <tr>
-    <td class="lbl">Audit Scope [Confirmed]</td>
-    <td colspan="5"><?= $audit_scope ?></td>
+    <td class="lbl-sm">Audit Scope [Confirmed]</td>
+    <td colspan="3"><?= $audit_scope ?></td>
   </tr>
   <tr>
-    <td class="lbl">Audit Site[s]</td>
-    <td colspan="2"><?= $audit_sites ?></td>
-    <td class="lbl">Date[s] of Audit</td>
-    <td colspan="2"><?= $audit_date ?></td>
+    <td class="lbl-sm">Functional Units / Processes Audited</td>
+    <td colspan="3"><?= $func_units ?: '&nbsp;' ?></td>
   </tr>
   <tr>
-    <td class="lbl">Technical Code</td>
-    <td colspan="5"><?= $tech_code ?></td>
+    <td class="lbl-sm">Audit Site[s]</td>
+    <td><?= $address ?></td>
+    <td class="lbl-sm">Date[s] of Audit</td>
+    <td><?= $audit_date ?: '&nbsp;' ?></td>
+  </tr>
+  <tr>
+    <td class="lbl-sm">Technical Code</td>
+    <td colspan="3"><?= $tech_code ?></td>
   </tr>
 </table>
 
-<div class="footer">
-  <em>Disclaimer:</em> The Auditing is based on a sampling process. GLOBAL MANAGEMENT CERTIFICATION SERVICES PRIVATE LIMITED &nbsp;|&nbsp;
-  Flat No.402, Plot No.410, Matrusri Nagar, Miyapur, Hyderabad-500 049 &nbsp;|&nbsp; Tel: 040-48559001 &nbsp;|&nbsp; info@mcsglobal.in
-</div>
-
-<div class="pagebreak"></div>
-
-<!-- Audit Team -->
 <table>
   <tr><td colspan="2" class="sec-hdr">Audit Team</td></tr>
-  <?php
-  $team_by_role = [];
-  foreach ( (array)$audit_team as $row ) {
-      $role    = is_array($row) ? ($row['f05_team_role'] ?? $row['role'] ?? '') : '';
-      $uid_val = is_array($row) ? ($row['f05_team_name'] ?? $row['name'] ?? null) : null;
-      $nm = '';
-      if ( is_array($uid_val) && isset($uid_val['display_name']) ) {
-          $nm = $uid_val['display_name'];
-      } elseif ( is_numeric($uid_val) && (int)$uid_val > 0 ) {
-          $u  = get_userdata((int)$uid_val);
-          $nm = $u ? $u->display_name : '';
-      } elseif ( is_string($uid_val) ) {
-          $nm = $uid_val;
-      }
-      $team_by_role[$role][] = $nm;
-  }
-  $team_roles = [
-      'Lead Auditor'     => 'Lead Auditor',
-      'Auditor(s)'       => 'Auditor(s)',
-      'Technical Expert' => 'Technical Expert',
-      'Observer(s)'      => 'Observer(s)',
-      'Interpreter(s)'   => 'Interpreter(s)',
-  ];
-  foreach ( $team_roles as $rk => $rl ) :
-      $names = [];
-      foreach ( $team_by_role as $r => $ns ) {
-          if ( stripos($r, $rk) !== false || stripos($rk, $r) !== false ) $names = array_merge($names, $ns);
-      }
-      echo '<tr><td class="lbl" style="width:45%">' . esc_html($rl) . '</td><td>' . esc_html(implode(', ', array_filter($names)) ?: '-') . '</td></tr>';
-  endforeach;
-  ?>
+  <tr>
+    <td class="lbl-sm">Team Leader</td>
+    <td><?= esc_html($lead_name ?: '-') ?></td>
+  </tr>
+  <tr>
+    <td class="lbl-sm">Co Auditor</td>
+    <td><?= esc_html(implode(', ', $co_auditors) ?: '&nbsp;') ?></td>
+  </tr>
+  <tr>
+    <td class="lbl-sm">Auditor</td>
+    <td><?= esc_html(implode(', ', $auditors) ?: '&nbsp;') ?></td>
+  </tr>
 </table>
 
-<!-- Section A -->
-<h4 style="margin:6px 0 3px;">Section A: General</h4>
+<!-- ====== MAIN BODY ====== -->
 <table>
-  <thead>
-    <tr><th class="sn-td">S.N.</th><th>CLIENT INFORMATION</th></tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td class="sn-td" rowspan="4">1</td>
-      <td><strong>Brief Profile:</strong><br><?= nl2br(esc_html($brief_profile ?: '-')) ?></td>
-    </tr>
-    <tr>
-      <td><strong>Products / Services:</strong><br><?= nl2br(esc_html(is_array($products) ? implode(', ', array_filter(array_map(fn($v) => is_string($v) ? $v : '', $products))) : ($products ?: '-'))) ?></td>
-    </tr>
-    <tr>
-      <td><strong>Major Customers:</strong><br><?= nl2br(esc_html($major_customers ?: '-')) ?></td>
-    </tr>
-    <tr>
-      <td><strong>Major Achievements:</strong><br><?= nl2br(esc_html($achievements ?: '-')) ?></td>
-    </tr>
-    <tr>
-      <td class="sn-td">2</td>
-      <td><strong>Management System Documentation:</strong><br><?= nl2br(esc_html($mgmt_docs ?: '-')) ?></td>
-    </tr>
-    <tr>
-      <td class="sn-td">3</td>
-      <td>
-        <strong>Location and Site-Specific Conditions &amp; Processes:</strong><br>
-        <?= is_array($location) ? f21s1_val($location) : esc_html((string)$location) ?: esc_html($address) ?>
-        <?php if ( $processes ) echo '<br>' . nl2br(esc_html($processes)); ?>
-        <?php if ( $other_notes ) echo '<br>' . nl2br(esc_html($other_notes)); ?>
-        <br><strong>Working Hours:</strong> <?= esc_html($working_hours ?: '-') ?> &nbsp;
-        <strong>No. of Shifts:</strong> <?= esc_html($shifts ?: '-') ?> &nbsp;
-        <strong>No. of Employees:</strong> <?= esc_html($employees ?: '-') ?><br>
-        <strong>Exclusions:</strong> <?= esc_html($sa_excl ?: $exclusions) ?><br>
-        <strong>Scope:</strong> <?= esc_html($sa_scope ?: $audit_scope) ?>
-      </td>
-    </tr>
-    <tr>
-      <td class="sn-td">4</td>
-      <td><strong>Machinery / Equipments, Servers, Systems:</strong><br><?= nl2br(esc_html($machinery ?: '-')) ?></td>
-    </tr>
-    <tr>
-      <td class="sn-td">5</td>
-      <td><strong>Organization Objectives and Targets:</strong><br><?= nl2br(esc_html($objectives_tgts ?: '-')) ?></td>
-    </tr>
-    <tr>
-      <td class="sn-td">6</td>
-      <td><strong>Applicable Statutory and Regulatory Requirements:</strong><br><?= $statutory ?: '-' ?></td>
-    </tr>
-    <tr>
-      <td class="sn-td">7</td>
-      <td><strong>Customer Complaints (if any):</strong><br><?= nl2br(esc_html($complaints)) ?></td>
-    </tr>
-    <tr>
-      <td class="sn-td">8</td>
-      <td><strong>Risks and Opportunities:</strong><br><?= nl2br(esc_html($risks ?: '-')) ?></td>
-    </tr>
-    <tr>
-      <td class="sn-td">9</td>
-      <td><strong>Awareness:</strong><br><?= nl2br(esc_html($awareness ?: '-')) ?></td>
-    </tr>
-    <tr>
-      <td class="sn-td">10</td>
-      <td><strong>Outsourcing:</strong><br><?= nl2br(esc_html($outsourcing ?: '-')) ?></td>
-    </tr>
-    <tr>
-      <td class="sn-td">11</td>
-      <td>
-        <strong>Status of Internal Audits:</strong><br>
-        <strong>Date:</strong> <?= $ia_date ?> &nbsp;
-        <strong>Frequency:</strong> <?= $ia_freq ?> &nbsp;
-        <strong>No. of NCs:</strong> <?= nl2br($ia_ncs) ?>
-      </td>
-    </tr>
-    <tr>
-      <td class="sn-td">12</td>
-      <td>
-        <strong>Status of Management Review:</strong><br>
-        <?= nl2br($mr_agenda) ?><br>
-        <strong>Date of IA:</strong> <?= $mr_ia_date ?> &nbsp;
-        <strong>Date of MRM:</strong> <?= $mr_mrm_date ?>
-      </td>
-    </tr>
-    <tr>
-      <td class="sn-td">13</td>
-      <td>
-        <strong>No. of Employees, Scope, Exclusions as per Application:</strong><br>
-        Verified: <strong><?= esc_html($employees_verified) ?></strong><br>
-        <strong>Effective Employees:</strong> <?= $eff_emp ?: '-' ?><br>
-        <strong>Scope:</strong> <?= esc_html($sa_scope ?: $audit_scope) ?><br>
-        <strong>Exclusions:</strong> <?= esc_html($sa_excl ?: $exclusions) ?><br>
-        <strong>Justification:</strong> <?= esc_html($sa_justif ?: '-') ?>
-      </td>
-    </tr>
-    <tr>
-      <td class="sn-td">14</td>
-      <td><strong>Areas of Concern / Improvements:</strong><br><?= nl2br($areas_concern) ?></td>
-    </tr>
-    <tr>
-      <td class="sn-td">15</td>
-      <td><strong>Strong Points:</strong><br><?= nl2br($strong_pts) ?></td>
-    </tr>
-    <tr>
-      <td class="sn-td">16</td>
-      <td><strong>ICT Used and Their Effectiveness:</strong><br><?= nl2br($ict_info) ?></td>
-    </tr>
-    <tr>
-      <td class="sn-td">17</td>
-      <td>
-        <strong>Any Changes Observed:</strong><br>
-        <strong>Name:</strong> <?= $chg_name ?> &nbsp;
-        <strong>Address:</strong> <?= $chg_addr ?> &nbsp;
-        <strong>Scope:</strong> <?= $chg_scope ?> &nbsp;
-        <strong>Manpower:</strong> <?= $chg_manpwr ?>
-      </td>
-    </tr>
-    <tr>
-      <td class="sn-td">18</td>
-      <td>
-        <strong>Deviations / Changes / Unresolved Issues:</strong><br>
-        <strong>Deviation from plan?</strong> <?= $dev_plan ?><br>
-        <strong>Significant issues impacting programme?</strong> <?= $dev_issues ?><br>
-        <strong>Significant changes to management system?</strong> <?= $dev_changes ?><br>
-        <strong>Unresolved issues?</strong> <?= $dev_unreslv ?>
-      </td>
-    </tr>
-  </tbody>
+  <tr>
+    <td class="lbl">Brief Profile of the organization including main products/services and customers</td>
+    <td><?= nl2br(esc_html($brief_profile)) ?: '&nbsp;' ?></td>
+  </tr>
+  <tr>
+    <td class="lbl">Positive features</td>
+    <td><?= nl2br(esc_html($positive_features)) ?: '&nbsp;' ?></td>
+  </tr>
+  <tr>
+    <td class="lbl">Review of Action Taken on Identified nonconformities during previous Audit (If Applicable)</td>
+    <td><?= nl2br(esc_html($review_of_ncs)) ?: '&nbsp;' ?></td>
+  </tr>
+  <tr>
+    <td class="lbl">Evaluation of Internal Audits</td>
+    <td>
+      <?php if ($ia_verified) echo nl2br(esc_html($ia_verified)) . '<br>'; ?>
+      <?php if ($ia_freq)     echo '<strong>Frequency:</strong> ' . nl2br(esc_html($ia_freq)) . '<br>'; ?>
+      <strong>Internal Audit Date:</strong> <?= $ia_date ?: '&nbsp;' ?><br>
+      <strong>No of Non conformities:</strong> <?= $ia_ncs ?: '&nbsp;' ?>
+    </td>
+  </tr>
+  <tr>
+    <td class="lbl">Evaluation of Management Review</td>
+    <td><?= nl2br($eval_mgmt_review) ?: '&nbsp;' ?></td>
+  </tr>
+  <tr>
+    <td class="lbl">MRM Date</td>
+    <td><?= $mrm_date ?: '&nbsp;' ?></td>
+  </tr>
+  <tr>
+    <td class="lbl">Usage of Certification Documents and Logos</td>
+    <td><?= nl2br($logo_usage) ?: '&nbsp;' ?></td>
+  </tr>
+  <tr>
+    <td class="lbl">Review of any changes</td>
+    <td><?= nl2br($changes_text) ?: '&nbsp;' ?></td>
+  </tr>
+  <tr>
+    <td class="lbl">Continuing operational control</td>
+    <td><?= nl2br($cont_op_ctrl) ?: '&nbsp;' ?></td>
+  </tr>
+  <tr>
+    <td class="lbl">Customer complaints and corrective action taken</td>
+    <td><?= nl2br($complaints) ?: '&nbsp;' ?></td>
+  </tr>
+  <tr>
+    <td class="lbl">Observations / areas for potential improvement</td>
+    <td><?= nl2br($observations) ?: '&nbsp;' ?></td>
+  </tr>
+  <tr>
+    <td class="lbl">Any Deviation from Audit plan with reasons</td>
+    <td><?= nl2br($dev_plan) ?: '&nbsp;' ?></td>
+  </tr>
+  <tr>
+    <td class="lbl">Significant issues impacting the audit program</td>
+    <td><?= nl2br($dev_issues) ?: '&nbsp;' ?></td>
+  </tr>
+  <tr>
+    <td class="lbl">Significant issues affecting management system since last audit took place</td>
+    <td><?= nl2br($dev_changes) ?: '&nbsp;' ?></td>
+  </tr>
+  <tr>
+    <td class="lbl">Any Unresolved Issues, if any</td>
+    <td><?= nl2br($dev_unreslv) ?: '&nbsp;' ?></td>
+  </tr>
+  <tr>
+    <td class="lbl">Any Planned Activities for continual improvement</td>
+    <td><?= nl2br($planned_act) ?: '&nbsp;' ?></td>
+  </tr>
+  <tr>
+    <td class="lbl">Capability of management System to meet applicable requirements and exceed outcomes</td>
+    <td><?= nl2br($sb_capability) ?: '&nbsp;' ?></td>
+  </tr>
+  <tr>
+    <td class="lbl">Nonconformities identified during this assessment</td>
+    <td><?= nl2br($sb_ncs_dur) ?: '&nbsp;' ?></td>
+  </tr>
+  <tr>
+    <td class="lbl">Follow-up measures, if required</td>
+    <td><?= nl2br($sb_followup) ?: '&nbsp;' ?></td>
+  </tr>
+  <tr>
+    <td class="lbl">Appropriateness of Certification Scope</td>
+    <td>
+      <span class="chk"><?= ($approp_scope === 'Confirmed') ? '[X]' : '[ ]' ?></span> Confirmed &nbsp;
+      <span class="chk"><?= ($approp_scope === 'Not Confirmed') ? '[X]' : '[ ]' ?></span> Not Confirmed
+    </td>
+  </tr>
+  <tr>
+    <td class="lbl">Fulfillment of Audit Objectives</td>
+    <td>
+      <span class="chk"><?= ($fulfill_obj === 'Confirmed') ? '[X]' : '[ ]' ?></span> Confirmed &nbsp;
+      <span class="chk"><?= ($fulfill_obj === 'Not Confirmed') ? '[X]' : '[ ]' ?></span> Not Confirmed
+    </td>
+  </tr>
+  <tr>
+    <td class="lbl">Additional Requirements if any</td>
+    <td><?= nl2br($add_req) ?: '&nbsp;' ?></td>
+  </tr>
+  <tr>
+    <td class="lbl">Overall Comment on the compliance of the system, to the requirements of the standard for meeting organization policies and objectives</td>
+    <td><?= nl2br($overall_cmt) ?: '&nbsp;' ?></td>
+  </tr>
+  <tr>
+    <td class="lbl">Performance of the management system over the period of certification and review of previous audit reports</td>
+    <td><?= nl2br($perf_cycle) ?: '&nbsp;' ?></td>
+  </tr>
 </table>
 
-<!-- Section B -->
-<h4 style="margin:6px 0 3px;">Section B:</h4>
+<!-- ====== CONCLUSION ====== -->
 <table>
-  <thead>
-    <tr><th class="sn-td">S.N.</th><th>Area / Question</th><th style="width:40%">Notes</th></tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td class="sn-td">1</td>
-      <td>Areas of concern that could be classified as nonconformity during the surveillance audit?</td>
-      <td><?= nl2br($sb_concerns) ?></td>
-    </tr>
-    <tr>
-      <td class="sn-td">2</td>
-      <td>Client to provide following information and records for detailed examination</td>
-      <td><?= nl2br($sb_info) ?></td>
-    </tr>
-    <tr>
-      <td class="sn-td">3</td>
-      <td>Capability of the MS to meet applicable requirements and expected outcomes</td>
-      <td><?= nl2br($sb_capability) ?></td>
-    </tr>
-    <tr>
-      <td class="sn-td">4</td>
-      <td>The followings need to be addressed along with the issues identified in the document review report</td>
-      <td><?= nl2br($sb_followings) ?></td>
-    </tr>
-    <tr>
-      <td class="sn-td">5</td>
-      <td>Status of Audit Objectives</td>
-      <td>
-        <?= $sb_obj_status ?>
-        <?php if ( $sb_comments && $sb_comments !== '-' ) echo '<br>Comments: ' . $sb_comments; ?>
-      </td>
-    </tr>
-    <tr>
-      <td class="sn-td">6</td>
-      <td>Important points for planning forthcoming audit (on-site / ICT) if any</td>
-      <td><?= nl2br($sb_important) ?></td>
-    </tr>
-  </tbody>
+  <tr><td colspan="2" class="sec-hdr">The Next Assessment</td></tr>
+  <tr>
+    <td colspan="2">
+      <span class="chk"><?= ($next_assmnt === 'Surveillance-1') ? '[X]' : '[ ]' ?></span> Surveillance-1 &nbsp;&nbsp;
+      <span class="chk"><?= ($next_assmnt === 'Surveillance-2') ? '[X]' : '[ ]' ?></span> Surveillance-2 &nbsp;&nbsp;
+      <span class="chk"><?= ($next_assmnt === 'Re Certification') ? '[X]' : '[ ]' ?></span> Re Certification
+    </td>
+  </tr>
+  <tr>
+    <td class="lbl-sm">Tentative Date:</td>
+    <td><?= $tentative_date ?: '&nbsp;' ?></td>
+  </tr>
 </table>
 
-<!-- Recommendations -->
+<?php
+$conclusion_options = [
+    'recommend_continuation'   => 'Recommend for Continuation of Certification',
+    'recommend_followup'       => 'Recommend for follow up assessment',
+    'recommend_full_assessment'=> 'Recommend for full assessment again',
+];
+?>
 <table>
-  <tr><td colspan="2" class="sec-hdr">Recommendations</td></tr>
-  <?php
-  $rec_options = [
-      'System is ready for stage 2',
-      'Re-audit requires to verify the compliance of the identified points',
-      'Areas of concern need to be addressed by management',
-  ];
-  foreach ( $rec_options as $opt ) :
-      $checked = in_array($opt, (array)$recs) ? '[X]' : '[ ]';
+  <tr><td colspan="2" class="sec-hdr">Conclusion and Recommendation</td></tr>
+  <?php foreach ( $conclusion_options as $key => $label ) :
+      $checked = in_array($key, (array)$recs) ? '[X]' : '[ ]';
   ?>
   <tr>
-    <td style="width:6%; text-align:center; font-family:monospace; font-size:11px;"><?= $checked ?></td>
-    <td><?= esc_html($opt) ?></td>
+    <td style="width:5%; text-align:center;" class="chk"><?= $checked ?></td>
+    <td><?= esc_html($label) ?></td>
   </tr>
   <?php endforeach; ?>
 </table>
 
 <table>
   <tr>
-    <td class="lbl" style="width:25%">Stage 2 Planned On</td>
-    <td><?= $stage2_date ?></td>
+    <td class="lbl-sm">Remarks:</td>
+    <td><?= nl2br($remarks_text) ?: '&nbsp;' ?></td>
   </tr>
 </table>
+
+<p style="font-size:8.5px; color:#333; margin:6px 0; font-style:italic;">
+  I pledge that the report and records will remain confidential and will not be shared with any other person or organization and abide with the confidentiality and no conflict of interest agreement signed.
+</p>
 
 <table>
-  <tr><td colspan="4" class="sec-hdr">Lead Auditor</td></tr>
+  <tr><td colspan="4" class="sec-hdr">Audit Team Leader</td></tr>
   <tr>
-    <td class="lbl" style="width:20%">Name</td>
-    <td style="width:30%"><?= $la_name ?></td>
-    <td class="lbl" style="width:20%">Signature</td>
-    <td><?= $la_sig ?></td>
+    <td class="lbl-sm">Name</td>
+    <td><?= esc_html($lead_name ?: '-') ?></td>
+    <td class="lbl-sm">Signature</td>
+    <td><?= $la_sig ?: '&nbsp;' ?></td>
   </tr>
 </table>
 
-<!-- Review -->
+<!-- ====== ATTACHMENTS ====== -->
+<?php
+$attach_list = [
+    'AUDIT TEAM ALLOCATION PLAN [F-05]' => 'Audit Team Allocation Plan [F-05]',
+    'Audit schedule [F-08]'             => 'Audit Schedule [F-08]',
+    'Non Conformity Reports [F-10]'     => 'Non Conformity Reports [F-10]',
+    'Attendance Sheet [F-13]'           => 'Attendance Sheet [F-13]',
+    'Confidentiality [ F-14]'           => 'Confidentiality [F-14]',
+    'Assessment Checklist [F-25]'       => 'Assessment Checklist [F-25]',
+    'Audit Program [F-16]'              => 'Audit Program [F-16]',
+];
+$attach_pairs = array_chunk(array_keys($attach_list), 2, true);
+?>
 <table>
-  <tr><td colspan="4" class="sec-hdr">Review of Surveillance Audit Report</td></tr>
+  <tr><td colspan="4" class="sec-hdr">Attachments</td></tr>
+  <?php foreach ( $attach_pairs as $pair ) :
+      $keys = array_keys($pair);
+  ?>
   <tr>
-    <td colspan="4">
-      Based on the audit findings, the next surveillance audit is recommended to proceed as planned.<br><br>
-      <?= nl2br(esc_html($review_report)) ?>
-    </td>
+    <?php foreach ( $keys as $k ) :
+        $chk = in_array($k, (array)$attachments) ? '[X]' : '[ ]';
+    ?>
+    <td style="width:5%; text-align:center;" class="chk"><?= $chk ?></td>
+    <td><?= esc_html($attach_list[$k]) ?></td>
+    <?php endforeach; ?>
+    <?php if ( count($keys) < 2 ) : ?><td colspan="2">&nbsp;</td><?php endif; ?>
   </tr>
-  <tr>
-    <td class="lbl" style="width:20%">Lead Auditor</td>
-    <td style="width:30%"><?= $la_name ?></td>
-    <td class="lbl" style="width:20%">Reviewer</td>
-    <td><?= $reviewer_name ?></td>
-  </tr>
-  <tr>
-    <td class="lbl">Signature</td>
-    <td>-</td>
-    <td class="lbl">Date</td>
-    <td><?= $review_date ?></td>
-  </tr>
+  <?php endforeach; ?>
 </table>
-
-<p style="font-size:8.5px; margin:4px 0;"><strong>F-21s1 &nbsp;|&nbsp; QMS Surveillance Year 1 &nbsp;|&nbsp; Version 1.00</strong></p>
 
 </body>
 </html>

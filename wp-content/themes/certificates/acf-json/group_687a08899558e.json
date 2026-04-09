@@ -59,7 +59,7 @@
         {
             "key": "field_687a088e6a2a3",
             "label": "Organization",
-            "name": "f05aorgname",
+            "name": "test",
             "aria-label": "",
             "type": "clone",
             "instructions": "",
@@ -85,7 +85,7 @@
         {
             "key": "field_68833cf41197e",
             "label": "GMCSPL Ref. No.",
-            "name": "f05agmcspl_ref_no",
+            "name": "gmcspl_ref_no",
             "aria-label": "",
             "type": "clone",
             "instructions": "",
@@ -127,7 +127,7 @@
             "blank_if_zero": 0,
             "readonly": 0,
             "clone": [
-                "field_6996ae3512093"
+                "field_67cda27f27022"
             ],
             "display": "seamless",
             "layout": "block",
@@ -137,7 +137,7 @@
         {
             "key": "field_68833d7611980",
             "label": "Scope of Certification",
-            "name": "f05ascope_of_certification",
+            "name": "scope_of_certification",
             "aria-label": "",
             "type": "clone",
             "instructions": "",
@@ -180,8 +180,8 @@
         },
         {
             "key": "field_68833dc111982",
-            "label": "Technical Code\/Area",
-            "name": "f05atechnical_codearea",
+            "label": "Technical Code/Area",
+            "name": "technical_codearea",
             "aria-label": "",
             "type": "clone",
             "instructions": "",
@@ -207,7 +207,7 @@
         {
             "key": "field_68833dfc11983",
             "label": "ICT Used",
-            "name": "f05aict_used",
+            "name": "ict_used",
             "aria-label": "",
             "type": "clone",
             "instructions": "",
@@ -222,9 +222,7 @@
             "calculated_format": "",
             "blank_if_zero": 0,
             "readonly": 0,
-            "clone": [
-                "field_68173ed2f4061"
-            ],
+            "clone": "",
             "display": "seamless",
             "layout": "block",
             "prefix_label": 0,
@@ -233,7 +231,7 @@
         {
             "key": "field_68833e0a11984",
             "label": "Audit Criteria",
-            "name": "f05aaudit_criteria",
+            "name": "audit_criteria",
             "aria-label": "",
             "type": "clone",
             "instructions": "",
@@ -259,7 +257,7 @@
         {
             "key": "field_68833e4711985",
             "label": "Exclusion[s]",
-            "name": "f05aexclusions",
+            "name": "exclusions",
             "aria-label": "",
             "type": "clone",
             "instructions": "",
@@ -285,7 +283,7 @@
         {
             "key": "field_68833f3811986",
             "label": "Prime Contact Person",
-            "name": "f05aprime_contact_person",
+            "name": "prime_contact_person",
             "aria-label": "",
             "type": "clone",
             "instructions": "",
@@ -301,7 +299,85 @@
             "blank_if_zero": 0,
             "readonly": 0,
             "clone": [
-                "field_68173ed2aa379"
+                "field_qms_f05_6"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_68833f7811987",
+            "label": "Mobile No",
+            "name": "mobile_no",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_qms_f05_10"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_68833fa211988",
+            "label": "Designation",
+            "name": "designation",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_68173ed353a4a"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_68833ff111989",
+            "label": "E.mail",
+            "name": "email",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_67cda20027020"
             ],
             "display": "seamless",
             "layout": "block",
@@ -429,7 +505,7 @@
             "calculated_format": "",
             "blank_if_zero": 0,
             "readonly": 0,
-            "message": "1. Working space and access to a telephone, internet and photocopying facilities\r\n2. Knowledgeable person to accompany during the audit.\r\n3. Knowledgeable person to handle the selected technology, to present the data\/information\r\n4. Access to pertinent manuals, procedures and to access the required data\/information\r\n5. Safety Requirements as per your procedures\r\n6. Should you have any query with regard to the arrangements for this audit, please contact us.\"",
+            "message": "1. Working space and access to a telephone, internet and photocopying facilities\r\n2. Knowledgeable person to accompany during the audit.\r\n3. Knowledgeable person to handle the selected technology, to present the data/information\r\n4. Access to pertinent manuals, procedures and to access the required data/information\r\n5. Safety Requirements as per your procedures\r\n6. Should you have any query with regard to the arrangements for this audit, please contact us.\"",
             "new_lines": "wpautop",
             "esc_html": 0
         },
@@ -551,7 +627,7 @@
             "calculated_format": "",
             "blank_if_zero": 0,
             "readonly": 0,
-            "message": "1. we accept the nominated audit team\r\n2. we confirm that no member of the audit team has provided consultancy to our company or executed any internal audit in our company.\r\n3. we confirm that no Audit team members involved in product design\r\n4. we confirm that the audit team members do not have financial, business, relational involvement or interest in our company.\r\n<strong>We accept the use of Information and Communication Technology (ICT) as a mode of this Audit \/ Assessment for the selected Location\/s in accordance with information security and data protection measures and regulations if any.\r\nThe use of ICT shall include, but is not limited to: <\/strong>\r\n5. Meetings; by means of teleconference facilities, including audio, video and data sharing\r\n6. Audit\/Assessment of documents and records by means of remote access, either synchronously (in real time) or asynchronously (when applicable)\r\n7. Recording of information and evidence by means of still video, video or audio recordings\r\n8. Providing visual \/ audio access to remote or potentially hazardous locations\"",
+            "message": "1. we accept the nominated audit team\r\n2. we confirm that no member of the audit team has provided consultancy to our company or executed any internal audit in our company.\r\n3. we confirm that no Audit team members involved in product design\r\n4. we confirm that the audit team members do not have financial, business, relational involvement or interest in our company.\r\n<strong>We accept the use of Information and Communication Technology (ICT) as a mode of this Audit / Assessment for the selected Location/s in accordance with information security and data protection measures and regulations if any.\r\nThe use of ICT shall include, but is not limited to: </strong>\r\n5. Meetings; by means of teleconference facilities, including audio, video and data sharing\r\n6. Audit/Assessment of documents and records by means of remote access, either synchronously (in real time) or asynchronously (when applicable)\r\n7. Recording of information and evidence by means of still video, video or audio recordings\r\n8. Providing visual / audio access to remote or potentially hazardous locations\"",
             "new_lines": "wpautop",
             "esc_html": 0
         },
@@ -649,6 +725,5 @@
     "hide_on_screen": "",
     "active": true,
     "description": "",
-    "show_in_rest": 0,
-    "modified": 1773923787
+    "show_in_rest": 0
 }

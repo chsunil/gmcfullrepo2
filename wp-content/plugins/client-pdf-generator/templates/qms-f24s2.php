@@ -2,46 +2,42 @@
 /**
  * QMS – F-24s2 Customer Feedback Form (Surveillance Year 2)
  * ACF Group: group_d03dadac1197
- * Fields: s2_organization, s2_location, s2_audit_type, s2_feedback_f24,
- *         s2_suggestions_or_any_other_points:, s2_do_you_have_any_plan...,
- *         s2_name, s2_evaluation_result, s2_reviewed_by (group)
+ *
+ * Seamless clones (prefix_name=0) — read via source meta key:
+ *   f24s2organization → organization_name
+ *   f24s2location     → address_on_site  (field_address_on_site)
+ *   f24s2name         → top_management   (field_67d5ac7dd1e5c)
+ *
+ * Own fields (get_field by f24s2 name):
+ *   f24s2audit_type, f24s2feedback (matrix_flexible),
+ *   f24s2suggestions (textarea), f24s2other_certification_plan (text),
+ *   f24s2designation (text), f24s2date (date_picker),
+ *   f24s2evaluation_result (radio), f24s2reviewed_by (group)
  */
 if ( ! defined('ABSPATH') ) exit;
 
 $LOGO = '';
 require __DIR__ . '/_logo.inc.php';
 
-if ( ! function_exists('f24s2_val') ) {
-    function f24s2_val( $v, $fb = '-' ) {
-        if ( $v === null || $v === '' || $v === false ) return $fb;
-        if ( is_array($v) ) {
-            foreach ( ['display_name','label','name','value'] as $k ) {
-                if ( ! empty($v[$k]) && is_string($v[$k]) ) return esc_html($v[$k]);
-            }
-            $flat = array_filter( array_map( fn($i) => is_string($i) ? trim($i) : '', $v ) );
-            return esc_html( implode(', ', $flat) ) ?: $fb;
-        }
-        return esc_html( (string) $v );
-    }
-}
+// ── Seamless clones — read via source meta key ───────────────────────────────
+$org      = esc_html( gmc_get_organization_name($post_id) );
+$location = esc_html( get_post_meta($post_id, 'address_on_site', true) ?: '-' );
 
-$org_raw = get_field( 's2_organization', $post_id );
-$org     = ( $org_raw && ! is_array($org_raw) ) ? esc_html($org_raw)
-         : ( is_array($org_raw) ? f24s2_val($org_raw) : esc_html( get_post_field('post_title', $post_id) ) );
+// ── Own fields ───────────────────────────────────────────────────────────────
+$audit_type   = esc_html( get_field('f24s2audit_type', $post_id) ?: '-' );
+$suggestions  = esc_html( get_field('f24s2suggestions', $post_id) ?: '' );
+$cert_plans   = esc_html( get_field('f24s2other_certification_plan', $post_id) ?: '' );
+$client_name  = esc_html( get_post_meta($post_id, 'top_management', true) ?: '' );
+$client_desig = esc_html( get_field('f24s2designation', $post_id) ?: '' );
+$client_date  = gmc_format_date( get_field('f24s2date', $post_id) );
+$eval_result  = esc_html( get_field('f24s2evaluation_result', $post_id) ?: '' );
 
-$location    = f24s2_val( get_field( 's2_location', $post_id ) );
-$audit_type  = f24s2_val( get_field( 's2_audit_type', $post_id ) );
-$suggestions = f24s2_val( get_field( 's2_suggestions_or_any_other_points:', $post_id ) );
-$cert_plans  = f24s2_val( get_field( 's2_do_you_have_any_plan_for_certification_in_any_other_systems_if_yes_please_inform:', $post_id ) );
-$client_name = f24s2_val( get_field( 's2_name', $post_id ) );
-$eval_result = f24s2_val( get_field( 's2_evaluation_result', $post_id ) );
+$rev      = get_field('f24s2reviewed_by', $post_id) ?: [];
+$rev_name = esc_html( $rev['reviewed_by'] ?? '' );
+$rev_sig  = esc_html( $rev['signature']   ?? '' );
+$rev_cmt  = esc_html( $rev['comment']     ?? '' );
 
-$rev = get_field( 's2_reviewed_by', $post_id );
-$rev_name = is_array($rev) ? f24s2_val( $rev['s2_reviewed_by'] ?? '' ) : '-';
-$rev_sig  = is_array($rev) ? f24s2_val( $rev['s2_signature'] ?? '' ) : '-';
-$rev_cmt  = is_array($rev) ? f24s2_val( $rev['s2_comment'] ?? '' ) : '-';
-
-$matrix = get_field( 's2_feedback_f24', $post_id );
+$matrix = get_field('f24s2feedback', $post_id);
 ?><!DOCTYPE html>
 <html>
 <head>
@@ -57,6 +53,7 @@ th { background: #d9d9d9; font-weight: bold; text-align: center; font-size: 9px;
 .h-logo { border: none; text-align: center; vertical-align: middle; }
 .section-title { background: #c6c6c6; font-weight: bold; padding: 5px 7px; margin: 12px 0 4px 0; border: 1px solid #555; font-size: 10px; text-transform: uppercase; }
 .office-bg { background: #fffde7; }
+.no-data { text-align: center; color: #888; font-style: italic; padding: 12px; }
 </style>
 </head>
 <body>
@@ -76,15 +73,27 @@ th { background: #d9d9d9; font-weight: bold; text-align: center; font-size: 9px;
 </table>
 
 <div class="section-title">Feedback</div>
-<?php if ( is_array($matrix) && ! empty($matrix) ) :
-    $first = reset($matrix); $cols = is_array($first) ? array_keys($first) : [];
-?>
-<table>
-    <?php if ( $cols ) : ?><thead><tr><?php foreach ($cols as $c) : ?><th><?= esc_html($c) ?></th><?php endforeach; ?></tr></thead><?php endif; ?>
-    <tbody><?php foreach ( $matrix as $mrow ) : ?><tr><?php foreach ( (array) $mrow as $cell ) : ?><td><?= esc_html( (string) $cell ) ?></td><?php endforeach; ?></tr><?php endforeach; ?></tbody>
-</table>
+<?php
+
+if ( is_array($matrix) && ! empty($matrix) ) : ?>
+    <table>
+        <tr>
+            <th>Question</th>
+            <th>Response</th>
+        </tr>
+        <?php foreach ( $matrix as $question => $data ) : 
+            $status = isset($data['status']) ? $data['status'] : '';
+        ?>
+            <tr>
+                <td><?php echo esc_html($question); ?></td>
+                <td><?php echo esc_html($status); ?></td>
+            </tr>
+        <?php endforeach; ?>
+    </table>
 <?php else : ?>
-<p style="color:#888; font-style:italic; text-align:center; padding:8px;">Feedback matrix data not available.</p>
+    <p style="color:#888; font-style:italic; text-align:center; padding:8px;">
+        Feedback matrix data not available.
+    </p>
 <?php endif; ?>
 
 <div class="section-title">Comments</div>
@@ -92,9 +101,14 @@ th { background: #d9d9d9; font-weight: bold; text-align: center; font-size: 9px;
     <tr><td class="lbl">Suggestions / Other Points</td><td><?= $suggestions ?></td></tr>
     <tr><td class="lbl">Other Certification Plans</td><td><?= $cert_plans ?></td></tr>
     <tr><td class="lbl">Client Name</td><td><?= $client_name ?></td></tr>
+    <?php if ( $client_desig ) : ?>
+    <tr><td class="lbl">Designation</td><td><?= esc_html($client_desig) ?></td></tr>
+    <?php endif; ?>
+    <tr><td class="lbl">Date</td><td><?= $client_date ?: '&nbsp;' ?></td></tr>
 </table>
 
 <div class="section-title">For GMCSPL Office Use Only</div>
+<p style="font-size:9px; color:#555; margin:2px 0 4px 0; font-style:italic;">Each question carries five marks.</p>
 <table>
     <tr><td class="lbl office-bg">Evaluation Result</td><td class="office-bg"><?= $eval_result ?></td></tr>
     <tr><td class="lbl office-bg">Reviewed By</td><td class="office-bg"><?= $rev_name ?></td></tr>

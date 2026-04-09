@@ -85,7 +85,7 @@ $next_stage = $current_stage_data && isset($current_stage_data['next']) ? $curre
                             <div class="card mb-4">
                                 <div class="card-header d-flex justify-content-between align-items-center">
                                     <h5 class="mb-0"><?php echo $is_new ? 'Create New Client' : 'Edit Client: ' . esc_html($client->post_title); ?></h5>
-                                 <small> <?php echo $_GET['new_post_id']; ?></small>
+                                 <small class="text-uppercase"> Certificate Type : <?php echo esc_html($certification_type); ?></small>
                                 </div>
                                 <div class="card-body">
                                  
@@ -100,7 +100,9 @@ $next_stage = $current_stage_data && isset($current_stage_data['next']) ? $curre
                                         $available_stages[] = 'draft';
                                         $next_key = isset($stages['draft']['next']) ? $stages['draft']['next'] : null;
                                         
-                                        while ($next_key && $next_key !== $client_stage) {
+                                        $visited_keys = ['draft' => true];
+                                        while ($next_key && $next_key !== $client_stage && !isset($visited_keys[$next_key])) {
+                                            $visited_keys[$next_key] = true;
                                             $available_stages[] = $next_key;
                                             $next_key = isset($stages[$next_key]['next']) ? $stages[$next_key]['next'] : null;
                                         }

@@ -123,7 +123,10 @@ $stages = $all_certification_stages[$certification_type] ?? [];
                     "Draft & Application" => ["draft", "f01", "f02", "f03"],
                     "Stage-1 Audit" => [
                         "f05", "f14", "sheet6", "f08", "f06", "f11", "f13", 
-                        "f05a", "f07", "sheet12", "f08a", "f09", "f12", "f13a", 
+                        "f05a", "f07"
+                    ],
+                    "Stage-2 Audit" => [
+                        "sheet12", "f08a", "f09", "f12", "f13a", 
                         "f16", "f17", "f24", "f19", "f15", "f25", "f10"
                     ],
                     "Surveillance-1" => [

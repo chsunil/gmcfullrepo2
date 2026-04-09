@@ -2,7 +2,7 @@
 /*
 Plugin Name: Client PDF Generator
 Description: Generate Client & QMS PDFs via AJAX using DOMPDF.
-Version:     1.2
+Version:     1.2.1
 Author:      Sunil
 */
 
@@ -35,7 +35,7 @@ function cpdf_handle_generate_pdf() {
     }
 
     // 3.1) Locate the HTML template
-    $tpl = plugin_dir_path(__FILE__) . "templates/{$scheme}-{$stage}.php";
+    $tpl = plugin_dir_path(__FILE__) . "templates/{$scheme}/{$scheme}-{$stage}.php";
     if (! file_exists($tpl)) {
         wp_send_json_error(['message' => "Template not found: {$scheme}-{$stage}"]);
     }

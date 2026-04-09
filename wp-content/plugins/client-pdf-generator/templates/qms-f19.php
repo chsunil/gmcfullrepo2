@@ -2,13 +2,46 @@
 /**
  * QMS – F-19 Checklist for Certification Decision
  * ACF Group: group_f19_full
- * Key fields: clones of org, address, standard, scope + many check groups
+ * Excel: F-19 tab — 16 sections, Review block, Certification Decision block
+ *
+ * Header clones (prefix_name=0) — source meta keys:
+ *   organization_name, head_office, cert_scheme, scope_of_certification
+ *   proposal_ref_no  (get_post_meta)
+ *
+ * ACF group fields (get_field):
+ *   application_form         → completely_filled(radio), date(date)
+ *   review_of_application    → nested: completely_filled, mandays_are_correctly_applied_as_per_p-07,
+ *                                nace_code_is_correct, gmcs_is_accredited_in_nace_code,
+ *                                date_of_review_is_ok, if_transfer_f-26_is_attached_with_last_report_certificate,
+ *                                if_recertification_last_certificate_is_valid
+ *   proposal                 → date_of_offer_is_ok(clone/date), scope_is_clear(radio)
+ *   audit_plan_stage1        → completely_filled, auditors_registered, mandays_correct,
+ *                                scope_correct, date_of_audit, plan_in_advance
+ *   stage1_report            → completely_filled, date_correct, internal_audit_date, mrm_date
+ *   audit_plan_stage2        → completely_filled, team_members, person_with_nace,
+ *                                mandays_correct, date_of_audit, plan_in_advance
+ *   assessment_schedule      → team_same, dates_correct, mandays_as_plan, manday_hours
+ *   stage2_report            → completely_filled, signed_correct_date
+ *   ncs                      → dates_correct, previous_nc_closed, completely_filled
+ *   surveillance_plan        → completely_filled, processes_ok, next_assessment_date
+ *   confidentiality          → signed_by_team, dates_before_audit
+ *   attendance_sheet         → stage1_date, stage2_date
+ *   checklist_f25            → properly_filled, internal_audit_date, mrm_date
+ *   legal_compliance         → compliance_achieved, report_statement
+ *   previous_cycle_review    → comments_addressed
+ *   other_points             → details
+ *   reviews                  → review1_date, review1_remarks, review2_date, review2_remarks,
+ *                                checked_by, checked_date
+ *   certification_decision   → decision_person, lead_auditors, standard, scope,
+ *                                issues_ambiguity, major_ncs, effectiveness, minor_ncs,
+ *                                decision_final, justification, signature, cert_decision_date
  */
 if ( ! defined('ABSPATH') ) exit;
 
 $LOGO = '';
 require __DIR__ . '/_logo.inc.php';
 
+// ── Helpers ────────────────────────────────────────────────────────────────────
 if ( ! function_exists('f19_val') ) {
     function f19_val( $v, $fb = '-' ) {
         if ( $v === null || $v === '' || $v === false ) return $fb;
@@ -22,239 +55,508 @@ if ( ! function_exists('f19_val') ) {
         return esc_html( (string) $v );
     }
 }
-function f19_radio( $v ) {
-    if ( $v === null || $v === '' ) return '—';
-    return esc_html( (string) $v );
+if ( ! function_exists('f19_radio') ) {
+    function f19_radio( $v ) {
+        return ( $v === null || $v === '' ) ? '&nbsp;' : esc_html( (string) $v );
+    }
 }
-function f19_bool( $v ) {
-    if ( $v === true  || $v === 1 || $v === '1' ) return 'Yes';
-    if ( $v === false || $v === 0 || $v === '0' ) return 'No';
-    return '—';
+if ( ! function_exists('f19_bool') ) {
+    function f19_bool( $v ) {
+        if ( $v === true  || $v === 1 || $v === '1' ) return 'Yes';
+        if ( $v === false || $v === 0 || $v === '0' ) return 'No';
+        return '&nbsp;';
+    }
 }
-function f19_date( $v ) {
-    if ( ! $v ) return '-';
-    return preg_match('/^\d{4}-\d{2}-\d{2}/', $v) ? date('d/m/Y', strtotime($v)) : esc_html($v);
+if ( ! function_exists('f19_date') ) {
+    function f19_date( $v ) {
+        if ( ! $v ) return '&nbsp;';
+        // Clone of date_picker inside a group may return an array — extract first string
+        if ( is_array($v) ) {
+            $found = '';
+            foreach ( $v as $item ) {
+                if ( is_string($item) && $item !== '' ) { $found = $item; break; }
+            }
+            if ( $found === '' ) return '&nbsp;';
+            $v = $found;
+        }
+        if ( function_exists('gmc_format_date') ) return gmc_format_date($v);
+        return preg_match('/^\d{4}-\d{2}-\d{2}/', $v) ? date('d/m/Y', strtotime($v)) : esc_html($v);
+    }
 }
 
-// Top-level fields
-$org_raw = get_field( 'organization_name', $post_id ) ?: get_field( 'organization', $post_id );
-$org     = ( $org_raw && ! is_array($org_raw) ) ? esc_html($org_raw)
-         : ( is_array($org_raw) ? f19_val($org_raw) : esc_html( get_post_field('post_title', $post_id) ) );
-$standard = f19_val( get_field( 'standard', $post_id ) );
-$scope    = f19_val( get_field( 'scope_of_certification', $post_id ) );
+/**
+ * Find a key within a flat or nested (unnamed sub-group) array.
+ * review_of_application returns data in nested unnamed sub-groups.
+ */
+if ( ! function_exists('f19_nested') ) {
+    function f19_nested( $arr, $key, $type = 'radio' ) {
+        if ( ! is_array($arr) ) return '&nbsp;';
+        $v = null;
+        // Direct access first
+        if ( array_key_exists($key, $arr) ) {
+            $v = $arr[$key];
+        } else {
+            // Search nested unnamed sub-groups
+            foreach ( $arr as $subgrp ) {
+                if ( is_array($subgrp) && array_key_exists($key, $subgrp) ) {
+                    $v = $subgrp[$key]; break;
+                }
+            }
+        }
+        if ( $v === null ) return '&nbsp;';
+        switch ( $type ) {
+            case 'bool':  return f19_bool($v);
+            case 'date':  return f19_date($v);
+            case 'val':   return f19_val($v);
+            default:      return f19_radio($v);
+        }
+    }
+}
 
-// Groups
-$app_form   = get_field( 'application_form', $post_id );
-$rev_app    = get_field( 'review_of_application', $post_id );
-$proposal   = get_field( 'proposal', $post_id );
-$ap_stage1  = get_field( 'audit_plan_stage1', $post_id );
-$s1_report  = get_field( 'stage1_report', $post_id );
-$ap_stage2  = get_field( 'audit_plan_stage2', $post_id );
-$sch        = get_field( 'assessment_schedule', $post_id );
-$s2_report  = get_field( 'stage2_report', $post_id );
-$ncs        = get_field( 'ncs', $post_id );
-$surv_plan  = get_field( 'surveillance_plan', $post_id );
-$conf       = get_field( 'confidentiality', $post_id );
-$att_sheet  = get_field( 'attendance_sheet', $post_id );
-$f25        = get_field( 'checklist_f25', $post_id );
-$legal      = get_field( 'legal_compliance', $post_id );
-$prev_cycle = get_field( 'previous_cycle_review', $post_id );
-$other_pts  = get_field( 'other_points', $post_id );
-$reviews    = get_field( 'reviews', $post_id );
-$cert_dec   = get_field( 'certification_decision', $post_id );
+// ── Header fields ──────────────────────────────────────────────────────────────
+$org_raw = get_post_meta( $post_id, 'organization_name', true );
+if ( ! $org_raw ) $org_raw = function_exists('gmc_get_organization_name')
+    ? gmc_get_organization_name( $post_id )
+    : get_post_field( 'post_title', $post_id );
+$org = esc_html( (string) $org_raw );
+
+$address  = esc_html( get_post_meta( $post_id, 'head_office', true ) ?: '-' );
+$standard = esc_html( get_post_meta( $post_id, 'cert_scheme', true )
+    ?: get_post_meta( $post_id, 'standard_applied', true ) ?: '-' );
+$scope    = esc_html( get_post_meta( $post_id, 'scope_of_certification', true ) ?: '-' );
+$ref_no   = esc_html( get_post_meta( $post_id, 'proposal_ref_no', true ) ?: '-' );
+
+// ── ACF groups ─────────────────────────────────────────────────────────────────
+$app_form   = get_field( 'f19application_form',     $post_id ) ?: [];
+$rev_app    = get_field( 'review_of_application',  $post_id ) ?: [];
+$proposal   = get_field( 'proposal',               $post_id ) ?: [];
+$ap_stage1  = get_field( 'audit_plan_stage1',      $post_id ) ?: [];
+$s1_report  = get_field( 'stage1_report',          $post_id ) ?: [];
+$ap_stage2  = get_field( 'audit_plan_stage2',      $post_id ) ?: [];
+$sch        = get_field( 'assessment_schedule',    $post_id ) ?: [];
+$s2_report  = get_field( 'stage2_report',          $post_id ) ?: [];
+$ncs        = get_field( 'ncs',                    $post_id ) ?: [];
+$surv_plan  = get_field( 'surveillance_plan',      $post_id ) ?: [];
+$conf       = get_field( 'confidentiality',        $post_id ) ?: [];
+$att_sheet  = get_field( 'attendance_sheet',       $post_id ) ?: [];
+$f25        = get_field( 'checklist_f25',          $post_id ) ?: [];
+$legal      = get_field( 'legal_compliance',       $post_id ) ?: [];
+$prev_cycle = get_field( 'previous_cycle_review',  $post_id ) ?: [];
+$other_pts  = get_field( 'other_points',           $post_id ) ?: [];
+$reviews    = get_field( 'reviews',                $post_id ) ?: [];
+$cert_dec   = get_field( 'certification_decision', $post_id ) ?: [];
+
+// ── Checklist sections ─────────────────────────────────────────────────────────
+// Format: [ 'doc' => label, 'rows' => [ ['checkpoint label', 'value'], ... ] ]
+$sections = [
+
+    // 1. Application Form
+    [
+        'doc'  => 'Application Form',
+        'rows' => [
+            ['Completely filled',  f19_radio( $app_form['completely_filled'] ?? null )],
+            ['Date',               f19_date(  $app_form['date'] ?? '' )],
+        ],
+    ],
+
+    // 2. Review of Application (7 checkpoints)
+    [
+        'doc'  => 'Review of application',
+        'rows' => [
+            ['Completely filled',
+                f19_nested( $rev_app, 'completely_filled', 'radio' )],
+            ['Mandays are correctly applied as per P-07',
+                f19_nested( $rev_app, 'mandays_are_correctly_applied_as_per_p-07', 'radio' )],
+            ['NACE Code is correct',
+                f19_nested( $rev_app, 'nace_code_is_correct', 'radio' )],
+            ['GMCS is accredited in NACE Code',
+                f19_nested( $rev_app, 'gmcs_is_accredited_in_nace_code', 'radio' )],
+            ['Date of review is ok',
+                f19_nested( $rev_app, 'date_of_review_is_ok', 'date' )],
+            ['If transfer, F-26 is attached with last report / certificate',
+                f19_nested( $rev_app, 'if_transfer_f-26_is_attached_with_last_report_certificate', 'bool' )],
+            ['If recertification, last certificate is valid',
+                f19_nested( $rev_app, 'if_recertification_last_certificate_is_valid', 'bool' )],
+        ],
+    ],
+
+    // 3. Proposal
+    [
+        'doc'  => 'Proposal',
+        'rows' => [
+            ['Date of offer is ok', f19_date(  $proposal['date_of_offer_is_ok'] ?? '' )],
+            ['Scope is clear',      f19_radio( $proposal['scope_is_clear']       ?? null )],
+        ],
+    ],
+
+    // 4. Audit Plan Stage 1
+    [
+        'doc'  => 'Audit Plan stage 1',
+        'rows' => [
+            ['Completely filled',
+                f19_radio( $ap_stage1['completely_filled']   ?? null )],
+            ['Auditors are registered by GMCSPL',
+                f19_val(   $ap_stage1['auditors_registered'] ?? null )],
+            ['Mandays are correct',
+                esc_html( (string)( $ap_stage1['mandays_correct'] ?? '' ) ) ?: '&nbsp;'],
+            ['Scope is correct',
+                f19_radio( $ap_stage1['scope_correct']        ?? null )],
+            ['Date of audit is correct',
+                f19_date(  $ap_stage1['date_of_audit']                  ?? '' )],
+            ['Date of audit is correct (confirmed)',
+                f19_radio( $ap_stage1['f19date_of_audit_is_correct']    ?? null )],
+            ['Date of audit plan is at least 3 days in advance',
+                f19_radio( $ap_stage1['plan_in_advance']                ?? null )],
+        ],
+    ],
+
+    // 5. Stage 1 Report (4 checkpoints)
+    [
+        'doc'  => 'Stage 1 report',
+        'rows' => [
+            ['Completely filled',
+                f19_radio( $s1_report['completely_filled']   ?? null )],
+            ['Date is correct',
+                f19_date(  $s1_report['date_correct']        ?? '' )],
+            ['Internal audit date is ok',
+                f19_radio( $s1_report['internal_audit_date'] ?? null )],
+            ['MRM date is ok',
+                f19_date(  $s1_report['mrm_date']            ?? '' )],
+        ],
+    ],
+
+    // 6. Audit Plan Stage 2 (6 checkpoints — includes Person with NACE Code + Mandays)
+    [
+        'doc'  => 'Audit Plan stage 2',
+        'rows' => [
+            ['Completely filled',
+                f19_radio( $ap_stage2['completely_filled'] ?? null )],
+            ['Team members are registered by GMCSPL',
+                f19_val(   $ap_stage2['team_members']      ?? null )],
+            ['Person with NACE Code',
+                f19_val(   $ap_stage2['person_with_nace']  ?? null )],
+            ['Mandays are correct',
+                esc_html( (string)( $ap_stage2['mandays_correct'] ?? '' ) ) ?: '&nbsp;'],
+            ['Date of audit is correct',
+                f19_date(  $ap_stage2['date_of_audit']     ?? '' )],
+            ['Date of audit plan is at least 3 days in advance',
+                f19_radio( $ap_stage2['plan_in_advance']   ?? null )],
+        ],
+    ],
+
+    // 7. Assessment Schedule
+    [
+        'doc'  => 'Assessment schedule',
+        'rows' => [
+            ['Audit team is same as in plan',
+                f19_radio( $sch['team_same']        ?? null )],
+            ['Dates are correct',
+                f19_date(  $sch['dates_correct']    ?? '' )],
+            ['Mandays are as per audit plan',
+                esc_html( (string)( $sch['mandays_as_plan'] ?? '' ) ) ?: '&nbsp;'],
+            ['One man-day is of at least 8 hours',
+                f19_radio( $sch['manday_hours']     ?? null )],
+        ],
+    ],
+
+    // 8. Stage 2 Report
+    [
+        'doc'  => 'Stage 2 report',
+        'rows' => [
+            ['Completely filled',
+                f19_radio( $s2_report['completely_filled']   ?? null )],
+            ['Signed and correct dated',
+                f19_date(  $s2_report['signed_correct_date'] ?? '' )],
+        ],
+    ],
+
+    // 9. NCs
+    [
+        'doc'  => 'NCs',
+        'rows' => [
+            ['Dates are correct',
+                f19_date(  $ncs['dates_correct']      ?? '' )],
+            ['Previous NC if any, closed',
+                f19_radio( $ncs['previous_nc_closed'] ?? null )],
+            ['Completely filled',
+                f19_radio( $ncs['completely_filled']  ?? null )],
+        ],
+    ],
+
+    // 10. On going surveillance plan
+    [
+        'doc'  => 'On going surveillance plan',
+        'rows' => [
+            ['Completely filled',
+                f19_radio( $surv_plan['completely_filled']    ?? null )],
+            ['Processes as in Assessment schedule',
+                f19_radio( $surv_plan['processes_ok']         ?? null )],
+            ['Next assessment date',
+                f19_date(  $surv_plan['next_assessment_date'] ?? '' )],
+        ],
+    ],
+
+    // 11. Confidentiality & No COI
+    [
+        'doc'  => 'Confidentiality &amp; No COI',
+        'rows' => [
+            ['Signed by each of the audit team members',
+                f19_radio( $conf['signed_by_team']    ?? null )],
+            ['Dates of sign is before the participation in audit',
+                f19_date(  $conf['dates_before_audit'] ?? '' )],
+        ],
+    ],
+
+    // 12. Attendance Sheet
+    [
+        'doc'  => 'Attendance sheet',
+        'rows' => [
+            ['Correct dated — Stage 1', f19_date( $att_sheet['stage1_date'] ?? '' )],
+            ['Correct dated — Stage 2', f19_date( $att_sheet['stage2_date'] ?? '' )],
+        ],
+    ],
+
+    // 13. Checklist F-25
+    [
+        'doc'  => 'Checklist F-25',
+        'rows' => [
+            ['Properly filled',
+                f19_radio( $f25['properly_filled']     ?? null )],
+            ['Internal audit and MRM dates provided — Internal Audit',
+                f19_date(  $f25['internal_audit_date'] ?? '' )],
+            ['Internal audit and MRM dates provided — MRM',
+                f19_date(  $f25['mrm_date']            ?? '' )],
+        ],
+    ],
+
+    // 14. Legal Compliance Criteria
+    [
+        'doc'  => 'Legal Compliance Criteria for Certification decision',
+        'rows' => [
+            ['Is the organization achieved legal compliance with QMS requirements?',
+                f19_radio( $legal['compliance_achieved'] ?? null )],
+            ['Is the Audit report addressing about statement on legal compliance?',
+                f19_radio( $legal['report_statement']    ?? null )],
+        ],
+    ],
+
+    // 15. Review of previous cycle performance
+    [
+        'doc'  => 'Review of previous cycle performance',
+        'rows' => [
+            ['Comments on re-certification performance of the previous cycle addressed by the auditors',
+                f19_val( $prev_cycle['comments_addressed'] ?? null )],
+        ],
+    ],
+
+    // 16. Any other points
+    [
+        'doc'  => 'Any other points',
+        'rows' => [
+            ['Details', f19_val( $other_pts['details'] ?? null )],
+        ],
+    ],
+];
+
+// ── Review block ───────────────────────────────────────────────────────────────
+$rv       = is_array($reviews) ? $reviews : [];
+$rv1_date = f19_date( $rv['review1_date']    ?? '' );
+$rv1_rem  = esc_html( (string)( $rv['review1_remarks'] ?? '' ) );
+$rv2_date = f19_date( $rv['review2_date']    ?? '' );
+$rv2_rem  = esc_html( (string)( $rv['review2_remarks'] ?? '' ) );
+$chk_by   = esc_html( (string)( $rv['checked_by']   ?? '' ) );
+$chk_date = f19_date( $rv['checked_date'] ?? '' );
+
+// ── Certification Decision ─────────────────────────────────────────────────────
+$cd = is_array($cert_dec) ? $cert_dec : [];
 ?><!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <style>
-body { font-family: Arial, sans-serif; font-size: 9px; color: #000; margin: 0; padding: 8px; }
-h1 { text-align: center; font-size: 13px; font-weight: bold; margin: 0 0 2px 0; text-transform: uppercase; }
-h2 { text-align: center; font-size: 9px; margin: 0 0 10px 0; color: #444; }
-table { width: 100%; border-collapse: collapse; margin-bottom: 6px; }
-th, td { border: 1px solid #555; padding: 4px 5px; vertical-align: top; text-align: left; }
-th { background: #d9d9d9; font-weight: bold; font-size: 8px; text-transform: uppercase; }
-.lbl { background: #f2f2f2; font-weight: bold; width: 40%; }
-.lbl2 { background: #f2f2f2; font-weight: bold; width: 55%; }
-.h-logo { border: none; text-align: center; }
-.section-title { background: #c6c6c6; font-weight: bold; padding: 4px 6px; margin: 8px 0 3px 0; border: 1px solid #555; font-size: 9px; text-transform: uppercase; }
-.sub-title { background: #e8e8e8; font-weight: bold; padding: 3px 5px; margin: 4px 0 2px 0; border: 1px solid #999; font-size: 9px; }
+@page { size: A4 portrait; margin: 10mm 8mm; }
+body  { font-family: Arial, sans-serif; font-size: 8px; color: #000; margin: 0; padding: 0; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+th, td { border: 1px solid #555; padding: 2px 4px; vertical-align: middle; text-align: left; }
+th { background: #d9d9d9; font-weight: bold; font-size: 7.5px; text-transform: uppercase; text-align: center; }
+.no-border { border: none !important; background: transparent !important; }
+.title-row th { background: #c6c6c6; font-size: 11px; text-transform: uppercase; text-align: center; }
+.lbl  { background: #f2f2f2; font-weight: bold; white-space: nowrap; }
+.lbl2 { background: #f2f2f2; font-weight: bold; }
+.sec-hdr td { background: #c6c6c6; font-weight: bold; font-size: 8px; text-transform: uppercase; }
+.sno  { text-align: center; vertical-align: middle; font-weight: bold; width: 5%; }
+.doc  { vertical-align: middle; font-weight: bold; width: 20%; }
+.val  { text-align: center; vertical-align: middle; width: 22%; }
+.cd-lbl { background: #f2f2f2; font-weight: bold; width: 55%; }
+.rev-line { font-size: 8px; padding: 2px 4px; border: none; }
 </style>
 </head>
 <body>
 
-<?php if ( $LOGO ) : ?>
-<table style="margin-bottom:4px;"><tr><td class="h-logo" style="border:none;"><img alt="GMCSPL Logo" src="<?= $LOGO ?>" style="max-height:70px; width:auto;" /></td></tr></table>
-<?php endif; ?>
-
-<h1>Checklist for Certification Decision</h1>
-<h2>F-19 &nbsp;|&nbsp; QMS Certification &nbsp;|&nbsp; Version 1.00</h2>
-
-<div class="section-title">Organisation</div>
-<table>
-    <tr><td class="lbl">Organization</td><td><?= $org ?></td></tr>
-    <tr><td class="lbl">Standard</td><td><?= $standard ?></td></tr>
-    <tr><td class="lbl">Scope of Certification</td><td><?= $scope ?></td></tr>
+<!-- Header -->
+<table style="margin-bottom:3px;">
+    <tr>
+        <?php if ( $LOGO ) : ?>
+        <td class="no-border" style="width:12%; text-align:center; vertical-align:middle;">
+            <img alt="GMCSPL Logo" src="<?= $LOGO ?>" style="max-height:45px; width:auto;" />
+        </td>
+        <?php endif; ?>
+        <th colspan="<?= $LOGO ? 2 : 3 ?>" class="title-row no-border">
+            Checklist for Certification Decision<br>
+            <span style="font-size:8px; font-weight:normal;">To be completed by designated staff, except Certification Decision</span>
+        </th>
+        <td class="no-border" style="width:22%; font-size:7.5px; vertical-align:top; padding-top:2px;">
+            <strong>F-19 (Version 4.00, 17.03.2023)</strong><br>QMS Certification
+        </td>
+    </tr>
 </table>
 
-<div class="section-title">Application Form</div>
-<table>
-    <tr><td class="lbl">Completely Filled</td><td><?= f19_radio( $app_form['completely_filled'] ?? null ) ?></td></tr>
-    <tr><td class="lbl">Date</td><td><?= f19_date( $app_form['date'] ?? '' ) ?></td></tr>
+<!-- Details -->
+<table style="margin-bottom:3px;">
+    <tr>
+        <td class="lbl" style="width:5%;">Ref No.</td>
+        <td colspan="3"><?= $ref_no ?></td>
+    </tr>
+    <tr>
+        <td class="lbl">Organization</td>
+        <td colspan="3" style="font-weight:bold;"><?= $org ?: '&nbsp;' ?></td>
+    </tr>
+    <tr>
+        <td class="lbl">Address</td>
+        <td colspan="3"><?= $address ?></td>
+    </tr>
+    <tr>
+        <td class="lbl">Standard</td>
+        <td style="width:34%;"><?= $standard ?></td>
+        <td class="lbl" style="width:16%;">&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td class="lbl">Scope of Certification</td>
+        <td colspan="3"><?= $scope ?></td>
+    </tr>
 </table>
 
-<div class="section-title">Review of Application</div>
+<!-- Checklist Table -->
 <table>
-    <?php if ( is_array($rev_app) ) :
-        // Render each sub-group row
-        $sub_labels = [
-            ['Completely Filled', 'completely_filled', 'radio'],
-            ['Mandays correctly applied (P-07)', 'mandays_are_correctly_applied_as_per_p-07', 'radio'],
-            ['NACE Code is correct', 'nace_code_is_correct', 'radio'],
-            ['GMCS accredited in NACE Code', 'gmcs_is_accredited_in_nace_code', 'radio'],
-            ['If transfer, F-26 attached', 'if_transfer_f-26_is_attached_with_last_report_certificate', 'bool'],
-            ['If recertification, last cert valid', 'if_recertification_last_certificate_is_valid', 'bool'],
-        ];
-        foreach ( $sub_labels as $row ) :
-            $val = null;
-            foreach ( $rev_app as $subgrp ) {
-                if ( is_array($subgrp) && array_key_exists($row[1], $subgrp) ) { $val = $subgrp[$row[1]]; break; }
-            }
+    <thead>
+        <tr>
+            <th class="sno">S.No</th>
+            <th class="doc">Document</th>
+            <th style="width:53%;">Check Point</th>
+            <th style="width:22%;">Comments</th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php foreach ( $sections as $idx => $sec ) :
+        $sno      = $idx + 1;
+        $rowcount = count($sec['rows']);
+        foreach ( $sec['rows'] as $ri => $row ) :
     ?>
         <tr>
-            <td class="lbl"><?= esc_html($row[0]) ?></td>
-            <td><?= $row[2] === 'bool' ? f19_bool($val) : f19_radio($val) ?></td>
+            <?php if ( $ri === 0 ) : ?>
+            <td class="sno" rowspan="<?= $rowcount ?>"><?= $sno ?></td>
+            <td class="doc" rowspan="<?= $rowcount ?>"><?= $sec['doc'] ?></td>
+            <?php endif; ?>
+            <td><?= $row[0] ?></td>
+            <td class="val"><?= $row[1] ?></td>
         </tr>
-    <?php endforeach; endif; ?>
+    <?php endforeach; endforeach; ?>
+    </tbody>
 </table>
 
-<div class="section-title">Proposal</div>
-<table>
-    <tr><td class="lbl">Date of Offer OK</td><td><?= f19_radio( is_array($proposal) ? ($proposal['date_of_offer_is_ok'] ?? null) : null ) ?></td></tr>
-    <tr><td class="lbl">Scope is Clear</td><td><?= f19_radio( is_array($proposal) ? ($proposal['scope_is_clear'] ?? null) : null ) ?></td></tr>
+<!-- Review Section -->
+<table style="margin-top:4px;">
+    <tr class="sec-hdr"><td colspan="4">Review</td></tr>
+    <tr>
+        <td class="lbl" style="width:20%; white-space:nowrap;">1st Review / Date</td>
+        <td colspan="3"><?= $rv1_date ?></td>
+    </tr>
+    <tr>
+        <td colspan="4" style="border-top:none; padding:2px 4px; font-size:8px;">
+            &#9744; File is ready for the review by MD / Review Team
+            &nbsp;&nbsp;&nbsp;
+            &#9744; Follow up is required
+        </td>
+    </tr>
+    <tr>
+        <td class="lbl" style="white-space:nowrap;">Remarks</td>
+        <td colspan="3"><?= $rv1_rem ?: '&nbsp;' ?></td>
+    </tr>
+    <tr>
+        <td class="lbl" style="white-space:nowrap;">2nd Review / Date</td>
+        <td colspan="3"><?= $rv2_date ?></td>
+    </tr>
+    <tr>
+        <td colspan="4" style="border-top:none; padding:2px 4px; font-size:8px;">
+            &#9744; File is ready for the review by GM
+            &nbsp;&nbsp;&nbsp;
+            &#9744; Follow up is required
+        </td>
+    </tr>
+    <tr>
+        <td class="lbl" style="white-space:nowrap;">Remarks</td>
+        <td colspan="3"><?= $rv2_rem ?: '&nbsp;' ?></td>
+    </tr>
+    <tr>
+        <td class="lbl" style="width:20%;">Checked By</td>
+        <td style="width:30%;"><?= $chk_by ?: '&nbsp;' ?></td>
+        <td class="lbl" style="width:20%;">Date</td>
+        <td><?= $chk_date ?></td>
+    </tr>
 </table>
 
-<div class="section-title">Audit Plan – Stage 1</div>
-<table>
-    <?php $s1p = is_array($ap_stage1) ? $ap_stage1 : []; ?>
-    <tr><td class="lbl">Completely Filled</td><td><?= f19_radio( $s1p['completely_filled'] ?? null ) ?></td></tr>
-    <tr><td class="lbl">Auditors Registered by GMCSPL</td><td><?= f19_val( $s1p['auditors_registered'] ?? null ) ?></td></tr>
-    <tr><td class="lbl">Mandays Correct</td><td><?= esc_html( (string)($s1p['mandays_correct'] ?? '-') ) ?></td></tr>
-    <tr><td class="lbl">Scope Correct</td><td><?= f19_radio( $s1p['scope_correct'] ?? null ) ?></td></tr>
-    <tr><td class="lbl">Date of Audit Correct</td><td><?= f19_val( $s1p['date_of_audit'] ?? null ) ?></td></tr>
-    <tr><td class="lbl">Audit Plan ≥ 3 Days in Advance</td><td><?= f19_radio( $s1p['plan_in_advance'] ?? null ) ?></td></tr>
-</table>
-
-<div class="section-title">Stage 1 Report</div>
-<table>
-    <?php $s1r = is_array($s1_report) ? $s1_report : []; ?>
-    <tr><td class="lbl">Completely Filled</td><td><?= f19_radio( $s1r['completely_filled'] ?? null ) ?></td></tr>
-    <tr><td class="lbl">Internal Audit Date OK</td><td><?= f19_radio( $s1r['internal_audit_date'] ?? null ) ?></td></tr>
-    <tr><td class="lbl">MRM Date</td><td><?= f19_date( $s1r['mrm_date'] ?? '' ) ?></td></tr>
-</table>
-
-<div class="section-title">Audit Plan – Stage 2</div>
-<table>
-    <?php $s2p = is_array($ap_stage2) ? $ap_stage2 : []; ?>
-    <tr><td class="lbl">Completely Filled</td><td><?= f19_radio( $s2p['completely_filled'] ?? null ) ?></td></tr>
-    <tr><td class="lbl">Team Members Registered by GMCSPL</td><td><?= f19_val( $s2p['team_members'] ?? null ) ?></td></tr>
-    <tr><td class="lbl">Date of Audit Correct</td><td><?= f19_date( $s2p['date_of_audit'] ?? '' ) ?></td></tr>
-    <tr><td class="lbl">Audit Plan ≥ 3 Days in Advance</td><td><?= f19_radio( $s2p['plan_in_advance'] ?? null ) ?></td></tr>
-</table>
-
-<div class="section-title">Assessment Schedule</div>
-<table>
-    <?php $sc = is_array($sch) ? $sch : []; ?>
-    <tr><td class="lbl">Audit Team Same as Plan</td><td><?= f19_radio( $sc['team_same'] ?? null ) ?></td></tr>
-    <tr><td class="lbl">Dates Correct</td><td><?= f19_date( $sc['dates_correct'] ?? '' ) ?></td></tr>
-    <tr><td class="lbl">Mandays as per Plan</td><td><?= esc_html( (string)($sc['mandays_as_plan'] ?? '-') ) ?></td></tr>
-    <tr><td class="lbl">One Man-day ≥ 8 Hours</td><td><?= f19_radio( $sc['manday_hours'] ?? null ) ?></td></tr>
-</table>
-
-<div class="section-title">Stage 2 Report</div>
-<table>
-    <?php $s2r = is_array($s2_report) ? $s2_report : []; ?>
-    <tr><td class="lbl">Completely Filled</td><td><?= f19_radio( $s2r['completely_filled'] ?? null ) ?></td></tr>
-    <tr><td class="lbl">Signed and Correctly Dated</td><td><?= f19_date( $s2r['signed_correct_date'] ?? '' ) ?></td></tr>
-</table>
-
-<div class="section-title">NCs</div>
-<table>
-    <?php $nc = is_array($ncs) ? $ncs : []; ?>
-    <tr><td class="lbl">Dates Correct</td><td><?= f19_date( $nc['dates_correct'] ?? '' ) ?></td></tr>
-    <tr><td class="lbl">Previous NC Closed</td><td><?= f19_radio( $nc['previous_nc_closed'] ?? null ) ?></td></tr>
-    <tr><td class="lbl">Completely Filled</td><td><?= f19_radio( $nc['completely_filled'] ?? null ) ?></td></tr>
-</table>
-
-<div class="section-title">Ongoing Surveillance Plan</div>
-<table>
-    <?php $sp = is_array($surv_plan) ? $surv_plan : []; ?>
-    <tr><td class="lbl">Completely Filled</td><td><?= f19_radio( $sp['completely_filled'] ?? null ) ?></td></tr>
-    <tr><td class="lbl">Processes as in Assessment Schedule</td><td><?= f19_radio( $sp['processes_ok'] ?? null ) ?></td></tr>
-    <tr><td class="lbl">Next Assessment Date</td><td><?= f19_date( $sp['next_assessment_date'] ?? '' ) ?></td></tr>
-</table>
-
-<div class="section-title">Confidentiality &amp; No COI</div>
-<table>
-    <?php $cf = is_array($conf) ? $conf : []; ?>
-    <tr><td class="lbl">Signed by Each Audit Team Member</td><td><?= f19_radio( $cf['signed_by_team'] ?? null ) ?></td></tr>
-    <tr><td class="lbl">Dates Before Participation</td><td><?= f19_date( $cf['dates_before_audit'] ?? '' ) ?></td></tr>
-</table>
-
-<div class="section-title">Attendance Sheet</div>
-<table>
-    <?php $as = is_array($att_sheet) ? $att_sheet : []; ?>
-    <tr><td class="lbl">Stage 1 Date</td><td><?= f19_date( $as['stage1_date'] ?? '' ) ?></td></tr>
-    <tr><td class="lbl">Stage 2 Date</td><td><?= f19_date( $as['stage2_date'] ?? '' ) ?></td></tr>
-</table>
-
-<div class="section-title">Checklist F-25</div>
-<table>
-    <?php $f25d = is_array($f25) ? $f25 : []; ?>
-    <tr><td class="lbl">Properly Filled</td><td><?= f19_radio( $f25d['properly_filled'] ?? null ) ?></td></tr>
-    <tr><td class="lbl">Internal Audit Date</td><td><?= f19_date( $f25d['internal_audit_date'] ?? '' ) ?></td></tr>
-    <tr><td class="lbl">MRM Date</td><td><?= f19_date( $f25d['mrm_date'] ?? '' ) ?></td></tr>
-</table>
-
-<div class="section-title">Legal Compliance Criteria</div>
-<table>
-    <?php $lc = is_array($legal) ? $legal : []; ?>
-    <tr><td class="lbl">Organization Achieved Legal Compliance</td><td><?= f19_radio( $lc['compliance_achieved'] ?? null ) ?></td></tr>
-    <tr><td class="lbl">Audit Report Addresses Compliance Statement</td><td><?= f19_radio( $lc['report_statement'] ?? null ) ?></td></tr>
-</table>
-
-<div class="section-title">Review of Previous Cycle Performance</div>
-<table>
-    <tr><td class="lbl">Comments Addressed</td><td><?= f19_val( is_array($prev_cycle) ? ($prev_cycle['comments_addressed'] ?? null) : null ) ?></td></tr>
-</table>
-
-<div class="section-title">Any Other Points</div>
-<table>
-    <tr><td class="lbl">Details</td><td><?= f19_val( is_array($other_pts) ? ($other_pts['details'] ?? null) : null ) ?></td></tr>
-</table>
-
-<div class="section-title">Review Dates &amp; Remarks</div>
-<table>
-    <?php $rv = is_array($reviews) ? $reviews : []; ?>
-    <tr><td class="lbl">1st Review Date</td><td><?= f19_date( $rv['review1_date'] ?? '' ) ?></td><td class="lbl">Remarks</td><td><?= f19_val( $rv['review1_remarks'] ?? null ) ?></td></tr>
-    <tr><td class="lbl">2nd Review Date</td><td><?= f19_date( $rv['review2_date'] ?? '' ) ?></td><td class="lbl">Remarks</td><td><?= f19_val( $rv['review2_remarks'] ?? null ) ?></td></tr>
-    <tr><td class="lbl">Checked By</td><td><?= f19_val( $rv['checked_by'] ?? null ) ?></td><td class="lbl">Checked Date</td><td><?= f19_date( $rv['checked_date'] ?? '' ) ?></td></tr>
-</table>
-
-<div class="section-title">Certification Decision</div>
-<table>
-    <?php $cd = is_array($cert_dec) ? $cert_dec : []; ?>
-    <tr><td class="lbl">Person(s) of Certification Decision</td><td><?= f19_val( $cd['decision_person'] ?? null ) ?></td></tr>
-    <tr><td class="lbl">Lead Auditor(s)</td><td><?= f19_val( $cd['lead_auditors'] ?? null ) ?></td></tr>
-    <tr><td class="lbl">Standard</td><td><?= f19_val( $cd['standard'] ?? null ) ?></td></tr>
-    <tr><td class="lbl">Scope</td><td><?= f19_val( $cd['scope'] ?? null ) ?></td></tr>
-    <tr><td class="lbl">Any Issues/Ambiguity</td><td><?= f19_radio( $cd['issues_ambiguity'] ?? null ) ?></td></tr>
-    <tr><td class="lbl">No. of Major NCs</td><td><?= esc_html( (string)($cd['major_ncs'] ?? '-') ) ?></td></tr>
-    <tr><td class="lbl">No. of Minor NCs</td><td><?= esc_html( (string)($cd['minor_ncs'] ?? '-') ) ?></td></tr>
-    <tr><td class="lbl">Effectiveness of Corrections</td><td><?= f19_val( $cd['effectiveness'] ?? null ) ?></td></tr>
-    <tr><td class="lbl">Decision on Certification</td><td><?= f19_val( $cd['decision_final'] ?? null ) ?></td></tr>
-    <tr><td class="lbl">Justification</td><td><?= f19_val( $cd['justification'] ?? null ) ?></td></tr>
-    <tr><td class="lbl">Signature</td><td><?= f19_val( $cd['signature'] ?? null ) ?></td></tr>
-    <tr><td class="lbl">Date of Certification Decision</td><td><?= f19_date( $cd['cert_decision_date'] ?? '' ) ?></td></tr>
+<!-- Certification Decision -->
+<table style="margin-top:4px;">
+    <tr class="sec-hdr"><td colspan="2">Certification Decision</td></tr>
+    <tr>
+        <td class="cd-lbl">Person(s) of Certification Decision</td>
+        <td><?= f19_val( $cd['decision_person'] ?? null ) ?></td>
+    </tr>
+    <tr>
+        <td class="cd-lbl">Lead Auditor / Auditors</td>
+        <td><?= f19_val( $cd['lead_auditors'] ?? null ) ?></td>
+    </tr>
+    <tr>
+        <td class="cd-lbl">Standard</td>
+        <td><?= f19_val( $cd['standard'] ?? null ) ?></td>
+    </tr>
+    <tr>
+        <td class="cd-lbl">Scope</td>
+        <td><?= f19_val( $cd['scope'] ?? null ) ?></td>
+    </tr>
+    <tr>
+        <td class="cd-lbl">Any issues / ambiguity of information on 1 to 16 of above table</td>
+        <td><?= f19_radio( $cd['issues_ambiguity'] ?? null ) ?></td>
+    </tr>
+    <tr>
+        <td class="cd-lbl">No. of Major Nonconformities (NCs)</td>
+        <td><?= esc_html( (string)( $cd['major_ncs'] ?? '' ) ) ?: '&nbsp;' ?></td>
+    </tr>
+    <tr>
+        <td class="cd-lbl">Effectiveness of Correction &amp; CA taken on Major NCs</td>
+        <td><?= f19_val( $cd['effectiveness'] ?? null ) ?></td>
+    </tr>
+    <tr>
+        <td class="cd-lbl">No. of Minor Nonconformities (NCs)</td>
+        <td><?= esc_html( (string)( $cd['minor_ncs'] ?? '' ) ) ?: '&nbsp;' ?></td>
+    </tr>
+    <tr>
+        <td class="cd-lbl">Decision on Certification</td>
+        <td><?= f19_val( $cd['decision_final'] ?? null ) ?></td>
+    </tr>
+    <tr>
+        <td class="cd-lbl">Justification in case of decision is not in line with auditor's recommendation</td>
+        <td><?= f19_val( $cd['justification'] ?? null ) ?></td>
+    </tr>
+    <tr>
+        <td class="cd-lbl">Signature of person(s) of Certification Decision</td>
+        <td><?= f19_val( $cd['signature'] ?? null ) ?></td>
+    </tr>
+    <tr>
+        <td class="cd-lbl">Date of Certification Decision</td>
+        <td><?= f19_date( $cd['cert_decision_date'] ?? '' ) ?></td>
+    </tr>
 </table>
 
 </body>
