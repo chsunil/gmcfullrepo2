@@ -94,7 +94,7 @@ if ($real_post_id) {
       echo '<button class="btn btn-danger btn-sm delete-pdf" data-post-id="' . $real_post_id . '" data-stage="' . $step_key . '" title="Delete & Regenerate"><i class="bx bx-trash"></i>Delete</button>';
       echo '</div>';
     } else {
-      echo '<button class="btn btn-primary btn-sm generate-pdf" data-post-id="' . $real_post_id . '" data-scheme="qms" data-stage="' . $step_key . '">
+      echo '<button class="btn btn-primary btn-sm generate-pdf" data-post-id="' . $real_post_id . '" data-scheme="' . esc_attr($scheme) . '" data-stage="' . $step_key . '">
               <i class="bx bx-file-blank me-1"></i> Generate PDF for '. $step_key.'
             </button>';
     }

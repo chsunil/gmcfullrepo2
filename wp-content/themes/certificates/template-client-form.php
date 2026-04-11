@@ -64,6 +64,16 @@ $stages = isset($certification_stages[$certification_type]) ? $certification_sta
 // Get current stage data
 $current_stage_data = isset($stages[$client_stage]) ? $stages[$client_stage] : null;
 $next_stage = $current_stage_data && isset($current_stage_data['next']) ? $current_stage_data['next'] : null;
+
+// Set global data for footer.php
+$GLOBALS['client_form_data'] = [
+    'post_id'            => $post_id,
+    'is_new'             => $is_new,
+    'stage_key'          => $client_stage,
+    'stages'             => $stages,
+    'client_stage'       => $client_stage,
+    'certification_type' => $certification_type
+];
 ?>
 
 <!-- Layout wrapper -->
@@ -279,9 +289,9 @@ $next_stage = $current_stage_data && isset($current_stage_data['next']) ? $curre
                                             <!-- Spacer for fixed bar -->
                                             <div style="height: 80px;"></div>
                                         </div>
-                                        <?php 
-                                        // Include send email modal for stages that have PDF
-                                        if ($has_pdf) {
+                                                <?php 
+                                                // Include send email modal for stages that have PDF
+                                                if ($has_pdf) {
                                             set_query_var('send_email_args', [
                                                 'post_id'       => $post_id,
                                                 'pdf_url'       => get_field($pdf_field, $post_id),

@@ -818,7 +818,7 @@ add_action('wp_ajax_update_certification_type', function() {
     $post_id = isset($_POST['post_id']) ? intval($_POST['post_id']) : 0;
     $type = isset($_POST['type']) ? sanitize_text_field($_POST['type']) : '';
     
-    if (!$post_id || !$type || !in_array($type, ['qms', 'ems'])) {
+    if (!$post_id || !$type || !in_array($type, ['qms', 'ems', 'ims', 'isms', 'mdqms', 'ohsms'])) {
         wp_send_json_error('Invalid parameters');
     }
     
