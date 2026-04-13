@@ -15,7 +15,7 @@
 if ( ! defined('ABSPATH') ) exit;
 
 $LOGO = '';
-require __DIR__ . '/_logo.inc.php';
+require dirname(__DIR__) . '/_logo.inc.php';
 
 $org_raw = get_field( 'organization_name', $post_id );
 $org     = ( $org_raw && ! is_array($org_raw) ) ? esc_html($org_raw)

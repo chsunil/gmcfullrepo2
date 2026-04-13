@@ -20,7 +20,7 @@
 if ( ! defined('ABSPATH') ) exit;
 
 $LOGO = '';
-require __DIR__ . '/_logo.inc.php';
+require dirname(__DIR__) . '/_logo.inc.php';
 
 // ── Header fields ─────────────────────────────────────────────────────────────
 $org_raw = get_post_meta( $post_id, 'organization_name', true );

@@ -11,7 +11,7 @@
 if ( ! defined('ABSPATH') ) exit;
 
 $LOGO = '';
-require __DIR__ . '/_logo.inc.php';
+require dirname(__DIR__) . '/_logo.inc.php';
 
 if ( ! function_exists('f13s1_val') ) {
     function f13s1_val( $v, $fb = '-' ) {

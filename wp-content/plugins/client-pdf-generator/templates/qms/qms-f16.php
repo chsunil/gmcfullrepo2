@@ -19,7 +19,7 @@
 if ( ! defined('ABSPATH') ) exit;
 
 $LOGO = '';
-require __DIR__ . '/_logo.inc.php';
+require dirname(__DIR__) . '/_logo.inc.php';
 
 // Column label map: internal field name → display label
 $col_labels = [

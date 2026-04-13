@@ -1518,6 +1518,105 @@
             "append": ""
         },
         {
+            "key": "field_ims_f11_integration_verification",
+            "label": "IMS Integration Verification",
+            "name": "ims_integration_verification",
+            "aria-label": "",
+            "type": "group",
+            "instructions": "Verify the level of integration for IMS certification.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "table",
+            "cert_restrict": 1,
+            "cert_visibility": [
+                "ims"
+            ],
+            "sub_fields": [
+                {
+                    "key": "field_ims_f11_eval_manual",
+                    "label": "Integration of Manual/Documentation",
+                    "name": "ims_integration_eval_manual",
+                    "type": "radio",
+                    "choices": {
+                        "integrated": "Integrated",
+                        "partial": "Partially Integrated",
+                        "not_integrated": "Not Integrated"
+                    },
+                    "layout": "horizontal",
+                    "return_format": "value"
+                },
+                {
+                    "key": "field_ims_f11_eval_mrm",
+                    "label": "Integration of Management Review",
+                    "name": "ims_integration_eval_mrm",
+                    "type": "radio",
+                    "choices": {
+                        "integrated": "Integrated",
+                        "partial": "Partially Integrated",
+                        "not_integrated": "Not Integrated"
+                    },
+                    "layout": "horizontal",
+                    "return_format": "value"
+                },
+                {
+                    "key": "field_ims_f11_eval_ia",
+                    "label": "Integration of Internal Audit",
+                    "name": "ims_integration_eval_ia",
+                    "type": "radio",
+                    "choices": {
+                        "integrated": "Integrated",
+                        "partial": "Partially Integrated",
+                        "not_integrated": "Not Integrated"
+                    },
+                    "layout": "horizontal",
+                    "return_format": "value"
+                },
+                {
+                    "key": "field_ims_f11_eval_policy",
+                    "label": "Integration of Policy/Strategy",
+                    "name": "ims_integration_eval_policy",
+                    "type": "radio",
+                    "choices": {
+                        "integrated": "Integrated",
+                        "partial": "Partially Integrated",
+                        "not_integrated": "Not Integrated"
+                    },
+                    "layout": "horizontal",
+                    "return_format": "value"
+                },
+                {
+                    "key": "field_ims_f11_hira_verified",
+                    "label": "HIRA (OH&S Hazard ID) Verified?",
+                    "name": "hira_verified",
+                    "type": "true_false",
+                    "message": "Yes, verified during Stage 1",
+                    "default_value": 0,
+                    "ui": 1
+                },
+                {
+                    "key": "field_ims_f11_eia_verified",
+                    "label": "EIA (EMS Aspects/Impacts) Verified?",
+                    "name": "eia_verified",
+                    "type": "true_false",
+                    "message": "Yes, verified during Stage 1",
+                    "default_value": 0,
+                    "ui": 1
+                },
+                {
+                    "key": "field_ims_f11_readiness_status",
+                    "label": "Overall IMS Readiness Summary",
+                    "name": "ims_readiness_status",
+                    "type": "textarea",
+                    "rows": 3
+                }
+            ]
+        },
+        {
             "key": "field_qms_f11_recommendations",
             "label": "Recommendations",
             "name": "recommendations",

@@ -105,7 +105,7 @@ if ( empty( $obj_html ) ) $obj_html = '<span>—</span>';
 
 // Logo
 $LOGO = '';
-require __DIR__ . '/_logo.inc.php';
+require dirname(__DIR__) . '/_logo.inc.php';
 ?><!DOCTYPE html>
 <html lang="en">
 <head>

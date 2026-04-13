@@ -147,6 +147,127 @@ add_action('acf/save_post', function($post_id){
 }, 20 );
 
 
+/**
+ * Add a dedicated "Certification" tab to ACF field settings (ACF 6.1+ way)
+ */
+add_filter('acf/field_group/additional_field_settings_tabs', function($tabs) {
+    if (is_array($tabs)) {
+        $tabs['certification'] = __('Certification', 'acf');
+    }
+    return $tabs;
+});
+
+/**
+ * Render Certification Visibility settings inside the dedicated tab.
+ * Uses the specific tab hook to ensure fields don't leak into General.
+ */
+add_action('acf/field_group/render_field_settings_tab/certification', function($field) {
+    // 1. Restrict Visibility Toggle
+    acf_render_field_setting($field, array(
+        'label'         => __('Restrict Visibility by Track?', 'acf'),
+        'instructions'  => __('By default, fields appear in all tracks. Toggle ON to restrict.', 'acf'),
+        'name'          => 'cert_restrict',
+        'type'          => 'true_false',
+        'ui'            => 1,
+        'ui_on_text'    => __('Yes', 'acf'),
+        'ui_off_text'   => __('No', 'acf'),
+    ), true); // True = Global setting
+
+    // 2. Allowed Tracks Checkboxes
+    acf_render_field_setting($field, array(
+        'label'         => __('Allowed Tracks', 'acf'),
+        'instructions'  => __('Field will only be visible in selected tracks.', 'acf'),
+        'name'          => 'cert_visibility',
+        'type'          => 'checkbox',
+        'choices'       => array(
+            'qms' => 'QMS',
+            'ems' => 'EMS',
+            'ims' => 'IMS',
+            'ohsms' => 'OHSMS',
+            'mdqms' => 'MDQMS',
+            'isms' => 'ISMS'
+        ),
+        'layout'        => 'horizontal',
+        'conditional_logic' => array(
+            array(
+                array(
+                    'field'     => 'cert_restrict',
+                    'operator'  => '==',
+                    'value'     => '1',
+                )
+            )
+        )
+    ), true); // True = Global setting
+});
+
+/**
+ * Global Certification Logic
+ * Hides/Shows fields based on 'certification_type' meta and the modern tab settings.
+ */
+add_filter('acf/prepare_field', function($field) {
+    $is_restricted = !empty($field['cert_restrict']);
+    $visibility    = $field['cert_visibility'] ?? [];
+    $class         = $field['wrapper']['class'] ?? '';
+    
+    // Priority 1: Modern Tab Logic
+    if ($is_restricted) {
+        $allowed_tracks = (array) $visibility;
+        
+        // Use post context to verify current track
+        $post_id = false;
+        if (isset($_GET['new_post_id'])) {
+            $post_id = intval($_GET['new_post_id']);
+        } elseif (is_admin() && isset($_GET['post'])) {
+            $post_id = intval($_GET['post']);
+        }
+
+        if (!$post_id) return $field;
+
+        $cert_type = get_field('certification_type', $post_id);
+        if (!$cert_type) return $field;
+
+        // Hide if current track is not in the allowed list
+        if (!in_array($cert_type, $allowed_tracks)) {
+            return false;
+        }
+        
+        return $field;
+    }
+
+    // Priority 2: Legacy CSS Class Support (for ease of transition)
+    $has_legacy_class = (
+        strpos($class, 'logic-qms-only') !== false || 
+        strpos($class, 'logic-ems-only') !== false || 
+        strpos($class, 'logic-ims-only') !== false ||
+        strpos($class, 'logic-ohsms-only') !== false ||
+        strpos($class, 'logic-mdqms-only') !== false ||
+        strpos($class, 'logic-isms-only') !== false
+    );
+
+    if ($has_legacy_class) {
+        $post_id = false;
+        if (isset($_GET['new_post_id'])) {
+            $post_id = intval($_GET['new_post_id']);
+        } elseif (is_admin() && isset($_GET['post'])) {
+            $post_id = intval($_GET['post']);
+        }
+        if (!$post_id) return $field;
+        
+        $cert_type = get_field('certification_type', $post_id);
+        if (!$cert_type) return $field;
+
+        if (strpos($class, 'logic-qms-only') !== false && $cert_type !== 'qms') return false;
+        if (strpos($class, 'logic-ems-only') !== false && $cert_type !== 'ems') return false;
+        if (strpos($class, 'logic-ims-only') !== false && $cert_type !== 'ims') return false;
+        if (strpos($class, 'logic-ohsms-only') !== false && $cert_type !== 'ohsms') return false;
+        if (strpos($class, 'logic-mdqms-only') !== false && $cert_type !== 'mdqms') return false;
+        if (strpos($class, 'logic-isms-only') !== false && $cert_type !== 'isms') return false;
+    }
+
+    return $field;
+});
+
+
 
 function filter_submit_button_attributes( $attributes, $form, $args ) {
     $attributes['class'] .= ' mt-3';
@@ -402,10 +523,12 @@ function enqueue_theme_assets() {
         );
         
         // Pass data to the script
+        $post_id = isset($_GET['new_post_id']) ? intval($_GET['new_post_id']) : 0;
         wp_localize_script('client-form', 'clientFormData', [
             'ajaxUrl' => admin_url('admin-ajax.php'),
             'stageNonce' => wp_create_nonce('update_client_stage_nonce'),
             'certTypeNonce' => wp_create_nonce('update_certification_type_nonce'),
+            'certificationType' => get_field('certification_type', $post_id) ?: 'qms',
         ]);
     }
     

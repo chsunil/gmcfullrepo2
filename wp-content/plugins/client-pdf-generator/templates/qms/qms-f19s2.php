@@ -19,7 +19,7 @@
 if ( ! defined('ABSPATH') ) exit;
 
 $LOGO = '';
-require __DIR__ . '/_logo.inc.php';
+require dirname(__DIR__) . '/_logo.inc.php';
 
 // ── Helpers (shared with f19.php — guarded by function_exists) ─────────────────
 if ( ! function_exists('f19_val') ) {

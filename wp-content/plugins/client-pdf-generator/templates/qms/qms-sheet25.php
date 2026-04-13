@@ -17,7 +17,7 @@ if ( ! defined('ABSPATH') ) exit;
 
 // Logo
 $LOGO = '';
-require __DIR__ . '/_logo.inc.php';
+require dirname(__DIR__) . '/_logo.inc.php';
 
 // Letter date — own date_picker in group (returns d/m/Y already)
 $letter_date_raw = get_field( 'date', $post_id );

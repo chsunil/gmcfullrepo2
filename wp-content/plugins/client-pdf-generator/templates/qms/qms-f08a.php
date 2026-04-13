@@ -65,7 +65,7 @@ $stages = [
 
 // ── Logo ──────────────────────────────────────────────────────────────────────
 $LOGO = '';
-require __DIR__ . '/_logo.inc.php';
+require dirname(__DIR__) . '/_logo.inc.php';
 ?>
 <!doctype html>
 <html>

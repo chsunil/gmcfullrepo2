@@ -12,7 +12,7 @@
 if ( ! defined('ABSPATH') ) exit;
 
 $LOGO = '';
-require __DIR__ . '/_logo.inc.php';
+require dirname(__DIR__) . '/_logo.inc.php';
 
 // Letter date — surv1 intimation date
 $letter_date = gmc_format_date(

@@ -55,7 +55,7 @@
 if ( ! defined('ABSPATH') ) exit;
 
 $LOGO = '';
-require __DIR__ . '/_logo.inc.php';
+require dirname(__DIR__) . '/_logo.inc.php';
 
 // ── Seamless clone fields (read via source meta key) ─────────────────────────
 $org     = esc_html( gmc_get_organization_name($post_id) );

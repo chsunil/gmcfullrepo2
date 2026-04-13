@@ -54,7 +54,7 @@ $schedule = get_field('field_6970cd4aa63fc', $post_id) ?: [];
 
 // ── Logo ──────────────────────────────────────────────────────────────────────
 $LOGO = '';
-require __DIR__ . '/_logo.inc.php';
+require dirname(__DIR__) . '/_logo.inc.php';
 
 // ── Stage checkboxes — Surv1 ticked ──────────────────────────────────────────
 $stages = [

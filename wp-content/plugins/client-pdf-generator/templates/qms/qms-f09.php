@@ -71,7 +71,7 @@ if ( ! function_exists('f09radio') ) {
 
 // ── Logo ──────────────────────────────────────────────────────────────────────
 $LOGO = '';
-require __DIR__ . '/_logo.inc.php';
+require dirname(__DIR__) . '/_logo.inc.php';
 
 // ── TOP-LEVEL FIELDS ─────────────────────────────────────────────────────────
 // Organization Name

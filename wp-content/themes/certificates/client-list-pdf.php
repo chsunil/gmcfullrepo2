@@ -102,7 +102,7 @@ $auditors = get_users(array('role' => 'auditor'));
                                                 </select>
                                             <?php endif; ?>
                                             <input type="text" name="search_query" value="<?php echo esc_attr($search_query); ?>" placeholder="Search Clients..." class="form-control me-2">
-                                            <button type="submit" class="btn btn-primary">Search</button>
+                                            <button type="submit" class="btn  btn-sm btn-primary">Search</button>
                                         </form>
                                     </div>
 
@@ -120,7 +120,7 @@ $auditors = get_users(array('role' => 'auditor'));
                             <th data-breakpoints="xs">Assigned Employee</th>
                             <th>Client Status</th>
                             <th data-breakpoints="xs">Created Date</th>
-                            <th>Actions</th> 
+                            <th style="width: 300px;">Actions</th> 
                             </tr></thead>';
                                         echo '<tbody>';
                                         $audit_page = get_page_by_path('dates');
@@ -154,23 +154,23 @@ $auditors = get_users(array('role' => 'auditor'));
                                             
                                             $pdf_button = '';
                                             if ($pdf_url) {
-                                                $pdf_button =   '<a href="' . esc_url($pdf_url) . '" target="_blank" class="btn btn-primary "><i class="fa-regular fa-file-pdf"></i></a>';
-                                                $pdf_button .= ' <button class="btn btn-danger  delete-pdf" data-post-id="' . $post_id . '" data-stage="' . $client_status . '" title="Delete & Regenerate"><i class="fa-solid fa-trash"></i> Delete PDF </button>';
-                                                $pdf_button .= ' <button class="btn btn-info  send-email-btn" data-post-id="' . $post_id . '" data-pdf-url="' . $pdf_url . '" data-email="' . get_field('contact_email', $post_id) . '"><i class="fa-regular fa-envelope"></i> Send Email</button>';
+                                                $pdf_button =   '<a href="' . esc_url($pdf_url) . '" target="_blank" class="btn  btn-sm btn-primary "><i class="fa-regular fa-file-pdf"></i></a>';
+                                                $pdf_button .= ' <button class="btn  btn-sm btn-danger  delete-pdf" data-post-id="' . $post_id . '" data-stage="' . $client_status . '" title="Delete & Regenerate"><i class="fa-solid fa-trash"></i> Delete PDF </button>';
+                                                $pdf_button .= ' <button class="btn  btn-sm btn-info  send-email-btn" data-post-id="' . $post_id . '" data-pdf-url="' . $pdf_url . '" data-email="' . get_field('contact_email', $post_id) . '"><i class="fa-regular fa-envelope"></i> Send Email</button>';
                                             } else {
-                                                $pdf_button =   '<button class="btn btn-success generate-pdf" data-post-id="' . $post_id . '" data-stage="' . $client_status . '"><i class="fa-solid fa-file-circle-plus"></i>Generate PDF</button>';
+                                                $pdf_button =   '<button class="btn  btn-sm btn-success generate-pdf" data-post-id="' . $post_id . '" data-stage="' . $client_status . '"><i class="fa-solid fa-file-circle-plus"></i>Generate PDF</button>';
                                             }
                                             $audit_url = add_query_arg('id', $post_id, $audit_base);
-                                            $audit_link = '<a href="' . esc_url($audit_url) . '" class="btn btn-primary"><span class="fa-calendar-alt fas" style="margin-right:5px"></span>' . 'View Dates</a>';
+                                            $audit_link = '<a href="' . esc_url($audit_url) . '" class="btn  btn-sm btn-primary"><span class="fa-calendar-alt fas" style="margin-right:5px"></span>' . 'View Dates</a>';
                                                 
                                             $invoice_url = add_query_arg(['client_id' => $post_id], site_url('/invoice-form/'));
-                                            $invoice_link = '<a href="' . esc_url($invoice_url) . '" class="btn btn-secondary  ms-1"><span class="fas fa-file-invoice-dollar" style="margin-right:5px"></span>' . 'Invoice</a>';
+                                            $invoice_link = '<a href="' . esc_url($invoice_url) . '" class="btn  btn-sm btn-secondary  ms-1"><span class="fas fa-file-invoice-dollar" style="margin-right:5px"></span>' . 'Invoice</a>';
 
                                             $delete_btn = '';
                                             if (in_array('administrator', $roles)) {
                                                 $nonce = wp_create_nonce('gmc_client_delete_nonce');
                                                 $delete_btn = sprintf(
-                                                    ' <button type="button" class="btn btn-danger  ms-1 delete-client-btn" data-post-id="%d" data-client-name="%s" data-nonce="%s" title="Delete Client"><span class="fas fa-trash"></span>Delete</button>',
+                                                    ' <button type="button" class="btn  btn-sm btn-danger  ms-1 delete-client-btn" data-post-id="%d" data-client-name="%s" data-nonce="%s" title="Delete Client"><span class="fas fa-trash"></span>Delete</button>',
                                                     $post_id,
                                                     esc_attr($client_name),
                                                     $nonce
@@ -258,8 +258,8 @@ $auditors = get_users(array('role' => 'auditor'));
                 <div id="del-error" class="alert alert-danger mt-3 d-none"></div>
             </div>
             <div class="modal-footer justify-content-center">
-                <button class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">Cancel</button>
-                <button class="btn btn-danger px-4" id="confirm-delete-client-btn">
+                <button class="btn  btn-sm btn-outline-secondary px-4" data-bs-dismiss="modal">Cancel</button>
+                <button class="btn  btn-sm btn-danger px-4" id="confirm-delete-client-btn">
                     <i class="bx bx-trash me-1"></i> Yes, Delete It
                 </button>
             </div>

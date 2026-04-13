@@ -34,8 +34,16 @@ function cpdf_handle_generate_pdf() {
         wp_send_json_error(['message' => 'Invalid post ID']);
     }
 
-    // 3.1) Locate the HTML template
+    // 3.1) Locate the HTML template (with fallback to QMS)
     $tpl = plugin_dir_path(__FILE__) . "templates/{$scheme}/{$scheme}-{$stage}.php";
+    if (! file_exists($tpl) && $scheme === 'ims') {
+        // Special case for IMS: many forms are identical to QMS but just need rebranding
+        $fallback_tpl = plugin_dir_path(__FILE__) . "templates/qms/qms-{$stage}.php";
+        if (file_exists($fallback_tpl)) {
+            $tpl = $fallback_tpl;
+        }
+    }
+
     if (! file_exists($tpl)) {
         wp_send_json_error(['message' => "Template not found: {$scheme}-{$stage}"]);
     }
@@ -45,6 +53,7 @@ function cpdf_handle_generate_pdf() {
     $post = get_post($post_id);
     setup_postdata($post);
     set_query_var('cpdf_post_id', $post_id);
+    set_query_var('cpdf_scheme', $scheme); // Pass the scheme (qms/ims/ems) to the template
     ob_start();
     include $tpl;
     $html = ob_get_clean();
