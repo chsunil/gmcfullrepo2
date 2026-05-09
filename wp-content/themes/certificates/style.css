@@ -777,7 +777,14 @@ html .compact-form {
 .compact-form .acf-fields>.acf-field:first-child {
     border-top: 0 !important;
 }
-
+.form-check-input[type=radio]{
+    width:20px !important;
+    height:20px !important;
+}
+body .acf-field {
+    margin-bottom: 0px !important;
+    margin-top: 0px !important;
+}
 .compact-form .acf-label {
     margin-bottom: 4px !important;
 }
@@ -788,6 +795,9 @@ html .compact-form {
     color: #566a7f !important;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+}
+label, legend{
+    font-size:9px !important;
 }
 .acf-table .acf-label
 label,

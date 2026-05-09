@@ -245,7 +245,7 @@
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "",
+                "width": "25",
                 "class": "",
                 "id": ""
             },
@@ -266,7 +266,7 @@
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "",
+                "width": "25",
                 "class": "halfwidthfield",
                 "id": ""
             },
@@ -287,8 +287,8 @@
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "",
-                "class": "halfwidthfield",
+                "width": "25",
+                "class": "",
                 "id": ""
             },
             "default_value": "",
@@ -308,7 +308,7 @@
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "49",
+                "width": "25",
                 "class": "",
                 "id": ""
             },
@@ -418,7 +418,7 @@
                     "allow_null": 0,
                     "other_choice": 0,
                     "allow_in_bindings": 0,
-                    "layout": "vertical",
+                    "layout": "horizontal",
                     "save_other_choice": 0
                 },
                 {
@@ -491,7 +491,7 @@
                     "allow_null": 0,
                     "other_choice": 0,
                     "allow_in_bindings": 0,
-                    "layout": "vertical",
+                    "layout": "horizontal",
                     "save_other_choice": 0
                 },
                 {
@@ -833,7 +833,7 @@
             "allow_null": 0,
             "other_choice": 0,
             "allow_in_bindings": 0,
-            "layout": "vertical",
+            "layout": "horizontal",
             "save_other_choice": 0
         },
         {
@@ -1480,7 +1480,7 @@
             "allow_null": 0,
             "other_choice": 0,
             "allow_in_bindings": 0,
-            "layout": "vertical",
+            "layout": "horizontal",
             "save_other_choice": 0
         },
         {
@@ -1864,7 +1864,7 @@
             "allow_null": 0,
             "other_choice": 0,
             "allow_in_bindings": 0,
-            "layout": "vertical",
+            "layout": "horizontal",
             "save_other_choice": 0
         },
         {
@@ -1919,7 +1919,7 @@
             "allow_null": 0,
             "other_choice": 0,
             "allow_in_bindings": 0,
-            "layout": "vertical",
+            "layout": "horizontal",
             "save_other_choice": 0
         },
         {
@@ -2713,7 +2713,7 @@
             "return_format": "value",
             "allow_custom": 0,
             "allow_in_bindings": 1,
-            "layout": "vertical",
+            "layout": "horizontal",
             "toggle": 0,
             "save_custom": 0,
             "custom_choice_button_text": "Add new choice"
