@@ -27,7 +27,8 @@
       "Bash(\"D:/Local Sites/gmc/app/public/regen-f11.php\":*)",
       "Bash(git fetch *)",
       "Bash(git checkout *)",
-      "Bash(git stash *)"
+      "Bash(git stash *)",
+      "PowerShell(Get-ChildItem \"C:\\\\Program Files\\\\GitHub CLI\\\\gh.exe\" -ErrorAction SilentlyContinue; Get-ChildItem \"$env:LOCALAPPDATA\\\\Programs\\\\GitHub CLI\\\\gh.exe\" -ErrorAction SilentlyContinue; Get-ChildItem \"C:\\\\Users\\\\Sunil\\\\AppData\\\\Local\\\\Programs\\\\GitHub CLI\\\\gh.exe\" -ErrorAction SilentlyContinue)"
     ]
   }
 }
