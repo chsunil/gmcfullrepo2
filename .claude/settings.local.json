@@ -24,7 +24,10 @@
       "Bash(\"$MYSQL\" -u root -proot -h 127.0.0.1 -P 10033 -e \"SHOW DATABASES;\")",
       "Bash(PHP=\"/c/Users/Sunil/AppData/Roaming/Local/lightning-services/php-8.2.27+1/bin/win64/php.exe\" \"$PHP\" -v)",
       "Bash(PHP=\"/c/Users/Sunil/AppData/Roaming/Local/lightning-services/php-8.2.27+1/bin/win64/php.exe\" \"$PHP\" -m)",
-      "Bash(\"D:/Local Sites/gmc/app/public/regen-f11.php\":*)"
+      "Bash(\"D:/Local Sites/gmc/app/public/regen-f11.php\":*)",
+      "Bash(git fetch *)",
+      "Bash(git checkout *)",
+      "Bash(git stash *)"
     ]
   }
 }
