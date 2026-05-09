@@ -24,6 +24,23 @@
             "columns_json": "[\r\n    {\r\n    \"label\": \"Auditor Guidance\",\r\n    \"name\": \"auditor_guidance\",\r\n    \"type\": \"static\",\r\n    \"width\": \"20%\"\r\n  },\r\n  {\r\n    \"label\": \"Evidences / Records – Initial Certification\",\r\n    \"name\": \"initial_certification\",\r\n    \"type\": \"textarea\",\r\n    \"width\": \"20%\"\r\n  },\r\n  {\r\n    \"label\": \"Surveillance-1\",\r\n    \"name\": \"surveillance_1\",\r\n    \"type\": \"textarea\",\r\n    \"width\": \"20%\"\r\n  },\r\n  {\r\n    \"label\": \"Surveillance-2\",\r\n    \"name\": \"surveillance_2\",\r\n    \"type\": \"textarea\",\r\n    \"width\": \"20%\"\r\n  }\r\n]",
             "has_prefilled_rows": 1,
             "allow_in_bindings": 1
+        },
+        {
+            "key": "field_adt_clone_f25",
+            "label": "Audit Dates (Synced)",
+            "name": "audit_dates_sync",
+            "type": "clone",
+            "clone": [
+                "field_0011",
+                "field_0026",
+                "field_0029",
+                "field_0032",
+                "field_0038"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
         }
     ],
     "location": [
@@ -43,5 +60,6 @@
     "hide_on_screen": "",
     "active": true,
     "description": "",
-    "show_in_rest": 0
+    "show_in_rest": 0,
+    "modified": 1777622257
 }

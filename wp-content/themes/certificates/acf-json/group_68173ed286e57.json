@@ -217,7 +217,7 @@
         },
         {
             "key": "field_68173ed2ac4f8",
-            "label": "Products\/Services",
+            "label": "Products/Services",
             "name": "products_services",
             "aria-label": "",
             "type": "textarea",
@@ -470,7 +470,7 @@
             "sub_fields": [
                 {
                     "key": "field_68173ed4005ca",
-                    "label": "organization already an applicant \/ certified for the certification scheme you have applied for",
+                    "label": "organization already an applicant / certified for the certification scheme you have applied for",
                     "name": "organization_already_an_applicant__certified_for_the_certification_scheme_you_have_applied_for",
                     "aria-label": "",
                     "type": "radio",
@@ -500,7 +500,7 @@
                     "name": "details",
                     "aria-label": "",
                     "type": "textarea",
-                    "instructions": "If yes, please mention the name of certification body and attach a copy of the certificate along with the last audit\/NC report",
+                    "instructions": "If yes, please mention the name of certification body and attach a copy of the certificate along with the last audit/NC report",
                     "required": 0,
                     "conditional_logic": [
                         [
@@ -699,7 +699,7 @@
                     "required": false,
                     "conditional_logic": false,
                     "wrapper": {
-                        "width": "",
+                        "width": "50",
                         "class": "",
                         "id": ""
                     },
@@ -727,15 +727,14 @@
                     "required": 0,
                     "conditional_logic": 0,
                     "wrapper": {
-                        "width": "",
+                        "width": "50",
                         "class": "",
                         "id": ""
                     },
-                    "display_format": "d\/m\/Y",
-                    "return_format": "d\/m\/Y",
+                    "display_format": "d/m/Y",
+                    "return_format": "d/m/Y",
                     "first_day": 1,
-                    "allow_in_bindings": 0,
-                    "default_to_current_date": 0
+                    "allow_in_bindings": 0
                 },
                 {
                     "key": "field_68173ed431ae4",
@@ -747,7 +746,7 @@
                     "required": false,
                     "conditional_logic": false,
                     "wrapper": {
-                        "width": "",
+                        "width": "50",
                         "class": "",
                         "id": ""
                     },
@@ -775,15 +774,14 @@
                     "required": 0,
                     "conditional_logic": 0,
                     "wrapper": {
-                        "width": "",
+                        "width": "50",
                         "class": "",
                         "id": ""
                     },
-                    "display_format": "d\/m\/Y",
-                    "return_format": "d\/m\/Y",
+                    "display_format": "d/m/Y",
+                    "return_format": "d/m/Y",
                     "first_day": 1,
-                    "allow_in_bindings": 0,
-                    "default_to_current_date": 0
+                    "allow_in_bindings": 0
                 }
             ]
         },
@@ -963,7 +961,7 @@
         },
         {
             "key": "field_68173ed2f102d",
-            "label": "Please indicate any activities\/services that performed at your customer premises?",
+            "label": "Please indicate any activities/services that performed at your customer premises?",
             "name": "please_indicate_any_activitiesservices_that_performed_at_your_customer_premises",
             "aria-label": "",
             "type": "text",
@@ -1053,7 +1051,7 @@
                 },
                 {
                     "key": "field_68173ed5bfabc",
-                    "label": "Supplier\/Sub Contractor",
+                    "label": "Supplier/Sub Contractor",
                     "name": "suppliersub_contractor",
                     "aria-label": "",
                     "type": "text",
@@ -1138,7 +1136,7 @@
         },
         {
             "key": "field_684806d45d7f5",
-            "label": "Consultancy  Organization\/ consultant",
+            "label": "Consultancy  Organization/ consultant",
             "name": "Consultancy__Organization_consultant",
             "aria-label": "",
             "type": "group",
@@ -1198,7 +1196,7 @@
         },
         {
             "key": "field_68480960e7d3a",
-            "label": "Process \/Operations",
+            "label": "Process /Operations",
             "name": "process",
             "aria-label": "",
             "type": "group",
@@ -1295,7 +1293,7 @@
         },
         {
             "key": "field_688bade7e934c",
-            "label": "1.0: Process\/ Operations",
+            "label": "1.0: Process/ Operations",
             "name": "10:_process_operations",
             "aria-label": "",
             "type": "clone",
@@ -1321,7 +1319,7 @@
         },
         {
             "key": "field_688bb0509b4dc",
-            "label": "2.0: Major Machinery\/ Equipments",
+            "label": "2.0: Major Machinery/ Equipments",
             "name": "20:_Major_Machinery_Equipments",
             "aria-label": "",
             "type": "group",
@@ -1536,7 +1534,7 @@
                 },
                 {
                     "key": "field_684813558bf29",
-                    "label": "Latest Audit (Initial\/Surveillance\/Re Certification) (attach report)",
+                    "label": "Latest Audit (Initial/Surveillance/Re Certification) (attach report)",
                     "name": "latest_audit_initialsurveillancere_certification_attach_report",
                     "aria-label": "",
                     "type": "text",
@@ -1586,7 +1584,7 @@
                 },
                 {
                     "key": "field_684813688bf2b",
-                    "label": "(Initial Certification Audit\/ Re Certification Audit Report) (attach report)",
+                    "label": "(Initial Certification Audit/ Re Certification Audit Report) (attach report)",
                     "name": "initial_certification_audit_re_certification_audit_report_attach_report",
                     "aria-label": "",
                     "type": "text",
@@ -1771,7 +1769,7 @@
             "choices": {
                 "Yes": "Yes",
                 "No": "No",
-                "N\/A": "N\/A"
+                "N/A": "N/A"
             },
             "default_value": "",
             "return_format": "value",
@@ -1794,7 +1792,7 @@
                     {
                         "field": "field_6848153f8bf32",
                         "operator": "==",
-                        "value": "n\/a"
+                        "value": "n/a"
                     }
                 ]
             ],
@@ -1900,7 +1898,7 @@
         },
         {
             "key": "field_684816028bf37",
-            "label": "Information about branch offices\/Other sites (to be Certified)",
+            "label": "Information about branch offices/Other sites (to be Certified)",
             "name": "information_about_branch_officesother_sites_to_be_certified",
             "aria-label": "",
             "type": "radio",
@@ -2090,7 +2088,7 @@
             "sub_fields": [
                 {
                     "key": "field_69d615960cc30",
-                    "label": "Any Statutory\/Regulatory requirements related to the operations",
+                    "label": "Any Statutory/Regulatory requirements related to the operations",
                     "name": "any_statutoryregulatory_requirements_related_to_the_operations",
                     "aria-label": "",
                     "type": "text",
@@ -2115,7 +2113,7 @@
                 },
                 {
                     "key": "field_69d615a80cc31",
-                    "label": "Any Licence\/approvals received related to Safety issues",
+                    "label": "Any Licence/approvals received related to Safety issues",
                     "name": "any_licenceapprovals_received_related_to_safety_issues",
                     "aria-label": "",
                     "type": "text",
@@ -2165,7 +2163,7 @@
                 },
                 {
                     "key": "field_69d615bc0cc33",
-                    "label": "Identification of the Key Hazardous and OH & S Risks\/HIRA",
+                    "label": "Identification of the Key Hazardous and OH & S Risks/HIRA",
                     "name": "identification_of_the_key_hazardous_and_oh_&_s_riskshira",
                     "aria-label": "",
                     "type": "text",
@@ -2559,8 +2557,8 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
-            "return_format": "d\/m\/Y",
+            "display_format": "d/m/Y",
+            "return_format": "d/m/Y",
             "first_day": 1,
             "allow_in_bindings": 0,
             "default_to_current_date": 0
@@ -2676,8 +2674,8 @@
                         "class": "",
                         "id": ""
                     },
-                    "display_format": "d\/m\/Y",
-                    "return_format": "d\/m\/Y",
+                    "display_format": "d/m/Y",
+                    "return_format": "d/m/Y",
                     "first_day": 1,
                     "allow_in_bindings": 0,
                     "default_to_current_date": 0
@@ -2706,8 +2704,8 @@
                 "Previous Certificate (for transfer only)": "Previous Certificate (for transfer only)",
                 "Previous Audit report (for transfer only)": "Previous Audit report (for transfer only)",
                 "Other Useful information, if any.": "Other Useful information, if any.",
-                "Copy of License \/ GST.": "Copy of License \/ GST.",
-                "Copy of CFO \/ Inspector of Factories.": "Copy of CFO \/ Inspector of Factories.",
+                "Copy of License / GST.": "Copy of License / GST.",
+                "Copy of CFO / Inspector of Factories.": "Copy of CFO / Inspector of Factories.",
                 "Copy Profile": "Copy Profile",
                 "Major Client List": "Major Client List"
             },
@@ -2719,6 +2717,37 @@
             "toggle": 0,
             "save_custom": 0,
             "custom_choice_button_text": "Add new choice"
+        },
+        {
+            "key": "field_adt_clone_f01",
+            "label": "Audit Dates (Ref: Excel)",
+            "name": "audit_dates_clone",
+            "type": "clone",
+            "clone": [
+                "field_0002",
+                "field_0029",
+                "field_0032"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0,
+            "modified": 1777639488
+        },
+        {
+            "key": "field_adt_clone_f01",
+            "label": "Audit Dates (Synced)",
+            "name": "audit_dates_sync",
+            "type": "clone",
+            "clone": [
+                "field_0002",
+                "field_0029",
+                "field_0032"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
         }
     ],
     "location": [
@@ -2740,5 +2769,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1775639326
+    "modified": 1777622257
 }

@@ -174,7 +174,7 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "Determination of the conformity of the client\u2019s management system, or parts of it, with audit criteria;\nEvaluation of the ability of the management system to ensure that the client organization meets applicable statutory, regulatory and contractual requirements;\nEvaluation of the effectiveness of the management system to ensure that the client organization is continually meeting its specified objectives;\nIdentification of areas for potential improvement of the management system.",
+            "default_value": "Determination of the conformity of the client’s management system, or parts of it, with audit criteria;\nEvaluation of the ability of the management system to ensure that the client organization meets applicable statutory, regulatory and contractual requirements;\nEvaluation of the effectiveness of the management system to ensure that the client organization is continually meeting its specified objectives;\nIdentification of areas for potential improvement of the management system.",
             "maxlength": "",
             "allow_in_bindings": 1,
             "rows": "",
@@ -1234,5 +1234,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1775032660
+    "modified": 1777622257
 }

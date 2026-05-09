@@ -20,7 +20,7 @@
             "calculated_format": "",
             "blank_if_zero": 0,
             "readonly": 0,
-            "message": "Please note this is meant for capturing updated information for correspondence and communication purposes only to ensure that you receive the relevant information about Audit & certification at the right place & at the right time. Kindly return the filled information by fax\/scan\/post.",
+            "message": "Please note this is meant for capturing updated information for correspondence and communication purposes only to ensure that you receive the relevant information about Audit & certification at the right place & at the right time. Kindly return the filled information by fax/scan/post.",
             "new_lines": "wpautop",
             "esc_html": 0
         },
@@ -255,5 +255,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1775287498
+    "modified": 1777622257
 }

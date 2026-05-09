@@ -98,7 +98,7 @@
             "calculated_format": "",
             "blank_if_zero": 0,
             "readonly": 0,
-            "default_value": "Stage \u2013 2 Audit reg.",
+            "default_value": "Stage – 2 Audit reg.",
             "maxlength": "",
             "allow_in_bindings": 0,
             "placeholder": "",
@@ -179,5 +179,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1774113133
+    "modified": 1777622257
 }

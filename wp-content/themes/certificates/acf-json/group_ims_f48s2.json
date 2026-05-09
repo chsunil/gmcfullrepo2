@@ -86,7 +86,7 @@
             "name": "f48_checklist",
             "aria-label": "",
             "type": "matrix_flexible",
-            "instructions": "Enter \u2713 in each cell where the document was attached. Leave blank if not attached. Rows starting with ## are section headers.",
+            "instructions": "Enter ✓ in each cell where the document was attached. Leave blank if not attached. Rows starting with ## are section headers.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -170,8 +170,8 @@
     "instruction_placement": "label",
     "hide_on_screen": "",
     "active": true,
-    "description": "Checklist for Completion of Reports \u2014 tracks which documents have been attached for each audit stage.",
+    "description": "Checklist for Completion of Reports — tracks which documents have been attached for each audit stage.",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1774605261
+    "modified": 1777622257
 }

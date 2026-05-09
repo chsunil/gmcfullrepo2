@@ -329,8 +329,8 @@
                     "calculated_format": "",
                     "blank_if_zero": 0,
                     "readonly": 0,
-                    "display_format": "d\/m\/Y",
-                    "return_format": "d\/m\/Y",
+                    "display_format": "d/m/Y",
+                    "return_format": "d/m/Y",
                     "first_day": 1,
                     "allow_in_bindings": 0,
                     "default_to_current_date": 0,
@@ -338,7 +338,7 @@
                 },
                 {
                     "key": "field_6884e71159f4f",
-                    "label": "Activity\/Process Area",
+                    "label": "Activity/Process Area",
                     "name": "activityprocess_area",
                     "aria-label": "",
                     "type": "textarea",
@@ -415,6 +415,20 @@
                     "parent_repeater": "field_6884e71159f4c"
                 }
             ]
+        },
+        {
+            "key": "field_adt_clone_f08a",
+            "label": "Audit Dates (Synced)",
+            "name": "audit_dates_sync",
+            "type": "clone",
+            "clone": [
+                "field_0011",
+                "field_0032"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
         }
     ],
     "location": [
@@ -436,5 +450,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1774119655
+    "modified": 1777622257
 }

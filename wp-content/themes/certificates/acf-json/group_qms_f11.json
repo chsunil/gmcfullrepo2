@@ -1780,6 +1780,39 @@
             "display_format": "d/m/Y",
             "return_format": "d/m/Y",
             "first_day": 1
+        },
+        {
+            "key": "field_adt_clone_f11",
+            "label": "Audit Dates (Ref: Excel)",
+            "name": "audit_dates_clone",
+            "type": "clone",
+            "clone": [
+                "field_0011",
+                "field_0017",
+                "field_0026",
+                "field_0029",
+                "field_0032"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0,
+            "modified": 1777639488
+        },
+        {
+            "key": "field_adt_clone_f11",
+            "label": "Audit Dates (Synced)",
+            "name": "audit_dates_sync",
+            "type": "clone",
+            "clone": [
+                "field_0017",
+                "field_0029",
+                "field_0032"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
         }
     ],
     "location": [
@@ -1799,5 +1832,6 @@
     "hide_on_screen": "",
     "active": true,
     "description": "",
-    "show_in_rest": 0
+    "show_in_rest": 0,
+    "modified": 1777622257
 }

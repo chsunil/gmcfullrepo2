@@ -166,7 +166,7 @@
         },
         {
             "key": "field_qms_f05_4",
-            "label": "Technical Code\/Area",
+            "label": "Technical Code/Area",
             "name": "f05technical_code",
             "aria-label": "",
             "type": "clone",
@@ -322,7 +322,7 @@
         },
         {
             "key": "field_f05_mandays",
-            "label": "Audit Mandays \/ Time",
+            "label": "Audit Mandays / Time",
             "name": "f05_mandays",
             "aria-label": "",
             "type": "group",
@@ -446,7 +446,7 @@
                         "lead_auditor": "Lead Auditor",
                         "auditor": "Auditor",
                         "technical_expert": "Technical Expert",
-                        "team_leader_supervision": "Team Leader under supervision \/ Witness Auditor",
+                        "team_leader_supervision": "Team Leader under supervision / Witness Auditor",
                         "observer": "Observer(s)",
                         "interpreter": "Interpreter(s)"
                     },
@@ -493,7 +493,7 @@
                 },
                 {
                     "key": "field_f05_team_mail_mobile",
-                    "label": "Mail \/ Mobile",
+                    "label": "Mail / Mobile",
                     "name": "f05_team_mail_mobile",
                     "aria-label": "",
                     "type": "text",
@@ -515,7 +515,7 @@
                 },
                 {
                     "key": "field_f05_team_onsite_ict",
-                    "label": "Onsite\/ICT & Remarks",
+                    "label": "Onsite/ICT & Remarks",
                     "name": "f05_team_onsite_ict",
                     "aria-label": "",
                     "type": "text",
@@ -596,7 +596,7 @@
                     "calculated_format": "",
                     "blank_if_zero": 0,
                     "readonly": 0,
-                    "default_value": "\" Working space and access to a telephone, internet and photocopying facilities\r\n Knowledgeable person to accompany during the audit.\r\n Knowledgeable person to handle the selected technology, to present the data\/information\r\n Access to pertinent manuals, procedures and to access the required data\/information\r\n Safety Requirements as per your procedures\r\n Should you have any query with regard to the arrangements for this audit, please contact us.\"",
+                    "default_value": "\" Working space and access to a telephone, internet and photocopying facilities\r\n Knowledgeable person to accompany during the audit.\r\n Knowledgeable person to handle the selected technology, to present the data/information\r\n Access to pertinent manuals, procedures and to access the required data/information\r\n Safety Requirements as per your procedures\r\n Should you have any query with regard to the arrangements for this audit, please contact us.\"",
                     "maxlength": "",
                     "allow_in_bindings": 0,
                     "rows": "",
@@ -906,13 +906,42 @@
                     "calculated_format": "",
                     "blank_if_zero": 0,
                     "readonly": 0,
-                    "display_format": "d\/m\/Y",
-                    "return_format": "d\/m\/Y",
+                    "display_format": "d/m/Y",
+                    "return_format": "d/m/Y",
                     "first_day": 1,
                     "allow_in_bindings": 0,
                     "default_to_current_date": 0
                 }
             ]
+        },
+        {
+            "key": "field_adt_clone_f05",
+            "label": "Audit Dates (Ref: Excel)",
+            "name": "audit_dates_clone",
+            "type": "clone",
+            "clone": [
+                "field_0011",
+                "field_0029"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0,
+            "modified": 1777639488
+        },
+        {
+            "key": "field_adt_clone_f05",
+            "label": "Audit Dates (Synced)",
+            "name": "audit_dates_sync",
+            "type": "clone",
+            "clone": [
+                "field_0011",
+                "field_0029"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
         }
     ],
     "location": [
@@ -934,5 +963,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1775715880
+    "modified": 1777622257
 }

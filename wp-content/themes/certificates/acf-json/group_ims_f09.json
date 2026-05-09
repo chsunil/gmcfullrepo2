@@ -287,7 +287,7 @@
             "calculated_format": "",
             "blank_if_zero": 0,
             "readonly": 0,
-            "default_value": "* Determination of the conformity of the client\u2019s management system, or parts of it, with                    audit criteria;\r\n* Evaluation of the ability of the management system to ensure that the client organization meets applicable statutory, regulatory and contractual requirements;\r\n* Evaluation of the effectiveness of the management system to ensure that the client organization is continually meeting its specified objectives;\r\n* Identification of areas for potential improvement of the management system.\r\n* To Verify the organization compliance and effective maintenance of QMS in accordance with ISO 9001:2015\r\n* To confirm client adheres to its own policies, ojectives and procedures.\r\n* Collective information and evideance about conformity to all trequirments of the standard.\r\n* Performance monitoring, measuring, reporting and reviewing against key performance objectives and targets wrt management system standard.",
+            "default_value": "* Determination of the conformity of the client’s management system, or parts of it, with                    audit criteria;\r\n* Evaluation of the ability of the management system to ensure that the client organization meets applicable statutory, regulatory and contractual requirements;\r\n* Evaluation of the effectiveness of the management system to ensure that the client organization is continually meeting its specified objectives;\r\n* Identification of areas for potential improvement of the management system.\r\n* To Verify the organization compliance and effective maintenance of QMS in accordance with ISO 9001:2015\r\n* To confirm client adheres to its own policies, ojectives and procedures.\r\n* Collective information and evideance about conformity to all trequirments of the standard.\r\n* Performance monitoring, measuring, reporting and reviewing against key performance objectives and targets wrt management system standard.",
             "maxlength": "",
             "allow_in_bindings": 0,
             "rows": "",
@@ -1489,5 +1489,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1774345869
+    "modified": 1777622257
 }

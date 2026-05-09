@@ -276,7 +276,7 @@
             "calculated_format": "",
             "blank_if_zero": 0,
             "readonly": 0,
-            "message": "\u00bb  Note 1. In case of change, lead auditor should rewrite and add his/her signature\t\t\t\t\t\t\t\t\t\r\n\u00bb  Note 2. Major: +, Minor: -, (Example: 3 Major: +3, 4 Minor: -4)\t\t\t\t\t\t\t\t\t\r\n\u00bb  Note 3. Please tick the processes to be audited during the next audit.",
+            "message": "»  Note 1. In case of change, lead auditor should rewrite and add his/her signature\t\t\t\t\t\t\t\t\t\r\n»  Note 2. Major: +, Minor: -, (Example: 3 Major: +3, 4 Minor: -4)\t\t\t\t\t\t\t\t\t\r\n»  Note 3. Please tick the processes to be audited during the next audit.",
             "new_lines": "wpautop",
             "esc_html": 0
         }
@@ -300,5 +300,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1775043454
+    "modified": 1777622257
 }

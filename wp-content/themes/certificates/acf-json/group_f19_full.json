@@ -12,7 +12,7 @@
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "",
+                "width": "50",
                 "class": "",
                 "id": ""
             },
@@ -38,7 +38,7 @@
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "",
+                "width": "50",
                 "class": "",
                 "id": ""
             },
@@ -64,7 +64,7 @@
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "",
+                "width": "50",
                 "class": "",
                 "id": ""
             },
@@ -90,7 +90,7 @@
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "",
+                "width": "50",
                 "class": "",
                 "id": ""
             },
@@ -511,7 +511,7 @@
                         },
                         {
                             "key": "field_692be3fb8552f",
-                            "label": "If transfer, F-26 is attached with last report\/ certificate",
+                            "label": "If transfer, F-26 is attached with last report/ certificate",
                             "name": "if_transfer_f-26_is_attached_with_last_report_certificate",
                             "aria-label": "",
                             "type": "true_false",
@@ -1812,8 +1812,8 @@
                     "calculated_format": "",
                     "blank_if_zero": 0,
                     "readonly": 0,
-                    "display_format": "d\/m\/Y",
-                    "return_format": "d\/m\/Y",
+                    "display_format": "d/m/Y",
+                    "return_format": "d/m/Y",
                     "first_day": 1,
                     "default_to_current_date": 0,
                     "allow_in_bindings": 0
@@ -1836,8 +1836,8 @@
                     "calculated_format": "",
                     "blank_if_zero": 0,
                     "readonly": 0,
-                    "display_format": "d\/m\/Y",
-                    "return_format": "d\/m\/Y",
+                    "display_format": "d/m/Y",
+                    "return_format": "d/m/Y",
                     "first_day": 1,
                     "default_to_current_date": 0,
                     "allow_in_bindings": 0
@@ -2150,15 +2150,15 @@
                     "calculated_format": "",
                     "blank_if_zero": 0,
                     "readonly": 0,
-                    "display_format": "d\/m\/Y",
-                    "return_format": "d\/m\/Y",
+                    "display_format": "d/m/Y",
+                    "return_format": "d/m/Y",
                     "first_day": 1,
                     "default_to_current_date": 0,
                     "allow_in_bindings": 0
                 },
                 {
                     "key": "field_review1_remarks",
-                    "label": "File is ready for the review by MD\/Review Team",
+                    "label": "File is ready for the review by MD/Review Team",
                     "name": "review1_remarks",
                     "aria-label": "",
                     "type": "text",
@@ -2274,8 +2274,8 @@
                     "calculated_format": "",
                     "blank_if_zero": 0,
                     "readonly": 0,
-                    "display_format": "d\/m\/Y",
-                    "return_format": "d\/m\/Y",
+                    "display_format": "d/m/Y",
+                    "return_format": "d/m/Y",
                     "first_day": 1,
                     "default_to_current_date": 0,
                     "allow_in_bindings": 0
@@ -2349,8 +2349,8 @@
                     "calculated_format": "",
                     "blank_if_zero": 0,
                     "readonly": 0,
-                    "display_format": "d\/m\/Y",
-                    "return_format": "d\/m\/Y",
+                    "display_format": "d/m/Y",
+                    "return_format": "d/m/Y",
                     "first_day": 1,
                     "default_to_current_date": 0,
                     "allow_in_bindings": 0
@@ -2475,7 +2475,7 @@
                 },
                 {
                     "key": "field_decision_issues",
-                    "label": "Any issues\/ambiguity",
+                    "label": "Any issues/ambiguity",
                     "name": "issues_ambiguity",
                     "aria-label": "",
                     "type": "text",
@@ -2572,7 +2572,7 @@
                 },
                 {
                     "key": "field_69c7bdaf7f1fa",
-                    "label": "Effectiveness of Correction & CA taken\/Planned. on minor Ncs",
+                    "label": "Effectiveness of Correction & CA taken/Planned. on minor Ncs",
                     "name": "effectiveness_of_correction_&_ca_takenplanned_on_minor_ncs",
                     "aria-label": "",
                     "type": "text",
@@ -2684,14 +2684,32 @@
                     "calculated_format": "",
                     "blank_if_zero": 0,
                     "readonly": 0,
-                    "display_format": "d\/m\/Y",
-                    "return_format": "d\/m\/Y",
+                    "display_format": "d/m/Y",
+                    "return_format": "d/m/Y",
                     "first_day": 1,
                     "default_to_current_date": 0,
                     "allow_in_bindings": 0
                 }
             ],
             "layout": "block"
+        },
+        {
+            "key": "field_adt_clone_f19",
+            "label": "Audit Dates (Synced)",
+            "name": "audit_dates_sync",
+            "type": "clone",
+            "clone": [
+                "field_0011",
+                "field_0017",
+                "field_0023",
+                "field_0026",
+                "field_0029",
+                "field_0032"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
         }
     ],
     "location": [
@@ -2713,5 +2731,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1774698153
+    "modified": 1777622257
 }

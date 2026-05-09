@@ -456,7 +456,7 @@
                 },
                 {
                     "key": "field_685d20cdadaaa",
-                    "label": "Activity\/Process Area",
+                    "label": "Activity/Process Area",
                     "name": "activityprocess_area",
                     "aria-label": "",
                     "type": "textarea",
@@ -739,9 +739,38 @@
             "calculated_format": "",
             "blank_if_zero": 0,
             "readonly": 0,
-            "message": "* Each man-day is equivalent to 8 working hours excluding lunch and travel\t\t\t\r\n* Role and responsibility of Observers\/interpreters if any",
+            "message": "* Each man-day is equivalent to 8 working hours excluding lunch and travel\t\t\t\r\n* Role and responsibility of Observers/interpreters if any",
             "new_lines": "wpautop",
             "esc_html": 0
+        },
+        {
+            "key": "field_adt_clone_f08",
+            "label": "Audit Dates (Ref: Excel)",
+            "name": "audit_dates_clone",
+            "type": "clone",
+            "clone": [
+                "field_0011",
+                "field_0029"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0,
+            "modified": 1777639488
+        },
+        {
+            "key": "field_adt_clone_f08",
+            "label": "Audit Dates (Synced)",
+            "name": "audit_dates_sync",
+            "type": "clone",
+            "clone": [
+                "field_0011",
+                "field_0029"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
         }
     ],
     "location": [
@@ -763,5 +792,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1775925583
+    "modified": 1777622257
 }

@@ -286,8 +286,8 @@
                     "calculated_format": "",
                     "blank_if_zero": 0,
                     "readonly": 0,
-                    "display_format": "d\/m\/Y",
-                    "return_format": "d\/m\/Y",
+                    "display_format": "d/m/Y",
+                    "return_format": "d/m/Y",
                     "first_day": 1,
                     "allow_in_bindings": 0,
                     "default_to_current_date": 0,
@@ -417,6 +417,21 @@
             "message": "* Each man-day is equivalent to 8 working hours excluding lunch and travel",
             "new_lines": "wpautop",
             "esc_html": 0
+        },
+        {
+            "key": "field_adt_clone_f08s1",
+            "label": "Audit Dates (Synced)",
+            "name": "audit_dates_sync",
+            "type": "clone",
+            "clone": [
+                "field_0012",
+                "field_0030",
+                "field_0033"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
         }
     ],
     "location": [
@@ -438,5 +453,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1774767992
+    "modified": 1777622257
 }

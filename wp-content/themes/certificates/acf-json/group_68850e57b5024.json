@@ -322,7 +322,7 @@
         },
         {
             "key": "field_688510aa12f4d",
-            "label": "Functional Units\/Processes Audited",
+            "label": "Functional Units/Processes Audited",
             "name": "f09functional_unitsprocesses_audited",
             "aria-label": "",
             "type": "clone",
@@ -450,7 +450,7 @@
         },
         {
             "key": "field_6885120b12f52",
-            "label": "Brief Profile of the organization Including  main products\/ services  and customers",
+            "label": "Brief Profile of the organization Including  main products/ services  and customers",
             "name": "brief_profile_of_the_organization_including__main_products_services__and_customers",
             "aria-label": "",
             "type": "clone",
@@ -501,7 +501,7 @@
         },
         {
             "key": "field_6885124f12f54",
-            "label": "Review of Action Taken on Identified nonconformities during previous audit\/actions initiated for the observations addressed in Stage 1 Audit.      (If Applicable).",
+            "label": "Review of Action Taken on Identified nonconformities during previous audit/actions initiated for the observations addressed in Stage 1 Audit.      (If Applicable).",
             "name": "f09review_of_action_taken_on_identified_nonconformities_during_previous_auditactions_initiated_for_the_observations_addressed_in_stage_1_audit______if_applicable",
             "aria-label": "",
             "type": "text",
@@ -780,7 +780,7 @@
         },
         {
             "key": "field_6885188d59c19",
-            "label": "Observations\/ areas for potential Improvement",
+            "label": "Observations/ areas for potential Improvement",
             "name": "observations_areas_for_potential_improvement",
             "aria-label": "",
             "type": "text",
@@ -1119,7 +1119,7 @@
         },
         {
             "key": "field_688519dabbb02",
-            "label": "Important points for planning forthcoming audit on-site\/ICT",
+            "label": "Important points for planning forthcoming audit on-site/ICT",
             "name": "important_points_for_planning_forthcoming_audit_on-siteict",
             "aria-label": "",
             "type": "text",
@@ -1468,6 +1468,25 @@
             "layout": "block",
             "prefix_label": 0,
             "prefix_name": 0
+        },
+        {
+            "key": "field_adt_clone_f09",
+            "label": "Audit Dates (Synced)",
+            "name": "audit_dates_sync",
+            "type": "clone",
+            "clone": [
+                "field_0008",
+                "field_0011",
+                "field_0017",
+                "field_0023",
+                "field_0026",
+                "field_0029",
+                "field_0032"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
         }
     ],
     "location": [
@@ -1489,5 +1508,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1774345869
+    "modified": 1777622257
 }

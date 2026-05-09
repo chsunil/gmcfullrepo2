@@ -1,6 +1,6 @@
 {
     "key": "group_ims_f17s2",
-    "title": "IMS \u2013 F17S2: On Going Surveillance Plan (Surveillance Year 2)",
+    "title": "IMS – F17S2: On Going Surveillance Plan (Surveillance Year 2)",
     "fields": [
         {
             "key": "field_44398e42d90d",
@@ -418,7 +418,7 @@
                 "class": "",
                 "id": ""
             },
-            "message": "\u00bb  Note 1. In case of change, lead auditor should rewrite and add his/her signature\r\n\u00bb  Note 2. Major: +, Minor: -, (Example: 3 Major: +3, 4 Minor: -4)\r\n\u00bb  Note 3. Please tick the processes to be audited during the next audit.",
+            "message": "»  Note 1. In case of change, lead auditor should rewrite and add his/her signature\r\n»  Note 2. Major: +, Minor: -, (Example: 3 Major: +3, 4 Minor: -4)\r\n»  Note 3. Please tick the processes to be audited during the next audit.",
             "new_lines": "wpautop",
             "esc_html": 0
         }
@@ -442,5 +442,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1775304465
+    "modified": 1777622257
 }

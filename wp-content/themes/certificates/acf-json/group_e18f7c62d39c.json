@@ -1,364 +1,379 @@
 {
-  "key": "group_e18f7c62d39c",
-  "title": "QMS – F16S2: Audit Programme (Surveillance Year 2)",
-  "fields": [
-    {
-      "key": "field_4d32c9448f59",
-      "label": "Ref No",
-      "name": "f16s2ref_no",
-      "aria-label": "",
-      "type": "clone",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "clone": [
-        "field_68554bdf55898"
-      ],
-      "display": "seamless",
-      "layout": "block",
-      "prefix_label": 0,
-      "prefix_name": 0
-    },
-    {
-      "key": "field_025bc252c898",
-      "label": "Organization",
-      "name": "f16s2organization",
-      "aria-label": "",
-      "type": "clone",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "clone": [
-        "field_org_name"
-      ],
-      "display": "seamless",
-      "layout": "block",
-      "prefix_label": 0,
-      "prefix_name": 0
-    },
-    {
-      "key": "field_abce230ebcb7",
-      "label": "Standard",
-      "name": "f16s2standard",
-      "aria-label": "",
-      "type": "clone",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "clone": [
-        "field_68173ed2b0218"
-      ],
-      "display": "seamless",
-      "layout": "block",
-      "prefix_label": 0,
-      "prefix_name": 0
-    },
-    {
-      "key": "field_186774cbda6f",
-      "label": "Technical Area",
-      "name": "f16s2technical_area",
-      "aria-label": "",
-      "type": "clone",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "formula": "",
-      "calculated_format": "",
-      "blank_if_zero": 0,
-      "readonly": 0,
-      "clone": [
-        "field_67fe8e52fc7e0"
-      ],
-      "display": "seamless",
-      "layout": "block",
-      "prefix_label": 0,
-      "prefix_name": 0
-    },
-    {
-      "key": "field_15df17ced647",
-      "label": "Planned / Conducted / ICT / Critical Security",
-      "name": "f16s2schedule_table",
-      "aria-label": "",
-      "type": "repeater",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "formula": "",
-      "calculated_format": "",
-      "blank_if_zero": 0,
-      "readonly": 0,
-      "layout": "table",
-      "pagination": 0,
-      "min": 4,
-      "max": 0,
-      "collapsed": "",
-      "button_label": "Add Row",
-      "rows_per_page": 20,
-      "sub_fields": [
+    "key": "group_e18f7c62d39c",
+    "title": "QMS – F16S2: Audit Programme (Surveillance Year 2)",
+    "fields": [
         {
-          "key": "field_982987239a85",
-          "label": "Type",
-          "name": "row_type",
-          "aria-label": "",
-          "type": "select",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "choices": {
-            "Planned": "Planned",
-            "Conducted": "Conducted",
-            "ICT Details if any": "ICT Details if any",
-            "Critical Security Controls if any": "Critical Security Controls if any"
-          },
-          "default_value": false,
-          "return_format": "value",
-          "multiple": 0,
-          "allow_null": 0,
-          "allow_in_bindings": 1,
-          "ui": 0,
-          "ajax": 0,
-          "placeholder": "",
-          "create_options": 0,
-          "save_options": 0,
-          "parent_repeater": "field_f16s1_schedule_table"
+            "key": "field_4d32c9448f59",
+            "label": "Ref No",
+            "name": "f16s2ref_no",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "clone": [
+                "field_68554bdf55898"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
         },
         {
-          "key": "field_a7ffb05480b0",
-          "label": "Stage I",
-          "name": "stage_i",
-          "aria-label": "",
-          "type": "date_picker",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "display_format": "F - Y",
-          "return_format": "F - Y",
-          "first_day": 1,
-          "default_to_current_date": 0,
-          "allow_in_bindings": 0,
-          "parent_repeater": "field_f16s1_schedule_table"
+            "key": "field_025bc252c898",
+            "label": "Organization",
+            "name": "f16s2organization",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "clone": [
+                "field_org_name"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
         },
         {
-          "key": "field_ba57224f8061",
-          "label": "Stage II",
-          "name": "stage_ii",
-          "aria-label": "",
-          "type": "date_picker",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "display_format": "F - Y",
-          "return_format": "F - Y",
-          "first_day": 1,
-          "default_to_current_date": 0,
-          "allow_in_bindings": 0,
-          "parent_repeater": "field_f16s1_schedule_table"
+            "key": "field_abce230ebcb7",
+            "label": "Standard",
+            "name": "f16s2standard",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "clone": [
+                "field_68173ed2b0218"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
         },
         {
-          "key": "field_7686bdf2a19e",
-          "label": "1st Surveillance",
-          "name": "surv_1",
-          "aria-label": "",
-          "type": "date_picker",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "display_format": "F - Y",
-          "return_format": "F - Y",
-          "first_day": 1,
-          "default_to_current_date": 0,
-          "allow_in_bindings": 0,
-          "parent_repeater": "field_f16s1_schedule_table"
+            "key": "field_186774cbda6f",
+            "label": "Technical Area",
+            "name": "f16s2technical_area",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_67fe8e52fc7e0"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
         },
         {
-          "key": "field_936f9d1c0413",
-          "label": "2nd Surveillance",
-          "name": "surv_2",
-          "aria-label": "",
-          "type": "date_picker",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "display_format": "F - Y",
-          "return_format": "F - Y",
-          "first_day": 1,
-          "default_to_current_date": 0,
-          "allow_in_bindings": 0,
-          "parent_repeater": "field_f16s1_schedule_table"
+            "key": "field_15df17ced647",
+            "label": "Planned / Conducted / ICT / Critical Security",
+            "name": "f16s2schedule_table",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "layout": "table",
+            "pagination": 0,
+            "min": 4,
+            "max": 0,
+            "collapsed": "",
+            "button_label": "Add Row",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_982987239a85",
+                    "label": "Type",
+                    "name": "row_type",
+                    "aria-label": "",
+                    "type": "select",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "choices": {
+                        "Planned": "Planned",
+                        "Conducted": "Conducted",
+                        "ICT Details if any": "ICT Details if any",
+                        "Critical Security Controls if any": "Critical Security Controls if any"
+                    },
+                    "default_value": false,
+                    "return_format": "value",
+                    "multiple": 0,
+                    "allow_null": 0,
+                    "allow_in_bindings": 1,
+                    "ui": 0,
+                    "ajax": 0,
+                    "placeholder": "",
+                    "create_options": 0,
+                    "save_options": 0,
+                    "parent_repeater": "field_f16s1_schedule_table"
+                },
+                {
+                    "key": "field_a7ffb05480b0",
+                    "label": "Stage I",
+                    "name": "stage_i",
+                    "aria-label": "",
+                    "type": "date_picker",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "display_format": "F - Y",
+                    "return_format": "F - Y",
+                    "first_day": 1,
+                    "default_to_current_date": 0,
+                    "allow_in_bindings": 0,
+                    "parent_repeater": "field_f16s1_schedule_table"
+                },
+                {
+                    "key": "field_ba57224f8061",
+                    "label": "Stage II",
+                    "name": "stage_ii",
+                    "aria-label": "",
+                    "type": "date_picker",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "display_format": "F - Y",
+                    "return_format": "F - Y",
+                    "first_day": 1,
+                    "default_to_current_date": 0,
+                    "allow_in_bindings": 0,
+                    "parent_repeater": "field_f16s1_schedule_table"
+                },
+                {
+                    "key": "field_7686bdf2a19e",
+                    "label": "1st Surveillance",
+                    "name": "surv_1",
+                    "aria-label": "",
+                    "type": "date_picker",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "display_format": "F - Y",
+                    "return_format": "F - Y",
+                    "first_day": 1,
+                    "default_to_current_date": 0,
+                    "allow_in_bindings": 0,
+                    "parent_repeater": "field_f16s1_schedule_table"
+                },
+                {
+                    "key": "field_936f9d1c0413",
+                    "label": "2nd Surveillance",
+                    "name": "surv_2",
+                    "aria-label": "",
+                    "type": "date_picker",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "display_format": "F - Y",
+                    "return_format": "F - Y",
+                    "first_day": 1,
+                    "default_to_current_date": 0,
+                    "allow_in_bindings": 0,
+                    "parent_repeater": "field_f16s1_schedule_table"
+                },
+                {
+                    "key": "field_483afd74df5e",
+                    "label": "Re-Certification",
+                    "name": "re_certification",
+                    "aria-label": "",
+                    "type": "date_picker",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "display_format": "F - Y",
+                    "return_format": "F - Y",
+                    "first_day": 1,
+                    "default_to_current_date": 0,
+                    "allow_in_bindings": 0,
+                    "parent_repeater": "field_f16s1_schedule_table"
+                },
+                {
+                    "key": "field_658dd0eb1ec8",
+                    "label": "Remarks",
+                    "name": "remarks",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_f16s1_schedule_table"
+                }
+            ]
         },
         {
-          "key": "field_483afd74df5e",
-          "label": "Re-Certification",
-          "name": "re_certification",
-          "aria-label": "",
-          "type": "date_picker",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "display_format": "F - Y",
-          "return_format": "F - Y",
-          "first_day": 1,
-          "default_to_current_date": 0,
-          "allow_in_bindings": 0,
-          "parent_repeater": "field_f16s1_schedule_table"
+            "key": "field_716c2354eba6",
+            "label": "",
+            "name": "f16s2AUDIT_PROGRAMME",
+            "aria-label": "",
+            "type": "matrix_flexible",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "rows": "Top Management\t|\r\nPurchase\t|\r\nHR\t|\r\nN/a\t|\r\nProduction\t|\r\nQC\t|\r\nQA\t|\r\nStores\t|\r\nMaintenance\t|\r\nIQA \t|\r\nMRM\t|\r\nN/a\t|\r\n0\t|\r\nNumber of NC's\t|\r\nNumber of effective personnel\t|\r\nNo of Sites Covered\t|\r\nAudit Team Proposed\t|\r\nAudit Team Actual\t|\r\nReview of actions taken for notification of adverse events.advisory notices and recalls if any (to be collected before surveillance audits)\t|\r\nImpact on surveillance man-day based on above point\t|\r\nPrepared by Team Leader\t|\r\nRemarks",
+            "columns_json": "[\r\n  {\r\n    \"label\": \"Stage I\",\r\n    \"name\": \"observation\",\r\n    \"type\": \"text\"\r\n  },\r\n  {\r\n    \"label\": \"Stage II\",\r\n    \"name\": \"remarks\",\r\n    \"type\": \"text\"\r\n  },\r\n  {\r\n    \"label\": \"1st Surveillance\",\r\n    \"name\": \"1stsurveillance\",\r\n    \"type\": \"text\"\r\n  },\r\n  {\r\n    \"label\": \"2nd Surveillance\",\r\n    \"name\": \"2ndsurveillance\",\r\n    \"type\": \"text\"\r\n  },\r\n  {\r\n    \"label\": \"Re-Certification\",\r\n    \"name\": \"re_certification\",\r\n    \"type\": \"text\"\r\n  },\r\n  {\r\n    \"label\": \"Remarks\",\r\n    \"name\": \"re_certification_remarks\",\r\n    \"type\": \"text\"\r\n  }\r\n]",
+            "allow_in_bindings": 0
         },
         {
-          "key": "field_658dd0eb1ec8",
-          "label": "Remarks",
-          "name": "remarks",
-          "aria-label": "",
-          "type": "text",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "default_value": "",
-          "maxlength": "",
-          "placeholder": "",
-          "prepend": "",
-          "append": "",
-          "parent_repeater": "field_f16s1_schedule_table"
+            "key": "field_06a6b8e3fdad",
+            "label": "",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "»  Note 1. In case of change, lead auditor should rewrite and add his/her signature\t\t\t\t\t\t\t\t\t\r\n»  Note 2. Major: +, Minor: -, (Example: 3 Major: +3, 4 Minor: -4)\t\t\t\t\t\t\t\t\t\r\n»  Note 3. Please tick the processes to be audited during the next audit.",
+            "new_lines": "wpautop",
+            "esc_html": 0
+        },
+        {
+            "key": "field_adt_clone_f16s2",
+            "label": "Audit Dates (Synced)",
+            "name": "audit_dates_sync",
+            "type": "clone",
+            "clone": [
+                "field_0013",
+                "field_0025",
+                "field_0034"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
         }
-      ]
-    },
-    {
-      "key": "field_716c2354eba6",
-      "label": "",
-      "name": "f16s2AUDIT_PROGRAMME",
-      "aria-label": "",
-      "type": "matrix_flexible",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "rows": "Top Management\t|\r\nPurchase\t|\r\nHR\t|\r\nN/a\t|\r\nProduction\t|\r\nQC\t|\r\nQA\t|\r\nStores\t|\r\nMaintenance\t|\r\nIQA \t|\r\nMRM\t|\r\nN/a\t|\r\n0\t|\r\nNumber of NC's\t|\r\nNumber of effective personnel\t|\r\nNo of Sites Covered\t|\r\nAudit Team Proposed\t|\r\nAudit Team Actual\t|\r\nReview of actions taken for notification of adverse events.advisory notices and recalls if any (to be collected before surveillance audits)\t|\r\nImpact on surveillance man-day based on above point\t|\r\nPrepared by Team Leader\t|\r\nRemarks",
-      "columns_json": "[\r\n  {\r\n    \"label\": \"Stage I\",\r\n    \"name\": \"observation\",\r\n    \"type\": \"text\"\r\n  },\r\n  {\r\n    \"label\": \"Stage II\",\r\n    \"name\": \"remarks\",\r\n    \"type\": \"text\"\r\n  },\r\n  {\r\n    \"label\": \"1st Surveillance\",\r\n    \"name\": \"1stsurveillance\",\r\n    \"type\": \"text\"\r\n  },\r\n  {\r\n    \"label\": \"2nd Surveillance\",\r\n    \"name\": \"2ndsurveillance\",\r\n    \"type\": \"text\"\r\n  },\r\n  {\r\n    \"label\": \"Re-Certification\",\r\n    \"name\": \"re_certification\",\r\n    \"type\": \"text\"\r\n  },\r\n  {\r\n    \"label\": \"Remarks\",\r\n    \"name\": \"re_certification_remarks\",\r\n    \"type\": \"text\"\r\n  }\r\n]",
-      "allow_in_bindings": 0
-    },
-    {
-      "key": "field_06a6b8e3fdad",
-      "label": "",
-      "name": "",
-      "aria-label": "",
-      "type": "message",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "message": "»  Note 1. In case of change, lead auditor should rewrite and add his/her signature\t\t\t\t\t\t\t\t\t\r\n»  Note 2. Major: +, Minor: -, (Example: 3 Major: +3, 4 Minor: -4)\t\t\t\t\t\t\t\t\t\r\n»  Note 3. Please tick the processes to be audited during the next audit.",
-      "new_lines": "wpautop",
-      "esc_html": 0
-    }
-  ],
-  "location": [
-    [
-      {
-        "param": "post_type",
-        "operator": "==",
-        "value": "client"
-      }
-    ]
-  ],
-  "menu_order": 0,
-  "position": "normal",
-  "style": "default",
-  "label_placement": "top",
-  "instruction_placement": "label",
-  "hide_on_screen": "",
-  "active": true,
-  "description": "",
-  "show_in_rest": 0,
-  "display_title": "",
-  "modified": 1775304465
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "client"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "display_title": "",
+    "modified": 1777622257
 }

@@ -124,7 +124,7 @@
             "calculated_format": "",
             "blank_if_zero": 0,
             "readonly": 0,
-            "message": "a)\u00a0\u00a0\u00a0\u00a0Internal audits and management review\t\t\t\t\t\t\t\t\t\r\nb)\u00a0\u00a0\u00a0 A review of actions taken on nonconformities identified during previous audit\t\t\t\t\t\t\t\t\t\r\nc)\u00a0\u00a0\u00a0 Treatment of complaints\t\t\t\t\t\t\t\t\t\r\nd)\u00a0\u00a0 Effectiveness of the management system with regard to achieving the clients objectives\t\t\t\t\t\t\t\t\t\r\ne)\u00a0\u00a0\u00a0 Progress of planned activities aimed at continual improvement\t\t\t\t\t\t\t\t\t\r\nf)\u00a0\u00a0\u00a0\u00a0\u00a0Continuing operational control\t\t\t\t\t\t\t\t\t\r\ng)\u00a0\u00a0\u00a0 Review of any changes\t\t\t\t\t\t\t\t\t\r\nh)\u00a0 Use of GLOBAL MCS and Accreditation body marks and/ or any reference to certification",
+            "message": "a)    Internal audits and management review\t\t\t\t\t\t\t\t\t\r\nb)    A review of actions taken on nonconformities identified during previous audit\t\t\t\t\t\t\t\t\t\r\nc)    Treatment of complaints\t\t\t\t\t\t\t\t\t\r\nd)   Effectiveness of the management system with regard to achieving the clients objectives\t\t\t\t\t\t\t\t\t\r\ne)    Progress of planned activities aimed at continual improvement\t\t\t\t\t\t\t\t\t\r\nf)     Continuing operational control\t\t\t\t\t\t\t\t\t\r\ng)    Review of any changes\t\t\t\t\t\t\t\t\t\r\nh)  Use of GLOBAL MCS and Accreditation body marks and/ or any reference to certification",
             "new_lines": "wpautop",
             "esc_html": 0
         },
@@ -498,7 +498,7 @@
             "calculated_format": "",
             "blank_if_zero": 0,
             "readonly": 0,
-            "message": "\u00bb  Note 1. In case of change, lead auditor should rewrite and add his/her signature\t\t\t\t\t\t\t\t\t\r\n\u00bb  Note 2. Major: +, Minor: -, (Example: 3 Major: +3, 4 Minor: -4)\t\t\t\t\t\t\t\t\t\r\n\u00bb  Note 3. Please tick the processes to be audited during the next audit.",
+            "message": "»  Note 1. In case of change, lead auditor should rewrite and add his/her signature\t\t\t\t\t\t\t\t\t\r\n»  Note 2. Major: +, Minor: -, (Example: 3 Major: +3, 4 Minor: -4)\t\t\t\t\t\t\t\t\t\r\n»  Note 3. Please tick the processes to be audited during the next audit.",
             "new_lines": "wpautop",
             "esc_html": 0
         }
@@ -522,5 +522,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1774604855
+    "modified": 1777622257
 }

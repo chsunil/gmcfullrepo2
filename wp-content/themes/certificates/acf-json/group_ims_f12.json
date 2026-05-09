@@ -165,7 +165,7 @@
             "name": "if_final_scope_is_different_from_application",
             "aria-label": "",
             "type": "textarea",
-            "instructions": "Team Leader\u2019s comments:",
+            "instructions": "Team Leader’s comments:",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -276,7 +276,7 @@
             "calculated_format": "",
             "blank_if_zero": 0,
             "readonly": 0,
-            "message": "\u00bb To be finalized at closing meeting during stage 2 audit\t\t\t\t\t\t\t\t\t\r\n \u00bb GMCSPL Auditors to ensure before finalizing the scope: not excludes part of processes, products, or services (unless allowed by regulatory authorities) from the scope of certification when those processes, products or services have an influence on the safety and quality of products)",
+            "message": "» To be finalized at closing meeting during stage 2 audit\t\t\t\t\t\t\t\t\t\r\n » GMCSPL Auditors to ensure before finalizing the scope: not excludes part of processes, products, or services (unless allowed by regulatory authorities) from the scope of certification when those processes, products or services have an influence on the safety and quality of products)",
             "new_lines": "wpautop",
             "esc_html": 0
         }
@@ -307,5 +307,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1774347604
+    "modified": 1777622257
 }

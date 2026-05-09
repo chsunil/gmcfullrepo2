@@ -54,7 +54,9 @@
             "allow_in_bindings": 0,
             "ui": 0,
             "ajax": 0,
-            "placeholder": ""
+            "placeholder": "",
+            "create_options": 0,
+            "save_options": 0
         },
         {
             "key": "field_68173ed2a2ab5",
@@ -184,7 +186,9 @@
             "allow_in_bindings": 1,
             "ui": 0,
             "ajax": 0,
-            "placeholder": ""
+            "placeholder": "",
+            "create_options": 0,
+            "save_options": 0
         },
         {
             "key": "field_67dc0148b5c1c",
@@ -215,7 +219,9 @@
             "allow_in_bindings": 1,
             "ui": 0,
             "ajax": 0,
-            "placeholder": ""
+            "placeholder": "",
+            "create_options": 0,
+            "save_options": 0
         },
         {
             "key": "field_org_type",
@@ -244,7 +250,9 @@
             "allow_in_bindings": 1,
             "ui": 0,
             "ajax": 0,
-            "placeholder": ""
+            "placeholder": "",
+            "create_options": 0,
+            "save_options": 0
         },
         {
             "key": "field_67cdf_assigned_employee",
@@ -288,7 +296,8 @@
             "calculated_format": "",
             "blank_if_zero": 0,
             "readonly": 0,
-            "layout": "block",
+            "layout": "table",
+            "cert_restrict": 0,
             "sub_fields": [
                 {
                     "key": "field_68173ed29add4",
@@ -425,5 +434,7 @@
     "hide_on_screen": "",
     "active": true,
     "description": "",
-    "show_in_rest": 0
+    "show_in_rest": 0,
+    "display_title": "",
+    "modified": 1777634116
 }

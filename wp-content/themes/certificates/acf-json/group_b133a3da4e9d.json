@@ -1,2373 +1,2373 @@
 {
-  "key": "group_b133a3da4e9d",
-  "title": "QMS – F19S2: Checklist for Certification Decision (Surveillance Year 2)",
-  "fields": [
-    {
-      "key": "field_90cbe8e6ab44",
-      "label": "",
-      "name": "f19s2orgname",
-      "aria-label": "",
-      "type": "clone",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "formula": "",
-      "calculated_format": "",
-      "blank_if_zero": 0,
-      "readonly": 0,
-      "clone": [
-        "field_org_name"
-      ],
-      "display": "seamless",
-      "layout": "block",
-      "prefix_label": 0,
-      "prefix_name": 0
-    },
-    {
-      "key": "field_155bdd58e98f",
-      "label": "Address",
-      "name": "f19s2address",
-      "aria-label": "",
-      "type": "clone",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "formula": "",
-      "calculated_format": "",
-      "blank_if_zero": 0,
-      "readonly": 0,
-      "clone": [
-        "field_68173ed29add4"
-      ],
-      "display": "seamless",
-      "layout": "block",
-      "prefix_label": 0,
-      "prefix_name": 0
-    },
-    {
-      "key": "field_b44f7d1e72d0",
-      "label": "Standard",
-      "name": "f19s2standard",
-      "aria-label": "",
-      "type": "clone",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "formula": "",
-      "calculated_format": "",
-      "blank_if_zero": 0,
-      "readonly": 0,
-      "clone": [
-        "field_68173ed2b0218"
-      ],
-      "display": "seamless",
-      "layout": "block",
-      "prefix_label": 0,
-      "prefix_name": 0
-    },
-    {
-      "key": "field_8fa78ab6e33e",
-      "label": "Scope of certification",
-      "name": "f19s2scope_of_certification",
-      "aria-label": "",
-      "type": "clone",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "formula": "",
-      "calculated_format": "",
-      "blank_if_zero": 0,
-      "readonly": 0,
-      "clone": [
-        "field_68173ed2a657a"
-      ],
-      "display": "seamless",
-      "layout": "block",
-      "prefix_label": 0,
-      "prefix_name": 0
-    },
-    {
-      "key": "field_f48ceb8c9317",
-      "label": "Application Form",
-      "name": "f19s2application_form",
-      "aria-label": "",
-      "type": "group",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "formula": "",
-      "calculated_format": "",
-      "blank_if_zero": 0,
-      "readonly": 0,
-      "layout": "table",
-      "sub_fields": [
+    "key": "group_b133a3da4e9d",
+    "title": "QMS – F19S2: Checklist for Certification Decision (Surveillance Year 2)",
+    "fields": [
         {
-          "key": "field_4bf3763606bb",
-          "label": "Completely filled",
-          "name": "completely_filled",
-          "aria-label": "",
-          "type": "radio",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "choices": {
-            "Yes": "Yes",
-            "No": "No"
-          },
-          "default_value": "",
-          "return_format": "value",
-          "allow_null": 0,
-          "other_choice": 0,
-          "allow_in_bindings": 1,
-          "layout": "horizontal",
-          "save_other_choice": 0
+            "key": "field_90cbe8e6ab44",
+            "label": "",
+            "name": "f19s2orgname",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_org_name"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
         },
         {
-          "key": "field_aff2823c683f",
-          "label": "Comments",
-          "name": "f19s1comments1",
-          "aria-label": "",
-          "type": "text",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "default_value": "",
-          "maxlength": "",
-          "allow_in_bindings": 0,
-          "placeholder": "",
-          "prepend": "",
-          "append": ""
-        }
-      ]
-    },
-    {
-      "key": "field_612779ffbdfa",
-      "label": "Review of application",
-      "name": "f19s2review_of_application",
-      "aria-label": "",
-      "type": "group",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "formula": "",
-      "calculated_format": "",
-      "blank_if_zero": 0,
-      "readonly": 0,
-      "layout": "row",
-      "sub_fields": [
-        {
-          "key": "field_19a3f5b8a70f",
-          "label": "",
-          "name": "",
-          "aria-label": "",
-          "type": "group",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "33",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "layout": "table",
-          "sub_fields": [
-            {
-              "key": "field_fec3940f2549",
-              "label": "Completely filled",
-              "name": "completely_filled",
-              "aria-label": "",
-              "type": "radio",
-              "instructions": "",
-              "required": 0,
-              "conditional_logic": 0,
-              "wrapper": {
+            "key": "field_155bdd58e98f",
+            "label": "Address",
+            "name": "f19s2address",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
                 "width": "",
                 "class": "",
                 "id": ""
-              },
-              "formula": "",
-              "calculated_format": "",
-              "blank_if_zero": 0,
-              "readonly": 0,
-              "choices": {
-                "Yes": "Yes",
-                "No": "No"
-              },
-              "default_value": "",
-              "return_format": "value",
-              "allow_null": 0,
-              "other_choice": 0,
-              "allow_in_bindings": 0,
-              "layout": "horizontal",
-              "save_other_choice": 0
             },
-            {
-              "key": "field_d74b49715728",
-              "label": "Comments",
-              "name": "f19s1comments2",
-              "aria-label": "",
-              "type": "text",
-              "instructions": "",
-              "required": 0,
-              "conditional_logic": 0,
-              "wrapper": {
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_68173ed29add4"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_b44f7d1e72d0",
+            "label": "Standard",
+            "name": "f19s2standard",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
                 "width": "",
                 "class": "",
                 "id": ""
-              },
-              "formula": "",
-              "calculated_format": "",
-              "blank_if_zero": 0,
-              "readonly": 0,
-              "default_value": "",
-              "maxlength": "",
-              "allow_in_bindings": 0,
-              "placeholder": "",
-              "prepend": "",
-              "append": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_68173ed2b0218"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_8fa78ab6e33e",
+            "label": "Scope of certification",
+            "name": "f19s2scope_of_certification",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_68173ed2a657a"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_f48ceb8c9317",
+            "label": "Application Form",
+            "name": "f19s2application_form",
+            "aria-label": "",
+            "type": "group",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "layout": "table",
+            "sub_fields": [
+                {
+                    "key": "field_4bf3763606bb",
+                    "label": "Completely filled",
+                    "name": "completely_filled",
+                    "aria-label": "",
+                    "type": "radio",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "choices": {
+                        "Yes": "Yes",
+                        "No": "No"
+                    },
+                    "default_value": "",
+                    "return_format": "value",
+                    "allow_null": 0,
+                    "other_choice": 0,
+                    "allow_in_bindings": 1,
+                    "layout": "horizontal",
+                    "save_other_choice": 0
+                },
+                {
+                    "key": "field_aff2823c683f",
+                    "label": "Comments",
+                    "name": "f19s1comments1",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
+                }
+            ]
+        },
+        {
+            "key": "field_612779ffbdfa",
+            "label": "Review of application",
+            "name": "f19s2review_of_application",
+            "aria-label": "",
+            "type": "group",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "layout": "row",
+            "sub_fields": [
+                {
+                    "key": "field_19a3f5b8a70f",
+                    "label": "",
+                    "name": "",
+                    "aria-label": "",
+                    "type": "group",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "33",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "layout": "table",
+                    "sub_fields": [
+                        {
+                            "key": "field_fec3940f2549",
+                            "label": "Completely filled",
+                            "name": "completely_filled",
+                            "aria-label": "",
+                            "type": "radio",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "formula": "",
+                            "calculated_format": "",
+                            "blank_if_zero": 0,
+                            "readonly": 0,
+                            "choices": {
+                                "Yes": "Yes",
+                                "No": "No"
+                            },
+                            "default_value": "",
+                            "return_format": "value",
+                            "allow_null": 0,
+                            "other_choice": 0,
+                            "allow_in_bindings": 0,
+                            "layout": "horizontal",
+                            "save_other_choice": 0
+                        },
+                        {
+                            "key": "field_d74b49715728",
+                            "label": "Comments",
+                            "name": "f19s1comments2",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "formula": "",
+                            "calculated_format": "",
+                            "blank_if_zero": 0,
+                            "readonly": 0,
+                            "default_value": "",
+                            "maxlength": "",
+                            "allow_in_bindings": 0,
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        }
+                    ]
+                },
+                {
+                    "key": "field_d99908bdb1a1",
+                    "label": "",
+                    "name": "",
+                    "aria-label": "",
+                    "type": "group",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "33",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "layout": "table",
+                    "sub_fields": [
+                        {
+                            "key": "field_d8f0ef89f08b",
+                            "label": "Mandays are correctly applied as per P-07",
+                            "name": "mandays_are_correctly_applied_as_per_p-07",
+                            "aria-label": "",
+                            "type": "radio",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "formula": "",
+                            "calculated_format": "",
+                            "blank_if_zero": 0,
+                            "readonly": 0,
+                            "choices": {
+                                "Yes": "Yes",
+                                "No": "No"
+                            },
+                            "default_value": "",
+                            "return_format": "value",
+                            "allow_null": 0,
+                            "other_choice": 0,
+                            "allow_in_bindings": 0,
+                            "layout": "horizontal",
+                            "save_other_choice": 0
+                        },
+                        {
+                            "key": "field_a1207d89150e",
+                            "label": "",
+                            "name": "",
+                            "aria-label": "",
+                            "type": "clone",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "formula": "",
+                            "calculated_format": "",
+                            "blank_if_zero": 0,
+                            "readonly": 0,
+                            "clone": [
+                                "field_67fe9526acd33"
+                            ],
+                            "display": "seamless",
+                            "layout": "block",
+                            "prefix_label": 0,
+                            "prefix_name": 0
+                        }
+                    ]
+                },
+                {
+                    "key": "field_c6ada61c4700",
+                    "label": "",
+                    "name": "",
+                    "aria-label": "",
+                    "type": "group",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "33",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "layout": "table",
+                    "sub_fields": [
+                        {
+                            "key": "field_9fe5178db176",
+                            "label": "NACE Code is correct",
+                            "name": "nace_code_is_correct",
+                            "aria-label": "",
+                            "type": "radio",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "formula": "",
+                            "calculated_format": "",
+                            "blank_if_zero": 0,
+                            "readonly": 0,
+                            "choices": {
+                                "Yes": "Yes",
+                                "No": "No"
+                            },
+                            "default_value": "",
+                            "return_format": "value",
+                            "allow_null": 0,
+                            "other_choice": 0,
+                            "allow_in_bindings": 0,
+                            "layout": "horizontal",
+                            "save_other_choice": 0
+                        },
+                        {
+                            "key": "field_f3fefe5442a2",
+                            "label": "",
+                            "name": "",
+                            "aria-label": "",
+                            "type": "clone",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "formula": "",
+                            "calculated_format": "",
+                            "blank_if_zero": 0,
+                            "readonly": 0,
+                            "clone": [
+                                "field_technical_code"
+                            ],
+                            "display": "seamless",
+                            "layout": "block",
+                            "prefix_label": 0,
+                            "prefix_name": 0
+                        }
+                    ]
+                },
+                {
+                    "key": "field_6b4e39e57f8c",
+                    "label": "",
+                    "name": "",
+                    "aria-label": "",
+                    "type": "group",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "layout": "table",
+                    "sub_fields": [
+                        {
+                            "key": "field_b841a1d4ad32",
+                            "label": "GMCS is accredited in NACE Code",
+                            "name": "gmcs_is_accredited_in_nace_code",
+                            "aria-label": "",
+                            "type": "radio",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "25",
+                                "class": "",
+                                "id": ""
+                            },
+                            "formula": "",
+                            "calculated_format": "",
+                            "blank_if_zero": 0,
+                            "readonly": 0,
+                            "choices": {
+                                "Yes": "Yes",
+                                "No": "No"
+                            },
+                            "default_value": "",
+                            "return_format": "value",
+                            "allow_null": 0,
+                            "other_choice": 0,
+                            "allow_in_bindings": 0,
+                            "layout": "horizontal",
+                            "save_other_choice": 0
+                        },
+                        {
+                            "key": "field_e1b69865c49a",
+                            "label": "Date of review is ok",
+                            "name": "date_of_review_is_ok",
+                            "aria-label": "",
+                            "type": "clone",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "formula": "",
+                            "calculated_format": "",
+                            "blank_if_zero": 0,
+                            "readonly": 0,
+                            "clone": [
+                                "field_0005"
+                            ],
+                            "display": "seamless",
+                            "layout": "block",
+                            "prefix_label": 0,
+                            "prefix_name": 0
+                        },
+                        {
+                            "key": "field_29e488070f67",
+                            "label": "If transfer, F-26 is attached with last report/ certificate",
+                            "name": "if_transfer_f-26_is_attached_with_last_report_certificate",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "formula": "",
+                            "calculated_format": "",
+                            "blank_if_zero": 0,
+                            "readonly": 0,
+                            "default_value": "",
+                            "maxlength": "",
+                            "allow_in_bindings": 0,
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_43fb63954c7a",
+                            "label": "If recertification, last certificate is valid",
+                            "name": "if_recertification_last_certificate_is_valid",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "formula": "",
+                            "calculated_format": "",
+                            "blank_if_zero": 0,
+                            "readonly": 0,
+                            "default_value": "",
+                            "maxlength": "",
+                            "allow_in_bindings": 0,
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "field_087d2cec84d1",
+            "label": "Proposal",
+            "name": "f19s2proposal",
+            "aria-label": "",
+            "type": "group",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "layout": "row",
+            "sub_fields": [
+                {
+                    "key": "field_c60e6c6bcd42",
+                    "label": "Date of offer is ok",
+                    "name": "date_of_offer_is_ok",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
+                },
+                {
+                    "key": "field_b2ad95a3c343",
+                    "label": "Scope is clear",
+                    "name": "scope_is_clear",
+                    "aria-label": "",
+                    "type": "radio",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "choices": {
+                        "Yes": "Yes",
+                        "No": "No"
+                    },
+                    "default_value": "",
+                    "return_format": "value",
+                    "allow_null": 0,
+                    "other_choice": 0,
+                    "allow_in_bindings": 0,
+                    "layout": "horizontal",
+                    "save_other_choice": 0
+                }
+            ]
+        },
+        {
+            "key": "field_40645dd90068",
+            "label": "Surveillance Audit-1 Audit Plan",
+            "name": "f19s2surveillance_audit-1_audit_plan",
+            "aria-label": "",
+            "type": "group",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "layout": "table",
+            "sub_fields": [
+                {
+                    "key": "field_f6c367bd2b30",
+                    "label": "Completely filled",
+                    "name": "completely_filled",
+                    "aria-label": "",
+                    "type": "radio",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "choices": {
+                        "Yes": "Yes",
+                        "No": "No"
+                    },
+                    "default_value": "",
+                    "return_format": "value",
+                    "allow_null": 0,
+                    "other_choice": 0,
+                    "allow_in_bindings": 1,
+                    "layout": "horizontal",
+                    "save_other_choice": 0
+                },
+                {
+                    "key": "field_20531b425e2e",
+                    "label": "Auditors registered by GMCSPL",
+                    "name": "auditors_registered",
+                    "aria-label": "",
+                    "type": "clone",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "clone": [
+                        "field_6887786048977"
+                    ],
+                    "display": "seamless",
+                    "layout": "block",
+                    "prefix_label": 0,
+                    "prefix_name": 0
+                },
+                {
+                    "key": "field_9496884a4cdf",
+                    "label": "Mandays are correct",
+                    "name": "mandays_correct",
+                    "aria-label": "",
+                    "type": "number",
+                    "instructions": "",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "min": "",
+                    "max": "",
+                    "step": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
+                },
+                {
+                    "key": "field_03c5c9b6dd26",
+                    "label": "Scope is correct",
+                    "name": "scope_correct",
+                    "aria-label": "",
+                    "type": "radio",
+                    "instructions": "",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "choices": {
+                        "Yes": "Yes",
+                        "No": "No"
+                    },
+                    "layout": "horizontal",
+                    "default_value": "",
+                    "other_choice": 0,
+                    "save_other_choice": 0,
+                    "allow_null": 0,
+                    "return_format": "value"
+                },
+                {
+                    "key": "field_b3653859462c",
+                    "label": "Date of audit is correct",
+                    "name": "date_of_audit",
+                    "aria-label": "",
+                    "type": "clone",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "clone": [
+                        "field_0017"
+                    ],
+                    "display": "seamless",
+                    "layout": "block",
+                    "prefix_label": 0,
+                    "prefix_name": 0
+                },
+                {
+                    "key": "field_a9a811eb6fbb",
+                    "label": "Date of audit plan is at least 3 days in advance",
+                    "name": "date_of_audit_plan_is_at_least_3_days_in_advance",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
+                },
+                {
+                    "key": "field_12349dcc5bc2",
+                    "label": "Person with NACE Code",
+                    "name": "person_with_nace_code",
+                    "aria-label": "",
+                    "type": "clone",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "clone": [
+                        "field_stage2_nace"
+                    ],
+                    "display": "seamless",
+                    "layout": "block",
+                    "prefix_label": 0,
+                    "prefix_name": 0
+                }
+            ]
+        },
+        {
+            "key": "field_bb52ba9a72a0",
+            "label": "Surveillance Audit-1 report",
+            "name": "f19s2stage1_report",
+            "aria-label": "",
+            "type": "group",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "layout": "table",
+            "sub_fields": [
+                {
+                    "key": "field_601152f35ae4",
+                    "label": "Completely filled",
+                    "name": "completely_filled",
+                    "aria-label": "",
+                    "type": "radio",
+                    "instructions": "",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "choices": {
+                        "Yes": "Yes",
+                        "No": "No"
+                    },
+                    "layout": "horizontal",
+                    "default_value": "",
+                    "other_choice": 0,
+                    "save_other_choice": 0,
+                    "allow_null": 0,
+                    "return_format": "value"
+                },
+                {
+                    "key": "field_44b853f11ae6",
+                    "label": "Date is correct",
+                    "name": "date_correct",
+                    "aria-label": "",
+                    "type": "clone",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "clone": [
+                        "field_stage2_date"
+                    ],
+                    "display": "seamless",
+                    "layout": "block",
+                    "prefix_label": 0,
+                    "prefix_name": 0
+                },
+                {
+                    "key": "field_9b4a79ae9afd",
+                    "label": "Internal Audit Date",
+                    "name": "date_correct_copy",
+                    "aria-label": "",
+                    "type": "clone",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "clone": [
+                        "field_0029"
+                    ],
+                    "display": "seamless",
+                    "layout": "block",
+                    "prefix_label": 0,
+                    "prefix_name": 0
+                },
+                {
+                    "key": "field_fbba2fa01340",
+                    "label": "Internal audit date is ok",
+                    "name": "internal_audit_date",
+                    "aria-label": "",
+                    "type": "radio",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "choices": {
+                        "Yes": "Yes",
+                        "No": "No"
+                    },
+                    "default_value": "",
+                    "return_format": "value",
+                    "allow_null": 0,
+                    "other_choice": 0,
+                    "allow_in_bindings": 1,
+                    "layout": "horizontal",
+                    "save_other_choice": 0
+                },
+                {
+                    "key": "field_18c2d588995e",
+                    "label": "MRM date is ok",
+                    "name": "mrm_date",
+                    "aria-label": "",
+                    "type": "radio",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "choices": {
+                        "Yes": "Yes",
+                        "No": "No"
+                    },
+                    "default_value": "",
+                    "return_format": "value",
+                    "allow_null": 0,
+                    "other_choice": 0,
+                    "allow_in_bindings": 0,
+                    "layout": "horizontal",
+                    "save_other_choice": 0
+                },
+                {
+                    "key": "field_9bb3ed7b69f3",
+                    "label": "MRM Date",
+                    "name": "date_correct_copy2",
+                    "aria-label": "",
+                    "type": "clone",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "clone": [
+                        "field_0032"
+                    ],
+                    "display": "seamless",
+                    "layout": "block",
+                    "prefix_label": 0,
+                    "prefix_name": 0
+                }
+            ]
+        },
+        {
+            "key": "field_328d7219026a",
+            "label": "Assessment Schedule",
+            "name": "f19s2assessment_schedule",
+            "aria-label": "",
+            "type": "group",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "layout": "block",
+            "sub_fields": [
+                {
+                    "key": "field_12d250e68653",
+                    "label": "Audit team same as in plan",
+                    "name": "team_same",
+                    "aria-label": "",
+                    "type": "radio",
+                    "instructions": "",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "choices": {
+                        "Yes": "Yes",
+                        "No": "No"
+                    },
+                    "layout": "horizontal",
+                    "default_value": "",
+                    "other_choice": 0,
+                    "save_other_choice": 0,
+                    "allow_null": 0,
+                    "return_format": "value"
+                },
+                {
+                    "key": "field_161a2a40f76c",
+                    "label": "Dates are correct",
+                    "name": "dates_correct",
+                    "aria-label": "",
+                    "type": "radio",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "choices": {
+                        "Yes": "Yes",
+                        "No": "No"
+                    },
+                    "default_value": "",
+                    "return_format": "value",
+                    "allow_null": 0,
+                    "other_choice": 0,
+                    "allow_in_bindings": 0,
+                    "layout": "horizontal",
+                    "save_other_choice": 0
+                },
+                {
+                    "key": "field_407c016d8d92",
+                    "label": "Mandays as per audit plan",
+                    "name": "mandays_as_plan",
+                    "aria-label": "",
+                    "type": "number",
+                    "instructions": "",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "min": "",
+                    "max": "",
+                    "step": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
+                },
+                {
+                    "key": "field_5acc21673153",
+                    "label": "One man-day ≥ 8 hours",
+                    "name": "manday_hours",
+                    "aria-label": "",
+                    "type": "radio",
+                    "instructions": "",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "choices": {
+                        "Yes": "Yes",
+                        "No": "No"
+                    },
+                    "layout": "horizontal",
+                    "default_value": "",
+                    "other_choice": 0,
+                    "save_other_choice": 0,
+                    "allow_null": 0,
+                    "return_format": "value"
+                }
+            ]
+        },
+        {
+            "key": "field_f44dedc4ab61",
+            "label": "NCs",
+            "name": "f19s2ncs",
+            "aria-label": "",
+            "type": "group",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "layout": "block",
+            "sub_fields": [
+                {
+                    "key": "field_7459c55d073a",
+                    "label": "Dates are correct",
+                    "name": "dates_correctx",
+                    "aria-label": "",
+                    "type": "radio",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "choices": {
+                        "Yes": "Yes",
+                        "No": "No",
+                        "NA": "Not Applicable"
+                    },
+                    "default_value": "",
+                    "return_format": "value",
+                    "allow_null": 0,
+                    "other_choice": 0,
+                    "allow_in_bindings": 0,
+                    "layout": "horizontal",
+                    "save_other_choice": 0
+                },
+                {
+                    "key": "field_c1fad9cb99ef",
+                    "label": "Previous NC closed",
+                    "name": "previous_nc_closed",
+                    "aria-label": "",
+                    "type": "radio",
+                    "instructions": "",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "choices": {
+                        "Yes": "Yes",
+                        "No": "No",
+                        "NA": "Not Applicable"
+                    },
+                    "layout": "horizontal",
+                    "default_value": "",
+                    "other_choice": 0,
+                    "save_other_choice": 0,
+                    "allow_null": 0,
+                    "return_format": "value"
+                },
+                {
+                    "key": "field_50735932d41f",
+                    "label": "Completely filled",
+                    "name": "completely_filled",
+                    "aria-label": "",
+                    "type": "radio",
+                    "instructions": "",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "choices": {
+                        "Yes": "Yes",
+                        "No": "No",
+                        "NA": "Not Applicable"
+                    },
+                    "layout": "horizontal",
+                    "default_value": "",
+                    "other_choice": 0,
+                    "save_other_choice": 0,
+                    "allow_null": 0,
+                    "return_format": "value"
+                }
+            ]
+        },
+        {
+            "key": "field_681a23da23f7",
+            "label": "Ongoing Surveillance Plan",
+            "name": "f19s2surveillance_plan",
+            "aria-label": "",
+            "type": "group",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "layout": "block",
+            "sub_fields": [
+                {
+                    "key": "field_a18509aa419b",
+                    "label": "Completely filled",
+                    "name": "completely_filled",
+                    "aria-label": "",
+                    "type": "radio",
+                    "instructions": "",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "choices": {
+                        "Yes": "Yes",
+                        "No": "No"
+                    },
+                    "layout": "horizontal",
+                    "default_value": "",
+                    "other_choice": 0,
+                    "save_other_choice": 0,
+                    "allow_null": 0,
+                    "return_format": "value"
+                },
+                {
+                    "key": "field_8326132d088b",
+                    "label": "Processes as in Assessment schedule",
+                    "name": "processes_ok",
+                    "aria-label": "",
+                    "type": "radio",
+                    "instructions": "",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "choices": {
+                        "Yes": "Yes",
+                        "No": "No"
+                    },
+                    "layout": "horizontal",
+                    "default_value": "",
+                    "other_choice": 0,
+                    "save_other_choice": 0,
+                    "allow_null": 0,
+                    "return_format": "value"
+                },
+                {
+                    "key": "field_be4dd5afd947",
+                    "label": "Next assessment date",
+                    "name": "next_assessment_date",
+                    "aria-label": "",
+                    "type": "date_picker",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "display_format": "d/m/Y",
+                    "return_format": "d/m/Y",
+                    "first_day": 1,
+                    "default_to_current_date": 0,
+                    "allow_in_bindings": 0
+                }
+            ]
+        },
+        {
+            "key": "field_33132b9c4f2d",
+            "label": "Confidentiality & No COI",
+            "name": "f19s2confidentiality",
+            "aria-label": "",
+            "type": "group",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "layout": "block",
+            "sub_fields": [
+                {
+                    "key": "field_599aa0ce0dd4",
+                    "label": "Signed by each audit team member",
+                    "name": "signed_by_team",
+                    "aria-label": "",
+                    "type": "radio",
+                    "instructions": "",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "choices": {
+                        "Yes": "Yes",
+                        "No": "No"
+                    },
+                    "layout": "horizontal",
+                    "default_value": "",
+                    "other_choice": 0,
+                    "save_other_choice": 0,
+                    "allow_null": 0,
+                    "return_format": "value"
+                },
+                {
+                    "key": "field_9f1aa69243c4",
+                    "label": "Dates of sign before participation",
+                    "name": "dates_before_audit",
+                    "aria-label": "",
+                    "type": "date_picker",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "display_format": "d/m/Y",
+                    "return_format": "d/m/Y",
+                    "first_day": 1,
+                    "default_to_current_date": 0,
+                    "allow_in_bindings": 0
+                }
+            ]
+        },
+        {
+            "key": "field_e22d12335855",
+            "label": "Surveillance Attendance sheet",
+            "name": "f19s2surveillance_attendance_sheet",
+            "aria-label": "",
+            "type": "group",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "layout": "block",
+            "sub_fields": [
+                {
+                    "key": "field_a221d91deb4f",
+                    "label": "Correct Dated ?",
+                    "name": "correct_dated_q",
+                    "aria-label": "",
+                    "type": "radio",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "choices": {
+                        "Yes": "Yes",
+                        "No": "No",
+                        "NA": "NA"
+                    },
+                    "default_value": "",
+                    "return_format": "value",
+                    "allow_null": 0,
+                    "other_choice": 0,
+                    "allow_in_bindings": 0,
+                    "layout": "horizontal",
+                    "save_other_choice": 0
+                },
+                {
+                    "key": "field_557b1f1c7611",
+                    "label": "Surveillance Attendance sheet Date",
+                    "name": "surveillance_attendance_sheet_date",
+                    "aria-label": "",
+                    "type": "date_picker",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "display_format": "d/m/Y",
+                    "return_format": "d/m/Y",
+                    "first_day": 1,
+                    "default_to_current_date": 0,
+                    "allow_in_bindings": 0
+                }
+            ]
+        },
+        {
+            "key": "field_9931269b5adb",
+            "label": "Checklist F-25",
+            "name": "f19s2checklist_f25",
+            "aria-label": "",
+            "type": "group",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "layout": "block",
+            "sub_fields": [
+                {
+                    "key": "field_6726c8156ae3",
+                    "label": "Properly filled",
+                    "name": "properly_filled",
+                    "aria-label": "",
+                    "type": "radio",
+                    "instructions": "",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "choices": {
+                        "Yes": "Yes",
+                        "No": "No"
+                    },
+                    "layout": "horizontal",
+                    "default_value": "",
+                    "other_choice": 0,
+                    "save_other_choice": 0,
+                    "allow_null": 0,
+                    "return_format": "value"
+                },
+                {
+                    "key": "field_38ad56f9005e",
+                    "label": "Internal audit date",
+                    "name": "internal_audit_date",
+                    "aria-label": "",
+                    "type": "group",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "layout": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_072777dfb0dc",
+                            "label": "Internal Audit",
+                            "name": "internal_audit",
+                            "aria-label": "",
+                            "type": "clone",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "formula": "",
+                            "calculated_format": "",
+                            "blank_if_zero": 0,
+                            "readonly": 0,
+                            "clone": [
+                                "field_0031"
+                            ],
+                            "display": "seamless",
+                            "layout": "block",
+                            "prefix_label": 0,
+                            "prefix_name": 0
+                        },
+                        {
+                            "key": "field_1776f7d0aeda",
+                            "label": "MRM date",
+                            "name": "mrm_date",
+                            "aria-label": "",
+                            "type": "date_picker",
+                            "instructions": "",
+                            "required": false,
+                            "conditional_logic": false,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "display_format": "d/m/Y",
+                            "return_format": "d/m/Y",
+                            "first_day": 1,
+                            "default_to_current_date": 0,
+                            "allow_in_bindings": 0
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "field_377282643f33",
+            "label": "Legal Compliance Criteria",
+            "name": "f19s2legal_compliance",
+            "aria-label": "",
+            "type": "group",
+            "instructions": "",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "sub_fields": [
+                {
+                    "key": "field_e91e129600c4",
+                    "label": "Organization achieved legal compliance",
+                    "name": "compliance_achieved",
+                    "aria-label": "",
+                    "type": "radio",
+                    "instructions": "",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "choices": {
+                        "Yes": "Yes",
+                        "No": "No",
+                        "NA": "Not Applicable"
+                    },
+                    "layout": "horizontal",
+                    "default_value": "",
+                    "other_choice": 0,
+                    "save_other_choice": 0,
+                    "allow_null": 0,
+                    "return_format": "value"
+                },
+                {
+                    "key": "field_25ce83f81a97",
+                    "label": "Audit report addresses statement on compliance",
+                    "name": "report_statement",
+                    "aria-label": "",
+                    "type": "radio",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "choices": {
+                        "OK": "OK",
+                        "Not OK": "Not OK",
+                        "NA": "NA"
+                    },
+                    "default_value": "",
+                    "return_format": "value",
+                    "allow_null": 0,
+                    "other_choice": 0,
+                    "allow_in_bindings": 1,
+                    "layout": "horizontal",
+                    "save_other_choice": 0
+                }
+            ]
+        },
+        {
+            "key": "field_ee133549c5b0",
+            "label": "Review of Previous Cycle Performance",
+            "name": "f19s2previous_cycle_review",
+            "aria-label": "",
+            "type": "group",
+            "instructions": "",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "sub_fields": [
+                {
+                    "key": "field_081c2f8d1b36",
+                    "label": "Comments addressed",
+                    "name": "comments_addressed",
+                    "aria-label": "",
+                    "type": "textarea",
+                    "instructions": "Comments on during re certification performance of the previous cycle addressed by the auditors",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 1,
+                    "rows": "",
+                    "placeholder": "",
+                    "new_lines": ""
+                }
+            ]
+        },
+        {
+            "key": "field_c66a2fef326c",
+            "label": "Any Other PointsDetails",
+            "name": "f19s2f29s1details",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 1,
+            "rows": "",
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_dbdcdba97e6d",
+            "label": "Review Dates & Remarks",
+            "name": "f19s2reviews",
+            "aria-label": "",
+            "type": "group",
+            "instructions": "",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "sub_fields": [
+                {
+                    "key": "field_53c098bf3378",
+                    "label": "1st Review date",
+                    "name": "review1_date",
+                    "aria-label": "",
+                    "type": "date_picker",
+                    "instructions": "",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "display_format": "d/m/Y",
+                    "return_format": "d/m/Y",
+                    "first_day": 1,
+                    "default_to_current_date": 0,
+                    "allow_in_bindings": 0
+                },
+                {
+                    "key": "field_e5ab4839e206",
+                    "label": "File is ready for review by MD/Review Team",
+                    "name": "review1_ready",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
+                },
+                {
+                    "key": "field_6367f3812a6a",
+                    "label": "Follow up is required",
+                    "name": "review1_followup",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
+                },
+                {
+                    "key": "field_14f06c7efbae",
+                    "label": "Remarks",
+                    "name": "review1_remarks",
+                    "aria-label": "",
+                    "type": "textarea",
+                    "instructions": "",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "rows": "",
+                    "new_lines": "",
+                    "maxlength": ""
+                },
+                {
+                    "key": "field_e0c048df417d",
+                    "label": "Action taken",
+                    "name": "review1_action",
+                    "aria-label": "",
+                    "type": "textarea",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "rows": "",
+                    "new_lines": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "allow_in_bindings": 0
+                },
+                {
+                    "key": "field_03fddb1b3ad2",
+                    "label": "2nd Review date",
+                    "name": "review2_date",
+                    "aria-label": "",
+                    "type": "date_picker",
+                    "instructions": "",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "display_format": "d/m/Y",
+                    "return_format": "d/m/Y",
+                    "first_day": 1,
+                    "default_to_current_date": 0,
+                    "allow_in_bindings": 0
+                },
+                {
+                    "key": "field_698c12846f95",
+                    "label": "File is ready for review by GM",
+                    "name": "review2_ready",
+                    "aria-label": "",
+                    "type": "true_false",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "message": "",
+                    "default_value": 0,
+                    "allow_in_bindings": 0,
+                    "ui": 0,
+                    "ui_on_text": "",
+                    "ui_off_text": ""
+                },
+                {
+                    "key": "field_657ac4298756",
+                    "label": "Follow up is required",
+                    "name": "review2_followup",
+                    "aria-label": "",
+                    "type": "true_false",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "message": "",
+                    "default_value": 0,
+                    "allow_in_bindings": 0,
+                    "ui": 0,
+                    "ui_on_text": "",
+                    "ui_off_text": ""
+                },
+                {
+                    "key": "field_c823bf70dab2",
+                    "label": "Remarks",
+                    "name": "review2_remarks",
+                    "aria-label": "",
+                    "type": "textarea",
+                    "instructions": "",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "rows": "",
+                    "new_lines": "",
+                    "maxlength": ""
+                },
+                {
+                    "key": "field_93664e4df181",
+                    "label": "Checked by",
+                    "name": "checked_by",
+                    "aria-label": "",
+                    "type": "user",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "role": [
+                        "auditor"
+                    ],
+                    "return_format": "array",
+                    "multiple": 0,
+                    "allow_null": 0,
+                    "allow_in_bindings": 0,
+                    "bidirectional": 0,
+                    "bidirectional_target": []
+                },
+                {
+                    "key": "field_d0840d4d67cc",
+                    "label": "Checked date",
+                    "name": "checked_date",
+                    "aria-label": "",
+                    "type": "date_picker",
+                    "instructions": "",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "display_format": "d/m/Y",
+                    "return_format": "d/m/Y",
+                    "first_day": 1,
+                    "default_to_current_date": 0,
+                    "allow_in_bindings": 0
+                }
+            ]
+        },
+        {
+            "key": "field_9a48c0cabe69",
+            "label": "Certification Decision",
+            "name": "f19s2certification_decision",
+            "aria-label": "",
+            "type": "group",
+            "instructions": "",
+            "required": false,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "sub_fields": [
+                {
+                    "key": "field_80e1b5822a8c",
+                    "label": "Person(s) of Certification Decision",
+                    "name": "decision_person",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
+                },
+                {
+                    "key": "field_ef99067e8585",
+                    "label": "Lead Auditor(s)",
+                    "name": "lead_auditors",
+                    "aria-label": "",
+                    "type": "user",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "role": "",
+                    "return_format": "array",
+                    "multiple": 0,
+                    "allow_null": 0,
+                    "allow_in_bindings": 0,
+                    "bidirectional": 0,
+                    "bidirectional_target": []
+                },
+                {
+                    "key": "field_5cc26b635a7a",
+                    "label": "Standard",
+                    "name": "standard",
+                    "aria-label": "",
+                    "type": "clone",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "clone": [
+                        "field_6975847e44476"
+                    ],
+                    "display": "seamless",
+                    "layout": "block",
+                    "prefix_label": 0,
+                    "prefix_name": 0
+                },
+                {
+                    "key": "field_d7904d2d9be3",
+                    "label": "Scope",
+                    "name": "scope",
+                    "aria-label": "",
+                    "type": "clone",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "clone": [
+                        "field_68173ed2a657a"
+                    ],
+                    "display": "seamless",
+                    "layout": "block",
+                    "prefix_label": 0,
+                    "prefix_name": 0
+                },
+                {
+                    "key": "field_13ca642e56b6",
+                    "label": "Any issues/ambiguity",
+                    "name": "issues_ambiguity",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
+                },
+                {
+                    "key": "field_e767c9fd6d87",
+                    "label": "No. of Major NCs",
+                    "name": "major_ncs",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
+                },
+                {
+                    "key": "field_b108015119a8",
+                    "label": "Effectiveness of Correction & CA on Major NCs",
+                    "name": "major_nc_effectiveness",
+                    "aria-label": "",
+                    "type": "textarea",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "rows": "",
+                    "new_lines": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "allow_in_bindings": 0
+                },
+                {
+                    "key": "field_0681df91e1e4",
+                    "label": "No. of Minor NCs",
+                    "name": "minor_ncs",
+                    "aria-label": "",
+                    "type": "number",
+                    "instructions": "",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "min": "",
+                    "max": "",
+                    "step": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
+                },
+                {
+                    "key": "field_e11250eddbe4",
+                    "label": "Effectiveness of Correction & CA on Minor NCs",
+                    "name": "minor_nc_effectiveness",
+                    "aria-label": "",
+                    "type": "textarea",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "rows": "",
+                    "new_lines": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "allow_in_bindings": 0
+                },
+                {
+                    "key": "field_52f2f71e9135",
+                    "label": "Decision on Certification",
+                    "name": "decision_final",
+                    "aria-label": "",
+                    "type": "textarea",
+                    "instructions": "",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "rows": "",
+                    "new_lines": "",
+                    "maxlength": ""
+                },
+                {
+                    "key": "field_f9a5ad269b0e",
+                    "label": "Decision on Certification",
+                    "name": "decision_on_certification",
+                    "aria-label": "",
+                    "type": "radio",
+                    "instructions": "Based on the information provided by the team with respect to the certification requirement and audit scope and further verification of audit documents, the certification decision team member concluded that certification can be",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "choices": {
+                        "Granted": "Granted",
+                        "Continued": "Continued",
+                        "Not granted With Reasons": "Not granted With Reasons"
+                    },
+                    "default_value": "",
+                    "return_format": "value",
+                    "allow_null": 0,
+                    "other_choice": 0,
+                    "allow_in_bindings": 0,
+                    "layout": "vertical",
+                    "save_other_choice": 0
+                },
+                {
+                    "key": "field_2a1133b8e1b0",
+                    "label": "Signature of person(s) Certification Decision",
+                    "name": "signature",
+                    "aria-label": "",
+                    "type": "user",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "role": [
+                        "auditor"
+                    ],
+                    "return_format": "array",
+                    "multiple": 0,
+                    "allow_null": 0,
+                    "allow_in_bindings": 0,
+                    "bidirectional": 0,
+                    "bidirectional_target": []
+                },
+                {
+                    "key": "field_123e91db75b5",
+                    "label": "Date of Certification Decision",
+                    "name": "cert_decision_date",
+                    "aria-label": "",
+                    "type": "date_picker",
+                    "instructions": "",
+                    "required": false,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "display_format": "d/m/Y",
+                    "return_format": "d/m/Y",
+                    "first_day": 1,
+                    "default_to_current_date": 0,
+                    "allow_in_bindings": 0
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "client"
             }
-          ]
-        },
-        {
-          "key": "field_d99908bdb1a1",
-          "label": "",
-          "name": "",
-          "aria-label": "",
-          "type": "group",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "33",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "layout": "table",
-          "sub_fields": [
-            {
-              "key": "field_d8f0ef89f08b",
-              "label": "Mandays are correctly applied as per P-07",
-              "name": "mandays_are_correctly_applied_as_per_p-07",
-              "aria-label": "",
-              "type": "radio",
-              "instructions": "",
-              "required": 0,
-              "conditional_logic": 0,
-              "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-              },
-              "formula": "",
-              "calculated_format": "",
-              "blank_if_zero": 0,
-              "readonly": 0,
-              "choices": {
-                "Yes": "Yes",
-                "No": "No"
-              },
-              "default_value": "",
-              "return_format": "value",
-              "allow_null": 0,
-              "other_choice": 0,
-              "allow_in_bindings": 0,
-              "layout": "horizontal",
-              "save_other_choice": 0
-            },
-            {
-              "key": "field_a1207d89150e",
-              "label": "",
-              "name": "",
-              "aria-label": "",
-              "type": "clone",
-              "instructions": "",
-              "required": 0,
-              "conditional_logic": 0,
-              "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-              },
-              "formula": "",
-              "calculated_format": "",
-              "blank_if_zero": 0,
-              "readonly": 0,
-              "clone": [
-                "field_67fe9526acd33"
-              ],
-              "display": "seamless",
-              "layout": "block",
-              "prefix_label": 0,
-              "prefix_name": 0
-            }
-          ]
-        },
-        {
-          "key": "field_c6ada61c4700",
-          "label": "",
-          "name": "",
-          "aria-label": "",
-          "type": "group",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "33",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "layout": "table",
-          "sub_fields": [
-            {
-              "key": "field_9fe5178db176",
-              "label": "NACE Code is correct",
-              "name": "nace_code_is_correct",
-              "aria-label": "",
-              "type": "radio",
-              "instructions": "",
-              "required": 0,
-              "conditional_logic": 0,
-              "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-              },
-              "formula": "",
-              "calculated_format": "",
-              "blank_if_zero": 0,
-              "readonly": 0,
-              "choices": {
-                "Yes": "Yes",
-                "No": "No"
-              },
-              "default_value": "",
-              "return_format": "value",
-              "allow_null": 0,
-              "other_choice": 0,
-              "allow_in_bindings": 0,
-              "layout": "horizontal",
-              "save_other_choice": 0
-            },
-            {
-              "key": "field_f3fefe5442a2",
-              "label": "",
-              "name": "",
-              "aria-label": "",
-              "type": "clone",
-              "instructions": "",
-              "required": 0,
-              "conditional_logic": 0,
-              "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-              },
-              "formula": "",
-              "calculated_format": "",
-              "blank_if_zero": 0,
-              "readonly": 0,
-              "clone": [
-                "field_technical_code"
-              ],
-              "display": "seamless",
-              "layout": "block",
-              "prefix_label": 0,
-              "prefix_name": 0
-            }
-          ]
-        },
-        {
-          "key": "field_6b4e39e57f8c",
-          "label": "",
-          "name": "",
-          "aria-label": "",
-          "type": "group",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "layout": "table",
-          "sub_fields": [
-            {
-              "key": "field_b841a1d4ad32",
-              "label": "GMCS is accredited in NACE Code",
-              "name": "gmcs_is_accredited_in_nace_code",
-              "aria-label": "",
-              "type": "radio",
-              "instructions": "",
-              "required": 0,
-              "conditional_logic": 0,
-              "wrapper": {
-                "width": "25",
-                "class": "",
-                "id": ""
-              },
-              "formula": "",
-              "calculated_format": "",
-              "blank_if_zero": 0,
-              "readonly": 0,
-              "choices": {
-                "Yes": "Yes",
-                "No": "No"
-              },
-              "default_value": "",
-              "return_format": "value",
-              "allow_null": 0,
-              "other_choice": 0,
-              "allow_in_bindings": 0,
-              "layout": "horizontal",
-              "save_other_choice": 0
-            },
-            {
-              "key": "field_e1b69865c49a",
-              "label": "Date of review is ok",
-              "name": "date_of_review_is_ok",
-              "aria-label": "",
-              "type": "clone",
-              "instructions": "",
-              "required": 0,
-              "conditional_logic": 0,
-              "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-              },
-              "formula": "",
-              "calculated_format": "",
-              "blank_if_zero": 0,
-              "readonly": 0,
-              "clone": [
-                "field_0005"
-              ],
-              "display": "seamless",
-              "layout": "block",
-              "prefix_label": 0,
-              "prefix_name": 0
-            },
-            {
-              "key": "field_29e488070f67",
-              "label": "If transfer, F-26 is attached with last report/ certificate",
-              "name": "if_transfer_f-26_is_attached_with_last_report_certificate",
-              "aria-label": "",
-              "type": "text",
-              "instructions": "",
-              "required": 0,
-              "conditional_logic": 0,
-              "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-              },
-              "formula": "",
-              "calculated_format": "",
-              "blank_if_zero": 0,
-              "readonly": 0,
-              "default_value": "",
-              "maxlength": "",
-              "allow_in_bindings": 0,
-              "placeholder": "",
-              "prepend": "",
-              "append": ""
-            },
-            {
-              "key": "field_43fb63954c7a",
-              "label": "If recertification, last certificate is valid",
-              "name": "if_recertification_last_certificate_is_valid",
-              "aria-label": "",
-              "type": "text",
-              "instructions": "",
-              "required": 0,
-              "conditional_logic": 0,
-              "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-              },
-              "formula": "",
-              "calculated_format": "",
-              "blank_if_zero": 0,
-              "readonly": 0,
-              "default_value": "",
-              "maxlength": "",
-              "allow_in_bindings": 0,
-              "placeholder": "",
-              "prepend": "",
-              "append": ""
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "key": "field_087d2cec84d1",
-      "label": "Proposal",
-      "name": "f19s2proposal",
-      "aria-label": "",
-      "type": "group",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "formula": "",
-      "calculated_format": "",
-      "blank_if_zero": 0,
-      "readonly": 0,
-      "layout": "row",
-      "sub_fields": [
-        {
-          "key": "field_c60e6c6bcd42",
-          "label": "Date of offer is ok",
-          "name": "date_of_offer_is_ok",
-          "aria-label": "",
-          "type": "text",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "default_value": "",
-          "maxlength": "",
-          "allow_in_bindings": 0,
-          "placeholder": "",
-          "prepend": "",
-          "append": ""
-        },
-        {
-          "key": "field_b2ad95a3c343",
-          "label": "Scope is clear",
-          "name": "scope_is_clear",
-          "aria-label": "",
-          "type": "radio",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "choices": {
-            "Yes": "Yes",
-            "No": "No"
-          },
-          "default_value": "",
-          "return_format": "value",
-          "allow_null": 0,
-          "other_choice": 0,
-          "allow_in_bindings": 0,
-          "layout": "horizontal",
-          "save_other_choice": 0
-        }
-      ]
-    },
-    {
-      "key": "field_40645dd90068",
-      "label": "Surveillance Audit-1 Audit Plan",
-      "name": "f19s2surveillance_audit-1_audit_plan",
-      "aria-label": "",
-      "type": "group",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "formula": "",
-      "calculated_format": "",
-      "blank_if_zero": 0,
-      "readonly": 0,
-      "layout": "table",
-      "sub_fields": [
-        {
-          "key": "field_f6c367bd2b30",
-          "label": "Completely filled",
-          "name": "completely_filled",
-          "aria-label": "",
-          "type": "radio",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "choices": {
-            "Yes": "Yes",
-            "No": "No"
-          },
-          "default_value": "",
-          "return_format": "value",
-          "allow_null": 0,
-          "other_choice": 0,
-          "allow_in_bindings": 1,
-          "layout": "horizontal",
-          "save_other_choice": 0
-        },
-        {
-          "key": "field_20531b425e2e",
-          "label": "Auditors registered by GMCSPL",
-          "name": "auditors_registered",
-          "aria-label": "",
-          "type": "clone",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "clone": [
-            "field_6887786048977"
-          ],
-          "display": "seamless",
-          "layout": "block",
-          "prefix_label": 0,
-          "prefix_name": 0
-        },
-        {
-          "key": "field_9496884a4cdf",
-          "label": "Mandays are correct",
-          "name": "mandays_correct",
-          "aria-label": "",
-          "type": "number",
-          "instructions": "",
-          "required": false,
-          "conditional_logic": false,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "default_value": "",
-          "min": "",
-          "max": "",
-          "step": "",
-          "placeholder": "",
-          "prepend": "",
-          "append": ""
-        },
-        {
-          "key": "field_03c5c9b6dd26",
-          "label": "Scope is correct",
-          "name": "scope_correct",
-          "aria-label": "",
-          "type": "radio",
-          "instructions": "",
-          "required": false,
-          "conditional_logic": false,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "choices": {
-            "Yes": "Yes",
-            "No": "No"
-          },
-          "layout": "horizontal",
-          "default_value": "",
-          "other_choice": 0,
-          "save_other_choice": 0,
-          "allow_null": 0,
-          "return_format": "value"
-        },
-        {
-          "key": "field_b3653859462c",
-          "label": "Date of audit is correct",
-          "name": "date_of_audit",
-          "aria-label": "",
-          "type": "clone",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "clone": [
-            "field_0017"
-          ],
-          "display": "seamless",
-          "layout": "block",
-          "prefix_label": 0,
-          "prefix_name": 0
-        },
-        {
-          "key": "field_a9a811eb6fbb",
-          "label": "Date of audit plan is at least 3 days in advance",
-          "name": "date_of_audit_plan_is_at_least_3_days_in_advance",
-          "aria-label": "",
-          "type": "text",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "default_value": "",
-          "maxlength": "",
-          "allow_in_bindings": 0,
-          "placeholder": "",
-          "prepend": "",
-          "append": ""
-        },
-        {
-          "key": "field_12349dcc5bc2",
-          "label": "Person with NACE Code",
-          "name": "person_with_nace_code",
-          "aria-label": "",
-          "type": "clone",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "clone": [
-            "field_stage2_nace"
-          ],
-          "display": "seamless",
-          "layout": "block",
-          "prefix_label": 0,
-          "prefix_name": 0
-        }
-      ]
-    },
-    {
-      "key": "field_bb52ba9a72a0",
-      "label": "Surveillance Audit-1 report",
-      "name": "f19s2stage1_report",
-      "aria-label": "",
-      "type": "group",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "formula": "",
-      "calculated_format": "",
-      "blank_if_zero": 0,
-      "readonly": 0,
-      "layout": "table",
-      "sub_fields": [
-        {
-          "key": "field_601152f35ae4",
-          "label": "Completely filled",
-          "name": "completely_filled",
-          "aria-label": "",
-          "type": "radio",
-          "instructions": "",
-          "required": false,
-          "conditional_logic": false,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "choices": {
-            "Yes": "Yes",
-            "No": "No"
-          },
-          "layout": "horizontal",
-          "default_value": "",
-          "other_choice": 0,
-          "save_other_choice": 0,
-          "allow_null": 0,
-          "return_format": "value"
-        },
-        {
-          "key": "field_44b853f11ae6",
-          "label": "Date is correct",
-          "name": "date_correct",
-          "aria-label": "",
-          "type": "clone",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "clone": [
-            "field_stage2_date"
-          ],
-          "display": "seamless",
-          "layout": "block",
-          "prefix_label": 0,
-          "prefix_name": 0
-        },
-        {
-          "key": "field_9b4a79ae9afd",
-          "label": "Internal Audit Date",
-          "name": "date_correct_copy",
-          "aria-label": "",
-          "type": "clone",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "clone": [
-            "field_0029"
-          ],
-          "display": "seamless",
-          "layout": "block",
-          "prefix_label": 0,
-          "prefix_name": 0
-        },
-        {
-          "key": "field_fbba2fa01340",
-          "label": "Internal audit date is ok",
-          "name": "internal_audit_date",
-          "aria-label": "",
-          "type": "radio",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "choices": {
-            "Yes": "Yes",
-            "No": "No"
-          },
-          "default_value": "",
-          "return_format": "value",
-          "allow_null": 0,
-          "other_choice": 0,
-          "allow_in_bindings": 1,
-          "layout": "horizontal",
-          "save_other_choice": 0
-        },
-        {
-          "key": "field_18c2d588995e",
-          "label": "MRM date is ok",
-          "name": "mrm_date",
-          "aria-label": "",
-          "type": "radio",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "choices": {
-            "Yes": "Yes",
-            "No": "No"
-          },
-          "default_value": "",
-          "return_format": "value",
-          "allow_null": 0,
-          "other_choice": 0,
-          "allow_in_bindings": 0,
-          "layout": "horizontal",
-          "save_other_choice": 0
-        },
-        {
-          "key": "field_9bb3ed7b69f3",
-          "label": "MRM Date",
-          "name": "date_correct_copy2",
-          "aria-label": "",
-          "type": "clone",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "clone": [
-            "field_0032"
-          ],
-          "display": "seamless",
-          "layout": "block",
-          "prefix_label": 0,
-          "prefix_name": 0
-        }
-      ]
-    },
-    {
-      "key": "field_328d7219026a",
-      "label": "Assessment Schedule",
-      "name": "f19s2assessment_schedule",
-      "aria-label": "",
-      "type": "group",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "formula": "",
-      "calculated_format": "",
-      "blank_if_zero": 0,
-      "readonly": 0,
-      "layout": "block",
-      "sub_fields": [
-        {
-          "key": "field_12d250e68653",
-          "label": "Audit team same as in plan",
-          "name": "team_same",
-          "aria-label": "",
-          "type": "radio",
-          "instructions": "",
-          "required": false,
-          "conditional_logic": false,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "choices": {
-            "Yes": "Yes",
-            "No": "No"
-          },
-          "layout": "horizontal",
-          "default_value": "",
-          "other_choice": 0,
-          "save_other_choice": 0,
-          "allow_null": 0,
-          "return_format": "value"
-        },
-        {
-          "key": "field_161a2a40f76c",
-          "label": "Dates are correct",
-          "name": "dates_correct",
-          "aria-label": "",
-          "type": "radio",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "choices": {
-            "Yes": "Yes",
-            "No": "No"
-          },
-          "default_value": "",
-          "return_format": "value",
-          "allow_null": 0,
-          "other_choice": 0,
-          "allow_in_bindings": 0,
-          "layout": "horizontal",
-          "save_other_choice": 0
-        },
-        {
-          "key": "field_407c016d8d92",
-          "label": "Mandays as per audit plan",
-          "name": "mandays_as_plan",
-          "aria-label": "",
-          "type": "number",
-          "instructions": "",
-          "required": false,
-          "conditional_logic": false,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "default_value": "",
-          "min": "",
-          "max": "",
-          "step": "",
-          "placeholder": "",
-          "prepend": "",
-          "append": ""
-        },
-        {
-          "key": "field_5acc21673153",
-          "label": "One man-day ≥ 8 hours",
-          "name": "manday_hours",
-          "aria-label": "",
-          "type": "radio",
-          "instructions": "",
-          "required": false,
-          "conditional_logic": false,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "choices": {
-            "Yes": "Yes",
-            "No": "No"
-          },
-          "layout": "horizontal",
-          "default_value": "",
-          "other_choice": 0,
-          "save_other_choice": 0,
-          "allow_null": 0,
-          "return_format": "value"
-        }
-      ]
-    },
-    {
-      "key": "field_f44dedc4ab61",
-      "label": "NCs",
-      "name": "f19s2ncs",
-      "aria-label": "",
-      "type": "group",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "formula": "",
-      "calculated_format": "",
-      "blank_if_zero": 0,
-      "readonly": 0,
-      "layout": "block",
-      "sub_fields": [
-        {
-          "key": "field_7459c55d073a",
-          "label": "Dates are correct",
-          "name": "dates_correctx",
-          "aria-label": "",
-          "type": "radio",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "choices": {
-            "Yes": "Yes",
-            "No": "No",
-            "NA": "Not Applicable"
-          },
-          "default_value": "",
-          "return_format": "value",
-          "allow_null": 0,
-          "other_choice": 0,
-          "allow_in_bindings": 0,
-          "layout": "horizontal",
-          "save_other_choice": 0
-        },
-        {
-          "key": "field_c1fad9cb99ef",
-          "label": "Previous NC closed",
-          "name": "previous_nc_closed",
-          "aria-label": "",
-          "type": "radio",
-          "instructions": "",
-          "required": false,
-          "conditional_logic": false,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "choices": {
-            "Yes": "Yes",
-            "No": "No",
-            "NA": "Not Applicable"
-          },
-          "layout": "horizontal",
-          "default_value": "",
-          "other_choice": 0,
-          "save_other_choice": 0,
-          "allow_null": 0,
-          "return_format": "value"
-        },
-        {
-          "key": "field_50735932d41f",
-          "label": "Completely filled",
-          "name": "completely_filled",
-          "aria-label": "",
-          "type": "radio",
-          "instructions": "",
-          "required": false,
-          "conditional_logic": false,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "choices": {
-            "Yes": "Yes",
-            "No": "No",
-            "NA": "Not Applicable"
-          },
-          "layout": "horizontal",
-          "default_value": "",
-          "other_choice": 0,
-          "save_other_choice": 0,
-          "allow_null": 0,
-          "return_format": "value"
-        }
-      ]
-    },
-    {
-      "key": "field_681a23da23f7",
-      "label": "Ongoing Surveillance Plan",
-      "name": "f19s2surveillance_plan",
-      "aria-label": "",
-      "type": "group",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "formula": "",
-      "calculated_format": "",
-      "blank_if_zero": 0,
-      "readonly": 0,
-      "layout": "block",
-      "sub_fields": [
-        {
-          "key": "field_a18509aa419b",
-          "label": "Completely filled",
-          "name": "completely_filled",
-          "aria-label": "",
-          "type": "radio",
-          "instructions": "",
-          "required": false,
-          "conditional_logic": false,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "choices": {
-            "Yes": "Yes",
-            "No": "No"
-          },
-          "layout": "horizontal",
-          "default_value": "",
-          "other_choice": 0,
-          "save_other_choice": 0,
-          "allow_null": 0,
-          "return_format": "value"
-        },
-        {
-          "key": "field_8326132d088b",
-          "label": "Processes as in Assessment schedule",
-          "name": "processes_ok",
-          "aria-label": "",
-          "type": "radio",
-          "instructions": "",
-          "required": false,
-          "conditional_logic": false,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "choices": {
-            "Yes": "Yes",
-            "No": "No"
-          },
-          "layout": "horizontal",
-          "default_value": "",
-          "other_choice": 0,
-          "save_other_choice": 0,
-          "allow_null": 0,
-          "return_format": "value"
-        },
-        {
-          "key": "field_be4dd5afd947",
-          "label": "Next assessment date",
-          "name": "next_assessment_date",
-          "aria-label": "",
-          "type": "date_picker",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "display_format": "d/m/Y",
-          "return_format": "d/m/Y",
-          "first_day": 1,
-          "default_to_current_date": 0,
-          "allow_in_bindings": 0
-        }
-      ]
-    },
-    {
-      "key": "field_33132b9c4f2d",
-      "label": "Confidentiality & No COI",
-      "name": "f19s2confidentiality",
-      "aria-label": "",
-      "type": "group",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "formula": "",
-      "calculated_format": "",
-      "blank_if_zero": 0,
-      "readonly": 0,
-      "layout": "block",
-      "sub_fields": [
-        {
-          "key": "field_599aa0ce0dd4",
-          "label": "Signed by each audit team member",
-          "name": "signed_by_team",
-          "aria-label": "",
-          "type": "radio",
-          "instructions": "",
-          "required": false,
-          "conditional_logic": false,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "choices": {
-            "Yes": "Yes",
-            "No": "No"
-          },
-          "layout": "horizontal",
-          "default_value": "",
-          "other_choice": 0,
-          "save_other_choice": 0,
-          "allow_null": 0,
-          "return_format": "value"
-        },
-        {
-          "key": "field_9f1aa69243c4",
-          "label": "Dates of sign before participation",
-          "name": "dates_before_audit",
-          "aria-label": "",
-          "type": "date_picker",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "display_format": "d/m/Y",
-          "return_format": "d/m/Y",
-          "first_day": 1,
-          "default_to_current_date": 0,
-          "allow_in_bindings": 0
-        }
-      ]
-    },
-    {
-      "key": "field_e22d12335855",
-      "label": "Surveillance Attendance sheet",
-      "name": "f19s2surveillance_attendance_sheet",
-      "aria-label": "",
-      "type": "group",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "formula": "",
-      "calculated_format": "",
-      "blank_if_zero": 0,
-      "readonly": 0,
-      "layout": "block",
-      "sub_fields": [
-        {
-          "key": "field_a221d91deb4f",
-          "label": "Correct Dated ?",
-          "name": "correct_dated_q",
-          "aria-label": "",
-          "type": "radio",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "choices": {
-            "Yes": "Yes",
-            "No": "No",
-            "NA": "NA"
-          },
-          "default_value": "",
-          "return_format": "value",
-          "allow_null": 0,
-          "other_choice": 0,
-          "allow_in_bindings": 0,
-          "layout": "horizontal",
-          "save_other_choice": 0
-        },
-        {
-          "key": "field_557b1f1c7611",
-          "label": "Surveillance Attendance sheet Date",
-          "name": "surveillance_attendance_sheet_date",
-          "aria-label": "",
-          "type": "date_picker",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "display_format": "d/m/Y",
-          "return_format": "d/m/Y",
-          "first_day": 1,
-          "default_to_current_date": 0,
-          "allow_in_bindings": 0
-        }
-      ]
-    },
-    {
-      "key": "field_9931269b5adb",
-      "label": "Checklist F-25",
-      "name": "f19s2checklist_f25",
-      "aria-label": "",
-      "type": "group",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "formula": "",
-      "calculated_format": "",
-      "blank_if_zero": 0,
-      "readonly": 0,
-      "layout": "block",
-      "sub_fields": [
-        {
-          "key": "field_6726c8156ae3",
-          "label": "Properly filled",
-          "name": "properly_filled",
-          "aria-label": "",
-          "type": "radio",
-          "instructions": "",
-          "required": false,
-          "conditional_logic": false,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "choices": {
-            "Yes": "Yes",
-            "No": "No"
-          },
-          "layout": "horizontal",
-          "default_value": "",
-          "other_choice": 0,
-          "save_other_choice": 0,
-          "allow_null": 0,
-          "return_format": "value"
-        },
-        {
-          "key": "field_38ad56f9005e",
-          "label": "Internal audit date",
-          "name": "internal_audit_date",
-          "aria-label": "",
-          "type": "group",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "layout": "block",
-          "sub_fields": [
-            {
-              "key": "field_072777dfb0dc",
-              "label": "Internal Audit",
-              "name": "internal_audit",
-              "aria-label": "",
-              "type": "clone",
-              "instructions": "",
-              "required": 0,
-              "conditional_logic": 0,
-              "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-              },
-              "formula": "",
-              "calculated_format": "",
-              "blank_if_zero": 0,
-              "readonly": 0,
-              "clone": [
-                "field_0031"
-              ],
-              "display": "seamless",
-              "layout": "block",
-              "prefix_label": 0,
-              "prefix_name": 0
-            },
-            {
-              "key": "field_1776f7d0aeda",
-              "label": "MRM date",
-              "name": "mrm_date",
-              "aria-label": "",
-              "type": "date_picker",
-              "instructions": "",
-              "required": false,
-              "conditional_logic": false,
-              "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-              },
-              "display_format": "d/m/Y",
-              "return_format": "d/m/Y",
-              "first_day": 1,
-              "default_to_current_date": 0,
-              "allow_in_bindings": 0
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "key": "field_377282643f33",
-      "label": "Legal Compliance Criteria",
-      "name": "f19s2legal_compliance",
-      "aria-label": "",
-      "type": "group",
-      "instructions": "",
-      "required": false,
-      "conditional_logic": false,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "layout": "block",
-      "sub_fields": [
-        {
-          "key": "field_e91e129600c4",
-          "label": "Organization achieved legal compliance",
-          "name": "compliance_achieved",
-          "aria-label": "",
-          "type": "radio",
-          "instructions": "",
-          "required": false,
-          "conditional_logic": false,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "choices": {
-            "Yes": "Yes",
-            "No": "No",
-            "NA": "Not Applicable"
-          },
-          "layout": "horizontal",
-          "default_value": "",
-          "other_choice": 0,
-          "save_other_choice": 0,
-          "allow_null": 0,
-          "return_format": "value"
-        },
-        {
-          "key": "field_25ce83f81a97",
-          "label": "Audit report addresses statement on compliance",
-          "name": "report_statement",
-          "aria-label": "",
-          "type": "radio",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "choices": {
-            "OK": "OK",
-            "Not OK": "Not OK",
-            "NA": "NA"
-          },
-          "default_value": "",
-          "return_format": "value",
-          "allow_null": 0,
-          "other_choice": 0,
-          "allow_in_bindings": 1,
-          "layout": "horizontal",
-          "save_other_choice": 0
-        }
-      ]
-    },
-    {
-      "key": "field_ee133549c5b0",
-      "label": "Review of Previous Cycle Performance",
-      "name": "f19s2previous_cycle_review",
-      "aria-label": "",
-      "type": "group",
-      "instructions": "",
-      "required": false,
-      "conditional_logic": false,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "layout": "block",
-      "sub_fields": [
-        {
-          "key": "field_081c2f8d1b36",
-          "label": "Comments addressed",
-          "name": "comments_addressed",
-          "aria-label": "",
-          "type": "textarea",
-          "instructions": "Comments on during re certification performance of the previous cycle addressed by the auditors",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "default_value": "",
-          "maxlength": "",
-          "allow_in_bindings": 1,
-          "rows": "",
-          "placeholder": "",
-          "new_lines": ""
-        }
-      ]
-    },
-    {
-      "key": "field_c66a2fef326c",
-      "label": "Any Other PointsDetails",
-      "name": "f19s2f29s1details",
-      "aria-label": "",
-      "type": "textarea",
-      "instructions": "",
-      "required": 0,
-      "conditional_logic": 0,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "formula": "",
-      "calculated_format": "",
-      "blank_if_zero": 0,
-      "readonly": 0,
-      "default_value": "",
-      "maxlength": "",
-      "allow_in_bindings": 1,
-      "rows": "",
-      "placeholder": "",
-      "new_lines": ""
-    },
-    {
-      "key": "field_dbdcdba97e6d",
-      "label": "Review Dates & Remarks",
-      "name": "f19s2reviews",
-      "aria-label": "",
-      "type": "group",
-      "instructions": "",
-      "required": false,
-      "conditional_logic": false,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "layout": "block",
-      "sub_fields": [
-        {
-          "key": "field_53c098bf3378",
-          "label": "1st Review date",
-          "name": "review1_date",
-          "aria-label": "",
-          "type": "date_picker",
-          "instructions": "",
-          "required": false,
-          "conditional_logic": false,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "display_format": "d/m/Y",
-          "return_format": "d/m/Y",
-          "first_day": 1,
-          "default_to_current_date": 0,
-          "allow_in_bindings": 0
-        },
-        {
-          "key": "field_e5ab4839e206",
-          "label": "File is ready for review by MD/Review Team",
-          "name": "review1_ready",
-          "aria-label": "",
-          "type": "text",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "default_value": "",
-          "maxlength": "",
-          "allow_in_bindings": 0,
-          "placeholder": "",
-          "prepend": "",
-          "append": ""
-        },
-        {
-          "key": "field_6367f3812a6a",
-          "label": "Follow up is required",
-          "name": "review1_followup",
-          "aria-label": "",
-          "type": "text",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "default_value": "",
-          "maxlength": "",
-          "allow_in_bindings": 0,
-          "placeholder": "",
-          "prepend": "",
-          "append": ""
-        },
-        {
-          "key": "field_14f06c7efbae",
-          "label": "Remarks",
-          "name": "review1_remarks",
-          "aria-label": "",
-          "type": "textarea",
-          "instructions": "",
-          "required": false,
-          "conditional_logic": false,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "default_value": "",
-          "placeholder": "",
-          "rows": "",
-          "new_lines": "",
-          "maxlength": ""
-        },
-        {
-          "key": "field_e0c048df417d",
-          "label": "Action taken",
-          "name": "review1_action",
-          "aria-label": "",
-          "type": "textarea",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "default_value": "",
-          "rows": "",
-          "new_lines": "",
-          "maxlength": "",
-          "placeholder": "",
-          "allow_in_bindings": 0
-        },
-        {
-          "key": "field_03fddb1b3ad2",
-          "label": "2nd Review date",
-          "name": "review2_date",
-          "aria-label": "",
-          "type": "date_picker",
-          "instructions": "",
-          "required": false,
-          "conditional_logic": false,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "display_format": "d/m/Y",
-          "return_format": "d/m/Y",
-          "first_day": 1,
-          "default_to_current_date": 0,
-          "allow_in_bindings": 0
-        },
-        {
-          "key": "field_698c12846f95",
-          "label": "File is ready for review by GM",
-          "name": "review2_ready",
-          "aria-label": "",
-          "type": "true_false",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "message": "",
-          "default_value": 0,
-          "allow_in_bindings": 0,
-          "ui": 0,
-          "ui_on_text": "",
-          "ui_off_text": ""
-        },
-        {
-          "key": "field_657ac4298756",
-          "label": "Follow up is required",
-          "name": "review2_followup",
-          "aria-label": "",
-          "type": "true_false",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "message": "",
-          "default_value": 0,
-          "allow_in_bindings": 0,
-          "ui": 0,
-          "ui_on_text": "",
-          "ui_off_text": ""
-        },
-        {
-          "key": "field_c823bf70dab2",
-          "label": "Remarks",
-          "name": "review2_remarks",
-          "aria-label": "",
-          "type": "textarea",
-          "instructions": "",
-          "required": false,
-          "conditional_logic": false,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "default_value": "",
-          "placeholder": "",
-          "rows": "",
-          "new_lines": "",
-          "maxlength": ""
-        },
-        {
-          "key": "field_93664e4df181",
-          "label": "Checked by",
-          "name": "checked_by",
-          "aria-label": "",
-          "type": "user",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "role": [
-            "auditor"
-          ],
-          "return_format": "array",
-          "multiple": 0,
-          "allow_null": 0,
-          "allow_in_bindings": 0,
-          "bidirectional": 0,
-          "bidirectional_target": []
-        },
-        {
-          "key": "field_d0840d4d67cc",
-          "label": "Checked date",
-          "name": "checked_date",
-          "aria-label": "",
-          "type": "date_picker",
-          "instructions": "",
-          "required": false,
-          "conditional_logic": false,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "display_format": "d/m/Y",
-          "return_format": "d/m/Y",
-          "first_day": 1,
-          "default_to_current_date": 0,
-          "allow_in_bindings": 0
-        }
-      ]
-    },
-    {
-      "key": "field_9a48c0cabe69",
-      "label": "Certification Decision",
-      "name": "f19s2certification_decision",
-      "aria-label": "",
-      "type": "group",
-      "instructions": "",
-      "required": false,
-      "conditional_logic": false,
-      "wrapper": {
-        "width": "",
-        "class": "",
-        "id": ""
-      },
-      "layout": "block",
-      "sub_fields": [
-        {
-          "key": "field_80e1b5822a8c",
-          "label": "Person(s) of Certification Decision",
-          "name": "decision_person",
-          "aria-label": "",
-          "type": "text",
-          "instructions": "",
-          "required": false,
-          "conditional_logic": false,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "default_value": "",
-          "maxlength": "",
-          "placeholder": "",
-          "prepend": "",
-          "append": ""
-        },
-        {
-          "key": "field_ef99067e8585",
-          "label": "Lead Auditor(s)",
-          "name": "lead_auditors",
-          "aria-label": "",
-          "type": "user",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "role": "",
-          "return_format": "array",
-          "multiple": 0,
-          "allow_null": 0,
-          "allow_in_bindings": 0,
-          "bidirectional": 0,
-          "bidirectional_target": []
-        },
-        {
-          "key": "field_5cc26b635a7a",
-          "label": "Standard",
-          "name": "standard",
-          "aria-label": "",
-          "type": "clone",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "clone": [
-            "field_6975847e44476"
-          ],
-          "display": "seamless",
-          "layout": "block",
-          "prefix_label": 0,
-          "prefix_name": 0
-        },
-        {
-          "key": "field_d7904d2d9be3",
-          "label": "Scope",
-          "name": "scope",
-          "aria-label": "",
-          "type": "clone",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "clone": [
-            "field_68173ed2a657a"
-          ],
-          "display": "seamless",
-          "layout": "block",
-          "prefix_label": 0,
-          "prefix_name": 0
-        },
-        {
-          "key": "field_13ca642e56b6",
-          "label": "Any issues/ambiguity",
-          "name": "issues_ambiguity",
-          "aria-label": "",
-          "type": "text",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "default_value": "",
-          "maxlength": "",
-          "allow_in_bindings": 0,
-          "placeholder": "",
-          "prepend": "",
-          "append": ""
-        },
-        {
-          "key": "field_e767c9fd6d87",
-          "label": "No. of Major NCs",
-          "name": "major_ncs",
-          "aria-label": "",
-          "type": "text",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "default_value": "",
-          "maxlength": "",
-          "allow_in_bindings": 0,
-          "placeholder": "",
-          "prepend": "",
-          "append": ""
-        },
-        {
-          "key": "field_b108015119a8",
-          "label": "Effectiveness of Correction & CA on Major NCs",
-          "name": "major_nc_effectiveness",
-          "aria-label": "",
-          "type": "textarea",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "default_value": "",
-          "rows": "",
-          "new_lines": "",
-          "maxlength": "",
-          "placeholder": "",
-          "allow_in_bindings": 0
-        },
-        {
-          "key": "field_0681df91e1e4",
-          "label": "No. of Minor NCs",
-          "name": "minor_ncs",
-          "aria-label": "",
-          "type": "number",
-          "instructions": "",
-          "required": false,
-          "conditional_logic": false,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "default_value": "",
-          "min": "",
-          "max": "",
-          "step": "",
-          "placeholder": "",
-          "prepend": "",
-          "append": ""
-        },
-        {
-          "key": "field_e11250eddbe4",
-          "label": "Effectiveness of Correction & CA on Minor NCs",
-          "name": "minor_nc_effectiveness",
-          "aria-label": "",
-          "type": "textarea",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "default_value": "",
-          "rows": "",
-          "new_lines": "",
-          "maxlength": "",
-          "placeholder": "",
-          "allow_in_bindings": 0
-        },
-        {
-          "key": "field_52f2f71e9135",
-          "label": "Decision on Certification",
-          "name": "decision_final",
-          "aria-label": "",
-          "type": "textarea",
-          "instructions": "",
-          "required": false,
-          "conditional_logic": false,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "default_value": "",
-          "placeholder": "",
-          "rows": "",
-          "new_lines": "",
-          "maxlength": ""
-        },
-        {
-          "key": "field_f9a5ad269b0e",
-          "label": "Decision on Certification",
-          "name": "decision_on_certification",
-          "aria-label": "",
-          "type": "radio",
-          "instructions": "Based on the information provided by the team with respect to the certification requirement and audit scope and further verification of audit documents, the certification decision team member concluded that certification can be",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "choices": {
-            "Granted": "Granted",
-            "Continued": "Continued",
-            "Not granted With Reasons": "Not granted With Reasons"
-          },
-          "default_value": "",
-          "return_format": "value",
-          "allow_null": 0,
-          "other_choice": 0,
-          "allow_in_bindings": 0,
-          "layout": "vertical",
-          "save_other_choice": 0
-        },
-        {
-          "key": "field_2a1133b8e1b0",
-          "label": "Signature of person(s) Certification Decision",
-          "name": "signature",
-          "aria-label": "",
-          "type": "user",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "formula": "",
-          "calculated_format": "",
-          "blank_if_zero": 0,
-          "readonly": 0,
-          "role": [
-            "auditor"
-          ],
-          "return_format": "array",
-          "multiple": 0,
-          "allow_null": 0,
-          "allow_in_bindings": 0,
-          "bidirectional": 0,
-          "bidirectional_target": []
-        },
-        {
-          "key": "field_123e91db75b5",
-          "label": "Date of Certification Decision",
-          "name": "cert_decision_date",
-          "aria-label": "",
-          "type": "date_picker",
-          "instructions": "",
-          "required": false,
-          "conditional_logic": false,
-          "wrapper": {
-            "width": "",
-            "class": "",
-            "id": ""
-          },
-          "display_format": "d/m/Y",
-          "return_format": "d/m/Y",
-          "first_day": 1,
-          "default_to_current_date": 0,
-          "allow_in_bindings": 0
-        }
-      ]
-    }
-  ],
-  "location": [
-    [
-      {
-        "param": "post_type",
-        "operator": "==",
-        "value": "client"
-      }
-    ]
-  ],
-  "menu_order": 0,
-  "position": "normal",
-  "style": "default",
-  "label_placement": "top",
-  "instruction_placement": "label",
-  "hide_on_screen": "",
-  "active": true,
-  "description": "",
-  "show_in_rest": 0,
-  "display_title": "",
-  "modified": 1775304465
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "display_title": "",
+    "modified": 1777622257
 }

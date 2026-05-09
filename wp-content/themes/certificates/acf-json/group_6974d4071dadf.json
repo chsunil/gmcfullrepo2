@@ -205,7 +205,7 @@
         },
         {
             "key": "field_f21s1_functional_units",
-            "label": "Functional Units\/Processes Audited",
+            "label": "Functional Units/Processes Audited",
             "name": "f21s1functional_units",
             "aria-label": "",
             "type": "clone",
@@ -305,7 +305,7 @@
         },
         {
             "key": "field_69cccb6a33bdf",
-            "label": "Brief Profile of the organization Including  main products\/ services  and customers",
+            "label": "Brief Profile of the organization Including  main products/ services  and customers",
             "name": "f21s1brief_profile_of_the_organization_including__main_products_services__and_customers",
             "aria-label": "",
             "type": "textarea",
@@ -651,7 +651,7 @@
         },
         {
             "key": "field_69cccdc033bec",
-            "label": "Observations\/ areas for potential Improvement",
+            "label": "Observations/ areas for potential Improvement",
             "name": "f21s1observations_areas_for_potential_improvement",
             "aria-label": "",
             "type": "text",
@@ -1049,8 +1049,8 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
-            "return_format": "d\/m\/Y",
+            "display_format": "d/m/Y",
+            "return_format": "d/m/Y",
             "first_day": 1,
             "default_to_current_date": 0
         },
@@ -1213,6 +1213,23 @@
             "toggle": 0,
             "save_custom": 0,
             "custom_choice_button_text": "Add new choice"
+        },
+        {
+            "key": "field_adt_clone_f21s1",
+            "label": "Audit Dates (Synced)",
+            "name": "audit_dates_sync",
+            "type": "clone",
+            "clone": [
+                "field_0009",
+                "field_0012",
+                "field_0027",
+                "field_0030",
+                "field_0033"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
         }
     ],
     "location": [
@@ -1234,5 +1251,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1775032660
+    "modified": 1777622257
 }

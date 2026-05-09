@@ -279,6 +279,19 @@
             "message": "» To be finalized at closing meeting during stage 2 audit\t\t\t\t\t\t\t\t\t\r\n » GMCSPL Auditors to ensure before finalizing the scope: not excludes part of processes, products, or services (unless allowed by regulatory authorities) from the scope of certification when those processes, products or services have an influence on the safety and quality of products)",
             "new_lines": "wpautop",
             "esc_html": 0
+        },
+        {
+            "key": "field_adt_clone_f12",
+            "label": "Audit Dates (Synced)",
+            "name": "audit_dates_sync",
+            "type": "clone",
+            "clone": [
+                "field_0011"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
         }
     ],
     "location": [
@@ -307,5 +320,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1774347604
+    "modified": 1777622257
 }

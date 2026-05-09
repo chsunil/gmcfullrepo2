@@ -204,8 +204,8 @@
                     "calculated_format": "",
                     "blank_if_zero": 0,
                     "readonly": 0,
-                    "display_format": "d\/m\/Y g:i a",
-                    "return_format": "d\/m\/Y g:i a",
+                    "display_format": "d/m/Y g:i a",
+                    "return_format": "d/m/Y g:i a",
                     "first_day": 1,
                     "allow_in_bindings": 0,
                     "default_to_current_date": 0,
@@ -229,8 +229,8 @@
                     "calculated_format": "",
                     "blank_if_zero": 0,
                     "readonly": 0,
-                    "display_format": "d\/m\/Y g:i a",
-                    "return_format": "d\/m\/Y g:i a",
+                    "display_format": "d/m/Y g:i a",
+                    "return_format": "d/m/Y g:i a",
                     "first_day": 1,
                     "allow_in_bindings": 0,
                     "default_to_current_date": 0,
@@ -258,5 +258,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1774768690
+    "modified": 1777622257
 }

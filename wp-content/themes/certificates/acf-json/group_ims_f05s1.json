@@ -124,7 +124,7 @@
             "calculated_format": "",
             "blank_if_zero": 0,
             "readonly": 0,
-            "default_value": "\"\uf076 Collecting information and evidence about conformity to all requirements of the management system standard\r\n\uf076 Performance  monitoring,  measuring,  reporting  and  reviewing  against  key performance objectives and targets wrt management System Standard\r\n\uf076 Determination of the ability of the management system to ensure adherence to applicable statutory, regulatory and contractual requirements\r\n\uf076 Auditing Operational control of the client\u2019s processes\r\n\uf076 Effectiveness of internal auditing and Management review\r\n\uf076 Management responsibility for the client\u2019s Policies\"",
+            "default_value": "\" Collecting information and evidence about conformity to all requirements of the management system standard\r\n Performance  monitoring,  measuring,  reporting  and  reviewing  against  key performance objectives and targets wrt management System Standard\r\n Determination of the ability of the management system to ensure adherence to applicable statutory, regulatory and contractual requirements\r\n Auditing Operational control of the client’s processes\r\n Effectiveness of internal auditing and Management review\r\n Management responsibility for the client’s Policies\"",
             "maxlength": "",
             "allow_in_bindings": 1,
             "rows": "",
@@ -801,5 +801,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1774718316
+    "modified": 1777622257
 }

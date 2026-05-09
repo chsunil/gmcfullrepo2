@@ -1,6 +1,6 @@
 {
     "key": "group_ims_f14s2",
-    "title": "IMS \u2013 F14S2: Confidentiality and No Conflict of Interest Declaration (S2)",
+    "title": "IMS – F14S2: Confidentiality and No Conflict of Interest Declaration (S2)",
     "fields": [
         {
             "key": "field_2730509bca11",
@@ -245,7 +245,7 @@
             "calculated_format": "",
             "blank_if_zero": 0,
             "readonly": 0,
-            "message": "<i>*Only auditors and technical experts whose all answers are \u201cYes\u201d can sign. If any answer is \u201cNo\u201d he/she can\u2019t participate in the subject assessment.The document should be signed on or before the date of assessment.</i>",
+            "message": "<i>*Only auditors and technical experts whose all answers are “Yes” can sign. If any answer is “No” he/she can’t participate in the subject assessment.The document should be signed on or before the date of assessment.</i>",
             "new_lines": "wpautop",
             "esc_html": 0
         }
@@ -268,5 +268,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1775304465
+    "modified": 1777622257
 }

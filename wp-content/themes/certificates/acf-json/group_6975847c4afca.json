@@ -514,7 +514,7 @@
                         },
                         {
                             "key": "field_6975847cd6929",
-                            "label": "If transfer, F-26 is attached with last report\/ certificate",
+                            "label": "If transfer, F-26 is attached with last report/ certificate",
                             "name": "if_transfer_f-26_is_attached_with_last_report_certificate",
                             "aria-label": "",
                             "type": "text",
@@ -1347,8 +1347,8 @@
                     "calculated_format": "",
                     "blank_if_zero": 0,
                     "readonly": 0,
-                    "display_format": "d\/m\/Y",
-                    "return_format": "d\/m\/Y",
+                    "display_format": "d/m/Y",
+                    "return_format": "d/m/Y",
                     "first_day": 1,
                     "default_to_current_date": 0,
                     "allow_in_bindings": 0
@@ -1418,8 +1418,8 @@
                     "calculated_format": "",
                     "blank_if_zero": 0,
                     "readonly": 0,
-                    "display_format": "d\/m\/Y",
-                    "return_format": "d\/m\/Y",
+                    "display_format": "d/m/Y",
+                    "return_format": "d/m/Y",
                     "first_day": 1,
                     "default_to_current_date": 0,
                     "allow_in_bindings": 0
@@ -1495,8 +1495,8 @@
                     "calculated_format": "",
                     "blank_if_zero": 0,
                     "readonly": 0,
-                    "display_format": "d\/m\/Y",
-                    "return_format": "d\/m\/Y",
+                    "display_format": "d/m/Y",
+                    "return_format": "d/m/Y",
                     "first_day": 1,
                     "default_to_current_date": 0,
                     "allow_in_bindings": 0
@@ -1608,8 +1608,8 @@
                                 "class": "",
                                 "id": ""
                             },
-                            "display_format": "d\/m\/Y",
-                            "return_format": "d\/m\/Y",
+                            "display_format": "d/m/Y",
+                            "return_format": "d/m/Y",
                             "first_day": 1,
                             "default_to_current_date": 0,
                             "allow_in_bindings": 0
@@ -1791,15 +1791,15 @@
                         "class": "",
                         "id": ""
                     },
-                    "display_format": "d\/m\/Y",
-                    "return_format": "d\/m\/Y",
+                    "display_format": "d/m/Y",
+                    "return_format": "d/m/Y",
                     "first_day": 1,
                     "default_to_current_date": 0,
                     "allow_in_bindings": 0
                 },
                 {
                     "key": "field_f19s1rev01",
-                    "label": "File is ready for review by MD\/Review Team",
+                    "label": "File is ready for review by MD/Review Team",
                     "name": "review1_ready",
                     "aria-label": "",
                     "type": "text",
@@ -1902,8 +1902,8 @@
                         "class": "",
                         "id": ""
                     },
-                    "display_format": "d\/m\/Y",
-                    "return_format": "d\/m\/Y",
+                    "display_format": "d/m/Y",
+                    "return_format": "d/m/Y",
                     "first_day": 1,
                     "default_to_current_date": 0,
                     "allow_in_bindings": 0
@@ -2012,8 +2012,8 @@
                         "class": "",
                         "id": ""
                     },
-                    "display_format": "d\/m\/Y",
-                    "return_format": "d\/m\/Y",
+                    "display_format": "d/m/Y",
+                    "return_format": "d/m/Y",
                     "first_day": 1,
                     "default_to_current_date": 0,
                     "allow_in_bindings": 0
@@ -2136,7 +2136,7 @@
                 },
                 {
                     "key": "field_6975847e4a298",
-                    "label": "Any issues\/ambiguity",
+                    "label": "Any issues/ambiguity",
                     "name": "issues_ambiguity",
                     "aria-label": "",
                     "type": "text",
@@ -2341,8 +2341,8 @@
                         "class": "",
                         "id": ""
                     },
-                    "display_format": "d\/m\/Y",
-                    "return_format": "d\/m\/Y",
+                    "display_format": "d/m/Y",
+                    "return_format": "d/m/Y",
                     "first_day": 1,
                     "default_to_current_date": 0,
                     "allow_in_bindings": 0
@@ -2369,5 +2369,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1775280640
+    "modified": 1777622257
 }

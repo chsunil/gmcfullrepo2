@@ -856,7 +856,7 @@
                 },
                 {
                     "key": "field_stage1_plan_advance",
-                    "label": "Audit plan \u2265 3 days in advance",
+                    "label": "Audit plan ≥ 3 days in advance",
                     "name": "plan_in_advance",
                     "aria-label": "",
                     "type": "radio",
@@ -1211,7 +1211,7 @@
                 },
                 {
                     "key": "field_stage2_plan_advance",
-                    "label": "Audit plan \u2265 3 days in advance",
+                    "label": "Audit plan ≥ 3 days in advance",
                     "name": "plan_in_advance",
                     "aria-label": "",
                     "type": "radio",
@@ -1376,7 +1376,7 @@
                 },
                 {
                     "key": "field_assess_hours",
-                    "label": "One man-day \u2265 8 hours",
+                    "label": "One man-day ≥ 8 hours",
                     "name": "manday_hours",
                     "aria-label": "",
                     "type": "radio",
@@ -2713,5 +2713,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1774698153
+    "modified": 1777622257
 }

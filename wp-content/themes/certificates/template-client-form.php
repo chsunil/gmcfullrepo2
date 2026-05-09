@@ -94,8 +94,23 @@ $GLOBALS['client_form_data'] = [
                         <div class="col-xl-12">
                             <div class="card mb-4">
                                 <div class="card-header d-flex justify-content-between align-items-center">
-                                    <h5 class="mb-0"><?php echo $is_new ? 'Create New Client' : 'Edit Client: ' . esc_html($client->post_title); ?></h5>
-                                 <small class="text-uppercase"> Certificate Type : <?php echo esc_html($certification_type); ?></small>
+                                    <div>
+                                        <h5 class="mb-0"><?php echo $is_new ? 'Create New Client' : 'Edit Client: ' . esc_html($client->post_title); ?></h5>
+                                        <div class="mt-1">
+                                            <span class="badge bg-label-primary text-uppercase me-2"><?php echo esc_html($certification_type); ?></span>
+                                            <span class="badge bg-label-info text-capitalize"><?php echo str_replace('_', ' ', esc_html($client_stage)); ?></span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex gap-2">
+                                        <?php if (!$is_new): ?>
+                                            <a href="<?php echo esc_url(add_query_arg('id', $post_id, site_url('dates'))); ?>" class="btn btn-sm btn-outline-primary">
+                                                <i class="bx bx-calendar me-1"></i>Audit Dates
+                                            </a>
+                                        <?php endif; ?>
+                                        <a href="<?php echo home_url('/all-clients/'); ?>" class="btn btn-sm btn-outline-secondary">
+                                            <i class="bx bx-grid-alt me-1"></i>Dashboard
+                                        </a>
+                                    </div>
                                 </div>
                                 <div class="card-body">
                                  
@@ -180,7 +195,7 @@ $GLOBALS['client_form_data'] = [
                                             
                                              <h5><?php echo esc_html($stage['title']); ?></h5>
                                             
-                                            <div class="acf-fields-container">
+                                            <div class="acf-fields-container compact-form">
                                                 <?php 
                                                 $check_post_id =  isset($_GET['new_post_id']) ? intval($_GET['new_post_id']) : 0;
                                                 if ($check_post_id) {
@@ -672,11 +687,12 @@ jQuery(document).ready(function($) {
         // Force all ACF field groups to be visible
         $('.acf-field-group, .acf-fields').css('display', 'block');
         
-        // Apply Sneat styling to ACF fields
-        $('.acf-field').addClass('mb-3');
-        $('.acf-field input[type="text"], .acf-field input[type="email"], .acf-field input[type="number"], .acf-field textarea, .acf-field select').addClass('form-control');
+        // Apply Sneat styling to ACF fields with compact classes
+        $('.acf-field').addClass('mb-2'); // Reduced margin
+        $('.acf-field input[type="text"], .acf-field input[type="email"], .acf-field input[type="number"], .acf-field input[type="date"], .acf-field textarea, .acf-field select')
+            .addClass('form-control form-control-sm');
         $('.acf-field input[type="checkbox"], .acf-field input[type="radio"]').addClass('form-check-input');
-        $('.acf-field .acf-label').addClass('form-label');
+        $('.acf-field .acf-label label').addClass('form-label col-form-label-sm');
     }
     
     // Run when ACF is ready

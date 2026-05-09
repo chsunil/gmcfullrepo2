@@ -44,6 +44,8 @@ class Admin_Site_Enhancements {
         // Enqueue admin scripts and styles
         add_action( 'admin_enqueue_scripts', 'asenha_admin_scripts' );
         add_action( 'admin_head', 'asenha_admin_menu_organizer_css' );
+        // Enqueue block editor scripts and styles
+        add_action( 'enqueue_block_editor_assets', 'asenha_block_editor_scripts' );
         // Enqueue public scripts and styles
         add_action( 'wp_enqueue_scripts', 'asenha_public_scripts' );
         // Dequeue scripts that prevents settings page from working
@@ -923,6 +925,9 @@ class Admin_Site_Enhancements {
                     add_action( 'admin_init', [$disable_smaller_components, 'enable_plugin_theme_editor'], PHP_INT_MAX );
                 }
             }
+            if ( array_key_exists( 'disable_user_email_notification_after_password_change', $options ) && $options['disable_user_email_notification_after_password_change'] ) {
+                add_filter( 'send_password_change_email', '__return_false' );
+            }
         }
         // =================================================================
         // SECURITY
@@ -1044,9 +1049,6 @@ class Admin_Site_Enhancements {
             add_action( 'admin_enqueue_scripts', [$heartbeat_control, 'maybe_disable_heartbeat'], 99 );
             add_action( 'wp_enqueue_scripts', [$heartbeat_control, 'maybe_disable_heartbeat'], 99 );
         }
-        // =================================================================
-        // UTILITIES
-        // =================================================================
         // SMTP Email Delivery
         if ( array_key_exists( 'smtp_email_delivery', $options ) && $options['smtp_email_delivery'] ) {
             $email_delivery = new ASENHA\Classes\Email_Delivery();

@@ -20,7 +20,7 @@
             "calculated_format": "",
             "blank_if_zero": 0,
             "readonly": 0,
-            "default_value": "\u2022To Review Management System\u2019s Documented Information\r\n\u2022To evaluate site specific condition and readiness for Stage 2 audit\r\n\u2022To Evaluate if internal audits and management reviews are planned, substantiating the                                                 readiness for stage 2\r\n\u2022To Evaluate the understanding regarding requirements of the standard, in particular with respect to the identification of key performance or significant aspects, processes, objectives and operation of the management system\"",
+            "default_value": "•To Review Management System’s Documented Information\r\n•To evaluate site specific condition and readiness for Stage 2 audit\r\n•To Evaluate if internal audits and management reviews are planned, substantiating the                                                 readiness for stage 2\r\n•To Evaluate the understanding regarding requirements of the standard, in particular with respect to the identification of key performance or significant aspects, processes, objectives and operation of the management system\"",
             "maxlength": "",
             "allow_in_bindings": 0,
             "rows": "",
@@ -763,5 +763,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1775925583
+    "modified": 1777622257
 }

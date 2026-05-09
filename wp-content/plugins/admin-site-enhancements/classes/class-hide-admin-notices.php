@@ -120,13 +120,13 @@ class Hide_Admin_Notices {
                 #wpbody-content > .wrap > .notice-updated,
                 #wpbody-content > .wrap > .updated:not(.inline),
                 #wpbody-content > .wrap > .update-nag,
-                #wpbody-content > .wrap > div:not(#loco-notices,#loco-content) > .notice:not(.system-notice,.hidden),
+                #wpbody-content > .wrap > div:not(#loco-notices,#loco-content) > .notice:not(.system-notice,.hidden,#asenha-fm-warning-notice),
                 #wpbody-content > .wrap > div:not(#loco-notices,#loco-content) > .notice-error,
                 #wpbody-content > .wrap > div:not(#loco-notices,#loco-content) > .error:not(.hidden),
                 #wpbody-content > .wrap > div:not(#loco-notices,#loco-content) > .notice-info,
                 #wpbody-content > .wrap > div:not(#loco-notices,#loco-content) > .notice-information,
                 #wpbody-content > .wrap > div > #message,
-                #wpbody-content > .wrap > div:not(#loco-notices,#loco-content) > .notice-warning:not(.hidden),
+                #wpbody-content > .wrap > div:not(#loco-notices,#loco-content) > .notice-warning:not(.hidden,#asenha-fm-warning-notice),
                 #wpbody-content > .wrap > div:not(#loco-notices,#loco-content) > .notice-success,
                 #wpbody-content > .wrap > div:not(#loco-notices,#loco-content) > .notice-updated,
                 #wpbody-content > .wrap > div:not(#loco-notices,#loco-content) > .updated,
@@ -317,7 +317,19 @@ class Hide_Admin_Notices {
                 #wpbody-content > .wrap .dokan-dashboard .updated:not(.inline),
                 #wpbody-content > .wrap .dokan-dashboard .update-nag,
                 /* BdThemes Element Pack Pro */
-                #wpbody-content > .wrap > .biggopti
+                #wpbody-content > .wrap > .biggopti,
+                /* Admin Columns */
+                #wpbody-content > .wrap .ac-admin-page .notice:not(.system-notice,.hidden),
+                #wpbody-content > .wrap .ac-admin-page .notice-error,
+                #wpbody-content > .wrap .ac-admin-page .error:not(.hidden),
+                #wpbody-content > .wrap .ac-admin-page .notice-info,
+                #wpbody-content > .wrap .ac-admin-page .notice-information,
+                #wpbody-content > .wrap .ac-admin-page #message,
+                #wpbody-content > .wrap .ac-admin-page .notice-warning:not(.hidden),
+                #wpbody-content > .wrap .ac-admin-page .notice-success,
+                #wpbody-content > .wrap .ac-admin-page .notice-updated,
+                #wpbody-content > .wrap .ac-admin-page .updated:not(.inline),
+                #wpbody-content > .wrap .ac-admin-page .update-nag 
                 {
                     position: absolute !important;
                     visibility: hidden !important;

@@ -2,8 +2,12 @@
 /*
  * Template Name: Audit Dates (Editable)
  * Template Post Type: page
- */// ── Resolve client ID ─────────────────────────────────────────────────────────
-$client_id = isset($_GET['id']) ? intval($_GET['id']) : 0;// ── Audit date fields (label => base key) ─────────────────────────────────────
+ */
+
+// ── Resolve client ID ─────────────────────────────────────────────────────────
+$client_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+
+// ── Audit date fields (label => base key) ─────────────────────────────────────
 $audit_fields = [
     'Application Date'                                        => 'application_date',
     'Application Review Date'                                 => 'application_review_date',
@@ -18,7 +22,9 @@ $audit_fields = [
     'MRM Date'                                                => 'mrm_date',
     'Certificate Issue Date'                                  => 'certificate_issue_date',
     'Certificate Expiry Date'                                 => 'certificate_expiry_date',
-];// ── ACF field key map (meta_key => field_key from group_audit_dates_table) ────
+];
+
+// ── ACF field key map (meta_key => field_key from group_audit_dates_table) ────
 // Used by gmc_set_audit_date() to call update_field() so get_field() works too.
 $gmc_audit_field_keys = [
     'application_date_initial'                                                    => 'field_0002',
@@ -65,46 +71,65 @@ $gmc_audit_field_keys = [
 // ── ACF date_picker sync map (audit meta key => legacy ACF field name) ────────
 // Keeps older ACF fields (f2reviweddate, mrm-audit_date, etc.) in sync.
 $gmc_acf_date_map = [
-    'application_review_date_initial'                      => 'f2reviweddate',
+    'application_review_date_initial'                      => ['f2reviweddate', 'f2techreviweddate'],
     'stage1_audit_initial'                                 => 'initial_audit_to_be_held_in',
     'stage2_audit_surveillance_audit_date_surv1'           => '1st_surveillance_in_',
     'stage2_audit_surveillance_audit_date_surv2'           => '2nd_Surveillance_in',
     'internal_audit_date_initial'                          => 'internal_audit_date',
     'mrm_date_initial'                                     => 'mrm-audit_date',
-];// Convert ACF raw Ymd → Y-m-d for <input type="date">
+];
+
+// Convert ACF raw Ymd → Y-m-d for <input type="date">
 function gmc_acf_to_iso($raw) {
     if (preg_match('/^\d{8}$/', $raw)) {
         return substr($raw, 0, 4) . '-' . substr($raw, 4, 2) . '-' . substr($raw, 6, 2);
     }
     return $raw; // already Y-m-d or empty
-}// ── Read: post meta first, fall back to legacy ACF field if empty ─────────────
+}
+
+// ── Read: post meta first, fall back to legacy ACF field if empty ─────────────
 function gmc_get_audit_date($meta_key, $post_id) {
     global $gmc_acf_date_map;
     $v = get_post_meta($post_id, $meta_key, true);
     // Convert Ymd → Y-m-d if ACF stored it without dashes
     if (!empty($v)) return gmc_acf_to_iso($v);
+    
     if (isset($gmc_acf_date_map[$meta_key])) {
-        $acf_raw = get_post_meta($post_id, $gmc_acf_date_map[$meta_key], true);
-        if (!empty($acf_raw)) return gmc_acf_to_iso($acf_raw);
+        $legacy_keys = (array) $gmc_acf_date_map[$meta_key];
+        foreach ($legacy_keys as $l_key) {
+            $acf_raw = get_post_meta($post_id, $l_key, true);
+            if (!empty($acf_raw)) return gmc_acf_to_iso($acf_raw);
+        }
     }
     return '';
-}// ── Write: save via update_field() (sets ACF lookup key) + legacy sync ────────
+}
+
+// ── Write: save via update_field() (sets ACF lookup key) + legacy sync ────────
 function gmc_set_audit_date($meta_key, $value, $post_id) {
     global $gmc_acf_date_map, $gmc_audit_field_keys;
     $value = sanitize_text_field($value);
+    
+    // 1. Primary Save via update_field (sets ACF lookup key and stores value)
     if (isset($gmc_audit_field_keys[$meta_key])) {
-        // update_field() registers _meta_key → field_key so get_field() works
-        update_field($gmc_audit_field_keys[$meta_key], str_replace('-', '', $value), $post_id);
-        // Overwrite back to Y-m-d so templates using get_post_meta() work correctly
-        update_post_meta($post_id, $meta_key, $value);
+        // We store as raw Ymd for ACF compatibility
+        $acf_value = str_replace('-', '', $value);
+        update_field($gmc_audit_field_keys[$meta_key], $acf_value, $post_id);
     } else {
+        // Fallback for fields not in the ACF group map
         update_post_meta($post_id, $meta_key, $value);
     }
-    // Keep legacy ACF fields in sync (Ymd format)
+    
+    // 2. Secondary Sync to legacy fields
     if (!empty($value) && isset($gmc_acf_date_map[$meta_key])) {
-        update_post_meta($post_id, $gmc_acf_date_map[$meta_key], str_replace('-', '', $value));
+        $legacy_keys = (array) $gmc_acf_date_map[$meta_key];
+        $acf_value = str_replace('-', '', $value);
+        foreach ($legacy_keys as $l_key) {
+             update_post_meta($post_id, $l_key, $acf_value);
+        }
     }
-}// ── Handle POST save BEFORE any output (so wp_redirect works) ─────────────────
+}
+
+// ── Handle POST save BEFORE any output (so wp_redirect works) ─────────────────
 if (
     $_SERVER['REQUEST_METHOD'] === 'POST' &&
     isset($_POST['audit_dates_nonce']) &&
@@ -112,56 +137,80 @@ if (
     $client_id
 ) {
     foreach ($audit_fields as $base) {
-        gmc_set_audit_date("{$base}_initial", $_POST["{$base}_initial"] ?? '', $client_id);
-        gmc_set_audit_date("{$base}_surv1",   $_POST["{$base}_surv1"]   ?? '', $client_id);
-        gmc_set_audit_date("{$base}_surv2",   $_POST["{$base}_surv2"]   ?? '', $client_id);
+        // Only update if the field was actually sent in POST
+        if (isset($_POST["{$base}_initial"])) {
+            gmc_set_audit_date("{$base}_initial", $_POST["{$base}_initial"], $client_id);
+        }
+        if (isset($_POST["{$base}_surv1"])) {
+            gmc_set_audit_date("{$base}_surv1", $_POST["{$base}_surv1"], $client_id);
+        }
+        if (isset($_POST["{$base}_surv2"])) {
+            gmc_set_audit_date("{$base}_surv2", $_POST["{$base}_surv2"], $client_id);
+        }
     }
     wp_redirect(add_query_arg(['updated' => '1', 'id' => $client_id]));
     exit;
-}get_header();// ── Resolve notices ────────────────────────────────────────────────────────────
+}
+
+get_header();
+
+// ── Resolve notices ────────────────────────────────────────────────────────────
 $saved = isset($_GET['updated']) && $_GET['updated'] === '1';
-$no_id = !$client_id;// Client name for header
+$no_id = !$client_id;
+
+// Client name for header
 $client_name = $client_id ? get_the_title($client_id) : '';
-?><!-- Layout wrapper -->
+?>
+
+<!-- Layout wrapper -->
 <div class="layout-wrapper layout-content-navbar">
-  <div class="layout-container">    <?php get_sidebar('custom'); ?>    <div class="layout-page">
+  <div class="layout-container">
+    <?php get_sidebar('custom'); ?>
+    <div class="layout-page">
       <div class="content-wrapper">
-        <div class="container-xxl flex-grow-1 container-p-y">          <?php if ($no_id): ?>
+        <div class="container-xxl flex-grow-1 container-p-y">
+          <?php if ($no_id): ?>
             <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
               <i class="bx bx-error fs-5"></i>
               <span>No client selected. Please open this page from a client record (e.g. <code>?id=CLIENT_ID</code>).</span>
-            </div>          <?php else: ?>            <?php if ($saved): ?>
+            </div>
+          <?php else: ?>
+            <?php if ($saved): ?>
               <div class="alert alert-success alert-dismissible d-flex align-items-center gap-2" role="alert">
                 <i class="bx bx-check-circle fs-5"></i>
                 <span>Audit dates saved successfully.</span>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
               </div>
-            <?php endif; ?>            <div class="card mb-4">
-              <div class="card-header d-flex justify-content-between align-items-center">
-                <div>
-                  <h5 class="mb-0">Audit Dates</h5>
+            <?php endif; ?>
+            <div class="card mb-4 shadow-none border">
+              <div class="card-header d-flex flex-wrap justify-content-between align-items-center py-2 px-3 bg-light border-bottom">
+                <div class="d-flex align-items-center gap-3">
+                  <h6 class="mb-0 fw-bold text-primary">Audit Dates</h6>
                   <?php if ($client_name): ?>
-                    <small class="text-muted"><?= esc_html($client_name) ?></small>
+                    <span class="badge bg-label-secondary font-10"><?= esc_html($client_name) ?></span>
                   <?php endif; ?>
                 </div>
                 <?php
                 $url = add_query_arg( array(
-    'new_post_id' => $client_id
-), site_url( 'create-client/' ) );?>               
-                <a href="<?= esc_url($url) ?>" class="btn btn-sm btn-outline-secondary">
+                    'new_post_id' => $client_id
+                ), site_url( 'create-client/' ) );
+                ?>               
+                <a href="<?= esc_url($url) ?>" class="btn btn-xs btn-outline-secondary">
                   <i class="bx bx-arrow-back me-1"></i>Back to Client
                 </a>
-              </div>              <div class="card-body p-0">
+              </div>
+              <div class="card-body p-0">
                 <form method="post">
-                  <?php wp_nonce_field('save_audit_dates', 'audit_dates_nonce'); ?>                  <div class="table-responsive">
-                    <table class="table table-bordered table-hover mb-0">
-                      <thead class="table-light">
+                  <?php wp_nonce_field('save_audit_dates', 'audit_dates_nonce'); ?>
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-sm mb-0 audit-dates-table">
+                      <thead>
                         <tr>
-                          <th style="width:3%;">#</th>
-                          <th style="width:30%;">Audit Item</th>
-                          <th>Initial</th>
-                          <th>Surveillance-1</th>
-                          <th>Surveillance-2</th>
+                          <th style="width:30px;">#</th>
+                          <th style="width:250px;">Audit Item</th>
+                          <th style="width:180px;">Initial</th>
+                          <th style="width:180px;">Surveillance-1</th>
+                          <th style="width:180px;">Surveillance-2</th>
                         </tr>
                       </thead>
                       <tbody>

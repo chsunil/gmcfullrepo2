@@ -1,6 +1,6 @@
 {
     "key": "group_ims_f19s2",
-    "title": "IMS \u2013 F19S2: Checklist for Certification Decision (Surveillance Year 2)",
+    "title": "IMS – F19S2: Checklist for Certification Decision (Surveillance Year 2)",
     "fields": [
         {
             "key": "field_90cbe8e6ab44",
@@ -1129,7 +1129,7 @@
                 },
                 {
                     "key": "field_5acc21673153",
-                    "label": "One man-day \u2265 8 hours",
+                    "label": "One man-day ≥ 8 hours",
                     "name": "manday_hours",
                     "aria-label": "",
                     "type": "radio",
@@ -2369,5 +2369,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1775304465
+    "modified": 1777622257
 }

@@ -139,3 +139,138 @@
     background-color: #fff;
     border-bottom-color: #fff;
 }
+
+/* ── GLOBAL HIGH-DENSITY COMPACT MODE (Excel/Word Style) ──────────────────────
+   Sets font to 10px and reduces input heights to ~20px for all ACF forms.
+──────────────────────────────────────────────────────────────────────────── */
+body .acf-field {
+    margin-bottom: 4px !important;
+    padding: 2px 0 !important;
+}
+
+body .acf-label label {
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    margin-bottom: 1px !important;
+    color: #32475c !important;
+    line-height: 1.1 !important;
+    text-transform: uppercase;
+}
+
+body .acf-input input[type="text"],
+body .acf-input input[type="email"],
+body .acf-input input[type="number"],
+body .acf-input input[type="date"],
+body .acf-input input[type="password"],
+body .acf-input textarea,
+body .acf-input select,
+body .form-control {
+    font-size: 10px !important;
+    padding: 1px 4px !important;
+    min-height: 20px !important;
+    height: 20px !important;
+    line-height: 1.2 !important;
+    border-radius: 2px !important;
+    border: 1px solid #ced4da !important;
+    background-color: #fff !important;
+}
+
+/* Audit Dates Page Ultra-Compact Fixes */
+.page-template-page-audit_dates .container-xxl,
+.page-template-page-audit_dates .container-fluid {
+    max-width: 98% !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+}
+
+.page-template-page-audit_dates .card {
+    width: 100% !important;
+    margin-bottom: 10px !important;
+}
+
+.page-template-page-audit_dates table.table {
+    font-size: 10px !important;
+    table-layout: fixed;
+}
+
+.page-template-page-audit_dates table.table th,
+.page-template-page-audit_dates table.table td {
+    padding: 2px 4px !important;
+    font-size: 10px !important;
+    height: 20px !important;
+    vertical-align: middle !important;
+}
+
+.page-template-page-audit_dates input.form-control-sm {
+    font-size: 10px !important;
+    padding: 1px 4px !important;
+    height: 20px !important;
+    min-height: 20px !important;
+}
+
+/* Global High-Density Overrides (Reinforced) */
+body .acf-field .acf-label label {
+    font-size: 10px !important;
+    margin-bottom: 1px !important;
+}
+
+body .acf-input input, 
+body .acf-input select, 
+body .acf-input textarea {
+    font-size: 10px !important;
+    padding: 1px 4px !important;
+    min-height: 20px !important;
+}
+
+body .acf-table th, 
+body .acf-table td {
+    padding: 2px 4px !important;
+    font-size: 10px !important;
+}
+
+body .acf-input textarea {
+    height: auto !important;
+    min-height: 32px !important;
+}
+
+body .acf-table th {
+    font-size: 10px !important;
+    padding: 2px 6px !important;
+    font-weight: 700 !important;
+    background: #f1f3f5 !important;
+    border: 1px solid #dee2e6 !important;
+}
+
+body .acf-table td {
+    font-size: 10px !important;
+    padding: 1px 6px !important;
+    border: 1px solid #dee2e6 !important;
+}
+
+/* Compact Tabs */
+body #clientTab .nav-link {
+    font-size: 11px !important;
+    padding: 3px 10px !important;
+}
+
+body .acf-tab-group li a {
+    font-size: 10px !important;
+    padding: 3px 8px !important;
+}
+
+/* Fix for nested clone fields spacing */
+body .acf-field-clone > .acf-label {
+    display: none !important;
+}
+
+/* Tighten Audit Dates Table Specifically */
+.audit-dates-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.audit-dates-table th, 
+.audit-dates-table td {
+    padding: 2px 4px !important;
+    font-size: 10px !important;
+}

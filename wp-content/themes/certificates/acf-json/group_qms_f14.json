@@ -224,6 +224,37 @@
             "message": "<i>*Only auditors and technical experts whose all answers are “Yes” can sign. If any answer is “No” he/she can’t participate in the subject assessment.The document should be signed on or before the date of assessment.</i>",
             "new_lines": "wpautop",
             "esc_html": 0
+        },
+        {
+            "key": "field_adt_clone_f14",
+            "label": "Audit Dates (Ref: Excel)",
+            "name": "audit_dates_clone",
+            "type": "clone",
+            "clone": [
+                "field_0008",
+                "field_0011",
+                "field_0029"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0,
+            "modified": 1777639488
+        },
+        {
+            "key": "field_adt_clone_f14",
+            "label": "Audit Dates (Synced)",
+            "name": "audit_dates_sync",
+            "type": "clone",
+            "clone": [
+                "field_0008",
+                "field_0011",
+                "field_0029"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
         }
     ],
     "location": [
@@ -243,5 +274,6 @@
     "hide_on_screen": "",
     "active": true,
     "description": "",
-    "show_in_rest": 0
+    "show_in_rest": 0,
+    "modified": 1777622257
 }

@@ -133,7 +133,7 @@
         },
         {
             "key": "field_6970b191e3a2b",
-            "label": "Technical Code\/Area",
+            "label": "Technical Code/Area",
             "name": "technical_code",
             "aria-label": "",
             "type": "clone",
@@ -563,7 +563,7 @@
                         "Auditor(s):": "Auditor(s):",
                         "Auditor:": "Auditor:",
                         "Technical Expert:": "Technical Expert:",
-                        "Team Leader under supervision if any\/ Witness Auditor:": "Team Leader under supervision if any\/ Witness Auditor:",
+                        "Team Leader under supervision if any/ Witness Auditor:": "Team Leader under supervision if any/ Witness Auditor:",
                         "Observers(s):": "Observers(s):",
                         "Interpreter(s):": "Interpreter(s):"
                     },
@@ -607,7 +607,7 @@
                 },
                 {
                     "key": "field_6976531b382e8",
-                    "label": "Mail\/Mobile",
+                    "label": "Mail/Mobile",
                     "name": "mailmobile",
                     "aria-label": "",
                     "type": "text",
@@ -633,7 +633,7 @@
                 },
                 {
                     "key": "field_69765329382e9",
-                    "label": "Onsite\/ICT & Remarks",
+                    "label": "Onsite/ICT & Remarks",
                     "name": "onsiteict_&_remarks",
                     "aria-label": "",
                     "type": "text",
@@ -723,8 +723,8 @@
                     "calculated_format": "",
                     "blank_if_zero": 0,
                     "readonly": 0,
-                    "display_format": "d\/m\/Y",
-                    "return_format": "d\/m\/Y",
+                    "display_format": "d/m/Y",
+                    "return_format": "d/m/Y",
                     "first_day": 1,
                     "allow_in_bindings": 0,
                     "default_to_current_date": 0
@@ -773,8 +773,8 @@
                     "calculated_format": "",
                     "blank_if_zero": 0,
                     "readonly": 0,
-                    "display_format": "d\/m\/Y",
-                    "return_format": "d\/m\/Y",
+                    "display_format": "d/m/Y",
+                    "return_format": "d/m/Y",
                     "first_day": 1,
                     "allow_in_bindings": 0,
                     "default_to_current_date": 0
@@ -801,5 +801,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1774718316
+    "modified": 1777622257
 }

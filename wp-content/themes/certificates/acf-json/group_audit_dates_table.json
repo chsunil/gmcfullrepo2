@@ -16,7 +16,7 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
+            "display_format": "d/m/Y",
             "return_format": "Y-m-d",
             "first_day": 1,
             "default_to_current_date": 0
@@ -35,7 +35,7 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
+            "display_format": "d/m/Y",
             "return_format": "Y-m-d",
             "first_day": 1,
             "default_to_current_date": 0
@@ -54,7 +54,7 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
+            "display_format": "d/m/Y",
             "return_format": "Y-m-d",
             "first_day": 1,
             "default_to_current_date": 0
@@ -73,7 +73,7 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
+            "display_format": "d/m/Y",
             "return_format": "Y-m-d",
             "first_day": 1,
             "default_to_current_date": 0
@@ -92,7 +92,7 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
+            "display_format": "d/m/Y",
             "return_format": "Y-m-d",
             "first_day": 1,
             "default_to_current_date": 0
@@ -111,7 +111,7 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
+            "display_format": "d/m/Y",
             "return_format": "Y-m-d",
             "first_day": 1,
             "default_to_current_date": 0
@@ -130,7 +130,7 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
+            "display_format": "d/m/Y",
             "return_format": "Y-m-d",
             "first_day": 1,
             "default_to_current_date": 0
@@ -149,7 +149,7 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
+            "display_format": "d/m/Y",
             "return_format": "Y-m-d",
             "first_day": 1,
             "default_to_current_date": 0
@@ -168,7 +168,7 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
+            "display_format": "d/m/Y",
             "return_format": "Y-m-d",
             "first_day": 1,
             "default_to_current_date": 0
@@ -187,7 +187,7 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
+            "display_format": "d/m/Y",
             "return_format": "Y-m-d",
             "first_day": 1,
             "default_to_current_date": 0
@@ -206,7 +206,7 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
+            "display_format": "d/m/Y",
             "return_format": "Y-m-d",
             "first_day": 1,
             "default_to_current_date": 0
@@ -225,14 +225,14 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
+            "display_format": "d/m/Y",
             "return_format": "Y-m-d",
             "first_day": 1,
             "default_to_current_date": 0
         },
         {
             "key": "field_0014",
-            "label": "Stage-1 Intimation date \/ Yearly Surveillance Intimation for S-1 & S-2 - Initial",
+            "label": "Stage-1 Intimation date / Yearly Surveillance Intimation for S-1 & S-2 - Initial",
             "name": "stage1_intimation_date_yearly_surveillance_intimation_for_s1_&_s2_initial",
             "aria-label": "",
             "type": "date_picker",
@@ -244,14 +244,14 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
+            "display_format": "d/m/Y",
             "return_format": "Y-m-d",
             "first_day": 1,
             "default_to_current_date": 0
         },
         {
             "key": "field_0015",
-            "label": "Stage-1 Intimation date \/ Yearly Surveillance Intimation for S-1 & S-2 - Surv1",
+            "label": "Stage-1 Intimation date / Yearly Surveillance Intimation for S-1 & S-2 - Surv1",
             "name": "stage1_intimation_date_yearly_surveillance_intimation_for_s1_&_s2_surv1",
             "aria-label": "",
             "type": "date_picker",
@@ -263,14 +263,14 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
+            "display_format": "d/m/Y",
             "return_format": "Y-m-d",
             "first_day": 1,
             "default_to_current_date": 0
         },
         {
             "key": "field_0016",
-            "label": "Stage-1 Intimation date \/ Yearly Surveillance Intimation for S-1 & S-2 - Surv2",
+            "label": "Stage-1 Intimation date / Yearly Surveillance Intimation for S-1 & S-2 - Surv2",
             "name": "stage1_intimation_date_yearly_surveillance_intimation_for_s1_&_s2_surv2",
             "aria-label": "",
             "type": "date_picker",
@@ -282,7 +282,7 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
+            "display_format": "d/m/Y",
             "return_format": "Y-m-d",
             "first_day": 1,
             "default_to_current_date": 0
@@ -301,7 +301,7 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
+            "display_format": "d/m/Y",
             "return_format": "Y-m-d",
             "first_day": 1,
             "default_to_current_date": 0
@@ -320,7 +320,7 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
+            "display_format": "d/m/Y",
             "return_format": "Y-m-d",
             "first_day": 1,
             "default_to_current_date": 0
@@ -339,14 +339,14 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
+            "display_format": "d/m/Y",
             "return_format": "Y-m-d",
             "first_day": 1,
             "default_to_current_date": 0
         },
         {
             "key": "field_0020",
-            "label": "Stage-2 Intimation date \/ Surveillance Intimation Date - Initial",
+            "label": "Stage-2 Intimation date / Surveillance Intimation Date - Initial",
             "name": "stage2_intimation_date_surveillance_intimation_date_initial",
             "aria-label": "",
             "type": "date_picker",
@@ -358,14 +358,14 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
+            "display_format": "d/m/Y",
             "return_format": "Y-m-d",
             "first_day": 1,
             "default_to_current_date": 0
         },
         {
             "key": "field_0021",
-            "label": "Stage-2 Intimation date \/ Surveillance Intimation Date - Surv1",
+            "label": "Stage-2 Intimation date / Surveillance Intimation Date - Surv1",
             "name": "stage2_intimation_date_surveillance_intimation_date_surv1",
             "aria-label": "",
             "type": "date_picker",
@@ -377,14 +377,14 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
+            "display_format": "d/m/Y",
             "return_format": "Y-m-d",
             "first_day": 1,
             "default_to_current_date": 0
         },
         {
             "key": "field_0022",
-            "label": "Stage-2 Intimation date \/ Surveillance Intimation Date - Surv2",
+            "label": "Stage-2 Intimation date / Surveillance Intimation Date - Surv2",
             "name": "stage2_intimation_date_surveillance_intimation_date_surv2",
             "aria-label": "",
             "type": "date_picker",
@@ -396,14 +396,14 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
+            "display_format": "d/m/Y",
             "return_format": "Y-m-d",
             "first_day": 1,
             "default_to_current_date": 0
         },
         {
             "key": "field_0023",
-            "label": "Stage-2 Audit \/ Surveillance Audit Date - Initial",
+            "label": "Stage-2 Audit / Surveillance Audit Date - Initial",
             "name": "stage2_audit_surveillance_audit_date_initial",
             "aria-label": "",
             "type": "date_picker",
@@ -415,14 +415,14 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
+            "display_format": "d/m/Y",
             "return_format": "Y-m-d",
             "first_day": 1,
             "default_to_current_date": 0
         },
         {
             "key": "field_0024",
-            "label": "Stage-2 Audit \/ Surveillance Audit Date - Surv1",
+            "label": "Stage-2 Audit / Surveillance Audit Date - Surv1",
             "name": "stage2_audit_surveillance_audit_date_surv1",
             "aria-label": "",
             "type": "date_picker",
@@ -434,14 +434,14 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
+            "display_format": "d/m/Y",
             "return_format": "Y-m-d",
             "first_day": 1,
             "default_to_current_date": 0
         },
         {
             "key": "field_0025",
-            "label": "Stage-2 Audit \/ Surveillance Audit Date - Surv2",
+            "label": "Stage-2 Audit / Surveillance Audit Date - Surv2",
             "name": "stage2_audit_surveillance_audit_date_surv2",
             "aria-label": "",
             "type": "date_picker",
@@ -453,7 +453,7 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
+            "display_format": "d/m/Y",
             "return_format": "Y-m-d",
             "first_day": 1,
             "default_to_current_date": 0
@@ -472,7 +472,7 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
+            "display_format": "d/m/Y",
             "return_format": "Y-m-d",
             "first_day": 1,
             "default_to_current_date": 0
@@ -491,7 +491,7 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
+            "display_format": "d/m/Y",
             "return_format": "Y-m-d",
             "first_day": 1,
             "default_to_current_date": 0
@@ -510,7 +510,7 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
+            "display_format": "d/m/Y",
             "return_format": "Y-m-d",
             "first_day": 1,
             "default_to_current_date": 0
@@ -529,7 +529,7 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
+            "display_format": "d/m/Y",
             "return_format": "Y-m-d",
             "first_day": 1,
             "default_to_current_date": 0
@@ -548,7 +548,7 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
+            "display_format": "d/m/Y",
             "return_format": "Y-m-d",
             "first_day": 1,
             "default_to_current_date": 0
@@ -567,7 +567,7 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
+            "display_format": "d/m/Y",
             "return_format": "Y-m-d",
             "first_day": 1,
             "default_to_current_date": 0
@@ -586,7 +586,7 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
+            "display_format": "d/m/Y",
             "return_format": "Y-m-d",
             "first_day": 1,
             "default_to_current_date": 0
@@ -605,7 +605,7 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
+            "display_format": "d/m/Y",
             "return_format": "Y-m-d",
             "first_day": 1,
             "default_to_current_date": 0
@@ -624,7 +624,7 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
+            "display_format": "d/m/Y",
             "return_format": "Y-m-d",
             "first_day": 1,
             "default_to_current_date": 0
@@ -643,7 +643,7 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
+            "display_format": "d/m/Y",
             "return_format": "Y-m-d",
             "first_day": 1,
             "default_to_current_date": 0
@@ -662,7 +662,7 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
+            "display_format": "d/m/Y",
             "return_format": "Y-m-d",
             "first_day": 1,
             "default_to_current_date": 0
@@ -681,7 +681,7 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
+            "display_format": "d/m/Y",
             "return_format": "Y-m-d",
             "first_day": 1,
             "default_to_current_date": 0
@@ -700,7 +700,7 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
+            "display_format": "d/m/Y",
             "return_format": "Y-m-d",
             "first_day": 1,
             "default_to_current_date": 0
@@ -719,7 +719,7 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
+            "display_format": "d/m/Y",
             "return_format": "Y-m-d",
             "first_day": 1,
             "default_to_current_date": 0
@@ -738,7 +738,7 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
+            "display_format": "d/m/Y",
             "return_format": "Y-m-d",
             "first_day": 1,
             "default_to_current_date": 0
@@ -770,5 +770,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1774116214
+    "modified": 1777622257
 }

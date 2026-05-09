@@ -1129,7 +1129,7 @@
                 },
                 {
                     "key": "field_6975847d757ff",
-                    "label": "One man-day \u2265 8 hours",
+                    "label": "One man-day ≥ 8 hours",
                     "name": "manday_hours",
                     "aria-label": "",
                     "type": "radio",
@@ -2369,5 +2369,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1775280640
+    "modified": 1777622257
 }

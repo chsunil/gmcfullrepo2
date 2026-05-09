@@ -11,9 +11,15 @@
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
-            "wrapper": { "width": "", "class": "", "id": "" },
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
             "readonly": 1,
-            "clone": [ "field_org_name" ],
+            "clone": [
+                "field_org_name"
+            ],
             "display": "seamless",
             "layout": "block",
             "prefix_label": 0,
@@ -28,8 +34,14 @@
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
-            "wrapper": { "width": "", "class": "", "id": "" },
-            "clone": [ "field_68554bdf55898" ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "clone": [
+                "field_68554bdf55898"
+            ],
             "display": "seamless",
             "layout": "block",
             "prefix_label": 0,
@@ -44,8 +56,14 @@
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
-            "wrapper": { "width": "", "class": "", "id": "" },
-            "clone": [ "field_68173ed2b0218" ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "clone": [
+                "field_68173ed2b0218"
+            ],
             "display": "seamless",
             "layout": "block",
             "prefix_label": 0,
@@ -60,8 +78,14 @@
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
-            "wrapper": { "width": "", "class": "", "id": "" },
-            "clone": [ "field_68173ed29add4" ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "clone": [
+                "field_68173ed29add4"
+            ],
             "display": "seamless",
             "layout": "block",
             "prefix_label": 0,
@@ -76,21 +100,29 @@
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
-            "wrapper": { "width": "", "class": "", "id": "" },
-            "message": "a)    Internal audits and management review\r\nb)    A review of actions taken on nonconformities identified during previous audit\r\nc)    Treatment of complaints\r\nd)   Effectiveness of the management system with regard to achieving the clients objectives\r\ne)    Progress of planned activities aimed at continual improvement\r\nf)     Continuing operational control\r\ng)    Review of any changes\r\nh)  Use of GLOBAL MCS and Accreditation body marks and\/ or any reference to certification",
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "a)    Internal audits and management review\r\nb)    A review of actions taken on nonconformities identified during previous audit\r\nc)    Treatment of complaints\r\nd)   Effectiveness of the management system with regard to achieving the clients objectives\r\ne)    Progress of planned activities aimed at continual improvement\r\nf)     Continuing operational control\r\ng)    Review of any changes\r\nh)  Use of GLOBAL MCS and Accreditation body marks and/ or any reference to certification",
             "new_lines": "wpautop",
             "esc_html": 0
         },
         {
             "key": "field_69758381c3f86",
-            "label": "Planned (Month\/Year)",
+            "label": "Planned (Month/Year)",
             "name": "f17s1planned_monthyear",
             "aria-label": "",
             "type": "group",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
-            "wrapper": { "width": "", "class": "", "id": "" },
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
             "layout": "table",
             "sub_fields": [
                 {
@@ -102,8 +134,14 @@
                     "instructions": "",
                     "required": 0,
                     "conditional_logic": 0,
-                    "wrapper": { "width": "", "class": "", "id": "" },
-                    "clone": [ "field_688648912a423" ],
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "clone": [
+                        "field_688648912a423"
+                    ],
                     "display": "seamless",
                     "layout": "block",
                     "prefix_label": 0,
@@ -118,8 +156,14 @@
                     "instructions": "",
                     "required": 0,
                     "conditional_logic": 0,
-                    "wrapper": { "width": "", "class": "", "id": "" },
-                    "clone": [ "field_68863353001d8" ],
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "clone": [
+                        "field_68863353001d8"
+                    ],
                     "display": "seamless",
                     "layout": "block",
                     "prefix_label": 0,
@@ -134,8 +178,14 @@
                     "instructions": "",
                     "required": 0,
                     "conditional_logic": 0,
-                    "wrapper": { "width": "", "class": "", "id": "" },
-                    "clone": [ "field_688649142a424" ],
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "clone": [
+                        "field_688649142a424"
+                    ],
                     "display": "seamless",
                     "layout": "block",
                     "prefix_label": 0,
@@ -150,8 +200,14 @@
                     "instructions": "",
                     "required": 0,
                     "conditional_logic": 0,
-                    "wrapper": { "width": "", "class": "", "id": "" },
-                    "clone": [ "field_688777e0d5fcf" ],
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "clone": [
+                        "field_688777e0d5fcf"
+                    ],
                     "display": "seamless",
                     "layout": "block",
                     "prefix_label": 0,
@@ -166,8 +222,14 @@
                     "instructions": "",
                     "required": 0,
                     "conditional_logic": 0,
-                    "wrapper": { "width": "", "class": "", "id": "" },
-                    "clone": [ "field_68877808d5fd0" ],
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "clone": [
+                        "field_68877808d5fd0"
+                    ],
                     "display": "seamless",
                     "layout": "block",
                     "prefix_label": 0,
@@ -177,14 +239,18 @@
         },
         {
             "key": "field_69758381c5dda",
-            "label": "Executed (Month\/Year)",
+            "label": "Executed (Month/Year)",
             "name": "f17s1executed_monthyear",
             "aria-label": "",
             "type": "group",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
-            "wrapper": { "width": "", "class": "", "id": "" },
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
             "layout": "table",
             "sub_fields": [
                 {
@@ -196,8 +262,14 @@
                     "instructions": "",
                     "required": 0,
                     "conditional_logic": 0,
-                    "wrapper": { "width": "", "class": "", "id": "" },
-                    "clone": [ "field_688648912a423" ],
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "clone": [
+                        "field_688648912a423"
+                    ],
                     "display": "seamless",
                     "layout": "block",
                     "prefix_label": 0,
@@ -212,8 +284,14 @@
                     "instructions": "",
                     "required": 0,
                     "conditional_logic": 0,
-                    "wrapper": { "width": "", "class": "", "id": "" },
-                    "clone": [ "field_68863353001d8" ],
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "clone": [
+                        "field_68863353001d8"
+                    ],
                     "display": "seamless",
                     "layout": "block",
                     "prefix_label": 0,
@@ -228,8 +306,14 @@
                     "instructions": "",
                     "required": 0,
                     "conditional_logic": 0,
-                    "wrapper": { "width": "", "class": "", "id": "" },
-                    "clone": [ "field_688649142a424" ],
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "clone": [
+                        "field_688649142a424"
+                    ],
                     "display": "seamless",
                     "layout": "block",
                     "prefix_label": 0,
@@ -244,8 +328,14 @@
                     "instructions": "",
                     "required": 0,
                     "conditional_logic": 0,
-                    "wrapper": { "width": "", "class": "", "id": "" },
-                    "clone": [ "field_688777e0d5fcf" ],
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "clone": [
+                        "field_688777e0d5fcf"
+                    ],
                     "display": "seamless",
                     "layout": "block",
                     "prefix_label": 0,
@@ -260,8 +350,14 @@
                     "instructions": "",
                     "required": 0,
                     "conditional_logic": 0,
-                    "wrapper": { "width": "", "class": "", "id": "" },
-                    "clone": [ "field_68877808d5fd0" ],
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "clone": [
+                        "field_68877808d5fd0"
+                    ],
                     "display": "seamless",
                     "layout": "block",
                     "prefix_label": 0,
@@ -271,16 +367,20 @@
         },
         {
             "key": "field_69758381c7f13",
-            "label": "Area\/ Process",
+            "label": "Area/ Process",
             "name": "f17s1area_process",
             "aria-label": "",
             "type": "matrix_flexible",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
-            "wrapper": { "width": "", "class": "", "id": "" },
-            "rows": "Top Management |\r\nPurchase |\r\nHR|\r\nN\/a |\t\r\nProduction|\r\nQC|\r\nQA|\t\r\nStores|\r\nMaintenance|\r\nIQA |\r\nMRM|\r\nN\/a",
-            "columns_json": "[\r\n  {\r\n    \"label\": \"Applicable [Y\/N]\",\r\n    \"name\": \"status\",\r\n    \"type\": \"radio\", \r\n    \"choices\": [\"Yes\", \"No\", \"N\/A\"]\r\n  },\r\n{\r\n    \"label\": \"Off 1st\",\r\n   \"name\": \"Off1st\",\r\n    \"type\": \"text\"\r\n  }\r\n]",
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "rows": "Top Management |\r\nPurchase |\r\nHR|\r\nN/a |\t\r\nProduction|\r\nQC|\r\nQA|\t\r\nStores|\r\nMaintenance|\r\nIQA |\r\nMRM|\r\nN/a",
+            "columns_json": "[\r\n  {\r\n    \"label\": \"Applicable [Y/N]\",\r\n    \"name\": \"status\",\r\n    \"type\": \"radio\", \r\n    \"choices\": [\"Yes\", \"No\", \"N/A\"]\r\n  },\r\n{\r\n    \"label\": \"Off 1st\",\r\n   \"name\": \"Off1st\",\r\n    \"type\": \"text\"\r\n  }\r\n]",
             "allow_in_bindings": 0
         },
         {
@@ -292,7 +392,11 @@
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
-            "wrapper": { "width": "", "class": "", "id": "" },
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
             "default_value": "",
             "maxlength": "",
             "allow_in_bindings": 0,
@@ -309,10 +413,30 @@
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
-            "wrapper": { "width": "", "class": "", "id": "" },
-            "message": "»  Note 1. In case of change, lead auditor should rewrite and add his\/her signature\r\n»  Note 2. Major: +, Minor: -, (Example: 3 Major: +3, 4 Minor: -4)\r\n»  Note 3. Please tick the processes to be audited during the next audit.",
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "»  Note 1. In case of change, lead auditor should rewrite and add his/her signature\r\n»  Note 2. Major: +, Minor: -, (Example: 3 Major: +3, 4 Minor: -4)\r\n»  Note 3. Please tick the processes to be audited during the next audit.",
             "new_lines": "wpautop",
             "esc_html": 0
+        },
+        {
+            "key": "field_adt_clone_f17s1",
+            "label": "Audit Dates (Synced)",
+            "name": "audit_dates_sync",
+            "type": "clone",
+            "clone": [
+                "field_0012",
+                "field_0024",
+                "field_0030",
+                "field_0033"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
         }
     ],
     "location": [
@@ -334,5 +458,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1775045724
+    "modified": 1777622257
 }
