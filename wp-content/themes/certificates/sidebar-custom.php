@@ -22,6 +22,11 @@ if (isset($_GET['new_post_id']) && intval($_GET['new_post_id']) > 0) {
 $client_stage = get_field("client_stage", $post_id) ?: "draft";
 $certification_type = get_field("certification_type", $post_id) ?: "qms";
 
+// Use ?stage= URL param to highlight the viewed stage; fall back to stored client_stage
+$active_stage = (isset($_GET['stage']) && !empty($_GET['stage']))
+    ? sanitize_text_field($_GET['stage'])
+    : $client_stage;
+
 // Detect client form template
 $is_create_client = is_page_template("template-client-form.php");
 
@@ -118,7 +123,10 @@ $stages = $all_certification_stages[$certification_type] ?? [];
                     "Draft & Application" => ["draft", "f01", "f02", "f03"],
                     "Stage-1 Audit" => [
                         "f05", "f14", "sheet6", "f08", "f06", "f11", "f13", 
-                        "f05a", "f07", "sheet12", "f08a", "f09", "f12", "f13a", 
+                        "f05a", "f07"
+                    ],
+                    "Stage-2 Audit" => [
+                        "sheet12", "f08a", "f09", "f12", "f13a", 
                         "f16", "f17", "f24", "f19", "f15", "f25", "f10"
                     ],
                     "Surveillance-1" => [
@@ -186,8 +194,8 @@ $stages = $all_certification_stages[$certification_type] ?? [];
     if (empty($group_visible)) {
         continue;
     }
-    // Determine if this group should be open
-    $is_group_open = in_array($client_stage, $group_visible, true);
+    // Determine if this group should be open (based on viewed stage, not stored stage)
+    $is_group_open = in_array($active_stage, $group_visible, true);
     ?>
 
     <li class="menu-item <?php echo $is_group_open ? "active open" : ""; ?>">
@@ -207,7 +215,7 @@ $stages = $all_certification_stages[$certification_type] ?? [];
             }
 
             $stage = $stages[$stage_key];
-            $is_active = $stage_key === $client_stage;
+            $is_active = $stage_key === $active_stage;
             $is_enabled = in_array($stage_key, $enabled_stages, true);
             
             // Determine status: 'completed', 'current', or 'future'
@@ -220,10 +228,21 @@ $stages = $all_certification_stages[$certification_type] ?? [];
             }
             ?>
 
+            <?php 
+            // Generate link URL if editing an existing client
+            $link_url = 'javascript:void(0);';
+            if (!$is_new) {
+                $link_url = add_query_arg(
+                    ['new_post_id' => $post_id, 'stage' => $stage_key],
+                    get_permalink()
+                );
+            }
+            ?>
+
             <li class="menu-item <?php echo $is_active ? 'active' : ''; ?> <?php echo !$is_enabled ? 'disabled' : ''; ?>" 
                 data-status="<?php echo esc_attr($status); ?>">
-              <a href="javascript:void(0);"
-                class="menu-link m-0 <?php echo !$is_enabled ? 'is-locked text-muted' : ''; ?>"
+              <a href="<?php echo esc_url($link_url); ?>"
+                class="menu-link m-0 px-1<?php echo !$is_enabled ? 'is-locked text-muted' : ''; ?>"
                 data-stage="<?php echo esc_attr($stage_key); ?>"
                 <?php echo !$is_enabled ? 'aria-disabled="true"' : ''; ?>>
                 <?php if ($status === 'completed'): ?>
@@ -320,7 +339,16 @@ endforeach; ?>
                     <div>Settings</div>
                 </a>
             </li>
-
+<li class="menu-item <?php echo is_page("invoices")
+                ? "active"
+                : ""; ?>">
+                <a href="<?php echo site_url(
+                    "/invoices/"
+                ); ?>" class="menu-link mx-0">
+                    <i class="menu-icon tf-icons bx bx-receipt"></i>
+                    <div>Invoices</div>
+                </a>
+            </li>
             <li class="menu-header small text-uppercase">
                 <span class="menu-header-text">Account</span>
             </li>
@@ -345,8 +373,18 @@ endforeach; ?>
 
         </ul>
 
-        <!-- 🔼 YOUR ORIGINAL MENU HTML ENDS HERE -->
+    </div>
 
+    <!-- Collapse Toggle -->
+    <div class="menu-toggle-wrapper px-2 py-2">
+        <ul class="menu-inner p-0 m-0">
+            <li class="menu-item w-100">
+                <a href="javascript:void(0);" id="menu-toggle-btn" class="menu-link mx-0">
+                    <i class="menu-icon tf-icons bx bx-chevron-left-circle" style="font-size: 1.4rem;"></i>
+                    <div class="menu-text">Collapse Menu</div>
+                </a>
+            </li>
+        </ul>
     </div>
 
 </aside>
@@ -461,10 +499,49 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // ---- Auto-open current stage on load
   const current = sidebar.querySelector('.menu-item[data-status="current"] .menu-link');
-  if (current) current.click();
+  if (current) {
+      // Only auto-click if it's an internal JS link (SPA mode)
+      // Real URLs (Multi-Step mode) are already loaded by the browser, clicking them causes a reload loop
+      if (current.getAttribute('href') === 'javascript:void(0);') {
+          current.click();
+      }
+  }
 
 });
 </script>
 
+<?php endif; // End $is_create_client 
+?>
 
-<?php endif; ?>
+<script>
+/**
+ * Sidebar Collapse Toggle & Persist
+ */
+document.addEventListener('DOMContentLoaded', function() {
+    const wrapper = document.querySelector('.layout-wrapper');
+    const toggleBtn = document.getElementById('menu-toggle-btn');
+    const COLLAPSED_CLASS = 'layout-menu-collapsed';
+    const STORAGE_KEY = 'sidebar-collapsed-state';
+
+    if (!wrapper || !toggleBtn) {
+        console.warn('Sidebar Sidebar Toggle: wrapper or button not found');
+        return;
+    }
+
+    // 1. Initial State from localStorage
+    const savedState = localStorage.getItem(STORAGE_KEY);
+    if (savedState === 'true') {
+        wrapper.classList.add(COLLAPSED_CLASS);
+    }
+
+    // 2. Toggle Handler
+    toggleBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const isCollapsed = wrapper.classList.toggle(COLLAPSED_CLASS);
+        localStorage.setItem(STORAGE_KEY, isCollapsed);
+        
+        // Trigger window resize for DataTables etc.
+        window.dispatchEvent(new Event('resize'));
+    });
+});
+</script>

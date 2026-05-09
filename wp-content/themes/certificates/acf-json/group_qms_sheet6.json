@@ -1,0 +1,178 @@
+{
+    "key": "group_qms_sheet6",
+    "title": "QMS - Sheet6: Audit Notification Email",
+    "fields": [
+        {
+            "key": "field_qms_sheet6_0",
+            "label": "Date",
+            "name": "sheet6date",
+            "aria-label": "",
+            "type": "date_picker",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "display_format": "d/m/Y",
+            "return_format": "d/m/Y",
+            "first_day": 1,
+            "allow_in_bindings": 1
+        },
+        {
+            "key": "field_qms_sheet6_1",
+            "label": "Ref No",
+            "name": "sheet6ref_no",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_69b4128404509"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_qms_sheet6_2",
+            "label": "Customer Name",
+            "name": "sheet6customer_name",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_org_name"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_qms_sheet6_3",
+            "label": "Address",
+            "name": "sheet6address",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_68173ed29add4"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_qms_sheet6_5",
+            "label": "Premise on Date",
+            "name": "sheet6Premise_on_Date",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_0017"
+            ],
+            "display": "seamless",
+            "layout": "table",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_qms_sheet6_6",
+            "label": "Auditors",
+            "name": "auditteam_auditor_names",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_f05_audit_team"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "client"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1777622257
+}

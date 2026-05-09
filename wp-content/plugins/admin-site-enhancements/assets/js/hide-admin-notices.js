@@ -44,7 +44,7 @@
 			// TotalPress Custom post types - https://wordpress.org/plugins/custom-post-types/
 
 			// Reposition notices with the following selectors. Excluding 'notice-system'.
-			$('#wpbody-content > .wrap > .notice:not(#plugin-activated-successfully,.system-notice,.updated,.hidden,.inline,.wcml-notice,.asenha-media-replacement-notice),'
+			var noticesToMove = $('#wpbody-content > .wrap > .notice:not(#plugin-activated-successfully,.system-notice,.updated,.hidden,.inline,.wcml-notice,.asenha-media-replacement-notice),'
 			+ '#wpbody-content > .wrap > .notice-error,'
 			+ '#wpbody-content > .wrap > .error:not(.hidden),'
 			+ '#wpbody-content > .wrap > .notice-info,'
@@ -251,8 +251,24 @@
 			+ '#wpbody-content > .wrap .dokan-dashboard .notice-success,'
 			+ '#wpbody-content > .wrap .dokan-dashboard .notice-updated,'
 			+ '#wpbody-content > .wrap .dokan-dashboard .updated:not(.inline),'
-			+ '#wpbody-content > .wrap .dokan-dashboard .update-nag'
-			).not(':hidden').detach()
+			+ '#wpbody-content > .wrap .dokan-dashboard .update-nag,'
+			// Admin Columns
+			+ '#wpbody-content > .wrap .ac-admin-page .notice:not(.system-notice,.hidden),'
+			+ '#wpbody-content > .wrap .ac-admin-page .notice-error,'
+			+ '#wpbody-content > .wrap .ac-admin-page .error:not(.hidden),'
+			+ '#wpbody-content > .wrap .ac-admin-page .notice-info,'
+			+ '#wpbody-content > .wrap .ac-admin-page .notice-information,'
+			+ '#wpbody-content > .wrap .ac-admin-page #message,'
+			+ '#wpbody-content > .wrap .ac-admin-page .notice-warning:not(.hidden),'
+			+ '#wpbody-content > .wrap .ac-admin-page .notice-success,'
+			+ '#wpbody-content > .wrap .ac-admin-page .notice-updated,'
+			+ '#wpbody-content > .wrap .ac-admin-page .updated:not(.inline),'
+			+ '#wpbody-content > .wrap .ac-admin-page .update-nag'
+			);
+
+			
+
+			noticesToMove.not(':hidden').detach()
 			.appendTo(noticesPanel)
 			.show();
 

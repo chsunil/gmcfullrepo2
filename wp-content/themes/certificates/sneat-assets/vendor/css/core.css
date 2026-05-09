@@ -21521,13 +21521,13 @@ li:not(:first-child) .dropdown-item, .dropdown-menu .dropdown-item:not(:first-ch
   }
 }
 .menu .menu-sub > .menu-item > .menu-link::before {
-  position: absolute;
+  /* position: absolute;
   border-radius: 50%;
   background-color: var(--bs-gray-400);
   block-size: 0.375rem;
   content: "";
   inline-size: 0.375rem;
-  inset-inline-start: 1.4375rem;
+  inset-inline-start: 1.4375rem; */
 }
 .layout-horizontal .menu .menu-sub > .menu-item > .menu-link::before {
   inset-inline-start: 1rem;

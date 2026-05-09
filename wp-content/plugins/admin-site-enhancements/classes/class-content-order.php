@@ -252,7 +252,7 @@ class Content_Order {
         $posts = get_posts( $args );
         if ( !empty( $posts ) ) {
             ?>
-            <ul id="item-list">
+            <ul id="item-list" class="asenha-content-order">
             <?php 
             foreach ( $posts as $post ) {
                 $this->custom_order_single_item_output( $post );
@@ -306,31 +306,8 @@ class Content_Order {
             $post_status_label_separator = ' — ';
             $post_status_label = $post_status_object->label;
         }
-        if ( empty( wp_trim_excerpt( $post->post_excerpt, $post ) ) ) {
-            $short_excerpt = '';
-        } else {
-            $excerpt_trimmed = implode( " ", array_slice( explode( " ", wp_trim_excerpt( $post->post_excerpt, $post ) ), 0, 30 ) );
-            $short_excerpt = '<span class="item-excerpt"> | ' . $excerpt_trimmed . '</span>';
-        }
-        $taxonomies = get_object_taxonomies( $post->post_type, 'objects' );
-        // vi( $taxonomies );
+        $short_excerpt = '';
         $taxonomies_and_terms = '';
-        foreach ( $taxonomies as $taxonomy ) {
-            $terms = array();
-            if ( $taxonomy->hierarchical ) {
-                $taxonomy_terms = get_the_terms( $post->ID, $taxonomy->name );
-                if ( is_array( $taxonomy_terms ) && !empty( $taxonomy_terms ) ) {
-                    foreach ( $taxonomy_terms as $term ) {
-                        $terms[] = $term->name;
-                    }
-                }
-            }
-            $terms = implode( ', ', $terms );
-            $taxonomies_and_terms .= ' | ' . $taxonomy->label . ': ' . $terms;
-        }
-        if ( !empty( $taxonomies_and_terms ) ) {
-            $taxonomies_and_terms = '<span class="item-taxonomy-terms">' . $taxonomies_and_terms . '</span>';
-        }
         // If WPML plugin is active, let's get the current language
         if ( in_array( 'sitepress-multilingual-cms/sitepress.php', get_option( 'active_plugins', array() ) ) ) {
             $current_language = apply_filters( 'wpml_current_language', null );
@@ -368,7 +345,7 @@ class Content_Order {
                 <div class="row-content">
                     <?php 
             echo '<div class="content-main">
-                                    <span class="dashicons dashicons-menu"></span><a href="' . esc_attr( get_edit_post_link( $post->ID ) ) . '" class="item-title">' . esc_html( $post->post_title ) . '</a><span class="item-status' . esc_attr( $post_status_label_class ) . '">' . esc_html( $post_status_label_separator ) . esc_html( $post_status_label ) . '</span>' . wp_kses_post( $has_child_label ) . wp_kses_post( $taxonomies_and_terms ) . wp_kses_post( $short_excerpt ) . '<div class="fader"></div>
+                                    <span class="dashicons dashicons-menu"></span><a href="' . esc_attr( get_edit_post_link( $post->ID ) ) . '" class="item-title">' . esc_html( $post->post_title ) . '</a><span class="item-status' . esc_attr( $post_status_label_class ) . '">' . esc_html( $post_status_label_separator ) . esc_html( $post_status_label ) . '</span>' . wp_kses_post( $has_child_label ) . '<div class="fader"></div>
                                 </div>';
             if ( !in_array( $post->post_type, array('asenha_code_snippet') ) ) {
                 echo '<div class="content-additional">
@@ -429,9 +406,10 @@ class Content_Order {
             true
         );
         wp_localize_script( 'content-order-sort', 'contentOrderSort', array(
-            'action'      => 'save_custom_order',
-            'nonce'       => wp_create_nonce( 'order_sorting_nonce' ),
-            'hirarchical' => ( is_post_type_hierarchical( $typenow ) ? 'true' : 'false' ),
+            'action'       => 'save_custom_order',
+            'nonce'        => wp_create_nonce( 'order_sorting_nonce' ),
+            'hierarchical' => ( is_post_type_hierarchical( $typenow ) ? 'true' : 'false' ),
+            'hirarchical'  => ( is_post_type_hierarchical( $typenow ) ? 'true' : 'false' ),
         ) );
     }
 
@@ -457,8 +435,13 @@ class Content_Order {
         $menu_order_start = ( isset( $_POST['start'] ) ? absint( $_POST['start'] ) : 0 );
         $post_id = ( isset( $_POST['post_id'] ) ? absint( $_POST['post_id'] ) : 0 );
         $item_menu_order = ( isset( $_POST['menu_order'] ) ? absint( $_POST['menu_order'] ) : 0 );
-        $items_to_exclude = ( isset( $_POST['excluded_items'] ) ? absint( $_POST['excluded_items'] ) : array() );
-        $post_type = ( isset( $_POST['post_type'] ) ? $_POST['post_type'] : false );
+        $items_to_exclude = ( isset( $_POST['excluded_items'] ) && is_array( $_POST['excluded_items'] ) ? array_map( 'absint', $_POST['excluded_items'] ) : array() );
+        $post_type = ( isset( $_POST['post_type'] ) ? sanitize_key( wp_unslash( $_POST['post_type'] ) ) : false );
+        $is_hierarchical_post_type = ( $post_type ? is_post_type_hierarchical( $post_type ) : false );
+        $allow_parent_updates = 'attachment' === $post_type || $is_hierarchical_post_type;
+        if ( !$allow_parent_updates ) {
+            $item_parent = 0;
+        }
         // Make processing faster by removing certain actions
         remove_action( 'pre_post_update', 'wp_save_post_revision' );
         // $response array for ajax response
@@ -502,11 +485,14 @@ class Content_Order {
             'update_post_term_cache' => false,
             'update_post_meta_cache' => false,
         );
-        if ( 'attachment' == $post_type ) {
+        if ( 'attachment' === $post_type ) {
             // do nothing, we do not add post_parent parameter as media items can be attached to other posts, making them the parent.
         } else {
-            // Item parent is currently 0, as we only handle sorting of non-child posts
-            $query_args['post_parent'] = $item_parent;
+            // For hierarchical post types only, update one branch at a time.
+            // Non-hierarchical post types are reindexed as a full set to avoid duplicate menu_order values.
+            if ( $is_hierarchical_post_type ) {
+                $query_args['post_parent'] = $item_parent;
+            }
         }
         $posts = new WP_Query($query_args);
         if ( $posts->have_posts() ) {

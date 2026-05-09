@@ -1,0 +1,6 @@
+<?php
+/**
+ * IMS – F-16s1: Audit Findings (Surv-1) (Wrapper)
+ */
+$args = array_merge($args ?? [], ['prefix' => 'f16s1']);
+include __DIR__ . '/ims-f16.php';

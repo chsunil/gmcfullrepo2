@@ -2,7 +2,7 @@
 /*
 Plugin Name: Client PDF Generator
 Description: Generate Client & QMS PDFs via AJAX using DOMPDF.
-Version:     1.2
+Version:     1.2.1
 Author:      Sunil
 */
 
@@ -15,7 +15,7 @@ add_action('init', function () {
 
 // 2) Enqueue our JS
 add_action('wp_enqueue_scripts', function () {
-    wp_enqueue_script('cpdf-generate-pdf', plugin_dir_url(__FILE__) . 'assets/js/generate-pdf.js', ['jquery'], '1.1', true);
+    wp_enqueue_script('cpdf-generate-pdf', plugin_dir_url(__FILE__) . 'assets/js/generate-pdf.js', ['jquery', 'toast-helper'], '1.3', true);
     wp_localize_script('cpdf-generate-pdf', 'cpdf_vars', [
         'ajax_url'           => admin_url('admin-ajax.php'),
         'generate_pdf_nonce' => wp_create_nonce('cpdf_generate_pdf'),
@@ -34,8 +34,16 @@ function cpdf_handle_generate_pdf() {
         wp_send_json_error(['message' => 'Invalid post ID']);
     }
 
-    // 3.1) Locate the HTML template
-    $tpl = plugin_dir_path(__FILE__) . "templates/{$scheme}-{$stage}.php";
+    // 3.1) Locate the HTML template (with fallback to QMS)
+    $tpl = plugin_dir_path(__FILE__) . "templates/{$scheme}/{$scheme}-{$stage}.php";
+    if (! file_exists($tpl) && $scheme === 'ims') {
+        // Special case for IMS: many forms are identical to QMS but just need rebranding
+        $fallback_tpl = plugin_dir_path(__FILE__) . "templates/qms/qms-{$stage}.php";
+        if (file_exists($fallback_tpl)) {
+            $tpl = $fallback_tpl;
+        }
+    }
+
     if (! file_exists($tpl)) {
         wp_send_json_error(['message' => "Template not found: {$scheme}-{$stage}"]);
     }
@@ -45,6 +53,7 @@ function cpdf_handle_generate_pdf() {
     $post = get_post($post_id);
     setup_postdata($post);
     set_query_var('cpdf_post_id', $post_id);
+    set_query_var('cpdf_scheme', $scheme); // Pass the scheme (qms/ims/ems) to the template
     ob_start();
     include $tpl;
     $html = ob_get_clean();
@@ -74,4 +83,39 @@ function cpdf_handle_generate_pdf() {
     update_field( $field_key, $url, $post_id);
 
     wp_send_json_success(['pdf_url' => $url]);
+}
+
+// 4) DELETE PDF AJAX handler
+add_action('wp_ajax_delete_pdf', 'cpdf_handle_delete_pdf');
+function cpdf_handle_delete_pdf() {
+    check_ajax_referer('cpdf_generate_pdf', 'nonce');
+
+    $post_id = intval($_POST['post_id'] ?? 0);
+    $stage   = sanitize_text_field($_POST['stage']  ?? '');
+
+    if (!$post_id || !$stage) {
+        wp_send_json_error(['message' => 'Invalid parameters']);
+    }
+
+    $field_key = "{$stage}_pdf";
+    $pdf_url   = get_field($field_key, $post_id);
+
+    if ($pdf_url) {
+        // Attempt to delete physical file
+        $upload_dir = wp_upload_dir();
+        $base_url   = trailingslashit($upload_dir['baseurl']) . 'client_pdfs/';
+        $base_path  = trailingslashit($upload_dir['basedir']) . 'client_pdfs/';
+        
+        $filename   = str_replace($base_url, '', $pdf_url);
+        $file_path  = $base_path . $filename;
+
+        if (file_exists($file_path)) {
+            unlink($file_path);
+        }
+
+        // Clear ACF field
+        update_field($field_key, '', $post_id);
+    }
+
+    wp_send_json_success(['message' => 'PDF deleted successfully']);
 }

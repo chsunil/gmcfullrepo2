@@ -1,0 +1,454 @@
+{
+    "key": "group_6884e410c0ca6",
+    "title": "QMS F08a: Audit Schedule Sheet2",
+    "fields": [
+        {
+            "key": "field_6884e41160cb1",
+            "label": "Organization",
+            "name": "f08aorganization",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 1,
+            "readonly": 0,
+            "clone": [
+                "field_org_name"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_6884e47e8fd82",
+            "label": "Ref No.",
+            "name": "f08aref_no",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_68554bdf55898"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_6884e4a78fd83",
+            "label": "Location",
+            "name": "f08alocation",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_68173ed29add4"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_6884e4ee8fd84",
+            "label": "Date",
+            "name": "f08adate",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_0023"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_6884e53a8fd85",
+            "label": "Temporary Sites if any",
+            "name": "f08atemporary_sites_if_any",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_68173ed29cf0b"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_6884e57b8fd86",
+            "label": "Standard(s)",
+            "name": "f08astandards",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_68173ed2b0218"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_6884e5ce8fd87",
+            "label": "ICT details if any",
+            "name": "ict_details_if_any",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_68554e333ee7d"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_6884e62a8fd88",
+            "label": "Observers if any",
+            "name": "observers_if_any",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_6883436eb352e"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_6884e6608fd89",
+            "label": "Interpreters if any*",
+            "name": "interpreters_if_any*",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_6867af9198bb9"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_6884e67c8fd8a",
+            "label": "Scope",
+            "name": "scope",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_68173ed2a657a"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_6884e71159f4c",
+            "label": "",
+            "name": "_copy",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "layout": "table",
+            "pagination": 0,
+            "min": 0,
+            "max": 0,
+            "collapsed": "",
+            "button_label": "Add Row",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_6884e71159f4d",
+                    "label": "TIme",
+                    "name": "time",
+                    "aria-label": "",
+                    "type": "time_picker",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "display_format": "g:i a",
+                    "return_format": "g:i a",
+                    "allow_in_bindings": 0,
+                    "parent_repeater": "field_6884e71159f4c"
+                },
+                {
+                    "key": "field_6884e71159f4e",
+                    "label": "date",
+                    "name": "date",
+                    "aria-label": "",
+                    "type": "date_picker",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "display_format": "d/m/Y",
+                    "return_format": "d/m/Y",
+                    "first_day": 1,
+                    "allow_in_bindings": 0,
+                    "default_to_current_date": 0,
+                    "parent_repeater": "field_6884e71159f4c"
+                },
+                {
+                    "key": "field_6884e71159f4f",
+                    "label": "Activity/Process Area",
+                    "name": "activityprocess_area",
+                    "aria-label": "",
+                    "type": "textarea",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "rows": "",
+                    "placeholder": "",
+                    "new_lines": "",
+                    "parent_repeater": "field_6884e71159f4c"
+                },
+                {
+                    "key": "field_6884e71159f50",
+                    "label": "Auditor",
+                    "name": "auditor",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_6884e71159f4c"
+                },
+                {
+                    "key": "field_6884e71159f51",
+                    "label": "Auditee",
+                    "name": "auditee",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_6884e71159f4c"
+                }
+            ]
+        },
+        {
+            "key": "field_adt_clone_f08a",
+            "label": "Audit Dates (Synced)",
+            "name": "audit_dates_sync",
+            "type": "clone",
+            "clone": [
+                "field_0011",
+                "field_0032"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "client"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "display_title": "",
+    "modified": 1777622257
+}

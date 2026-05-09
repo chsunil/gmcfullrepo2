@@ -61,8 +61,8 @@ function wpdevpro_list_auditors_with_search_pagination($atts) {
     // User List in Bootstrap Table
     if (!empty($user_query->results)) {
     ?>
-        <table class="table table-striped">
-            <thead>
+        <table class="table table-striped table-hover table-bordered">
+            <thead class="table-info">
                 <tr>
                     <th>Display Name</th>
                     <th>Email</th>
@@ -163,3 +163,26 @@ function wpdevpro_list_auditors_with_search_pagination($atts) {
 }
 add_shortcode('auditor_list', 'wpdevpro_list_auditors_with_search_pagination');
 
+
+// DEBUG SHORTCODE: [debug_acf_group id="group_..."]
+function debug_acf_group_shortcode($atts) {
+    if (!current_user_can('manage_options')) return 'Access Denied';
+    
+    $atts = shortcode_atts(['id' => ''], $atts);
+    if (empty($atts['id'])) return 'No Group ID provided.';
+
+    if (!function_exists('acf_get_field_group')) return 'ACF not active.';
+    
+    $group = acf_get_field_group($atts['id']);
+    $fields = acf_get_fields($atts['id']);
+    
+    $output = '<div style="background:#f5f5f5; border:1px solid #ccc; padding:20px; font-family:monospace;">';
+    $output .= '<h3>Group Info: ' . esc_html($atts['id']) . '</h3>';
+    $output .= '<pre>' . esc_html(print_r($group, true)) . '</pre>';
+    $output .= '<h3>Fields:</h3>';
+    $output .= '<pre>' . esc_html(print_r($fields, true)) . '</pre>';
+    $output .= '</div>';
+    
+    return $output;
+}
+add_shortcode('debug_acf_group', 'debug_acf_group_shortcode');

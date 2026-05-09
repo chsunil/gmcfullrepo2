@@ -106,11 +106,26 @@ class Admin_Menu_Organizer {
         global $menu;
         $options_extra = get_option( ASENHA_SLUG_U . '_extra', array() );
         $options = ( isset( $options_extra['admin_menu'] ) ? $options_extra['admin_menu'] : array() );
+        // Get deleted built-in separators
+        $deleted_separators = ( isset( $options['custom_menu_deleted_separators'] ) ? $options['custom_menu_deleted_separators'] : '' );
+        $deleted_separators_array = array();
+        if ( is_string( $deleted_separators ) && !empty( $deleted_separators ) ) {
+            $deleted_separators_array = json_decode( $deleted_separators, true );
+            if ( !is_array( $deleted_separators_array ) ) {
+                $deleted_separators_array = array();
+            }
+        }
+        $common_methods = new Common_Methods();
         // Get current menu order. We're not using the default $menu_order which uses index.php, edit.php as array values.
         $current_menu_order = array();
         foreach ( $menu as $menu_key => $menu_info ) {
             if ( false !== strpos( $menu_info[4], 'wp-menu-separator' ) ) {
                 $menu_item_id = $menu_info[2];
+                // Skip deleted built-in separators; Pro distinguishes ASE additional-separator rows.
+                $skip_deleted_separator = in_array( $menu_item_id, $deleted_separators_array, true );
+                if ( $skip_deleted_separator ) {
+                    continue;
+                }
             } else {
                 $menu_item_id = $menu_info[5];
             }
@@ -126,14 +141,18 @@ class Admin_Menu_Organizer {
         // Render menu based on items saved in custom menu order
         foreach ( $custom_menu_order as $custom_menu_item_id ) {
             foreach ( $current_menu_order as $current_menu_item_id => $current_menu_item ) {
+                // Standard comparison using menu ID from position [5]
                 if ( $custom_menu_item_id == $current_menu_item[0] ) {
+                    $rendered_menu_order[] = $current_menu_item[1];
+                } elseif ( $custom_menu_item_id == $current_menu_item[1] ) {
                     $rendered_menu_order[] = $current_menu_item[1];
                 }
             }
         }
         // Add items from current menu not already part of custom menu order, e.g. new plugin activated and adds new menu item
         foreach ( $current_menu_order as $current_menu_item_id => $current_menu_item ) {
-            if ( !in_array( $current_menu_item[0], $custom_menu_order ) ) {
+            // Check both menu ID and slug to prevent duplicate entries for custom menus
+            if ( !in_array( $current_menu_item[0], $custom_menu_order ) && !in_array( $current_menu_item[1], $custom_menu_order ) ) {
                 $rendered_menu_order[] = $current_menu_item[1];
             }
         }
@@ -153,10 +172,20 @@ class Admin_Menu_Organizer {
         $custom_menu_titles = $options['custom_menu_titles'];
         $custom_menu_titles = explode( ',', $custom_menu_titles );
         foreach ( $menu as $menu_key => $menu_info ) {
+            // Determine menu item ID
             if ( false !== strpos( $menu_info[4], 'wp-menu-separator' ) ) {
                 $menu_item_id = $menu_info[2];
             } else {
-                $menu_item_id = $menu_info[5];
+                // Check if this is a custom menu item (for pro version)
+                $is_custom_menu = false;
+                // For custom menus, use slug; for regular menus, use CSS ID
+                if ( $is_custom_menu ) {
+                    $menu_item_id = $menu_info[2];
+                    // Use slug for custom menus
+                } else {
+                    $menu_item_id = $menu_info[5];
+                    // Use CSS ID for regular menus
+                }
             }
             // Get defaul/custom menu item title
             foreach ( $custom_menu_titles as $custom_menu_title ) {
@@ -457,24 +486,23 @@ class Admin_Menu_Organizer {
     public function save_admin_menu() {
         if ( isset( $_REQUEST ) ) {
             if ( check_ajax_referer( 'save-menu-nonce', 'nonce', false ) ) {
+                if ( !current_user_can( 'manage_options' ) ) {
+                    wp_send_json_error( array(
+                        'message' => __( 'You do not have permission to perform this action.', 'admin-site-enhancements' ),
+                    ) );
+                }
                 $options_extra = get_option( ASENHA_SLUG_U . '_extra', array() );
                 $options = ( isset( $options_extra['admin_menu'] ) ? $options_extra['admin_menu'] : array() );
-                $options['custom_menu_order'] = ( isset( $_REQUEST['custom_menu_order'] ) ? $_REQUEST['custom_menu_order'] : $options['custom_menu_order'] );
+                $options['custom_menu_order'] = ( isset( $_REQUEST['custom_menu_order'] ) ? wp_unslash( $_REQUEST['custom_menu_order'] ) : $options['custom_menu_order'] );
                 $options['custom_menu_titles'] = ( isset( $_REQUEST['custom_menu_titles'] ) ? wp_unslash( $_REQUEST['custom_menu_titles'] ) : $options['custom_menu_titles'] );
-                $options['custom_menu_hidden'] = ( isset( $_REQUEST['custom_menu_hidden'] ) ? $_REQUEST['custom_menu_hidden'] : $options['custom_menu_hidden'] );
+                $options['custom_menu_hidden'] = ( isset( $_REQUEST['custom_menu_hidden'] ) ? wp_unslash( $_REQUEST['custom_menu_hidden'] ) : $options['custom_menu_hidden'] );
                 $options_extra['admin_menu'] = $options;
                 // vi( $options_extra, '', 'save menu' );
                 $updated = update_option( ASENHA_SLUG_U . '_extra', $options_extra, true );
-                if ( $updated ) {
-                    $response = array(
-                        'status' => 'success',
-                    );
-                } else {
-                    $response = array(
-                        'status' => 'failed',
-                    );
-                }
-                echo json_encode( $response );
+                wp_send_json_success( array(
+                    'status'  => ( $updated ? 'success' : 'unchanged' ),
+                    'updated' => (bool) $updated,
+                ) );
             }
         }
     }

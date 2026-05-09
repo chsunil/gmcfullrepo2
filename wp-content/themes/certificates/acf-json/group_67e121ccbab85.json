@@ -1,0 +1,59 @@
+{
+    "key": "group_67e121ccbab85",
+    "title": "Post Status Field",
+    "fields": [
+        {
+            "key": "field_67e121cb6caa1",
+            "label": "post status",
+            "name": "post_status",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "Draft": "Draft",
+                "F01": "F01",
+                "F02": "F02",
+                "F03": "F03",
+                "F04": "F04",
+                "F05": "F05",
+                "F06": "F06",
+                "F07": "F07",
+                "F08": "F08"
+            },
+            "default_value": false,
+            "return_format": "value",
+            "multiple": 0,
+            "allow_null": 0,
+            "allow_in_bindings": 1,
+            "ui": 0,
+            "ajax": 0,
+            "placeholder": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "client"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1777622257
+}

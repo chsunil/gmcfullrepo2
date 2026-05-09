@@ -1,0 +1,259 @@
+{
+    "key": "group_f5e9a27b67e6",
+    "title": "QMS – F15S2: Correspondence & Communication Details (Surveillance Year 2)",
+    "fields": [
+        {
+            "key": "field_116046029b76",
+            "label": "",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "message": "Please note this is meant for capturing updated information for correspondence and communication purposes only to ensure that you receive the relevant information about Audit & certification at the right place & at the right time. Kindly return the filled information by fax/scan/post.",
+            "new_lines": "wpautop",
+            "esc_html": 0
+        },
+        {
+            "key": "field_7a0fe6f8ef3d",
+            "label": "",
+            "name": "f15s2new_field",
+            "aria-label": "",
+            "type": "group",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "layout": "row",
+            "sub_fields": [
+                {
+                    "key": "field_a24ea80f7029",
+                    "label": "Company Name:",
+                    "name": "company_name:",
+                    "aria-label": "",
+                    "type": "clone",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "clone": [
+                        "field_org_name"
+                    ],
+                    "display": "seamless",
+                    "layout": "block",
+                    "prefix_label": 0,
+                    "prefix_name": 0
+                },
+                {
+                    "key": "field_b2cebbaddcc7",
+                    "label": "Correspondence Address",
+                    "name": "correspondence_address",
+                    "aria-label": "",
+                    "type": "clone",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "clone": [
+                        "field_68173ed29add4"
+                    ],
+                    "display": "seamless",
+                    "layout": "block",
+                    "prefix_label": 0,
+                    "prefix_name": 0
+                },
+                {
+                    "key": "field_a3552e32018b",
+                    "label": "Contact Person",
+                    "name": "contact_person",
+                    "aria-label": "",
+                    "type": "clone",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "clone": [
+                        "field_68173ed2aa379"
+                    ],
+                    "display": "seamless",
+                    "layout": "block",
+                    "prefix_label": 0,
+                    "prefix_name": 0
+                },
+                {
+                    "key": "field_22709f31093d",
+                    "label": "Preferred Mode of Communication",
+                    "name": "preferred_mode_of_communication",
+                    "aria-label": "",
+                    "type": "checkbox",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "choices": {
+                        "Courier": "Courier",
+                        "e-Mail": "e-Mail"
+                    },
+                    "default_value": [],
+                    "return_format": "value",
+                    "allow_custom": 0,
+                    "allow_in_bindings": 0,
+                    "layout": "horizontal",
+                    "toggle": 0,
+                    "save_custom": 0,
+                    "custom_choice_button_text": "Add new choice"
+                },
+                {
+                    "key": "field_a6e81caa991f",
+                    "label": "",
+                    "name": "",
+                    "aria-label": "",
+                    "type": "clone",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "clone": [
+                        "field_0020"
+                    ],
+                    "display": "seamless",
+                    "layout": "block",
+                    "prefix_label": 0,
+                    "prefix_name": 0
+                },
+                {
+                    "key": "field_09af9ad24595",
+                    "label": "",
+                    "name": "",
+                    "aria-label": "",
+                    "type": "clone",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "clone": "",
+                    "display": "seamless",
+                    "layout": "block",
+                    "prefix_label": 0,
+                    "prefix_name": 0
+                }
+            ]
+        },
+        {
+            "key": "field_2f5863f9813c",
+            "label": "Upload your Visiting Card",
+            "name": "f15s2visiting_card",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "return_format": "url",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "",
+            "allow_in_bindings": 0,
+            "preview_size": "medium"
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "client"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "display_title": "",
+    "modified": 1777622257
+}

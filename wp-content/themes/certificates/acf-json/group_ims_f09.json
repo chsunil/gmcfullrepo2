@@ -1,0 +1,1493 @@
+{
+    "key": "group_ims_f09",
+    "title": "IMS F09: Audit  Report",
+    "fields": [
+        {
+            "key": "field_69c0d73eb3784",
+            "label": "",
+            "name": "f09certificationschemeapplied",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_68173ed2b0218"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_68850e5800748",
+            "label": "Client",
+            "name": "f09client",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_org_name"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_68850e8db8da2",
+            "label": "Address",
+            "name": "f09adress",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_68173ed29add4"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_68850ed5b8da3",
+            "label": "Site",
+            "name": "f09site",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_68173ed2a08cc"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_68850ef9b8da4",
+            "label": "Audit Ref No.",
+            "name": "f09Audit_Ref_No",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_69b4128404509"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_69bf6f675f033",
+            "label": "stage",
+            "name": "f09stage",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "choices": {
+                "stage-2": "stage-2",
+                "Re Certification": "Re Certification"
+            },
+            "default_value": false,
+            "return_format": "value",
+            "multiple": 0,
+            "allow_null": 0,
+            "allow_in_bindings": 0,
+            "ui": 0,
+            "ajax": 0,
+            "placeholder": "",
+            "create_options": 0,
+            "save_options": 0
+        },
+        {
+            "key": "field_68850f4cb8da5",
+            "label": "Management Representative",
+            "name": "f09management_representative",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_68173ed2aa379"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_68850f8db8da6",
+            "label": "Top Management",
+            "name": "f09top_management",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_68173ed2a2ab5"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_68850fd8b8da7",
+            "label": "Audit Criteria [Standard]",
+            "name": "f09audit_criteria_standard",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_68173ed2b0218"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_68851002b8da8",
+            "label": "Exclusion ( ISO 9001)",
+            "name": "f09exclusion__iso_9001",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_6817433c24058"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_6885106d12f4b",
+            "label": "Audit Objectives",
+            "name": "f09audit_objectives",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "default_value": "* Determination of the conformity of the client’s management system, or parts of it, with                    audit criteria;\r\n* Evaluation of the ability of the management system to ensure that the client organization meets applicable statutory, regulatory and contractual requirements;\r\n* Evaluation of the effectiveness of the management system to ensure that the client organization is continually meeting its specified objectives;\r\n* Identification of areas for potential improvement of the management system.\r\n* To Verify the organization compliance and effective maintenance of QMS in accordance with ISO 9001:2015\r\n* To confirm client adheres to its own policies, ojectives and procedures.\r\n* Collective information and evideance about conformity to all trequirments of the standard.\r\n* Performance monitoring, measuring, reporting and reviewing against key performance objectives and targets wrt management system standard.",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "rows": "",
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_6885108612f4c",
+            "label": "Audit Scope [confirmed]",
+            "name": "f09audit_scope_confirmed",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_qms_f11_audit_scope_confirmed"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_688510aa12f4d",
+            "label": "Functional Units/Processes Audited",
+            "name": "f09functional_unitsprocesses_audited",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": "",
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_688510ff12f4e",
+            "label": "Audit Site[s]",
+            "name": "f09audit_sites",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_68850e8db8da2"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_6885115612f4f",
+            "label": "Date[s] of audit",
+            "name": "f09dates_of_audit",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_0023"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_6885119d12f50",
+            "label": "Technical Code",
+            "name": "f09technical_code",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_67fe8e52fc7e0"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_688511c212f51",
+            "label": "Audit Team",
+            "name": "f09audit_team",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_6883436eb352e"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_6885120b12f52",
+            "label": "Brief Profile of the organization Including  main products/ services  and customers",
+            "name": "brief_profile_of_the_organization_including__main_products_services__and_customers",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_qms_f11_a_answer"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_6885124312f53",
+            "label": "Positive features",
+            "name": "f09positive_features",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_6885124f12f54",
+            "label": "Review of Action Taken on Identified nonconformities during previous audit/actions initiated for the observations addressed in Stage 1 Audit.      (If Applicable).",
+            "name": "f09review_of_action_taken_on_identified_nonconformities_during_previous_auditactions_initiated_for_the_observations_addressed_in_stage_1_audit______if_applicable",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_6885125912f55",
+            "label": "Comparison with the results of Previous Audits.",
+            "name": "comparison_with_the_results_of_previous_audits",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_6885176659c12",
+            "label": "Evaluation of Internal Audits",
+            "name": "f09evaluation_of_internal_audits",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_0029"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_69c25ce7a5061",
+            "label": "Frequency",
+            "name": "f09frequency",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_6860433f0ff57"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_69c25d22a5062",
+            "label": "No of Non conformities",
+            "name": "f09no_of_non_conformities",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_686043490ff58"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_688517b159c13",
+            "label": "Evaluation of Management Review",
+            "name": "evaluation_of_management_review",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "75",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "default_value": "Agenda for conducting MRM Verified, Minutes of MRM Verified for the same and found adequate all agenda points discussed.",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_688517e459c14",
+            "label": "MRM Date",
+            "name": "MRM_Date",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_0032"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_6885185559c15",
+            "label": "Usage of Certification Documents and Logos",
+            "name": "usage_of_certification_documents_and_logos",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_6885186959c16",
+            "label": "Review of Any Changes",
+            "name": "review_of_any_changes",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_6885187659c17",
+            "label": "Continuing Operational Controls",
+            "name": "continuing_operational_controls",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_6885188159c18",
+            "label": "Customer Complaints, appeals, Investigation and Corrective & Preventive actions Taken if any",
+            "name": "customer_complaints_appeals_investigation_and_corrective_&_preventive_actions_taken_if_any",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_6885188d59c19",
+            "label": "Observations/ areas for potential Improvement",
+            "name": "observations_areas_for_potential_improvement",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_6885189b59c1a",
+            "label": "Any Devation from Audit plan with reasons",
+            "name": "any_devation_from_audit_plan_with_reasons",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_688518a359c1b",
+            "label": "Significant issues impacting the audit program",
+            "name": "significant_issues_impacting_the_audit_program",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_688518b359c1c",
+            "label": "Significant issues affecting Management system since last audit took place",
+            "name": "significant_issues_affecting_management_system_since_last_audit_took_place",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_688518c059c1d",
+            "label": "Any Unresolved issues, if any",
+            "name": "any_unresolved_issues_if_any",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_688518c959c1e",
+            "label": "Are the procedures employed in risk assessment are sound and properly implemented",
+            "name": "are_the_procedures_employed_in_risk_assessment_are_sound_and_properly_implemented",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_688518d359c1f",
+            "label": "Summary of document review, adequacy of internal organization and procedures adopted by the client.",
+            "name": "summary_of_document_review_adequacy_of_internal_organization_and_procedures_adopted_by_the_client",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_688518dd59c20",
+            "label": "Any planned activities for continual improvement",
+            "name": "any_planned_activities_for_continual_improvement",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_688518e959c21",
+            "label": "Capability of management system to meet applicable requirements and exceed outcomes",
+            "name": "capability_of_management_system_to_meet_applicable_requirements_and_exceed_outcomes",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_6885191559c22",
+            "label": "Nonconformities identified  during this assessment:",
+            "name": "nonconformities_identified__during_this_assessment:",
+            "aria-label": "",
+            "type": "radio",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "choices": {
+                "Major": "Major",
+                "Minor": "Minor",
+                "Nil": "Nil"
+            },
+            "default_value": "",
+            "return_format": "value",
+            "allow_null": 0,
+            "other_choice": 0,
+            "allow_in_bindings": 0,
+            "layout": "horizontal",
+            "save_other_choice": 0
+        },
+        {
+            "key": "field_68851993bbaff",
+            "label": "No's",
+            "name": "nos",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_6885191559c22",
+                        "operator": "!=",
+                        "value": "Nil"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_688519bfbbb00",
+            "label": "Follow-up Measures, if required",
+            "name": "follow-up_measures_if_required",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_688519cdbbb01",
+            "label": "Additional Requirements if any to be provided during subsequent audits",
+            "name": "additional_requirements_if_any_to_be_provided_during_subsequent_audits",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_688519dabbb02",
+            "label": "Important points for planning forthcoming audit on-site/ICT",
+            "name": "important_points_for_planning_forthcoming_audit_on-siteict",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_688519e6bbb03",
+            "label": "Overall Comment on the compliance of the system, to the requirements of the standard for meeting organization policies and objectives",
+            "name": "overall_comment_on_the_compliance_of_the_system_to_the_requirements_of_the_standard_for_meeting_organization_policies_and_objectives",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_688519f2bbb04",
+            "label": "Performance of the management system over the period of certification and review of previous surveillance audit reports.",
+            "name": "performance_of_the_management_system_over_the_period_of_certification_and_review_of_previous_surveillance_audit_reports",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_688519febbb05",
+            "label": "Level of Integration",
+            "name": "level_of_integration",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_68851a14bbb06",
+            "label": "Appropriateness of Certification Scope",
+            "name": "appropriateness_of_certification_scope",
+            "aria-label": "",
+            "type": "radio",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "choices": {
+                "Confirmed": "Confirmed",
+                "Not Confirmed": "Not Confirmed"
+            },
+            "default_value": "",
+            "return_format": "value",
+            "allow_null": 0,
+            "other_choice": 0,
+            "allow_in_bindings": 0,
+            "layout": "horizontal",
+            "save_other_choice": 0
+        },
+        {
+            "key": "field_68851a41bbb08",
+            "label": "Fulfillment of Audit Objectives",
+            "name": "Fulfillment_of_Audit_Objectives",
+            "aria-label": "",
+            "type": "radio",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "choices": {
+                "Confirmed": "Confirmed",
+                "Not Confirmed": "Not Confirmed"
+            },
+            "default_value": "",
+            "return_format": "value",
+            "allow_null": 0,
+            "other_choice": 0,
+            "allow_in_bindings": 0,
+            "layout": "horizontal",
+            "save_other_choice": 0
+        },
+        {
+            "key": "field_68851a55bbb09",
+            "label": "The Next Assessment",
+            "name": "the_next_assessment",
+            "aria-label": "",
+            "type": "radio",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "choices": {
+                "Surveillance-1": "Surveillance-1",
+                "Surveillance-2": "Surveillance-2",
+                "Re Certification": "Re Certification"
+            },
+            "default_value": "",
+            "return_format": "value",
+            "allow_null": 0,
+            "other_choice": 0,
+            "allow_in_bindings": 0,
+            "layout": "vertical",
+            "save_other_choice": 0
+        },
+        {
+            "key": "field_68851aacbbb0a",
+            "label": "Tentative Date",
+            "name": "f09tentative_date",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_688649142a424"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_68851b58bbb0b",
+            "label": "Audit Type",
+            "name": "audit_type",
+            "aria-label": "",
+            "type": "radio",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "choices": {
+                "Stage -2": "Stage -2",
+                "Surveillance": "Surveillance",
+                "Re Certification": "Re Certification"
+            },
+            "default_value": "",
+            "return_format": "value",
+            "allow_null": 0,
+            "other_choice": 0,
+            "allow_in_bindings": 0,
+            "layout": "horizontal",
+            "save_other_choice": 0
+        },
+        {
+            "key": "field_68851b9dbbb0c",
+            "label": "",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "message": "\"* Based on the number of nonconformities and findings during the audit, the Lead Auditor considers the Management system is acceptable.\r\n* The information and evidence about conformity to all requirements of the management system standard is found to be acceptable.\r\n* The Performance monitoring, measuring, reporting and reviewing against key performance objectives and targets wrt Management System Standard is found to be acceptable.\r\n* The ability of the management system to ensure adherence to applicable statutory, regulatory and contractual requirements is found to be acceptable.\r\n* The Operational Controls of clients processes are found to be acceptable\r\n* The Effectiveness of internal auditing and management review is found to be acceptable \r\n* Status of Management responsibility for the clients policies are found acceptable\"",
+            "new_lines": "wpautop",
+            "esc_html": 0
+        },
+        {
+            "key": "field_68851bb2bbb0d",
+            "label": "Conclusion and Recommendation",
+            "name": "conclusion_and_recommendation",
+            "aria-label": "",
+            "type": "radio",
+            "instructions": "\"Based on the information and audit evidences gathered audit team concluded to: \"",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "choices": {
+                "Recommended for Grant of Certification": "Recommended for Grant of Certification",
+                "Recommend for follow up assessment": "Recommend for follow up assessment",
+                "Recommend for full assessment again": "Recommend for full assessment again"
+            },
+            "default_value": "",
+            "return_format": "value",
+            "allow_null": 0,
+            "other_choice": 1,
+            "save_other_choice": 1,
+            "allow_in_bindings": 0,
+            "layout": "vertical"
+        },
+        {
+            "key": "field_68851c51bbb0e",
+            "label": "Remarks",
+            "name": "remarks",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "I pledge that the report and records will remain confidential and will not be shared with any other person or organization and abide with the confidentiality and no conflict of interest agreement signed.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_68851c94bbb0f",
+            "label": "Team Leader",
+            "name": "f09team_leader",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_6887786048977"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "client"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "display_title": "",
+    "modified": 1777622257
+}

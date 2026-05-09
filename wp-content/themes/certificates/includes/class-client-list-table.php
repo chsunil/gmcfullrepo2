@@ -26,11 +26,12 @@ class GMC_Client_List_Table extends WP_List_Table {
     public function get_columns() {
         return [
             'client_name'        => 'Client Name',
-            'certification_type'=> 'Certification Type',
-            'assigned_employee' => 'Assigned Employee',
-            'client_stage'      => 'Client Status',
-            'created_date'      => 'Created Date',
-            'audit_dates'       => 'Audit Dates',
+            'certification_type' => 'Certification Type',
+            'assigned_employee'  => 'Assigned Employee',
+            'client_stage'       => 'Client Status',
+            'created_date'       => 'Created Date',
+            'audit_dates'        => 'Audit Dates',
+            'actions'            => 'Actions',
         ];
     }
 
@@ -155,5 +156,77 @@ class GMC_Client_List_Table extends WP_List_Table {
             '<a class="button button-primary" href="%s">View Dates</a>',
             esc_url(add_query_arg('id', $post->ID, $base))
         );
+    }
+
+    protected function column_actions($post) {
+        $invoice_url = add_query_arg(
+            ['client_id' => $post->ID],
+            site_url('/invoice-form/')
+        );
+
+        $out = sprintf(
+            '<a class="button" href="%s" title="Create Invoice">&#128196; Invoice</a>',
+            esc_url($invoice_url)
+        );
+
+        // Delete button — admin only
+        if (current_user_can('administrator')) {
+            $nonce = wp_create_nonce('gmc_client_delete_nonce');
+            $out  .= sprintf(
+                ' <button type="button" class="button delete-client-btn"
+                    style="color:#c00;border-color:#c00;"
+                    data-post-id="%d"
+                    data-client-name="%s"
+                    data-nonce="%s"
+                    title="Delete Client">&#128465; Delete</button>',
+                $post->ID,
+                esc_attr($post->post_title),
+                $nonce
+            );
+        }
+
+        return $out;
+    }
+
+    /** Inject delete-button JS once after the table renders (admins only). */
+    public function display() {
+        parent::display();
+        static $js_done = false;
+        if ($js_done || !current_user_can('administrator')) return;
+        $js_done  = true;
+        $ajax_url = esc_js(admin_url('admin-ajax.php'));
+        echo "<script>
+(function(){
+  document.querySelectorAll('.delete-client-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var name=this.dataset.clientName||'this client';
+      var pid=this.dataset.postId;
+      var nonce=this.dataset.nonce;
+      var row=this.closest('tr');
+      if(!confirm('Delete client \"'+name+'\"?\\n\\nThis cannot be undone.')) return;
+      btn.disabled=true; btn.textContent='Deleting\u2026';
+      var fd=new FormData();
+      fd.append('action','gmc_delete_client');
+      fd.append('post_id',pid);
+      fd.append('nonce',nonce);
+      fetch('{$ajax_url}',{method:'POST',body:fd})
+        .then(function(r){return r.json();})
+        .then(function(res){
+          if(res.success){
+            if(row){row.style.transition='opacity .3s';row.style.opacity='0';}
+            setTimeout(function(){if(row)row.remove();},320);
+          } else {
+            alert('Error: '+(res.data||'Could not delete.'));
+            btn.disabled=false; btn.innerHTML='&#128465; Delete';
+          }
+        })
+        .catch(function(){
+          alert('Network error. Please try again.');
+          btn.disabled=false; btn.innerHTML='&#128465; Delete';
+        });
+    });
+  });
+})();
+</script>";
     }
 }

@@ -1,0 +1,42 @@
+{
+    "key": "group_employee_process_site_specific_fixed",
+    "title": "matrix",
+    "fields": [
+        {
+            "key": "field_6829d9e70dddd",
+            "label": "Employee, Process, Machinery or Equipment Details- Site specific",
+            "name": "table",
+            "aria-label": "",
+            "type": "matrix",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "rows": "1.0: Process/Activities/Operations, 2.0: Major Machinery/Equipment’s",
+            "columns": "Main Site (above), Site 1, Site 2 ** (Temporary)",
+            "allow_in_bindings": 1
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "client"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0
+}

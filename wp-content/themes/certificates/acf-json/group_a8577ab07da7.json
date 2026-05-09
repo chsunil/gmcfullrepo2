@@ -1,0 +1,287 @@
+{
+    "key": "group_a8577ab07da7",
+    "title": "QMS – F14S2: Confidentiality and No Conflict of Interest Declaration (S2)",
+    "fields": [
+        {
+            "key": "field_2730509bca11",
+            "label": "",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "message": "CONFIDENTIALITY AND NO CONFLICT OF INTEREST DECLARATION",
+            "new_lines": "wpautop",
+            "esc_html": 0
+        },
+        {
+            "key": "field_a18a43a4d332",
+            "label": "Ref No.",
+            "name": "f14s2ref_no",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_68554bdf55898"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_d7036113681b",
+            "label": "Customer:",
+            "name": "f14s2customer:",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_org_name"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_bcd1ab634f1c",
+            "label": "",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "message": "I have executed an agreement Assessor Agreement; F-36 with Global Management Certification Services  Pvt. Ltd. to provide Certification related services to GMCSPL and its sub-contractors.  \t\t\t\t\t\t\t\t\t\r\nI am obligated to execute this Confidential Information and No Conflict of Interest Agreement for each client  for which I perform Certification Activities.",
+            "new_lines": "wpautop",
+            "esc_html": 0
+        },
+        {
+            "key": "field_a322e7dd3255",
+            "label": "This section shall be confirmed by Each audit team member (copy)",
+            "name": "f14s2This_section_shall_be_confirmed_by_Each_audit_team_member_copy",
+            "aria-label": "",
+            "type": "matrix_flexible",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "rows": "I confirm that I or the organizations employing me have not provided any consulting or other services to or on behalf of Client during the 24 months period prior to the date hereof directly or indirectly. | I confirm that I will not during the 12 months period succeeding the last day on which I provide Registration Activities with respect to Client pursuant to the Agreement or any future agreement between GMCSPL and me  directly or indirectly provide any consulting or other services (including, but not limited to Registration Activities) to or on behalf of Client. | I shall keep Confidential Information secret and confidential and not disclose such Confidential Information to any person or entity except for GMCSPL and if applicable a Contracted Registrar providing services to Client. | I shall deliver to GMCSPL or at GMCSPL' direction to Client all materials and reports (including all copies) in my possession (including quality manuals reports computerized data contained in any form) upon receipt of a written letter from Client or GMCSPL instructing me to return such materials. | I confirms that; I am independent of the organization being audited and I am not involved in design, development, internal audit, independent review of parts of management system requirements like SOA, Devise master files, EIA, HIRA, QP, Risk assessment & Treatment and etc.",
+            "columns_json": "[\r\n  {\r\n    \"label\": \"Observation\",\r\n    \"name\": \"observation\",\r\n    \"type\": \"select\",\r\n    \"choices\": [\"Yes\", \"No\"],\r\n    \"width\": \"10%\"\r\n  },\r\n  {\r\n    \"label\": \"Remarks\",\r\n    \"name\": \"remarks\",\r\n    \"type\": \"textarea\",\r\n    \"width\": \"50%\"\r\n  }\r\n]",
+            "has_prefilled_rows": 0,
+            "allow_in_bindings": 0
+        },
+        {
+            "key": "field_b8b262d535fa",
+            "label": "",
+            "name": "f14s2_copy",
+            "aria-label": "",
+            "type": "group",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "layout": "table",
+            "sub_fields": [
+                {
+                    "key": "field_12b8d67d7b4f",
+                    "label": "",
+                    "name": "",
+                    "aria-label": "",
+                    "type": "select",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "choices": {
+                        "Lead Auditor": "Lead Auditor",
+                        "Auditor(s):": "Auditor(s):",
+                        "Auditor:": "Auditor:",
+                        "Technical Expert:": "Technical Expert:",
+                        "Team Leader under supervision if any/ Witness Auditor:": "Team Leader under supervision if any/ Witness Auditor:",
+                        "Observers(s):": "Observers(s):",
+                        "Interpreter(s):": "Interpreter(s):"
+                    },
+                    "default_value": false,
+                    "return_format": "value",
+                    "multiple": 0,
+                    "allow_null": 0,
+                    "allow_in_bindings": 0,
+                    "ui": 0,
+                    "ajax": 0,
+                    "placeholder": ""
+                },
+                {
+                    "key": "field_a0dae4756028",
+                    "label": "Signature",
+                    "name": "signaturef14",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
+                },
+                {
+                    "key": "field_21a594fc2718",
+                    "label": "Date",
+                    "name": "date",
+                    "aria-label": "",
+                    "type": "date_picker",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "display_format": "d/m/Y",
+                    "return_format": "d/m/Y",
+                    "first_day": 1,
+                    "allow_in_bindings": 0
+                }
+            ]
+        },
+        {
+            "key": "field_06b8e3f05be9",
+            "label": "",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "message": "<i>*Only auditors and technical experts whose all answers are “Yes” can sign. If any answer is “No” he/she can’t participate in the subject assessment.The document should be signed on or before the date of assessment.</i>",
+            "new_lines": "wpautop",
+            "esc_html": 0
+        },
+        {
+            "key": "field_adt_clone_f14s2",
+            "label": "Audit Dates (Synced)",
+            "name": "audit_dates_sync",
+            "type": "clone",
+            "clone": [
+                "field_0010",
+                "field_0013",
+                "field_0031"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "client"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1777622257
+}

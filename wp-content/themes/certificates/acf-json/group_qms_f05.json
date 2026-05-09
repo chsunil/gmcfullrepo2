@@ -1,0 +1,967 @@
+{
+    "key": "group_qms_f05",
+    "title": "QMS - F05: Audit Team Allocation",
+    "fields": [
+        {
+            "key": "field_6833f9e2c5d2f",
+            "label": "AUDIT Stage",
+            "name": "f05audit_stage",
+            "aria-label": "",
+            "type": "radio",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "49",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "choices": {
+                "stage1": "Stage-1",
+                "stage2": "Stage-2",
+                "recertification": "Re Certification",
+                "surveillance_surv1": "Surveillance Audit (Surv1)",
+                "surveillance_surv2": "Surveillance Audit (Surv2)"
+            },
+            "default_value": "",
+            "return_format": "value",
+            "allow_null": 0,
+            "other_choice": 0,
+            "allow_in_bindings": 0,
+            "layout": "horizontal",
+            "save_other_choice": 0
+        },
+        {
+            "key": "field_qms_f05_0",
+            "label": "Organization",
+            "name": "f05organization",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_org_name"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_qms_f05_7",
+            "label": "GMCSPL Ref No",
+            "name": "f05gmcspl_ref_no",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_68554bdf55898"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_qms_f05_1",
+            "label": "Address",
+            "name": "f05address",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_6996ae3512093"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_qms_f05_2",
+            "label": "Scope of Certification",
+            "name": "f05scope_of_certification",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_68173ed2a657a"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_qms_f05_3",
+            "label": "Audit Objective",
+            "name": "f05audit_objective",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "default_value": "•To Review Management System's Documented Information\r\n•To evaluate site specific condition and readiness for Stage 2 audit\r\n•To Evaluate if internal audits and management reviews are planned, substantiating the readiness for stage 2\r\n•To Evaluate the understanding regarding requirements of the standard, in particular with respect to the identification of key performance or significant aspects, processes, objectives and operation of the management system",
+            "maxlength": "",
+            "allow_in_bindings": 1,
+            "rows": 5,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_qms_f05_4",
+            "label": "Technical Code/Area",
+            "name": "f05technical_code",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_67fe8e52fc7e0"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_qms_f05_8",
+            "label": "ICT Used",
+            "name": "f05ict_used",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_67fe92f174030"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_qms_f05_5",
+            "label": "Audit Criteria",
+            "name": "f05audit_criteria",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_68173ed2b0218"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_qms_f05_9",
+            "label": "Exclusions",
+            "name": "f05exclusions",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_6817433c24058"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_qms_f05_6",
+            "label": "Prime Contact Person",
+            "name": "f05prime_contact",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_68173ed2aa379"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_f05_audit_dates",
+            "label": "Audit Date(s)",
+            "name": "f05_audit_dates",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "Onsite date is auto-pulled from Audit Dates Table based on stage. Enter Remote and Temporary dates if applicable.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_0014"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_f05_mandays",
+            "label": "Audit Mandays / Time",
+            "name": "f05_mandays",
+            "aria-label": "",
+            "type": "group",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "table",
+            "sub_fields": [
+                {
+                    "key": "field_f05_total_mandays",
+                    "label": "Total Mandays",
+                    "name": "f05_total_mandays",
+                    "aria-label": "",
+                    "type": "clone",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "clone": [
+                        "field_6855522c5993c"
+                    ],
+                    "display": "seamless",
+                    "layout": "block",
+                    "prefix_label": 0,
+                    "prefix_name": 0
+                },
+                {
+                    "key": "field_f05_onsite_audit_time",
+                    "label": "Onsite Audit Time",
+                    "name": "f05_onsite_audit_time",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
+                },
+                {
+                    "key": "field_f05_offsite_activity_time",
+                    "label": "Off-site Activity Time",
+                    "name": "f05_offsite_activity_time",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
+                }
+            ]
+        },
+        {
+            "key": "field_f05_audit_team",
+            "label": "Audit Team",
+            "name": "f05_audit_team",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "table",
+            "pagination": 0,
+            "min": 0,
+            "max": 0,
+            "collapsed": "",
+            "button_label": "Add Team Member",
+            "rows_per_page": 10,
+            "sub_fields": [
+                {
+                    "key": "field_f05_team_role",
+                    "label": "Role",
+                    "name": "f05_team_role",
+                    "aria-label": "",
+                    "type": "select",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "choices": {
+                        "lead_auditor": "Lead Auditor",
+                        "auditor": "Auditor",
+                        "technical_expert": "Technical Expert",
+                        "team_leader_supervision": "Team Leader under supervision / Witness Auditor",
+                        "observer": "Observer(s)",
+                        "interpreter": "Interpreter(s)"
+                    },
+                    "default_value": "auditor",
+                    "return_format": "value",
+                    "multiple": 0,
+                    "allow_null": 0,
+                    "allow_in_bindings": 0,
+                    "ui": 0,
+                    "ajax": 0,
+                    "placeholder": "",
+                    "parent_repeater": "field_f05_audit_team",
+                    "create_options": 0,
+                    "save_options": 0
+                },
+                {
+                    "key": "field_f05_team_name",
+                    "label": "Name",
+                    "name": "f05_team_name",
+                    "aria-label": "",
+                    "type": "user",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "role": [
+                        "auditor"
+                    ],
+                    "return_format": "id",
+                    "multiple": 0,
+                    "allow_null": 0,
+                    "allow_in_bindings": 1,
+                    "bidirectional": 0,
+                    "bidirectional_target": [],
+                    "parent_repeater": "field_f05_audit_team"
+                },
+                {
+                    "key": "field_f05_team_mail_mobile",
+                    "label": "Mail / Mobile",
+                    "name": "f05_team_mail_mobile",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_f05_audit_team"
+                },
+                {
+                    "key": "field_f05_team_onsite_ict",
+                    "label": "Onsite/ICT & Remarks",
+                    "name": "f05_team_onsite_ict",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "Onsite",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_f05_audit_team"
+                }
+            ]
+        },
+        {
+            "key": "field_f05_remarks",
+            "label": "Remarks",
+            "name": "f05_remarks",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "rows": 3,
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_69d744563d484",
+            "label": "Please arrange the following for our audit team",
+            "name": "please_arrange_the_following_for_our_audit_team",
+            "aria-label": "",
+            "type": "group",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "layout": "block",
+            "sub_fields": [
+                {
+                    "key": "field_69d745b23d486",
+                    "label": "",
+                    "name": "requirement",
+                    "aria-label": "",
+                    "type": "textarea",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "default_value": "\" Working space and access to a telephone, internet and photocopying facilities\r\n Knowledgeable person to accompany during the audit.\r\n Knowledgeable person to handle the selected technology, to present the data/information\r\n Access to pertinent manuals, procedures and to access the required data/information\r\n Safety Requirements as per your procedures\r\n Should you have any query with regard to the arrangements for this audit, please contact us.\"",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "rows": "",
+                    "placeholder": "",
+                    "new_lines": ""
+                }
+            ]
+        },
+        {
+            "key": "field_f05_prepared_by",
+            "label": "Prepared By",
+            "name": "f05_prepared_by",
+            "aria-label": "",
+            "type": "group",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "49",
+                "class": "",
+                "id": ""
+            },
+            "layout": "table",
+            "sub_fields": [
+                {
+                    "key": "field_f05_prepared_by_name",
+                    "label": "Name",
+                    "name": "f05_prepared_by_name",
+                    "aria-label": "",
+                    "type": "user",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "role": [
+                        "auditor"
+                    ],
+                    "return_format": "array",
+                    "multiple": 0,
+                    "allow_null": 0,
+                    "allow_in_bindings": 1,
+                    "bidirectional": 0,
+                    "bidirectional_target": []
+                },
+                {
+                    "key": "field_f05_prepared_by_date",
+                    "label": "Date",
+                    "name": "f05_prepared_by_date",
+                    "aria-label": "",
+                    "type": "clone",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "clone": [
+                        "field_0014"
+                    ],
+                    "display": "seamless",
+                    "layout": "block",
+                    "prefix_label": 0,
+                    "prefix_name": 0
+                }
+            ]
+        },
+        {
+            "key": "field_f05_approved_by",
+            "label": "Approved By",
+            "name": "f05_approved_by",
+            "aria-label": "",
+            "type": "group",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "49",
+                "class": "",
+                "id": ""
+            },
+            "layout": "table",
+            "sub_fields": [
+                {
+                    "key": "field_f05_approved_by_name",
+                    "label": "Name",
+                    "name": "f05_approved_by_name",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
+                },
+                {
+                    "key": "field_f05_approved_by_date",
+                    "label": "Date",
+                    "name": "f05_approved_by_date",
+                    "aria-label": "",
+                    "type": "clone",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "clone": [
+                        "field_0014"
+                    ],
+                    "display": "seamless",
+                    "layout": "block",
+                    "prefix_label": 0,
+                    "prefix_name": 0
+                }
+            ]
+        },
+        {
+            "key": "field_69b415ecf9106",
+            "label": "Declaration of extent of interest of the audit team members (if any)",
+            "name": "f05declaration_of_extent_of_interest_of_the_audit_team_members_if_any",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "rows": "",
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_69b41616f9107",
+            "label": "Declaration of extent of interest of the ICT (if any)",
+            "name": "f05declaration_of_extent_of_interest_of_the_ict_if_any",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "rows": "",
+            "placeholder": "",
+            "new_lines": ""
+        },
+        {
+            "key": "field_69b4163df9108",
+            "label": "",
+            "name": "",
+            "aria-label": "",
+            "type": "group",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "layout": "table",
+            "sub_fields": [
+                {
+                    "key": "field_69b41656f9109",
+                    "label": "Name",
+                    "name": "fo5finalname",
+                    "aria-label": "",
+                    "type": "user",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "role": "",
+                    "return_format": "array",
+                    "multiple": 0,
+                    "allow_null": 0,
+                    "allow_in_bindings": 0,
+                    "bidirectional": 0,
+                    "bidirectional_target": []
+                },
+                {
+                    "key": "field_69b4168ef910a",
+                    "label": "Designation",
+                    "name": "designation",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
+                },
+                {
+                    "key": "field_69b4169ff910b",
+                    "label": "Signature",
+                    "name": "fo5finsignature",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
+                },
+                {
+                    "key": "field_69b416b2f910c",
+                    "label": "Date",
+                    "name": "f05findate",
+                    "aria-label": "",
+                    "type": "date_picker",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "display_format": "d/m/Y",
+                    "return_format": "d/m/Y",
+                    "first_day": 1,
+                    "allow_in_bindings": 0,
+                    "default_to_current_date": 0
+                }
+            ]
+        },
+        {
+            "key": "field_adt_clone_f05",
+            "label": "Audit Dates (Ref: Excel)",
+            "name": "audit_dates_clone",
+            "type": "clone",
+            "clone": [
+                "field_0011",
+                "field_0029"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0,
+            "modified": 1777639488
+        },
+        {
+            "key": "field_adt_clone_f05",
+            "label": "Audit Dates (Synced)",
+            "name": "audit_dates_sync",
+            "type": "clone",
+            "clone": [
+                "field_0011",
+                "field_0029"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "client"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "display_title": "",
+    "modified": 1777622257
+}

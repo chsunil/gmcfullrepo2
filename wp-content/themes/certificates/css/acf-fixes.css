@@ -1,3 +1,25 @@
+/* ── ACF Date Picker — Calendar Icon ─────────────────────────────────────────
+   Shows a calendar icon inside date_picker inputs so auditors can
+   recognise them as date fields at a glance.
+──────────────────────────────────────────────────────────────────────────── */
+.acf-field-date-picker .acf-input-wrap {
+    position: relative;
+}
+.acf-field-date-picker .acf-input-wrap::after {
+    content: '';
+    position: absolute;
+    right: 9px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    pointer-events: none;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23697a8d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2' ry='2'/%3E%3Cline x1='16' y1='2' x2='16' y2='6'/%3E%3Cline x1='8' y1='2' x2='8' y2='6'/%3E%3Cline x1='3' y1='10' x2='21' y2='10'/%3E%3C/svg%3E") no-repeat center / contain;
+}
+.acf-field-date-picker .acf-input-wrap input[type="text"] {
+    padding-right: 32px;
+}
+
 /* ACF Field Group Visibility Fix */
 .acf-field-group {
     display: block !important;
@@ -116,4 +138,139 @@
 .acf-tab-group li.active a {
     background-color: #fff;
     border-bottom-color: #fff;
+}
+
+/* ── GLOBAL HIGH-DENSITY COMPACT MODE (Excel/Word Style) ──────────────────────
+   Sets font to 10px and reduces input heights to ~20px for all ACF forms.
+──────────────────────────────────────────────────────────────────────────── */
+body .acf-field {
+    margin-bottom: 4px !important;
+    padding: 2px 0 !important;
+}
+
+body .acf-label label {
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    margin-bottom: 1px !important;
+    color: #32475c !important;
+    line-height: 1.1 !important;
+    text-transform: uppercase;
+}
+
+body .acf-input input[type="text"],
+body .acf-input input[type="email"],
+body .acf-input input[type="number"],
+body .acf-input input[type="date"],
+body .acf-input input[type="password"],
+body .acf-input textarea,
+body .acf-input select,
+body .form-control {
+    font-size: 10px !important;
+    padding: 1px 4px !important;
+    min-height: 20px !important;
+    height: 20px !important;
+    line-height: 1.2 !important;
+    border-radius: 2px !important;
+    border: 1px solid #ced4da !important;
+    background-color: #fff !important;
+}
+
+/* Audit Dates Page Ultra-Compact Fixes */
+.page-template-page-audit_dates .container-xxl,
+.page-template-page-audit_dates .container-fluid {
+    max-width: 98% !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+}
+
+.page-template-page-audit_dates .card {
+    width: 100% !important;
+    margin-bottom: 10px !important;
+}
+
+.page-template-page-audit_dates table.table {
+    font-size: 10px !important;
+    table-layout: fixed;
+}
+
+.page-template-page-audit_dates table.table th,
+.page-template-page-audit_dates table.table td {
+    padding: 2px 4px !important;
+    font-size: 10px !important;
+    height: 20px !important;
+    vertical-align: middle !important;
+}
+
+.page-template-page-audit_dates input.form-control-sm {
+    font-size: 10px !important;
+    padding: 1px 4px !important;
+    height: 20px !important;
+    min-height: 20px !important;
+}
+
+/* Global High-Density Overrides (Reinforced) */
+body .acf-field .acf-label label {
+    font-size: 9px !important;
+    margin-bottom: 0px !important;
+}
+
+body .acf-input input, 
+body .acf-input select, 
+body .acf-input textarea {
+    font-size: 9px !important;
+    padding: 1px 4px !important;
+    min-height: 20px !important;
+}
+
+body .acf-table th, 
+body .acf-table td {
+    padding: 2px 4px !important;
+    font-size: 10px !important;
+}
+
+body .acf-input textarea {
+    height: auto !important;
+    min-height: 32px !important;
+}
+
+body .acf-table th {
+    font-size: 10px !important;
+    padding: 2px 6px !important;
+    font-weight: 700 !important;
+    background: #f1f3f5 !important;
+    border: 1px solid #dee2e6 !important;
+}
+
+body .acf-table td {
+    font-size: 10px !important;
+    padding: 1px 6px !important;
+    border: 1px solid #dee2e6 !important;
+}
+
+/* Compact Tabs */
+body #clientTab .nav-link {
+    font-size: 11px !important;
+    padding: 3px 10px !important;
+}
+
+body .acf-tab-group li a {
+    font-size: 10px !important;
+    padding: 3px 8px !important;
+}
+
+/* Fix for nested clone fields spacing */
+body .acf-field-clone > .acf-label {
+    display: none !important;
+}
+
+/* Tighten Audit Dates Table Specifically */
+.audit-dates-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.audit-dates-table th, 
+.audit-dates-table td {
+    padding: 2px 4px !important;
+    font-size: 10px !important;
 }

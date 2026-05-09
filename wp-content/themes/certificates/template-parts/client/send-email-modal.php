@@ -17,10 +17,10 @@ $client_name   = sanitize_text_field( $args['client_name'] ?? '' );
 ?>
 <!-- Modal -->
 <div class="modal fade" id="sendEmailModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-fullscreen" role="document">
+  <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Send PDF to <?php echo esc_html($client_name); ?></h5>
+        <h5 class="modal-title">Send PDF to <span id="clientname"><?php echo esc_html($client_name); ?></span></h5>
         <button
           type="button"
           class="btn-close"
@@ -32,18 +32,20 @@ $client_name   = sanitize_text_field( $args['client_name'] ?? '' );
         <div class="row">
           
           <div class="col-12">
-            <form method="post">
+            <form method="post" id="sendEmailForm">
               <?php wp_nonce_field('send_email_action','send_email_nonce'); ?>
               <input type="hidden" name="send_email" value="1">
+              <input type="hidden" id="emailPostId" name="post_id" value="">
+              <input type="hidden" id="emailStage" name="stage" value="">
               
               <div class="row mb-3">
-                <label class="col-sm-2 col-form-label" for="to-email">To</label>
+                <label class="col-sm-2 col-form-label" for="toEmail">To</label>
                 <div class="col-sm-10">
                   <div class="input-group input-group-merge">
                     <span class="input-group-text"><i class="bx bx-envelope"></i></span>
                     <input
                       type="email"
-                      id="to-email"
+                      id="toEmail"
                       name="to_email"
                       class="form-control"
                       placeholder="Client's Email"
@@ -85,7 +87,7 @@ $client_name   = sanitize_text_field( $args['client_name'] ?? '' );
                 </div>
               </div>
               
-              <input type="hidden" name="pdf_attachment" value="<?php echo $pdf_url; ?>">
+              <input type="hidden" id="pdfAttachment" name="pdf_attachment" value="<?php echo $pdf_url; ?>">
               
               <div class="row mb-3">
                 <label class="col-sm-2 col-form-label">Attachment</label>
@@ -96,6 +98,7 @@ $client_name   = sanitize_text_field( $args['client_name'] ?? '' );
                       type="text"
                       class="form-control"
                       readonly
+                      id="pdfFilename"
                       value="<?php echo esc_html(basename($pdf_url)); ?>"
                     />
                   </div>

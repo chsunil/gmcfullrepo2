@@ -1,0 +1,252 @@
+{
+    "key": "group_qms_f06",
+    "title": "QMS - F06: DOCUMENTATION REVIEW REPORT",
+    "fields": [
+        {
+            "key": "field_qms_f06_0",
+            "label": "Organization Name",
+            "name": "organization_name",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "clone": [
+                "field_org_name"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_qms_f06_1",
+            "label": "Date",
+            "name": "f06date",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_audit_dates"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_qms_f06_2",
+            "label": "Standard:",
+            "name": "Standard",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_cert_scheme"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_qms_f06_3",
+            "label": "Auditors:",
+            "name": "Auditors",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_6860c39cae165"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_qms_f06_5",
+            "label": "Sites:",
+            "name": "f06sites",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_68173ed29cf0b"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_6868dd422bb10",
+            "label": "Date of current issue",
+            "name": "date_of_current_issue",
+            "aria-label": "",
+            "type": "date_picker",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "display_format": "d/m/Y",
+            "return_format": "d/m/Y",
+            "first_day": 1,
+            "allow_in_bindings": 0
+        },
+        {
+            "key": "field_6868dd5a2bb11",
+            "label": "Issue No:",
+            "name": "issue_no:",
+            "aria-label": "",
+            "type": "number",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "default_value": "",
+            "min": "",
+            "max": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "step": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_6868e00f103bb",
+            "label": "ISO 9001:2015 Clause",
+            "name": "iso_9001:2015_clause",
+            "aria-label": "",
+            "type": "matrix_flexible",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "rows": "4\tContext of the Organization|\r\n4.1\tUnderstanding the Organization and its Context|\r\n4.2\tUnderstanding the needs and expectations of interested parties|\r\n4.3\tDetermining the scope of the quality management system|\r\n4.4\tquality Management System and its Processes|\r\n5\tLeader Ship|5.1\t Leadership and Commitment|5.2\tQuality Policy|5.3\tOrganizational roles, responsibilities and authorities|6\tPlanning|6.1\tActions to address risks and opportunities|6.2\tQuality objectives and planning to achieve them|6.3\t Planning of changes|7\tSupport|7.1\tResources|7.2\tCompetence|7.3\tAwareness|7.4\tCommunication|7.5\tDocumented Information|8\tOperation|8.1\tOperational Planning and Control|8.2\t Requirements for Products and Services|8.3\t Design and Development of Products and Services|8.4\tControl of externally provided processes, products and services|8.5\tProduction and Service Provision|8.6\t Release of Products and Services|8.7\tControl of nonconforming outputs|9\tPerformance Evaluation|9.1\t Monitoring, measurement, analysis and evaluation|9.2\tInternal Audit|9.3\t Management Review|10\tImprovement|10.1\tGeneral|10.2\tNon Conformity and Corrective action|10.3\tContinual Improvement",
+            "columns_json": "[\r\n  {\r\n    \"label\": \"Compliance\",\r\n    \"name\": \"Compliance\",\r\n    \"type\": \"select\",\r\n    \"choices\": [\"Yes\", \"No\"],\r\n    \"width\": \"10%\"\r\n  },\r\n  {\r\n    \"label\": \"Comments \",\r\n    \"name\": \"f06comments \",\r\n    \"type\": \"textarea\",\r\n    \"width\": \"50%\"\r\n  }\r\n]",
+            "allow_in_bindings": 1
+        },
+        {
+            "key": "field_adt_clone_f06",
+            "label": "Audit Dates (Ref: Excel)",
+            "name": "audit_dates_clone",
+            "type": "clone",
+            "clone": [
+                "field_0011",
+                "field_0029"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0,
+            "modified": 1777639488
+        },
+        {
+            "key": "field_adt_clone_f06",
+            "label": "Audit Dates (Synced)",
+            "name": "audit_dates_sync",
+            "type": "clone",
+            "clone": [
+                "field_0011",
+                "field_0029"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "client"
+            }
+        ]
+    ],
+    "menu_order": 4,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1777622257
+}
