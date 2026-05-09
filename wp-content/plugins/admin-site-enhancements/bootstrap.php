@@ -44,6 +44,8 @@ class Admin_Site_Enhancements {
         // Enqueue admin scripts and styles
         add_action( 'admin_enqueue_scripts', 'asenha_admin_scripts' );
         add_action( 'admin_head', 'asenha_admin_menu_organizer_css' );
+        // Enqueue block editor scripts and styles
+        add_action( 'enqueue_block_editor_assets', 'asenha_block_editor_scripts' );
         // Enqueue public scripts and styles
         add_action( 'wp_enqueue_scripts', 'asenha_public_scripts' );
         // Dequeue scripts that prevents settings page from working
@@ -63,6 +65,8 @@ class Admin_Site_Enhancements {
         add_action( 'wp_ajax_dismiss_promo_nudge', 'asenha_dismiss_promo_nudge' );
         // Dismiss support nudge (via AJAX)
         add_action( 'wp_ajax_dismiss_support_nudge', 'asenha_dismiss_support_nudge' );
+        // Release login lock (via AJAX)
+        add_action( 'wp_ajax_asenha_release_login_lock', 'asenha_release_login_lock' );
         if ( function_exists( 'bwasenha_fs' ) ) {
             bwasenha_fs()->add_filter( 'plugin_icon', 'fs_custom_optin_icon__premium_only' );
         }
@@ -379,7 +383,7 @@ class Admin_Site_Enhancements {
                 add_filter( 'menu_order', [$admin_menu_organizer, 'render_custom_menu_order'], PHP_INT_MAX );
             }
             if ( array_key_exists( 'custom_menu_titles', $admin_menu_options ) ) {
-                add_action( 'admin_menu', [$admin_menu_organizer, 'apply_custom_menu_item_titles'], 9999999995 );
+                add_action( 'admin_menu', [$admin_menu_organizer, 'apply_custom_menu_item_titles'], 10000000001 );
                 add_action( 'init', [$admin_menu_organizer, 'apply_custom_title_for_posts_menu'] );
             }
             if ( array_key_exists( 'custom_menu_hidden', $admin_menu_options ) || array_key_exists( 'custom_menu_always_hidden', $admin_menu_options ) ) {
@@ -792,10 +796,12 @@ class Admin_Site_Enhancements {
                 1
             );
         }
-        // Disable Feeds
+        // Disable Embeds
         if ( array_key_exists( 'disable_embeds', $options ) && $options['disable_embeds'] ) {
             $disable_embeds = new ASENHA\Classes\Disable_Embeds();
             add_action( 'init', [$disable_embeds, 'disable_embeds_init'], 9999 );
+            $activation_embeds = new ASENHA\Classes\Activation();
+            add_action( 'init', [$activation_embeds, 'maybe_flush_disable_embeds_rewrite_rules'], 9999 );
         }
         // Disable All Updates
         if ( array_key_exists( 'disable_all_updates', $options ) && $options['disable_all_updates'] ) {
@@ -909,12 +915,18 @@ class Admin_Site_Enhancements {
             if ( array_key_exists( 'disable_application_passwords', $options ) && $options['disable_application_passwords'] ) {
                 add_filter( 'wp_is_application_passwords_available', '__return_false' );
             }
+            if ( array_key_exists( 'disable_site_admin_email_verification_screen', $options ) && $options['disable_site_admin_email_verification_screen'] ) {
+                add_filter( 'admin_email_check_interval', '__return_false' );
+            }
             if ( array_key_exists( 'disable_plugin_theme_editor', $options ) ) {
                 if ( $options['disable_plugin_theme_editor'] ) {
                     add_action( 'admin_init', [$disable_smaller_components, 'disable_plugin_theme_editor'], PHP_INT_MAX );
                 } else {
                     add_action( 'admin_init', [$disable_smaller_components, 'enable_plugin_theme_editor'], PHP_INT_MAX );
                 }
+            }
+            if ( array_key_exists( 'disable_user_email_notification_after_password_change', $options ) && $options['disable_user_email_notification_after_password_change'] ) {
+                add_filter( 'send_password_change_email', '__return_false' );
             }
         }
         // =================================================================
@@ -1037,9 +1049,6 @@ class Admin_Site_Enhancements {
             add_action( 'admin_enqueue_scripts', [$heartbeat_control, 'maybe_disable_heartbeat'], 99 );
             add_action( 'wp_enqueue_scripts', [$heartbeat_control, 'maybe_disable_heartbeat'], 99 );
         }
-        // =================================================================
-        // UTILITIES
-        // =================================================================
         // SMTP Email Delivery
         if ( array_key_exists( 'smtp_email_delivery', $options ) && $options['smtp_email_delivery'] ) {
             $email_delivery = new ASENHA\Classes\Email_Delivery();

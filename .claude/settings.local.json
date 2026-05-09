@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(# Find the actual resolved port from Local WP''s running config or site settings find ''/d/Local Sites/gmc/'' -name \"\"*.json\"\" -maxdepth 3)",
+      "Bash(# Check Local WP site port via netstat or process info netstat -ano)",
+      "Bash(# Try to find Local WP''s site config with actual port find ''/c/Users/Sunil/AppData/Roaming/Local'' -name \"\"sites.json\"\" -maxdepth 5)",
+      "Bash(python3 -c \" import json with open\\(''/c/Users/Sunil/AppData/Roaming/Local/sites.json''\\) as f: data = json.load\\(f\\) for site_id, site in data.items\\(\\): if ''gmc'' in site.get\\(''name'',''''\\).lower\\(\\) or ''gmc'' in site.get\\(''path'',''''\\).lower\\(\\): print\\(json.dumps\\(site, indent=2\\)\\) \")",
+      "Bash(python3 -c \":*)",
+      "Bash(# Use grep to extract the gmc site''s ports grep -A 80 ''\"\"name\"\":\"\"GMC\"\"'' ''/c/Users/Sunil/AppData/Roaming/Local/sites.json'')",
+      "Bash(ls -1 qms-*.php)",
+      "Bash(grep -o name=\"\"[^\"\"]*\"\" '/d/Local Sites/gmc/requirement/xlsx_tmp/xl/workbook.xml')",
+      "Bash(grep -o Id=\"\"[^\"\"]*\"\".*Target=\"\"worksheets/sheet[^\"\"]*\"\" '/d/Local Sites/gmc/requirement/xlsx_tmp/xl/_rels/workbook.xml.rels')",
+      "Bash(find '/d/Local Sites/gmc/requirement/xlsx_tmp/' -name *.rels)",
+      "Bash(\"C:/Users/Sunil/read_xlsx2.py\":*)",
+      "Bash(powershell.exe -Command \"python ''C:\\\\Users\\\\Sunil\\\\read_xlsx2.py''\")",
+      "Bash(\"C:/Users/Sunil/read_f11.py\":*)",
+      "Bash(powershell.exe -Command \"python ''C:\\\\Users\\\\Sunil\\\\read_f11.py''\")",
+      "Bash(\"C:/Users/Sunil/read_f11_acf.py\":*)",
+      "Bash(powershell.exe -Command \"python ''C:\\\\Users\\\\Sunil\\\\read_f11_acf.py''\")",
+      "Bash(\"C:/Users/Sunil/check_f11_fields.py\":*)",
+      "Bash(powershell.exe -Command \"python ''C:\\\\Users\\\\Sunil\\\\check_f11_fields.py''\")",
+      "Bash(php -r \":*)",
+      "Bash(wp post:*)",
+      "Bash(\"$MYSQL\" -u root -proot -h 127.0.0.1 -P 10033 -e \"SHOW DATABASES;\")",
+      "Bash(PHP=\"/c/Users/Sunil/AppData/Roaming/Local/lightning-services/php-8.2.27+1/bin/win64/php.exe\" \"$PHP\" -v)",
+      "Bash(PHP=\"/c/Users/Sunil/AppData/Roaming/Local/lightning-services/php-8.2.27+1/bin/win64/php.exe\" \"$PHP\" -m)",
+      "Bash(\"D:/Local Sites/gmc/app/public/regen-f11.php\":*)"
+    ]
+  }
+}

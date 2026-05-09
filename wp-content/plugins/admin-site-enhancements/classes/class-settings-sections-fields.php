@@ -161,6 +161,7 @@ class Settings_Sections_Fields {
         $field_id = 'enable_duplication';
         $field_slug = 'enable-duplication';
         $field_title = __( 'Content Duplication', 'admin-site-enhancements' );
+        $field_description = __( 'Enable one-click duplication of pages, posts and public post types. The corresponding taxonomy terms and post meta will also be duplicated.', 'admin-site-enhancements' );
         add_settings_field(
             $field_id,
             $field_title,
@@ -173,7 +174,7 @@ class Settings_Sections_Fields {
                 'field_slug'             => $field_slug,
                 'field_title'            => $field_title,
                 'field_name'             => ASENHA_SLUG_U . '[' . $field_id . ']',
-                'field_description'      => __( 'Enable one-click duplication of pages, posts and custom posts. The corresponding taxonomy terms and post meta will also be duplicated.', 'admin-site-enhancements' ),
+                'field_description'      => $field_description,
                 'field_options_wrapper'  => true,
                 'field_options_moreless' => true,
                 'class'                  => 'asenha-toggle content-management ' . $field_slug,
@@ -1340,6 +1341,7 @@ class Settings_Sections_Fields {
         );
         $field_id = 'change_login_url_description';
         $field_slug = 'change-login-url-description';
+        $field_description = '<div class="asenha-warning">' . __( '"New login URL" only works for/with the default WordPress login page.', 'admin-site-enhancements' ) . ' ' . __( 'Please use something other than \'login\' for the custom login slug.', 'admin-site-enhancements' ) . '<br /><br />' . __( 'If you have a login page you manually created with a page builder or with another plugin, please add them to the "Allow login from" section.', 'admin-site-enhancements' ) . '<br /><br />' . __( 'If you need 2FA, the <a href="https://wordpress.org/plugins/two-factor/">Two Factor plugin</a> has been confirmed to be compatible.', 'admin-site-enhancements' ) . '</div>';
         add_settings_field(
             $field_id,
             '',
@@ -1348,7 +1350,7 @@ class Settings_Sections_Fields {
             'main-section',
             array(
                 'option_name'       => ASENHA_SLUG_U,
-                'field_description' => __( '<div class="asenha-warning">"New login URL" <strong>only works for/with the default WordPress login page</strong>. If you have a login page you manually created with a page builder or with another plugin, please add them to the "Allow login from" section.<br /><br />This module is <strong>not yet compatible with two-factor authentication (2FA) methods</strong>. If you use a 2FA plugin, please use the change login URL feature bundled in that plugin, or use another plugin that is compatible with it.<br /><br />And obviously, to improve security, please <strong>use something other than \'login\'</strong> for the custom login slug.</div>', 'admin-site-enhancements' ),
+                'field_description' => $field_description,
                 'class'             => 'asenha-description login-logout ' . $field_slug,
             )
         );
@@ -2109,7 +2111,7 @@ class Settings_Sections_Fields {
         if ( is_array( $asenha_public_post_types ) ) {
             foreach ( $asenha_public_post_types as $post_type_slug => $post_type_label ) {
                 // e.g. $post_type_slug is post, $post_type_label is Posts
-                if ( post_type_supports( $post_type_slug, 'comments' ) ) {
+                if ( post_type_supports( $post_type_slug, 'comments' ) && 'kt_gallery' != $post_type_slug ) {
                     add_settings_field(
                         $field_id . '_' . $post_type_slug,
                         '',
@@ -2457,6 +2459,38 @@ class Settings_Sections_Fields {
                 'class'       => 'asenha-checkbox asenha-hide-th disable-components ' . $field_slug,
             )
         );
+        $field_id = 'disable_site_admin_email_verification_screen';
+        $field_slug = 'disable-site-admin-email-verification-screen';
+        add_settings_field(
+            $field_id,
+            '',
+            [$render_field, 'render_checkbox_plain'],
+            ASENHA_SLUG,
+            'main-section',
+            array(
+                'option_name' => ASENHA_SLUG_U,
+                'field_id'    => $field_id,
+                'field_name'  => ASENHA_SLUG_U . '[' . $field_id . ']',
+                'field_label' => __( 'Disable <strong>site admin email verification screen</strong> that was added since WordPress v5.3.', 'admin-site-enhancements' ),
+                'class'       => 'asenha-checkbox asenha-hide-th disable-components ' . $field_slug,
+            )
+        );
+        $field_id = 'disable_user_email_notification_after_password_change';
+        $field_slug = 'disable-user-email-notification-after-password-change';
+        add_settings_field(
+            $field_id,
+            '',
+            [$render_field, 'render_checkbox_plain'],
+            ASENHA_SLUG,
+            'main-section',
+            array(
+                'option_name' => ASENHA_SLUG_U,
+                'field_id'    => $field_id,
+                'field_name'  => ASENHA_SLUG_U . '[' . $field_id . ']',
+                'field_label' => __( 'Disable <strong>user email notification</strong> after password change.', 'admin-site-enhancements' ),
+                'class'       => 'asenha-checkbox asenha-hide-th disable-components ' . $field_slug,
+            )
+        );
         $field_id = 'disable_plugin_theme_editor';
         $field_slug = 'disable-plugin-theme-editor';
         $is_wpconfig_writeable = $wp_config->wpconfig_file( 'writeability' );
@@ -2670,6 +2704,23 @@ class Settings_Sections_Fields {
                 'class'             => 'asenha-description security ' . $field_slug,
             )
         );
+        $field_id = 'obfuscate_email_address_builder_safe_mode';
+        $field_slug = 'obfuscate-email-address-builder-safe-mode';
+        $obfuscate_email_builder_safe_row_class = 'asenha-checkbox asenha-hide-th asenha-th-border-top security ' . $field_slug;
+        add_settings_field(
+            $field_id,
+            '',
+            [$render_field, 'render_checkbox_plain'],
+            ASENHA_SLUG,
+            'main-section',
+            array(
+                'option_name' => ASENHA_SLUG_U,
+                'field_id'    => $field_id,
+                'field_name'  => ASENHA_SLUG_U . '[' . $field_id . ']',
+                'field_label' => __( 'Use high-compatibility mode to fix rendering issues.', 'admin-site-enhancements' ),
+                'class'       => $obfuscate_email_builder_safe_row_class,
+            )
+        );
         // Disable XML-RPC
         $field_id = 'disable_xmlrpc';
         $field_slug = 'disable-xmlrpc';
@@ -2800,6 +2851,7 @@ class Settings_Sections_Fields {
         );
         $field_id = 'revisions_max_number';
         $field_slug = 'revisions-max-number';
+        $field_suffix = __( 'revisions for:', 'admin-site-enhancements' );
         add_settings_field(
             $field_id,
             '',
@@ -2812,7 +2864,7 @@ class Settings_Sections_Fields {
                 'field_name'        => ASENHA_SLUG_U . '[' . $field_id . ']',
                 'field_type'        => 'with-prefix-suffix',
                 'field_prefix'      => __( 'Limit to', 'admin-site-enhancements' ),
-                'field_suffix'      => __( 'revisions for:', 'admin-site-enhancements' ),
+                'field_suffix'      => $field_suffix,
                 'field_intro'       => '',
                 'field_placeholder' => '10',
                 'field_min'         => 1,
@@ -3023,9 +3075,6 @@ class Settings_Sections_Fields {
                 'display_none_on_load' => true,
             )
         );
-        // =================================================================
-        // UTILITIES
-        // =================================================================
         // SMTP Email Delivery
         $field_id = 'smtp_email_delivery';
         $field_slug = 'smtp-email-delivery';
@@ -3213,6 +3262,12 @@ class Settings_Sections_Fields {
         );
         $field_id = 'smtp_password';
         $field_slug = 'smtp-password';
+        $smtp_authentication_enabled = !isset( $options['smtp_authentication'] ) || 'enable' === $options['smtp_authentication'];
+        $smtp_password_status = \asenha_get_smtp_password_status_compat( ( isset( $options['smtp_password'] ) ? $options['smtp_password'] : '' ) );
+        $smtp_password_description = __( 'Leave blank to keep the current password.', 'admin-site-enhancements' );
+        if ( $smtp_authentication_enabled && 'encrypted_invalid' === $smtp_password_status ) {
+            $smtp_password_description = __( 'Enter and save a new password to restore SMTP authentication.', 'admin-site-enhancements' );
+        }
         add_settings_field(
             $field_id,
             __( '<span class="field-sublabel sublabel-wide">Password</span>', 'admin-site-enhancements' ),
@@ -3226,10 +3281,27 @@ class Settings_Sections_Fields {
                 'field_type'        => '',
                 'field_prefix'      => '',
                 'field_suffix'      => '',
-                'field_description' => '',
-                'class'             => 'asenha-text with-prefix-suffix wide utilities ' . $field_slug,
+                'field_placeholder' => '',
+                'field_description' => $smtp_password_description,
+                'hide_stored_value' => true,
+                'class'             => 'asenha-text with-prefix-suffix with-description wide utilities ' . $field_slug,
             )
         );
+        if ( $smtp_authentication_enabled && 'encrypted_invalid' === $smtp_password_status ) {
+            $field_id = 'smtp_password_notice';
+            $field_slug = 'smtp-password-notice';
+            add_settings_field(
+                $field_id,
+                '',
+                [$render_field, 'render_custom_html'],
+                ASENHA_SLUG,
+                'main-section',
+                array(
+                    'html'  => '<div class="notice notice-warning inline"><p>' . esc_html( __( 'The stored SMTP password can no longer be decrypted. Please enter it again above and save changes.', 'admin-site-enhancements' ) ) . '</p></div>',
+                    'class' => 'asenha-html wide utilities ' . $field_slug,
+                )
+            );
+        }
         $field_id = 'smtp_bypass_ssl_verification';
         $field_slug = 'smtp-bypass-ssl-verification';
         add_settings_field(
@@ -3302,7 +3374,7 @@ class Settings_Sections_Fields {
                 'field_description' => '<div id="ajax-result" class="ajax-result-div" style="display:none;">
 				<div class="sending-test-email"><img src="' . ASENHA_URL . 'assets/img/oval.svg" id="sending-test-email-spinner" class="spinner-img">' . __( 'Sending test email...', 'admin-site-enhancements' ) . '</div>
 				<div id="test-email-success" class="test-email-success" style="display:none;"><span class="dashicons dashicons-yes"></span> <span>' . __( 'Test email was successfully processed</span>.<br />Please check the destination email\'s inbox to verify successful delivery.', 'admin-site-enhancements' ) . '</div>
-				<div id="test-email-failed" class="test-email-failed" style="display:none;"><span class="dashicons dashicons-no-alt"></span> <span>' . __( 'Oops, something went wrong</span>.<br />Please double check your settings and the destination email address.', 'admin-site-enhancements' ) . '</div></div>',
+				<div id="test-email-failed" class="test-email-failed" style="display:none;"><span class="dashicons dashicons-no-alt"></span> <span id="test-email-failed-message">' . __( 'Oops, something went wrong. Please double check your settings and the destination email address.', 'admin-site-enhancements' ) . '</span></div></div>',
                 'class'             => 'asenha-description utilities ' . $field_slug,
             )
         );

@@ -1,0 +1,118 @@
+{
+    "key": "group_ims_f07",
+    "title": "IMS - F07: Certification Assessment Plan",
+    "fields": [
+        {
+            "key": "field_qms_f07_0",
+            "label": "Organization Name",
+            "name": "organization_name",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "clone": [
+                "field_org_name"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_688346efe7106",
+            "label": "Ref.No.",
+            "name": "refno",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_68554bdf55898"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_69bea9a6452ad",
+            "label": "Notes",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "message": "P = Primary area / process for this ISO 9001 clause requirement for assessment and assessor notes to be completed. \t\t\r\nR = Significantly relevant area for this ISO 9001 requirement and may be chosen to be assessed\t\t\r\nBlank = No or insignificantly relevant area for this requirement",
+            "new_lines": "wpautop",
+            "esc_html": 0
+        },
+        {
+            "key": "field_6883475340914",
+            "label": "Quality System Requirements",
+            "name": "quality_system_requirements",
+            "aria-label": "",
+            "type": "matrix",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "rows": "4.1 Understanding the Organization and its Context, 4.2 Understanding the needs and expectations of interested parties, 5.1 Leadership and Commitment, 5.2 Quality Policy, 5.3.Organizational roles and responsibilities and authorities, 6.1 Actions to address risks and opportunities, 6.2 Quality objectives and planning to achieve them, 6.3 Planning of changes, 7.1 Resources, 7.2 Competence,\t\t 7.3 Awareness,\t 7.4 Communication, 7.5 Documented Information,\t\t 8.1 Operational Planning and Control,\t\t 8.2 Requirements for Products and Services,\t\t 8.3Design and Development of Products and Services,\t\t 8.4 Control of externally provided processes, products and services,\t\t 8.5. Production and Service Provision,\t\t 8.6 Release of Products and Services, \t\t 8.7 Control of nonconforming outputs,\t\t 9.1 Monitoring, measurement, analysis and evaluation,\t\t 9.2 Internal Audit,\t\t 9.3 Management Review,\t\t 10.1 General,\t\t 10.2 Non Conformity and Corrective action,\t\t 10.3 Continual Improvement,",
+            "columns": "Top Management, Purchase,HR, N/a, Production, QC, QA, Stores, Maintenance, IQA, MRM, N/a",
+            "allow_in_bindings": 0
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "client"
+            }
+        ]
+    ],
+    "menu_order": 5,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "display_title": "",
+    "modified": 1777622257
+}

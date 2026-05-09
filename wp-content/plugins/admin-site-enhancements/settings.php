@@ -5,39 +5,147 @@
  * 
  * @since 6.4.1
  */
+/**
+ * Get an ASE option as an array and normalize malformed values.
+ *
+ * Some sites may store malformed option payloads (e.g. strings), which can
+ * trigger fatal errors on PHP 8+ when string offsets are accessed as arrays.
+ *
+ * @since 8.4.2
+ *
+ * @param string    $option_name Option name.
+ * @param bool|null $autoload    Whether to autoload option.
+ * @return array
+ */
+function asenha_get_option_array(  $option_name, $autoload = null  ) {
+    $option_value = get_option( $option_name, array() );
+    if ( is_array( $option_value ) ) {
+        return $option_value;
+    }
+    $normalized_value = array();
+    if ( is_object( $option_value ) ) {
+        $normalized_value = (array) $option_value;
+    } elseif ( is_string( $option_value ) && '' !== trim( $option_value ) ) {
+        $maybe_unserialized = maybe_unserialize( $option_value );
+        if ( is_array( $maybe_unserialized ) ) {
+            $normalized_value = $maybe_unserialized;
+        } elseif ( is_object( $maybe_unserialized ) ) {
+            $normalized_value = (array) $maybe_unserialized;
+        } elseif ( is_string( $maybe_unserialized ) && '' !== trim( $maybe_unserialized ) ) {
+            $maybe_json = json_decode( $maybe_unserialized, true );
+            if ( is_array( $maybe_json ) ) {
+                $normalized_value = $maybe_json;
+            }
+        }
+    }
+    if ( null === $autoload ) {
+        update_option( $option_name, $normalized_value );
+    } else {
+        update_option( $option_name, $normalized_value, $autoload );
+    }
+    return $normalized_value;
+}
+
 if ( false === get_option( ASENHA_SLUG_U ) ) {
-    add_option(
-        ASENHA_SLUG_U,
-        array(),
-        '',
-        true
-    );
+    global $wpdb;
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+    $asenha_exists_in_db = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->options} WHERE option_name = %s", ASENHA_SLUG_U ) );
+    if ( !$asenha_exists_in_db ) {
+        add_option(
+            ASENHA_SLUG_U,
+            array(),
+            '',
+            true
+        );
+    } else {
+        // Option exists in DB but cache returned false (stale persistent cache).
+        // Aggressively invalidate all cache layers including local in-process caches
+        // that some Redis/Memcached backends maintain separately from the external store.
+        wp_cache_delete( 'alloptions', 'options' );
+        wp_cache_delete( 'notoptions', 'options' );
+        if ( function_exists( 'wp_cache_flush' ) ) {
+            wp_cache_flush();
+        }
+        global $wp_object_cache;
+        if ( is_object( $wp_object_cache ) ) {
+            if ( property_exists( $wp_object_cache, 'local_cache' ) && is_array( $wp_object_cache->local_cache ) ) {
+                unset($wp_object_cache->local_cache['options']);
+            }
+            if ( property_exists( $wp_object_cache, 'cache' ) && is_array( $wp_object_cache->cache ) ) {
+                unset($wp_object_cache->cache['options']);
+            }
+        }
+    }
 }
 if ( false === get_option( ASENHA_SLUG_U . '_stats' ) ) {
-    add_option(
-        ASENHA_SLUG_U . '_stats',
-        array(),
-        '',
-        false
-    );
+    global $wpdb;
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+    $asenha_stats_exists_in_db = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->options} WHERE option_name = %s", ASENHA_SLUG_U . '_stats' ) );
+    if ( !$asenha_stats_exists_in_db ) {
+        add_option(
+            ASENHA_SLUG_U . '_stats',
+            array(),
+            '',
+            false
+        );
+    } else {
+        // Option exists in DB but cache returned false (stale persistent cache).
+        // Aggressively invalidate all cache layers including local in-process caches.
+        wp_cache_delete( 'alloptions', 'options' );
+        wp_cache_delete( 'notoptions', 'options' );
+        if ( function_exists( 'wp_cache_flush' ) ) {
+            wp_cache_flush();
+        }
+        global $wp_object_cache;
+        if ( is_object( $wp_object_cache ) ) {
+            if ( property_exists( $wp_object_cache, 'local_cache' ) && is_array( $wp_object_cache->local_cache ) ) {
+                unset($wp_object_cache->local_cache['options']);
+            }
+            if ( property_exists( $wp_object_cache, 'cache' ) && is_array( $wp_object_cache->cache ) ) {
+                unset($wp_object_cache->cache['options']);
+            }
+        }
+    }
 }
 if ( false === get_option( ASENHA_SLUG_U . '_extra' ) ) {
-    add_option(
-        ASENHA_SLUG_U . '_extra',
-        array(),
-        '',
-        true
-    );
+    global $wpdb;
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+    $asenha_extra_exists_in_db = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->options} WHERE option_name = %s", ASENHA_SLUG_U . '_extra' ) );
+    if ( !$asenha_extra_exists_in_db ) {
+        add_option(
+            ASENHA_SLUG_U . '_extra',
+            array(),
+            '',
+            true
+        );
+    } else {
+        // Option exists in DB but cache returned false (stale persistent cache).
+        // Aggressively invalidate all cache layers including local in-process caches.
+        wp_cache_delete( 'alloptions', 'options' );
+        wp_cache_delete( 'notoptions', 'options' );
+        if ( function_exists( 'wp_cache_flush' ) ) {
+            wp_cache_flush();
+        }
+        global $wp_object_cache;
+        if ( is_object( $wp_object_cache ) ) {
+            if ( property_exists( $wp_object_cache, 'local_cache' ) && is_array( $wp_object_cache->local_cache ) ) {
+                unset($wp_object_cache->local_cache['options']);
+            }
+            if ( property_exists( $wp_object_cache, 'cache' ) && is_array( $wp_object_cache->cache ) ) {
+                unset($wp_object_cache->cache['options']);
+            }
+        }
+    }
 }
 // Bugfix in v7.1.2 for Custom Content Type module
-$options_extra = get_option( ASENHA_SLUG_U . '_extra', array() );
+$options_extra = asenha_get_option_array( ASENHA_SLUG_U . '_extra', true );
 if ( !isset( $options_extra['cfgroup_next_field_id'] ) ) {
     $options_extra['cfgroup_next_field_id'] = 1;
     update_option( ASENHA_SLUG_U . '_extra', $options_extra, true );
 }
 // Move Admin Menu Organizer options storage to extra table since v7.8.5
 if ( !isset( $options_extra['admin_menu'] ) ) {
-    $options = get_option( ASENHA_SLUG_U, array() );
+    $options = asenha_get_option_array( ASENHA_SLUG_U, true );
     $options_extra['admin_menu']['custom_menu_order'] = ( isset( $options['custom_menu_order'] ) ? $options['custom_menu_order'] : '' );
     unset($options['custom_menu_order']);
     $options_extra['admin_menu']['custom_menu_titles'] = ( isset( $options['custom_menu_titles'] ) ? $options['custom_menu_titles'] : '' );
@@ -46,6 +154,78 @@ if ( !isset( $options_extra['admin_menu'] ) ) {
     unset($options['custom_menu_hidden']);
     update_option( ASENHA_SLUG_U . '_extra', $options_extra, true );
     update_option( ASENHA_SLUG_U, $options, true );
+}
+/**
+ * Get the SMTP password storage status with backward-compatible fallbacks.
+ *
+ * This avoids fatal errors during mixed-version deployments where newer
+ * settings code may temporarily run against an older Email_Delivery class
+ * definition that does not yet provide the newer helper method/constants.
+ *
+ * @since 8.5.1
+ *
+ * @param string|null $stored_password Stored option value.
+ * @return string
+ */
+function asenha_get_smtp_password_status_compat(  $stored_password = null  ) {
+    if ( null === $stored_password ) {
+        $options = asenha_get_option_array( ASENHA_SLUG_U, true );
+        $stored_password = ( isset( $options['smtp_password'] ) ? $options['smtp_password'] : '' );
+    }
+    $email_delivery = new \ASENHA\Classes\Email_Delivery();
+    if ( method_exists( $email_delivery, 'get_smtp_password_status' ) ) {
+        return $email_delivery->get_smtp_password_status( $stored_password );
+    }
+    if ( empty( $stored_password ) ) {
+        return 'empty';
+    }
+    if ( is_string( $stored_password ) && 0 === strpos( $stored_password, 'asenha_encrypted::smtp_password::v1::' ) ) {
+        return 'encrypted_valid';
+    }
+    return 'legacy_plaintext';
+}
+
+/**
+ * Encrypt the SMTP password when the runtime supports the newer helper.
+ *
+ * @since 8.5.1
+ *
+ * @param \ASENHA\Classes\Email_Delivery $email_delivery Email delivery instance.
+ * @param string                         $password       Plaintext SMTP password.
+ * @return string Encrypted payload or empty string when unsupported.
+ */
+function asenha_encrypt_smtp_password_compat(  $email_delivery, $password  ) {
+    if ( !method_exists( $email_delivery, 'encrypt_smtp_password' ) ) {
+        return '';
+    }
+    return $email_delivery->encrypt_smtp_password( $password );
+}
+
+/**
+ * Encrypt legacy SMTP password storage after pluggable functions are available.
+ *
+ * @since 8.5.1
+ */
+function asenha_migrate_legacy_smtp_password_storage() {
+    $options = asenha_get_option_array( ASENHA_SLUG_U, true );
+    if ( empty( $options['smtp_password'] ) ) {
+        return;
+    }
+    $email_delivery = new \ASENHA\Classes\Email_Delivery();
+    if ( 'legacy_plaintext' !== asenha_get_smtp_password_status_compat( $options['smtp_password'] ) ) {
+        return;
+    }
+    $encrypted_smtp_password = asenha_encrypt_smtp_password_compat( $email_delivery, $options['smtp_password'] );
+    if ( !empty( $encrypted_smtp_password ) ) {
+        $options['smtp_password'] = $encrypted_smtp_password;
+        update_option( ASENHA_SLUG_U, $options, true );
+    }
+}
+
+if ( did_action( 'plugins_loaded' ) ) {
+    asenha_migrate_legacy_smtp_password_storage();
+} else {
+    add_action( 'plugins_loaded', 'asenha_migrate_legacy_smtp_password_storage' );
 }
 /**
  * Register admin menu
@@ -74,7 +254,7 @@ function asenha_register_admin_menu() {
  * @since 1.0.0
  */
 function asenha_add_settings_page() {
-    $options = get_option( ASENHA_SLUG_U, array() );
+    $options = asenha_get_option_array( ASENHA_SLUG_U, true );
     ?>
 	<div class="wrap asenha">
 
@@ -407,7 +587,7 @@ function asenha_add_settings_page() {
 	</div>
 	<?php 
     // Record the number of times changes were saved as well as the date of last save
-    $asenha_stats = get_option( ASENHA_SLUG_U . '_stats', array() );
+    $asenha_stats = asenha_get_option_array( ASENHA_SLUG_U . '_stats', false );
     $changes_saved = ( isset( $_GET['settings-updated'] ) && 'true' == $_GET['settings-updated'] ? true : false );
     if ( $changes_saved ) {
         $current_date = date( 'Y-m-d', time() );
@@ -442,7 +622,7 @@ function is_yearend_promo_period() {
         $is_yearend_promo_period = true;
         // Clear out last year's promo nudge dismissal data
         $current_year = date( 'Y', time() );
-        $asenha_stats = get_option( ASENHA_SLUG_U . '_stats', array() );
+        $asenha_stats = asenha_get_option_array( ASENHA_SLUG_U . '_stats', false );
         if ( isset( $asenha_stats['promo_nudge_dismissed'] ) && $asenha_stats['promo_nudge_dismissed'] ) {
             $last_dismissed_year = date( 'Y', strtotime( $asenha_stats['promo_nudge_dismissed_date'] ) );
             if ( $current_year > $last_dismissed_year ) {
@@ -538,7 +718,7 @@ function asenha_admin_scripts(  $hook_suffix  ) {
     ;
     $current_screen = get_current_screen();
     // Get all WP Enhancements options, default to empty array in case it's not been created yet
-    $options = get_option( 'admin_site_enhancements', array() );
+    $options = asenha_get_option_array( 'admin_site_enhancements', true );
     // For main page of this plugin
     if ( is_asenha() ) {
         wp_enqueue_style(
@@ -648,6 +828,21 @@ function asenha_admin_scripts(  $hook_suffix  ) {
         $wp_scripts = wp_scripts();
         $wp_scripts->remove( 'wp-tinymce' );
         wp_register_tinymce_scripts( $wp_scripts, true );
+        $admin_page_script_dependencies = array(
+            'asenha-jsticky',
+            'asenha-jbox',
+            'asenha-js-cookie',
+            'asenha-codemirror-htmlmixed-mode',
+            'asenha-codemirror-xml-mode',
+            'asenha-codemirror-javascript-mode',
+            'asenha-codemirror-css-mode',
+            'asenha-codemirror-markdown-mode',
+            'asenha-datatables',
+            'wp-color-picker',
+            'wp-mediaelement',
+            'wp-tinymce-root',
+            'wp-tinymce'
+        );
         // Main style and script for the admin page
         wp_enqueue_style(
             'asenha-admin-page',
@@ -663,39 +858,22 @@ function asenha_admin_scripts(  $hook_suffix  ) {
         wp_enqueue_script(
             'asenha-admin-page',
             ASENHA_URL . 'assets/js/admin-page.js',
-            array(
-                'asenha-jsticky',
-                'asenha-jbox',
-                'asenha-js-cookie',
-                'asenha-codemirror-htmlmixed-mode',
-                'asenha-codemirror-xml-mode',
-                'asenha-codemirror-javascript-mode',
-                'asenha-codemirror-css-mode',
-                'asenha-codemirror-markdown-mode',
-                'asenha-datatables',
-                'wp-color-picker',
-                'wp-mediaelement',
-                'wp-tinymce-root',
-                'wp-tinymce'
-            ),
+            $admin_page_script_dependencies,
             ASENHA_VERSION,
             false
         );
         $jsvars = array(
-            'nonce'                          => wp_create_nonce( 'asenha-' . get_current_user_id() ),
-            'siteUrl'                        => get_site_url(),
-            'wpcontentUrl'                   => content_url(),
-            'mediaFrameTitle'                => __( 'Select an Image', 'admin-site-enhancements' ),
-            'mediaFrameButtonText'           => __( 'Use Selected Image', 'admin-site-enhancements' ),
-            'resetMenuNonce'                 => wp_create_nonce( 'reset-menu-nonce' ),
-            'sendTestEmailNonce'             => wp_create_nonce( 'send-test-email-nonce_' . get_current_user_id() ),
-            'formBuilderSendTestEmailNonce'  => wp_create_nonce( 'formbuilder_ajax' ),
-            'rescanExtraElementsWorkingText' => __( 'Rescanning…', 'admin-site-enhancements' ),
-            'rescanExtraElementsDoneText'    => __( 'Done. Reloading…', 'admin-site-enhancements' ),
-            'rescanExtraElementsFailedText'  => __( 'Rescan failed. Please try again.', 'admin-site-enhancements' ),
-            'expandText'                     => __( 'Expand', 'admin-site-enhancements' ),
-            'collapseText'                   => __( 'Collapse', 'admin-site-enhancements' ),
-            'dataTable'                      => array(
+            'nonce'                         => wp_create_nonce( 'asenha-' . get_current_user_id() ),
+            'siteUrl'                       => get_site_url(),
+            'wpcontentUrl'                  => content_url(),
+            'mediaFrameTitle'               => __( 'Select an Image', 'admin-site-enhancements' ),
+            'mediaFrameButtonText'          => __( 'Use Selected Image', 'admin-site-enhancements' ),
+            'resetMenuNonce'                => wp_create_nonce( 'reset-menu-nonce' ),
+            'sendTestEmailNonce'            => wp_create_nonce( 'send-test-email-nonce_' . get_current_user_id() ),
+            'formBuilderSendTestEmailNonce' => wp_create_nonce( 'formbuilder_ajax' ),
+            'expandText'                    => __( 'Expand', 'admin-site-enhancements' ),
+            'collapseText'                  => __( 'Collapse', 'admin-site-enhancements' ),
+            'dataTable'                     => array(
                 'emptyTable'   => __( 'No data available in table', 'admin-site-enhancements' ),
                 'info'         => __( 'Showing _START_ to _END_ of _TOTAL_ entries', 'admin-site-enhancements' ),
                 'infoEmpty'    => __( 'Showing 0 to 0 of 0 entries', 'admin-site-enhancements' ),
@@ -709,6 +887,10 @@ function asenha_admin_scripts(  $hook_suffix  ) {
                     'next'     => __( 'Next', 'admin-site-enhancements' ),
                     'previous' => __( 'Previous', 'admin-site-enhancements' ),
                 ),
+            ),
+            'limitLoginAttempts'            => array(
+                'releaseLockSuccess' => __( 'Lock released for %s.', 'admin-site-enhancements' ),
+                'releaseLockError'   => __( 'Could not release lock. Please try again.', 'admin-site-enhancements' ),
             ),
         );
         wp_localize_script( 'asenha-admin-page', 'adminPageVars', $jsvars );
@@ -842,10 +1024,77 @@ function asenha_admin_scripts(  $hook_suffix  ) {
             ASENHA_VERSION,
             false
         );
-        wp_localize_script( 'asenha-admin-menu-organizer', 'amoPageVars', array(
-            'saveMenuNonce'  => wp_create_nonce( 'save-menu-nonce' ),
-            'resetMenuNonce' => wp_create_nonce( 'reset-menu-nonce' ),
-        ) );
+        $amo_page_vars = array(
+            'saveMenuNonce' => wp_create_nonce( 'save-menu-nonce' ),
+            'strings'       => array(
+                'saveChangesError' => __( 'Unable to save changes. Please reload the page and try again.', 'admin-site-enhancements' ),
+            ),
+        );
+        wp_localize_script( 'asenha-custom-admin-menu', 'amoPageVars', $amo_page_vars );
+    }
+    // Admin Interface >> Admin Bar Custom Elements (Pro)
+    if ( $current_screen && 'settings_page_asenha-admin-bar' === $current_screen->base ) {
+        wp_deregister_script( 'jquery-ui-core' );
+        wp_register_script(
+            'jquery-ui-core',
+            get_site_url() . '/wp-includes/js/jquery/ui/core.min.js',
+            array('jquery'),
+            ASENHA_VERSION,
+            false
+        );
+        wp_enqueue_script( 'jquery-ui-core' );
+        if ( version_compare( $wp_version, '5.6.0', '>=' ) ) {
+            wp_deregister_script( 'jquery-ui-mouse' );
+            wp_register_script(
+                'jquery-ui-mouse',
+                get_site_url() . '/wp-includes/js/jquery/ui/mouse.min.js',
+                array('jquery-ui-core'),
+                ASENHA_VERSION,
+                false
+            );
+            wp_enqueue_script( 'jquery-ui-mouse' );
+        } else {
+            wp_deregister_script( 'jquery-ui-widget' );
+            wp_register_script(
+                'jquery-ui-widget',
+                get_site_url() . '/wp-includes/js/jquery/ui/widget.min.js',
+                array('jquery'),
+                ASENHA_VERSION,
+                false
+            );
+            wp_enqueue_script( 'jquery-ui-widget' );
+            wp_deregister_script( 'jquery-ui-mouse' );
+            wp_register_script(
+                'jquery-ui-mouse',
+                get_site_url() . '/wp-includes/js/jquery/ui/mouse.min.js',
+                array('jquery-ui-core', 'jquery-ui-widget'),
+                ASENHA_VERSION,
+                false
+            );
+            wp_enqueue_script( 'jquery-ui-mouse' );
+        }
+        wp_deregister_script( 'jquery-ui-sortable' );
+        wp_register_script(
+            'jquery-ui-sortable',
+            get_site_url() . '/wp-includes/js/jquery/ui/sortable.min.js',
+            array('jquery-ui-mouse'),
+            ASENHA_VERSION,
+            false
+        );
+        wp_enqueue_script( 'jquery-ui-sortable' );
+        wp_enqueue_style(
+            'asenha-admin-bar-custom-elements',
+            ASENHA_URL . 'assets/premium/css/admin-bar-custom-elements.css',
+            array(),
+            ASENHA_VERSION
+        );
+        wp_enqueue_script(
+            'asenha-admin-bar-custom-elements',
+            ASENHA_URL . 'assets/premium/js/admin-bar-custom-elements.js',
+            array('jquery-ui-sortable'),
+            ASENHA_VERSION,
+            false
+        );
     }
     // Utilities >> Email Delivery Log
     if ( 'tools_page_email-delivery-log' == $hook_suffix ) {
@@ -875,11 +1124,6 @@ function asenha_admin_scripts(  $hook_suffix  ) {
     if ( array_key_exists( 'hide_admin_notices', $options ) && $options['hide_admin_notices'] ) {
         $hide_for_nonadmins = ( isset( $options['hide_admin_notices_for_nonadmins'] ) ? $options['hide_admin_notices_for_nonadmins'] : false );
         $minimum_capability = 'manage_options';
-        if ( function_exists( 'bwasenha_fs' ) ) {
-            if ( $hide_for_nonadmins && bwasenha_fs()->can_use_premium_code__premium_only() ) {
-                $minimum_capability = 'read';
-            }
-        }
         if ( current_user_can( $minimum_capability ) ) {
             wp_enqueue_style(
                 'asenha-jbox',
@@ -924,7 +1168,7 @@ function asenha_admin_scripts(  $hook_suffix  ) {
             }
         }
     }
-    $asenha_stats = get_option( ASENHA_SLUG_U . '_stats', array() );
+    $asenha_stats = asenha_get_option_array( ASENHA_SLUG_U . '_stats', false );
     $hide_promo_nudge = false;
     $is_yearend_promo_period = is_yearend_promo_period();
     // Pass on ASENHA stats to admin-page.js to determine whether to show support nudge
@@ -999,6 +1243,28 @@ function asenha_admin_scripts(  $hook_suffix  ) {
         );
     }
     wp_localize_script( 'asenha-admin-page', 'asenhaStats', $asenha_stats_localized );
+}
+
+/**
+ * Enqueue block editor scripts and styles.
+ *
+ * Loaded via the `enqueue_block_editor_assets` hook so assets are scoped
+ * strictly to block-editor post-edit screens (post.php / post-new.php).
+ *
+ * @since 7.11.0
+ */
+function asenha_block_editor_scripts() {
+    $current_screen = get_current_screen();
+    // Only load on post edit / new post block editor screens.
+    if ( !$current_screen instanceof \WP_Screen || 'post' !== $current_screen->base || !method_exists( $current_screen, 'is_block_editor' ) || !$current_screen->is_block_editor() ) {
+        return;
+    }
+    wp_enqueue_style(
+        'asenha-wp-block-editor',
+        ASENHA_URL . 'assets/css/wp-block-editor.css',
+        array(),
+        ASENHA_VERSION
+    );
 }
 
 /**
@@ -1209,7 +1475,7 @@ function is_asenha() {
 function asenha_have_supported() {
     if ( isset( $_REQUEST ) && current_user_can( 'manage_options' ) ) {
         if ( wp_verify_nonce( sanitize_text_field( $_REQUEST['nonce'] ), 'asenha-' . get_current_user_id() ) ) {
-            $asenha_stats = get_option( ASENHA_SLUG_U . '_stats', array() );
+            $asenha_stats = asenha_get_option_array( ASENHA_SLUG_U . '_stats', false );
             $asenha_stats['have_supported'] = true;
             $asenha_stats['support_nudge_dismissed'] = true;
             $success = update_option( ASENHA_SLUG_U . '_stats', $asenha_stats, false );
@@ -1235,7 +1501,7 @@ function asenha_dismiss_upgrade_nudge() {
     if ( isset( $_REQUEST ) && current_user_can( 'manage_options' ) ) {
         if ( wp_verify_nonce( sanitize_text_field( $_REQUEST['nonce'] ), 'asenha-' . get_current_user_id() ) ) {
             $current_date = date( 'Y-m-d', time() );
-            $asenha_stats = get_option( ASENHA_SLUG_U . '_stats', array() );
+            $asenha_stats = asenha_get_option_array( ASENHA_SLUG_U . '_stats', false );
             $asenha_stats['upgrade_nudge_dismissed'] = true;
             $asenha_stats['upgrade_nudge_dismissed_date'] = $current_date;
             $success = update_option( ASENHA_SLUG_U . '_stats', $asenha_stats, false );
@@ -1261,7 +1527,7 @@ function asenha_dismiss_promo_nudge() {
     if ( isset( $_REQUEST ) && current_user_can( 'manage_options' ) ) {
         if ( wp_verify_nonce( sanitize_text_field( $_REQUEST['nonce'] ), 'asenha-' . get_current_user_id() ) ) {
             $current_date = date( 'Y-m-d', time() );
-            $asenha_stats = get_option( ASENHA_SLUG_U . '_stats', array() );
+            $asenha_stats = asenha_get_option_array( ASENHA_SLUG_U . '_stats', false );
             $asenha_stats['promo_nudge_dismissed'] = true;
             $asenha_stats['promo_nudge_dismissed_date'] = $current_date;
             $success = update_option( ASENHA_SLUG_U . '_stats', $asenha_stats, false );
@@ -1286,7 +1552,7 @@ function asenha_dismiss_promo_nudge() {
 function asenha_dismiss_support_nudge() {
     if ( isset( $_REQUEST ) && current_user_can( 'manage_options' ) ) {
         if ( wp_verify_nonce( sanitize_text_field( $_REQUEST['nonce'] ), 'asenha-' . get_current_user_id() ) ) {
-            $asenha_stats = get_option( ASENHA_SLUG_U . '_stats', array() );
+            $asenha_stats = asenha_get_option_array( ASENHA_SLUG_U . '_stats', false );
             $asenha_stats['support_nudge_dismissed'] = true;
             $success = update_option( ASENHA_SLUG_U . '_stats', $asenha_stats, false );
             if ( $success ) {
@@ -1300,4 +1566,51 @@ function asenha_dismiss_support_nudge() {
             }
         }
     }
+}
+
+/**
+ * Release lock for an IP address in Limit Login Attempts.
+ *
+ * Deletes the IP entry from the failed login attempts table, which immediately
+ * releases the lockout for that IP address.
+ *
+ * @since 8.3.1
+ */
+function asenha_release_login_lock() {
+    if ( !current_user_can( 'manage_options' ) ) {
+        wp_send_json_error( array(
+            'message' => __( 'Insufficient permissions.', 'admin-site-enhancements' ),
+        ) );
+    }
+    if ( !isset( $_REQUEST['nonce'] ) || !isset( $_REQUEST['ip_address'] ) ) {
+        wp_send_json_error( array(
+            'message' => __( 'Missing required data.', 'admin-site-enhancements' ),
+        ) );
+    }
+    $nonce = sanitize_text_field( wp_unslash( $_REQUEST['nonce'] ) );
+    if ( !wp_verify_nonce( $nonce, 'asenha-' . get_current_user_id() ) ) {
+        wp_send_json_error( array(
+            'message' => __( 'Invalid security token.', 'admin-site-enhancements' ),
+        ) );
+    }
+    $ip_address = sanitize_text_field( wp_unslash( $_REQUEST['ip_address'] ) );
+    $common_methods = new \ASENHA\Classes\Common_Methods();
+    if ( !$common_methods->is_ip_valid( $ip_address ) ) {
+        wp_send_json_error( array(
+            'message' => __( 'Invalid IP address.', 'admin-site-enhancements' ),
+        ) );
+    }
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'asenha_failed_logins';
+    $deleted = $wpdb->delete( $table_name, array(
+        'ip_address' => $ip_address,
+    ), array('%s') );
+    if ( false === $deleted ) {
+        wp_send_json_error( array(
+            'message' => __( 'Could not release lock.', 'admin-site-enhancements' ),
+        ) );
+    }
+    wp_send_json_success( array(
+        'deleted' => (int) $deleted,
+    ) );
 }

@@ -1,0 +1,464 @@
+{
+    "key": "group_qms_f03",
+    "title": "QMS – F03: Application Review Checklist",
+    "fields": [
+        {
+            "key": "field_68b5732595eef",
+            "label": "Company Name",
+            "name": "f03company_name",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 1,
+            "clone": [
+                "field_org_name"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_69b4128404509",
+            "label": "Proposal Ref. no.",
+            "name": "f03proposal_ref_no",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_69b412a20450a",
+            "label": "Dated",
+            "name": "dated",
+            "aria-label": "",
+            "type": "date_picker",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "display_format": "d/m/Y",
+            "return_format": "d/m/Y",
+            "first_day": 1,
+            "allow_in_bindings": 0
+        },
+        {
+            "key": "field_68b5734695ef0",
+            "label": "Address",
+            "name": "f03address",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_6996ae3512093"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_68b573bf95ef3",
+            "label": "Contact Person",
+            "name": "f03contact_person",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_68173ed2aa379"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_68b573e595ef4",
+            "label": "Certification Scheme",
+            "name": "f03certification_scheme",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_68173ed2b0218"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_68b5742095ef5",
+            "label": "Scope of Certification",
+            "name": "f03scope_of_certification",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "clone": [
+                "field_68173ed2a657a"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        },
+        {
+            "key": "field_69b3901103e07",
+            "label": "Service Fee",
+            "name": "f03_service_fee",
+            "aria-label": "",
+            "type": "group",
+            "instructions": "Fee amounts and man-days for the certification agreement. Audit Man Days auto-fill from F-02 if left blank.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "layout": "row",
+            "sub_fields": [
+                {
+                    "key": "field_69b3906c03e08",
+                    "label": "Application — Fee (Rs.)",
+                    "name": "application_fee",
+                    "aria-label": "",
+                    "type": "number",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "25",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": 10000,
+                    "min": "",
+                    "max": "",
+                    "placeholder": "e.g. 10000",
+                    "step": "",
+                    "prepend": "Rs.",
+                    "append": "/-"
+                },
+                {
+                    "key": "field_69b390e403e09",
+                    "label": "Application — Man Days",
+                    "name": "application_man_days",
+                    "aria-label": "",
+                    "type": "number",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "25",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "min": "",
+                    "max": "",
+                    "placeholder": "e.g. 4",
+                    "step": "0.5",
+                    "prepend": "",
+                    "append": "days"
+                },
+                {
+                    "key": "field_69b3910603e0a",
+                    "label": "Audit — Fee (Rs.)",
+                    "name": "audit_fee",
+                    "aria-label": "",
+                    "type": "number",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "25",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "min": "",
+                    "max": "",
+                    "placeholder": "e.g. 40000",
+                    "step": "",
+                    "prepend": "Rs.",
+                    "append": "/-"
+                },
+                {
+                    "key": "field_f03sf_audit_md",
+                    "label": "Audit — Man Days",
+                    "name": "audit_man_days",
+                    "aria-label": "",
+                    "type": "number",
+                    "instructions": "Leave blank to auto-fill from F-02 man-days calculation.",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "25",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "default_value": "",
+                    "min": "",
+                    "max": "",
+                    "allow_in_bindings": 1,
+                    "placeholder": "",
+                    "step": "",
+                    "prepend": "",
+                    "append": ""
+                },
+                {
+                    "key": "field_69b3911c03e0b",
+                    "label": "Certificate Issue — Fee (Rs.)",
+                    "name": "certificate_issue_fee",
+                    "aria-label": "",
+                    "type": "number",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "33",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "min": "",
+                    "max": "",
+                    "placeholder": "e.g. 5000",
+                    "step": "",
+                    "prepend": "Rs.",
+                    "append": "/-"
+                },
+                {
+                    "key": "field_69b3913a03e0c",
+                    "label": "Surveillance — Fee (Rs.)",
+                    "name": "each_surveillance_audit_fee",
+                    "aria-label": "",
+                    "type": "number",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "33",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "min": "",
+                    "max": "",
+                    "placeholder": "e.g. 20000",
+                    "step": "",
+                    "prepend": "Rs.",
+                    "append": "/-"
+                },
+                {
+                    "key": "field_69b3916f03e0d",
+                    "label": "Surveillance — Man Days",
+                    "name": "surveillance_man_days",
+                    "aria-label": "",
+                    "type": "number",
+                    "instructions": "Leave blank to auto-fill as 1/3 of F-02 initial man-days.",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "34",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "default_value": "",
+                    "min": "",
+                    "max": "",
+                    "allow_in_bindings": 1,
+                    "placeholder": "Auto from F-02",
+                    "step": "0.5",
+                    "prepend": "",
+                    "append": "days"
+                },
+                {
+                    "key": "field_69b3918303e0e",
+                    "label": "Surveillance — Remarks",
+                    "name": "surveillance_remarks",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "Annual",
+                    "maxlength": "",
+                    "placeholder": "e.g. Annual",
+                    "prepend": "",
+                    "append": ""
+                },
+                {
+                    "key": "field_69b3919103e0f",
+                    "label": "Justification — Fee / Note",
+                    "name": "justification_fee",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "Enter fee or note, e.g. Nil",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "Nil",
+                    "maxlength": "",
+                    "placeholder": "e.g. Nil",
+                    "prepend": "",
+                    "append": ""
+                }
+            ]
+        },
+        {
+            "key": "field_adt_clone_f03",
+            "label": "Audit Dates (Ref: Excel)",
+            "name": "audit_dates_clone",
+            "type": "clone",
+            "clone": [
+                "field_0008",
+                "field_0011",
+                "field_0023",
+                "field_0026",
+                "field_0029"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0,
+            "modified": 1777639488
+        },
+        {
+            "key": "field_adt_clone_f03",
+            "label": "Audit Dates (Synced)",
+            "name": "audit_dates_sync",
+            "type": "clone",
+            "clone": [
+                "field_0008",
+                "field_0011",
+                "field_0023",
+                "field_0026",
+                "field_0029"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "client"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1777622257
+}

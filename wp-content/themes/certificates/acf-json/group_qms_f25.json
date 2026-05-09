@@ -1,0 +1,65 @@
+{
+    "key": "group_qms_f25",
+    "title": "QMS – F25 Assessment Check List",
+    "fields": [
+        {
+            "key": "field_qms_f25_table",
+            "label": "REQUIREMENTS : ISO 9001",
+            "name": "assessment_check_list",
+            "aria-label": "",
+            "type": "matrix_flexible",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "rows": "4 Context of the organization \r\n4.1 Understanding the organization and its context §§ Has the organization determined external and internal issues relevant to its purpose, strategic direction, and ability to achieve intended QMS results? |\r\n4.2 Understanding the needs and expectations of interested parties §§ Has the organization identified relevant interested parties and their requirements and is this information monitored and reviewed? |\r\n4.3 Determining the scope of the quality management system §§ Does the defined scope include boundaries, applicability, products or services, locations, and justification for exclusions if any? |\r\n4.4 Quality management system and its processes §§ Has the organization established, implemented, maintained, and continually improved the QMS including process interactions, criteria, resources, risks, and responsibilities? |\r\n\r\n5 Leadership \r\n5.1 Leadership and commitment §§ Has top management demonstrated leadership and commitment towards the effectiveness of the QMS and customer focus? |\r\n5.2 Policy §§ Is the quality policy established, implemented, maintained, communicated, and aligned with the context and strategic direction of the organization? |\r\n5.3 Organizational roles, responsibilities and authorities §§ Are roles, responsibilities, and authorities defined, assigned, communicated, and understood within the organization? |\r\n\r\n6 Planning \r\n6.1 Actions to address risks and opportunities §§ Has the organization identified risks and opportunities arising from internal and external issues and planned actions to address them? |\r\n6.2 Quality objectives and planning to achieve them §§ Are quality objectives established at relevant functions, measurable, monitored, communicated, and updated with plans to achieve them? |\r\n6.3 Planning of changes §§ Are changes to the QMS planned, controlled, and evaluated for potential impacts before implementation? |\r\n\r\n7 Support \r\n7.1 Resources §§ Has the organization determined and provided the resources needed for the establishment, implementation, maintenance, and improvement of the QMS? |\r\n7.2 Competence §§ Has the organization determined required competence, ensured personnel competence through education, training or experience, and retained evidence? |\r\n7.3 Awareness §§ Are persons aware of the quality policy, quality objectives, their contribution to QMS effectiveness, and implications of nonconformance? |\r\n7.4 Communication §§ Has the organization determined internal and external communications relevant to the QMS including what, when, with whom, and how to communicate? |\r\n7.5 Documented information §§ Is documented information required by the QMS controlled, maintained, protected, and available where needed? |\r\n\r\n8 Operation \r\n8.1 Operational planning and control §§ Has the organization planned, implemented, and controlled processes needed to meet product and service requirements and implemented controls as planned? |\r\n8.2 Requirements for products and services §§ Are customer, statutory, and regulatory requirements determined, reviewed, and communicated prior to commitment? |\r\n8.3 Design and development §§ If applicable, is design and development planned, controlled, reviewed, verified, validated, and documented or is exclusion justified? |\r\n8.4 Control of externally provided processes §§ Are external providers evaluated, selected, monitored, and controlled to ensure conformity of externally provided products and services? |\r\n8.5 Production and service provision §§ Are production and service activities carried out under controlled conditions including identification, traceability, validation, and preservation? |\r\n8.6 Release of products and services §§ Are products and services released only after planned arrangements are satisfactorily completed and authorized? |\r\n8.7 Control of nonconforming outputs §§ Are nonconforming outputs identified, controlled, corrected, and documented to prevent unintended use or delivery? |\r\n\r\n9 Performance evaluation \r\n9.1 Monitoring, measurement, analysis and evaluation §§ Has the organization determined what needs to be monitored and measured, analyzed results, and evaluated QMS effectiveness? |\r\n9.2 Internal audit §§ Are internal audits planned, conducted at defined intervals, reported to management, and corrective actions taken without undue delay? |\r\n9.3 Management review §§ Does top management review the QMS at planned intervals to ensure continuing suitability, adequacy, and effectiveness? |\r\n\r\n10 Improvement \r\n10.1 General §§ Has the organization determined and implemented opportunities for improvement to enhance customer satisfaction and QMS performance? |\r\n10.2 Nonconformity and corrective action §§ Are nonconformities reacted to, root causes determined, corrective actions implemented, and effectiveness reviewed? |\r\n10.3 Continual improvement §§ Does the organization continually improve the suitability, adequacy, and effectiveness of the QMS? |\r\n\r\n11 Logo Usage §§ Is the organization’s logo usage defined, controlled, and compliant with applicable requirements? |\r\n12 Performance of Management System over the Previous Years or Cycle §§ Has the performance of the management system been reviewed and compared with previous cycles or years?",
+            "columns_json": "[\r\n    {\r\n    \"label\": \"Auditor Guidance\",\r\n    \"name\": \"auditor_guidance\",\r\n    \"type\": \"static\",\r\n    \"width\": \"20%\"\r\n  },\r\n  {\r\n    \"label\": \"Evidences / Records – Initial Certification\",\r\n    \"name\": \"initial_certification\",\r\n    \"type\": \"textarea\",\r\n    \"width\": \"20%\"\r\n  },\r\n  {\r\n    \"label\": \"Surveillance-1\",\r\n    \"name\": \"surveillance_1\",\r\n    \"type\": \"textarea\",\r\n    \"width\": \"20%\"\r\n  },\r\n  {\r\n    \"label\": \"Surveillance-2\",\r\n    \"name\": \"surveillance_2\",\r\n    \"type\": \"textarea\",\r\n    \"width\": \"20%\"\r\n  }\r\n]",
+            "has_prefilled_rows": 1,
+            "allow_in_bindings": 1
+        },
+        {
+            "key": "field_adt_clone_f25",
+            "label": "Audit Dates (Synced)",
+            "name": "audit_dates_sync",
+            "type": "clone",
+            "clone": [
+                "field_0011",
+                "field_0026",
+                "field_0029",
+                "field_0032",
+                "field_0038"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "client"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1777622257
+}

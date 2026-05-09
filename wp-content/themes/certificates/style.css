@@ -3,7 +3,7 @@ Theme Name: Astra Child
 Author: Sunil
 Author URI: https://psd2web.in
 Description: Astra is the fastest, fully customizable & beautiful theme suitable for blogs, personal portfolios and business websites. It is very lightweight (less than 50KB on frontend) and offers unparalleled speed. Built with SEO in mind, Astra comes with schema.org code integrated so search engines will love your site. Astra offers plenty of sidebar options and widget areas giving you a full control for customizations. Furthermore, we have included special features and templates so feel free to choose any of your favorite page builder plugin to create pages flexibly. Some of the other features: # WooCommerce Ready # Responsive # Compatible with major plugins # Translation Ready # Extendible with premium addons # Regularly updated # Designed, Developed, Maintained & Supported by Brainstorm Force. Looking for a perfect base theme? Look no further. Astra is fast, fully customizable and beautiful theme!
-Version: 1.0.2
+Version: 1.2.3
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: astra-child
@@ -17,6 +17,10 @@ Template: astra
     border-bottom: 2px solid #ddd;
     padding: 0;
     margin-bottom: 20px;
+}
+
+.acf-fields>.acf-tab-wrap {
+    background-color: transparent;
 }
 
 .acf-tabs li {
@@ -86,6 +90,7 @@ Template: astra
 }
 
 /* Sidebar Container */
+/* Legacy Sidebar - commented out to avoid conflicts with Sneat layout
 #sidebar {
     min-width: 200px;
     max-width: 200px;
@@ -99,6 +104,7 @@ Template: astra
     bottom: 0px;
     z-index: 999;
 }
+*/
 
 /* Sidebar Header with User Info */
 #sidebar .sidebar-header {
@@ -634,3 +640,232 @@ a.navlink.active {
 .sticky-action-bar.form-changed #save-status {
     animation: pulse 0.5s ease;
 }
+
+table#invoices-table td.dt-control,
+table#invoices-table th.no-sort {
+    padding: 0.782rem 0.25rem;
+}
+
+/* ========================================= */
+/* SIDEBAR COLLAPSE - WP Admin Style        */
+/* ========================================= */
+:root {
+    --bs-menu-width: 200px;
+}
+
+.layout-menu-collapsed {
+    --bs-menu-width: 64px;
+}
+
+#layout-menu {
+    transition: all 0.3s ease;
+    width: var(--bs-menu-width);
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    z-index: 1100;
+    background: #0061f2 !important;
+    min-height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+/* Collapsed State Class on Wrapper */
+.layout-menu-collapsed #layout-menu {
+    width: 64px !important;
+}
+
+/* Specifically target divs and text in links */
+.layout-menu-collapsed #layout-menu .menu-item a div,
+.layout-menu-collapsed #layout-menu .menu-header span,
+.layout-menu-collapsed #layout-menu .menu-text,
+.layout-menu-collapsed #layout-menu .app-brand-text {
+    display: none !important;
+}
+
+.layout-container {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    width: 100%;
+}
+
+.layout-page {
+    flex: 1;
+    min-width: 0;
+    transition: all 0.3s ease;
+    padding-inline-start: var(--bs-menu-width);
+}
+
+/* Re-adjust content margin only if using fixed sidebar (Sneat default) */
+/* But since we are in Astra's ast-container, flex is safer */
+@media (min-width: 1200px) {
+    .layout-menu-collapsed .fixed-footer-bar {
+        left: 64px !important;
+    }
+}
+
+/* Center icons in collapsed mode */
+.layout-menu-collapsed #layout-menu .menu-item a {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.layout-menu-collapsed #layout-menu .menu-icon {
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+    font-size: 1.5rem !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+}
+
+/* Toggle Button Styling */
+.menu-toggle-wrapper {
+    margin-top: auto;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+#menu-toggle-btn {
+    cursor: pointer;
+}
+
+#menu-toggle-btn i {
+    transition: transform 0.3s ease;
+}
+
+.layout-menu-collapsed #menu-toggle-btn i {
+    transform: rotate(180deg);
+}
+
+.layout-menu-collapsed .app-brand {
+    justify-content: center;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.layout-menu-collapsed .app-brand .astra-logo-svg {
+    width: 35px;
+}
+
+.trx_addons_scroll_to_top {
+    display: none !important;
+}
+h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1{
+    margin-bottom: 5px;
+}
+/* ========================================= */
+/* HIGH-DENSITY COMPACT UI FOR ACF FORMS     */
+/* ========================================= */
+html .compact-form {
+    font-size: 12px !important;
+}
+
+.compact-form .acf-fields>.acf-field {
+    padding: 6px 12px !important;
+    border-top: 1px solid #f0f2f4 !important;
+    margin-bottom: 0 !important;
+}
+
+.compact-form .acf-fields>.acf-field:first-child {
+    border-top: 0 !important;
+}
+.form-check-input[type=radio]{
+    width:20px !important;
+    height:20px !important;
+}
+body .acf-field {
+    margin-bottom: 0px !important;
+    margin-top: 0px !important;
+}
+.compact-form .acf-label {
+    margin-bottom: 4px !important;
+}
+
+.compact-form .acf-label label {
+    font-size: 0.6875rem !important;
+    font-weight: 600 !important;
+    color: #566a7f !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+label, legend{
+    font-size:9px !important;
+}
+.acf-table .acf-label
+label,
+.acf-table .acf-label legend {
+    margin-bottom: 0px;
+    font-size: 10px;
+}
+
+.compact-form .acf-input input[type="text"],
+.compact-form .acf-input input[type="email"],
+.compact-form .acf-input input[type="number"],
+.compact-form .acf-input input[type="date"],
+.compact-form .acf-input textarea,
+.compact-form .acf-input select,
+.compact-form .acf-input input[type="text"], .compact-form .acf-input input[type="email"], .compact-form .acf-input input[type="number"], .compact-form .acf-input input[type="date"], .compact-form .acf-input textarea, .compact-form .acf-input select {
+    padding: 0.35rem 0.75rem !important;
+    font-size:  0.6875rem !important;
+    min-height: calc(1.53em + 0.7rem + 2px) !important;
+    border-radius: 0.375rem !important;
+}
+
+.compact-form .acf-input textarea {
+    min-height: 80px !important;
+}
+
+/* 2-Column Grid for specific containers */
+@media (min-width: 768px) {
+    .compact-form .acf-fields {
+        display: flex !important;
+        flex-wrap: wrap !important;
+    }
+
+    .compact-form .acf-fields>.acf-field {
+        flex: 1 1 100% !important;
+        width: 100% !important;
+    }
+
+    /* Target specific field types or classes to be 50% width */
+    .compact-form .acf-fields>.acf-field[data-type="text"],
+    .compact-form .acf-fields>.acf-field[data-type="email"],
+    .compact-form .acf-fields>.acf-field[data-type="number"],
+    .compact-form .acf-fields>.acf-field[data-type="date_picker"],
+    .compact-form .acf-fields>.acf-field[data-type="select"],
+    .compact-form .acf-fields>.acf-field.half-width {
+        flex: 1 1 50% !important;
+        width: 50% !important;
+    }
+
+    /* Keep group fields, repeaters, and textareas full width */
+    .compact-form .acf-fields>.acf-field[data-type="group"],
+    .compact-form .acf-fields>.acf-field[data-type="repeater"],
+    .compact-form .acf-fields>.acf-field[data-type="textarea"],
+    .compact-form .acf-fields>.acf-field[data-type="message"] {
+        flex: 1 1 100% !important;
+        width: 100% !important;
+    }
+}
+
+/* Adjustments for Group labels inside compact forms */
+.compact-form .acf-field-group .acf-label {
+    background: #f8f9fa;
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin-top: 5px;
+}
+
+/* Floating labels effect for even more compactness (Optional, reserved for future) */
+/*.compact-form .acf-field {
+    position: relative;
+}
+*/

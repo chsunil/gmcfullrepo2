@@ -115,22 +115,24 @@
       $('#send-test-email').click(function(e) {
          e.preventDefault();
          var emailTo = $('#test-email-to').val();
+         var defaultTestEmailFailedMessage = $('#test-email-failed-message').text();
          if ( emailTo ) {
             $('#ajax-result').show();
             $('.sending-test-email').show();
             $('.test-email-result').hide();
             $('#test-email-success').hide();
             $('#test-email-failed').hide();
+            $('#test-email-failed-message').text(defaultTestEmailFailedMessage);
             $.ajax({
                url: ajaxurl,
+               dataType: 'json',
                data: {
                   'action':'send_test_email',
                   'email_to': emailTo,
                   'nonce': adminPageVars.sendTestEmailNonce
                },
                success:function(data) {
-                  var data = data.slice(0,-1); // remove strange trailing zero in string returned by AJAX call
-                  var response = JSON.parse(data);
+                  var response = data;
                   if ( response.status == 'success' ) {
                      setTimeout( function() {
                         $('.sending-test-email').hide();
@@ -139,6 +141,11 @@
                      }, 1500);
                   }
                   if ( response.status == 'failed' ) {
+                     if ( response.message ) {
+                        $('#test-email-failed-message').text(response.message);
+                     } else {
+                        $('#test-email-failed-message').text(defaultTestEmailFailedMessage);
+                     }
                      setTimeout( function() {
                         $('.sending-test-email').hide();
                         // $('.test-email-result').show();
@@ -148,6 +155,7 @@
                },
                error:function(errorThrown) {
                   console.log(errorThrown);
+                  $('#test-email-failed-message').text(defaultTestEmailFailedMessage);
                   setTimeout( function() {
                      $('.sending-test-email').hide();
                      $('.test-email-result').show();
@@ -158,90 +166,6 @@
          } else {
             alert( 'Please enter destination email address first.' );
          }
-      });
-
-      // Form Builder >> Send test email
-      $('#form-builder-send-test-email').click(function(e) {
-         e.preventDefault();
-         var emailTo = $('#form-builder-test-email-to').val();
-         var emailTemplate = $('.form-builder-email-template select').val();
-         if ( emailTo ) {
-            $('#form-builder-ajax-result').show();
-            $('.form-builder-sending-test-email').show();
-            $('.test-email-result').hide();
-            $('#form-builder-test-email-success').hide();
-            $('#form-builder-test-email-failed').hide();
-            $.ajax({
-               type: 'POST',
-               url: ajaxurl,
-               data: {
-                  action: 'formbuilder_test_email_template',
-                  email_template: emailTemplate,
-                  test_email: emailTo,
-                  nonce: adminPageVars.formBuilderSendTestEmailNonce
-               },
-               success:function(data) {
-                  var response = JSON.parse(data);
-                  if ( response.success ) {
-                     setTimeout( function() {
-                        $('.form-builder-sending-test-email').hide();
-                        $('#form-builder-test-email-success').show();
-                     }, 1500);
-                  }
-                  if ( ! response.success ) {
-                     setTimeout( function() {
-                        $('.form-builder-sending-test-email').hide();
-                        $('#form-builder-test-email-failed').show();
-                     }, 1500);                     
-                  }
-               },
-               error:function(errorThrown) {
-                  console.log(errorThrown);
-                  setTimeout( function() {
-                     $('.sending-test-email').hide();
-                     $('.test-email-result').show();
-                     $('#test-email-failed').show();
-                  }, 1500);
-               }
-            });
-         } else {
-            alert( 'Please enter destination email address first.' );
-         }
-      });
-
-      // Clean Up Admin Bar >> Rescan Extra Elements
-      $('#asenha-rescan-extra-admin-bar-elements').on('click', function(e) {
-         e.preventDefault();
-
-         var $button = $(this);
-         var $status = $('.asenha-admin-bar-rescan-status');
-
-         $button.prop('disabled', true);
-         $status.removeClass('is-success is-error').text(adminPageVars.rescanExtraElementsWorkingText).show();
-
-         $.ajax({
-            type: 'POST',
-            url: ajaxurl,
-            data: {
-               action: 'rescan_admin_bar_nodes',
-               nonce: adminPageVars.nonce
-            },
-            success: function(response) {
-               if (response && response.success) {
-                  $status.addClass('is-success').text(adminPageVars.rescanExtraElementsDoneText);
-                  setTimeout(function() {
-                     location.reload();
-                  }, 500);
-               } else {
-                  $status.addClass('is-error').text(adminPageVars.rescanExtraElementsFailedText);
-                  $button.prop('disabled', false);
-               }
-            },
-            error: function() {
-               $status.addClass('is-error').text(adminPageVars.rescanExtraElementsFailedText);
-               $button.prop('disabled', false);
-            }
-         });
       });
 
       
@@ -250,6 +174,9 @@
       var table = $("#login-attempts-log").DataTable({
          pageLength: 10,
          order: [[2, 'desc']],
+         columnDefs: [
+            { targets: 3, orderable: false, searchable: false }
+         ],
          language: {
             emptyTable: adminPageVars.dataTable.emptyTable,
             info: adminPageVars.dataTable.info,
@@ -266,6 +193,118 @@
             },
          }
       });
+
+      // Toast notifications
+      function asenhaShowToast(type, message, duration) {
+         if ( ! message ) {
+            return;
+         }
+
+         // Create toast container if it doesn't exist.
+         var $container = $('#asenha-toast-container');
+         if ( ! $container.length ) {
+            $container = $('<div id="asenha-toast-container"></div>');
+            $('body').append($container);
+         }
+
+         // Create toast element with icon.
+         var iconMap = {
+            success: '✓',
+            error: '✕',
+            warning: '⚠',
+            info: 'ℹ'
+         };
+
+         var toastType = type || 'info';
+         var $toast = $('<div></div>').addClass('asenha-toast asenha-toast-' + toastType);
+         var $icon = $('<span></span>').addClass('asenha-toast-icon').text(iconMap[toastType] || 'ℹ');
+         var $message = $('<span></span>').addClass('asenha-toast-message').text(message);
+         var $close = $('<button></button>')
+            .addClass('asenha-toast-close')
+            .attr('type', 'button')
+            .attr('aria-label', 'Dismiss')
+            .text('×');
+
+         $toast.append($icon, $message, $close);
+         $container.append($toast);
+
+         // Trigger slide-in animation after a brief delay for CSS transition.
+         setTimeout(function() {
+            $toast.addClass('asenha-toast-visible');
+         }, 10);
+
+         // Auto dismiss after specified duration (default 5 seconds).
+         var dismissDuration = duration || 5000;
+         var dismissTimeout = setTimeout(function() {
+            dismissToast($toast);
+         }, dismissDuration);
+
+         // Manual dismiss on close button click.
+         $close.on('click', function() {
+            clearTimeout(dismissTimeout);
+            dismissToast($toast);
+         });
+
+         function dismissToast($el) {
+            $el.removeClass('asenha-toast-visible');
+            setTimeout(function() {
+               $el.remove();
+            }, 300);
+         }
+      }
+
+      // Release lock for an IP address (Limit Login Attempts)
+      $('body').on('click', '.asenha-release-login-lock', function(e) {
+         e.preventDefault();
+
+         var $btn = $(this);
+         var ipAddress = $btn.data('ip-address');
+
+         if ( ! ipAddress ) {
+            return false;
+         }
+
+         $btn.addClass('disabled').attr('aria-disabled', 'true');
+
+         $.ajax({
+            url: ajaxurl,
+            method: 'POST',
+            dataType: 'json',
+            data: {
+               'action': 'asenha_release_login_lock',
+               'nonce': adminPageVars.nonce,
+               'ip_address': ipAddress
+            },
+            success: function(response) {
+               if ( response && response.success ) {
+                  table.row( $btn.closest('tr') ).remove().draw(false);
+
+                  var successTemplate = ( adminPageVars.limitLoginAttempts && adminPageVars.limitLoginAttempts.releaseLockSuccess )
+                     ? adminPageVars.limitLoginAttempts.releaseLockSuccess
+                     : '';
+                  if ( successTemplate ) {
+                     var successMessage = successTemplate.replace('%s', ipAddress);
+                     asenhaShowToast('success', successMessage, 5000);
+                  }
+               } else {
+                  $btn.removeClass('disabled').removeAttr('aria-disabled');
+                  if ( adminPageVars.limitLoginAttempts && adminPageVars.limitLoginAttempts.releaseLockError ) {
+                     asenhaShowToast('error', adminPageVars.limitLoginAttempts.releaseLockError, 5000);
+                  }                  
+               }
+            },
+            error: function() {
+               $btn.removeClass('disabled').removeAttr('aria-disabled');
+               if ( adminPageVars.limitLoginAttempts && adminPageVars.limitLoginAttempts.releaseLockError ) {
+                  asenhaShowToast('error', adminPageVars.limitLoginAttempts.releaseLockError, 5000);
+               }
+            }
+         });
+
+         return false;
+      });
+
+      
 
       // Place fields into the "Content Management" tab
       
@@ -303,6 +342,7 @@
       $('.hide-ab-new-content-menu').appendTo('.fields-admin-interface .hide-modify-elements .asenha-subfields');
       $('.hide-ab-howdy').appendTo('.fields-admin-interface .hide-modify-elements .asenha-subfields');
       $('.hide-help-drawer').appendTo('.fields-admin-interface .hide-modify-elements .asenha-subfields');
+      
       
       $('.hide-admin-notices').appendTo('.fields-admin-interface > table > tbody');
       
@@ -419,6 +459,8 @@
       $('.disable-block-widgets').appendTo('.fields-disable-components .disable-smaller-components .asenha-subfields');
       $('.disable-lazy-load').appendTo('.fields-disable-components .disable-smaller-components .asenha-subfields');
       $('.disable-application-passwords').appendTo('.fields-disable-components .disable-smaller-components .asenha-subfields');
+      $('.disable-site-admin-email-verification-screen').appendTo('.fields-disable-components .disable-smaller-components .asenha-subfields');
+      $('.disable-user-email-notification-after-password-change').appendTo('.fields-disable-components .disable-smaller-components .asenha-subfields');
       $('.disable-plugin-theme-editor').appendTo('.fields-disable-components .disable-smaller-components .asenha-subfields');
 
       // Place fields into "Security" tab
@@ -434,6 +476,7 @@
       $('.obfuscate-email-address').appendTo('.fields-security > table > tbody');
       $('.obfuscate-email-address-description').appendTo('.fields-security .obfuscate-email-address .asenha-subfields');
       
+      $('.obfuscate-email-address-builder-safe-mode').appendTo('.fields-security .obfuscate-email-address .asenha-subfields');
       $('.disable-xmlrpc').appendTo('.fields-security > table > tbody');
 
       // Place fields into "Optimizations" tab
@@ -445,6 +488,7 @@
       
       $('.enable-revisions-control').appendTo('.fields-optimizations > table > tbody');
       $('.revisions-max-number').appendTo('.fields-optimizations .enable-revisions-control .asenha-subfields');
+      
       $('.enable-revisions-control-for').appendTo('.fields-optimizations .enable-revisions-control .asenha-subfields');
       $('.enable-heartbeat-control').appendTo('.fields-optimizations > table > tbody');
       $('.heartbeat-control-for-admin-pages').appendTo('.fields-optimizations .enable-heartbeat-control .asenha-subfields');
@@ -455,6 +499,7 @@
       $('.heartbeat-interval-for-frontend').appendTo('.fields-optimizations .enable-heartbeat-control .asenha-subfields');
 
       // Place fields into "Utilities" tab
+      
       $('.smtp-email-delivery').appendTo('.fields-utilities > table > tbody');
       $('.smtp-default-from-description').appendTo('.fields-utilities .smtp-email-delivery .asenha-subfields');
       $('.smtp-default-from-name').appendTo('.fields-utilities .smtp-email-delivery .asenha-subfields');
@@ -787,6 +832,101 @@
          $('.heartbeat-interval-for-admin-pages .asenha-subfield-select-inner').show();
       }
 
+      // Two-Factor Authentication (2FA) => Show "Email code validity" only when Email codes is enabled.
+      function toggleTwoFactorEmailTokenTtlVisibility() {
+         var twoFactorSettingsMode = $( 'input[name="admin_site_enhancements[two_factor_settings_mode]"]:checked' ).val() || 'same_for_all_roles';
+         var emailCodesEnabled = $( '#two_factor_available_providers_email' ).is( ':checked' );
+
+         if ( 'same_for_all_roles' !== twoFactorSettingsMode ) {
+            $( '.two-factor-email-token-ttl' ).hide();
+            $( '.two-factor-email-auto-enable' ).hide();
+         } else if ( emailCodesEnabled ) {
+            $( '.two-factor-email-token-ttl' ).show();
+            $( '.two-factor-email-auto-enable' ).show();
+         } else {
+            $( '.two-factor-email-token-ttl' ).hide();
+            $( '.two-factor-email-auto-enable' ).hide();
+         }
+      }
+
+      function getTwoFactorSettingsMode() {
+         return $( 'input[name="admin_site_enhancements[two_factor_settings_mode]"]:checked' ).val() || 'same_for_all_roles';
+      }
+
+      function getTwoFactorRoleSlugFromName( fieldName ) {
+         var matches = fieldName.match( /two_factor_role_settings\]\[([^\]]+)\]\[enabled\]/ );
+
+         return matches ? matches[1] : '';
+      }
+
+      function toggleTwoFactorRoleEmailTokenTtlVisibility( roleSlug ) {
+         if ( ! roleSlug ) {
+            return;
+         }
+
+         var emailFieldSelector = 'input[name="admin_site_enhancements[two_factor_role_settings][' + roleSlug + '][available_providers][]"][value="email"]';
+         var emailCodesEnabled = $( emailFieldSelector ).is( ':checked' );
+
+         if ( emailCodesEnabled ) {
+            $( 'tr.two-factor-role-email-token-ttl-' + roleSlug ).show();
+            $( 'tr.two-factor-role-email-auto-enable-' + roleSlug ).show();
+         } else {
+            $( 'tr.two-factor-role-email-token-ttl-' + roleSlug ).hide();
+            $( 'tr.two-factor-role-email-auto-enable-' + roleSlug ).hide();
+         }
+      }
+
+      function toggleTwoFactorRoleSettingsPanels() {
+         var isPerRoleMode = ( 'different_per_role' === getTwoFactorSettingsMode() );
+
+         $( 'tr.two-factor-role-settings-panel' ).hide();
+
+         if ( ! isPerRoleMode ) {
+            return;
+         }
+
+         $( 'input[name^="admin_site_enhancements[two_factor_role_settings]"][name$="[enabled]"]' ).each( function() {
+            var roleSlug = getTwoFactorRoleSlugFromName( $( this ).attr( 'name' ) );
+
+            if ( ! roleSlug || ! $( this ).is( ':checked' ) ) {
+               return;
+            }
+
+            $( 'tr.two-factor-role-settings-panel-' + roleSlug ).show();
+            toggleTwoFactorRoleEmailTokenTtlVisibility( roleSlug );
+         } );
+      }
+
+      function toggleTwoFactorSettingsModeVisibility() {
+         var isPerRoleMode = ( 'different_per_role' === getTwoFactorSettingsMode() );
+
+         if ( isPerRoleMode ) {
+            $( 'tr.two-factor-settings-mode-shared' ).hide();
+            $( 'tr.two-factor-settings-mode-per-role' ).show();
+         } else {
+            $( 'tr.two-factor-settings-mode-shared' ).show();
+            $( 'tr.two-factor-settings-mode-per-role' ).hide();
+         }
+
+         toggleTwoFactorEmailTokenTtlVisibility();
+         toggleTwoFactorRoleSettingsPanels();
+      }
+
+      toggleTwoFactorEmailTokenTtlVisibility();
+      toggleTwoFactorSettingsModeVisibility();
+
+      $( document ).on( 'change', '#two_factor_available_providers_email', toggleTwoFactorEmailTokenTtlVisibility );
+      $( document ).on( 'change', 'input[name="admin_site_enhancements[two_factor_authentication]"]', toggleTwoFactorEmailTokenTtlVisibility );
+      $( document ).on( 'change', 'input[name="admin_site_enhancements[two_factor_settings_mode]"]', toggleTwoFactorSettingsModeVisibility );
+      $( document ).on( 'change', 'input[name^="admin_site_enhancements[two_factor_role_settings]"][name$="[enabled]"]', toggleTwoFactorRoleSettingsPanels );
+      $( document ).on( 'change', 'input[name^="admin_site_enhancements[two_factor_role_settings]"][name*="[available_providers]"]', function() {
+         var matches = $( this ).attr( 'name' ).match( /two_factor_role_settings\]\[([^\]]+)\]\[available_providers\]/ );
+
+         if ( matches && matches[1] ) {
+            toggleTwoFactorRoleEmailTokenTtlVisibility( matches[1] );
+         }
+      } );
+
       $('input[name="admin_site_enhancements[heartbeat_control_for_admin_pages]"]').click(function() {
          var radioValue = $(this).attr('value');
          if ( radioValue == 'modify' ) {
@@ -822,24 +962,12 @@
          }
       });
 
+      
+
       subfieldsToggler( 'smtp_email_delivery', 'smtp-email-delivery' );
 
       
       
-      // SMTP Email Delivery => Empty field value on click, so new password can be easily entered
-      var oldSmtpPassValue = '';
-
-      $('input[name="admin_site_enhancements[smtp_password]"]').focusin(function() {
-         oldSmtpPassValue = $(this).val();
-         $(this).val('');
-      });
-
-      $('input[name="admin_site_enhancements[smtp_password]"]').focusout(function() {
-         if ( $(this).val() == '' ) {
-            $(this).val(oldSmtpPassValue);
-         }
-      });
-
       subfieldsToggler( 'view_admin_as_role', 'view-admin-as-role' );
       subfieldsToggler( 'enable_password_protection', 'enable-password-protection' );
 
@@ -858,6 +986,8 @@
       
       
          subfieldsToggler( 'maintenance_mode', 'maintenance-mode' );
+      
+
       
 
       
@@ -1194,7 +1324,8 @@
                // Iterate through selected elements
                selection.each(function(attachment) {
                   // console.log(attachment);
-                  var url = attachment.attributes.url;
+                  var rawUrl = attachment.attributes.url;
+                  var url = rawUrl;
                   url = url.replace( adminPageVars.wpcontentUrl, '' );
                   theSelector.val(url);
 

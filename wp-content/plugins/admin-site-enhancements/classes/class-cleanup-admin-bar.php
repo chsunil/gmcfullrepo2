@@ -9,6 +9,13 @@ namespace ASENHA\Classes;
  */
 class Cleanup_Admin_Bar {
     /**
+     * Node ID prefix for Admin Bar Custom Elements (Pro). Must match generateItemId() in assets/premium/js/admin-bar-custom-elements.js.
+     *
+     * @var string
+     */
+    const ADMIN_BAR_CUSTOM_ELEMENTS_NODE_ID_PREFIX = 'asenha-ab-';
+
+    /**
      * Modify admin bar menu for Admin Interface >> Hide or Modify Elements feature
      *
      * @param $wp_admin_bar object The admin bar.
@@ -94,35 +101,6 @@ class Cleanup_Admin_Bar {
             $screen = get_current_screen();
             $screen->remove_help_tabs();
         }
-    }
-
-    /**
-     * Clear stored workable admin bar nodes so they can be re-detected.
-     *
-     * Used by Admin Interface >> Clean Up Admin Bar >> Rescan Extra Elements button.
-     *
-     * @since 8.0.2
-     */
-    public function rescan_admin_bar_nodes() {
-        if ( !current_user_can( 'manage_options' ) ) {
-            wp_send_json_error( array(
-                'message' => __( 'You are not allowed to do this.', 'admin-site-enhancements' ),
-            ), 403 );
-        }
-        $nonce = ( isset( $_REQUEST['nonce'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['nonce'] ) ) : '' );
-        if ( empty( $nonce ) || !wp_verify_nonce( $nonce, 'asenha-' . get_current_user_id() ) ) {
-            wp_send_json_error( array(
-                'message' => __( 'Invalid request.', 'admin-site-enhancements' ),
-            ), 403 );
-        }
-        $options_extra = get_option( ASENHA_SLUG_U . '_extra', array() );
-        if ( isset( $options_extra['ab_nodes_workable'] ) ) {
-            unset($options_extra['ab_nodes_workable']);
-            update_option( ASENHA_SLUG_U . '_extra', $options_extra, true );
-        }
-        wp_send_json_success( array(
-            'cleared' => true,
-        ) );
     }
 
 }
