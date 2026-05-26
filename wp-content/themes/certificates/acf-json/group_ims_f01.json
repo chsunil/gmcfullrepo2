@@ -1994,8 +1994,8 @@
         },
         {
             "key": "field_684816c98bf3b",
-            "label": "2st Site",
-            "name": "1st_site",
+            "label": "2nd Site",
+            "name": "2nd_site",
             "aria-label": "",
             "type": "group",
             "instructions": "",

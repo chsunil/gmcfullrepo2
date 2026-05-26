@@ -3,9 +3,9 @@
     "title": "IMS - F48: Checklist for Completion of Reports",
     "fields": [
         {
-            "key": "field_f48_org",
+            "key": "field_f48s2_org",
             "label": "Organization",
-            "name": "f48_org",
+            "name": "f48s2_org",
             "aria-label": "",
             "type": "clone",
             "instructions": "",
@@ -29,9 +29,9 @@
             "prefix_name": 0
         },
         {
-            "key": "field_f48_standard",
+            "key": "field_f48s2_standard",
             "label": "Standard",
-            "name": "f48_standard",
+            "name": "f48s2_standard",
             "aria-label": "",
             "type": "clone",
             "instructions": "",
@@ -55,9 +55,9 @@
             "prefix_name": 0
         },
         {
-            "key": "field_f48_file_ref_no",
+            "key": "field_f48s2_file_ref_no",
             "label": "File Ref No.",
-            "name": "f48_file_ref_no",
+            "name": "f48s2_file_ref_no",
             "aria-label": "",
             "type": "clone",
             "instructions": "",
@@ -81,9 +81,9 @@
             "prefix_name": 0
         },
         {
-            "key": "field_f48_checklist",
+            "key": "field_f48s2_checklist",
             "label": "Checklist",
-            "name": "f48_checklist",
+            "name": "f48s2_checklist",
             "aria-label": "",
             "type": "matrix_flexible",
             "instructions": "Enter ✓ in each cell where the document was attached. Leave blank if not attached. Rows starting with ## are section headers.",
@@ -104,9 +104,9 @@
             "allow_in_bindings": 0
         },
         {
-            "key": "field_f48_remarks",
+            "key": "field_f48s2_remarks",
             "label": "Remarks",
-            "name": "f48_remarks",
+            "name": "f48s2_remarks",
             "aria-label": "",
             "type": "textarea",
             "instructions": "",
@@ -129,9 +129,9 @@
             "allow_in_bindings": 0
         },
         {
-            "key": "field_f48_verified_by",
+            "key": "field_f48s2_verified_by",
             "label": "Verified By",
-            "name": "f48_verified_by",
+            "name": "f48s2_verified_by",
             "aria-label": "",
             "type": "text",
             "instructions": "",
