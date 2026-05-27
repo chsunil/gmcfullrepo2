@@ -22,7 +22,7 @@ if ( ! function_exists('f15s2_val') ) {
     }
 }
 
-$grp = get_field( 'new_field', $post_id );
+$grp = get_field( 'f15s2new_field', $post_id );
 $org_raw = is_array($grp) ? ($grp['company_name:'] ?? null) : null;
 $org = ( $org_raw && ! is_array($org_raw) ) ? esc_html($org_raw)
      : ( is_array($org_raw) ? f15s2_val($org_raw) : esc_html( get_post_field('post_title', $post_id) ) );

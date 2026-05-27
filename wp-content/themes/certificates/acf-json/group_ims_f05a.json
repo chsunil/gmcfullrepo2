@@ -52,7 +52,7 @@
             "calculated_format": "",
             "blank_if_zero": 0,
             "readonly": 0,
-            "message": "Please find attached the audit plan for the planned audit as per the Audit Programme. If you have any conflict of interest with any of the audit team members or any modification required in the audit plan, ICT, kindly inform within 2 working days or else audit team and plan shall be considered accepted. Any matter may be appealed in accordance with GMCSPL\u2019 procedure \u201cAppeals & Complaints (P- 06)\u201d.",
+            "message": "Please find attached the audit plan for the planned audit as per the Audit Programme. If you have any conflict of interest with any of the audit team members or any modification required in the audit plan, ICT, kindly inform within 2 working days or else audit team and plan shall be considered accepted. Any matter may be appealed in accordance with GMCSPL’ procedure “Appeals & Complaints (P- 06)”.",
             "new_lines": "wpautop",
             "esc_html": 0
         },
@@ -174,7 +174,7 @@
                 "class": "",
                 "id": ""
             },
-            "message": "\"\u2022To Review Management System\u2019s Documented Information\r\n\u2022To evaluate site specific condition and readiness for Stage 2 audit\r\n\u2022To Evaluate if internal audits and management reviews are planned, substantiating the readiness for stage 2\r\n\u2022To Evaluate the understanding regarding requirements of the standard, in particular with respect to the identification of key performance or significant aspects, processes, objectives and operation of the management system\"",
+            "message": "\"•To Review Management System’s Documented Information\r\n•To evaluate site specific condition and readiness for Stage 2 audit\r\n•To Evaluate if internal audits and management reviews are planned, substantiating the readiness for stage 2\r\n•To Evaluate the understanding regarding requirements of the standard, in particular with respect to the identification of key performance or significant aspects, processes, objectives and operation of the management system\"",
             "new_lines": "wpautop",
             "esc_html": 0
         },
@@ -439,7 +439,7 @@
         {
             "key": "field_68834358b352d",
             "label": "Are there any different activities performed in different sites? How many similar sites?",
-            "name": "are_there_any_different_activities_performed_in_different_sites_how_many_similar_sites",
+            "name": "f05a_different_activity_sites",
             "aria-label": "",
             "type": "text",
             "instructions": "",

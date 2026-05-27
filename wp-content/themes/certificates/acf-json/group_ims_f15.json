@@ -27,7 +27,7 @@
         {
             "key": "field_6932f33f0fd43",
             "label": "Contact & Communication Details",
-            "name": "new_field",
+            "name": "f15_contact_details",
             "aria-label": "",
             "type": "group",
             "instructions": "",

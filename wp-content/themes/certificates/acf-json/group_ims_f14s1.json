@@ -124,7 +124,7 @@
         {
             "key": "field_6970c40554e91",
             "label": "",
-            "name": "_copy",
+            "name": "f14s1_signatory_group",
             "aria-label": "",
             "type": "group",
             "instructions": "",
@@ -245,7 +245,7 @@
             "calculated_format": "",
             "blank_if_zero": 0,
             "readonly": 0,
-            "message": "<i>*Only auditors and technical experts whose all answers are \u201cYes\u201d can sign. If any answer is \u201cNo\u201d he/she can\u2019t participate in the subject assessment.The document should be signed on or before the date of assessment.</i>",
+            "message": "<i>*Only auditors and technical experts whose all answers are “Yes” can sign. If any answer is “No” he/she can’t participate in the subject assessment.The document should be signed on or before the date of assessment.</i>",
             "new_lines": "wpautop",
             "esc_html": 0
         }
