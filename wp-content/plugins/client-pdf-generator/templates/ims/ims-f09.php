@@ -31,7 +31,7 @@ $ref_no     = ims_f09v($prefix . 'Audit_Ref_No', $post_id);
 $standard   = ims_f09v($prefix . 'standards', $post_id);
 $objectives = get_field($prefix . 'audit_objectives', $post_id) ?: "Determination of conformity of IMS...";
 $positive   = get_field($prefix . 'positive_features', $post_id) ?: '-';
-$integ_lvl  = get_field('level_of_integration', $post_id) ?: '100';
+$integ_lvl  = get_field('f09_level_of_integration', $post_id) ?: get_post_meta($post_id, 'level_of_integration', true) ?: '100';
 
 $conclusion = get_field($prefix . 'conclusion_and_recommendation', $post_id) ?: 'Recommended for Grant of Certification';
 
