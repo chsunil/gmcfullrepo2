@@ -217,7 +217,7 @@
         },
         {
             "key": "field_68173ed2ac4f8",
-            "label": "Products/Services",
+            "label": "Products\/Services",
             "name": "products_services",
             "aria-label": "",
             "type": "textarea",
@@ -397,7 +397,7 @@
             "sub_fields": [
                 {
                     "key": "field_68173ed3d70b0",
-                    "label": "Organization already certificed for any system or product certification",
+                    "label": "Is your Organization already certificed for any system or product certification scheme other than you have applied for?",
                     "name": "alrady_certified",
                     "aria-label": "",
                     "type": "radio",
@@ -409,6 +409,10 @@
                         "class": "",
                         "id": ""
                     },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
                     "choices": {
                         "Yes": "Yes",
                         "No": "No"
@@ -419,11 +423,12 @@
                     "other_choice": 0,
                     "allow_in_bindings": 0,
                     "layout": "vertical",
+                    "cert_restrict": 0,
                     "save_other_choice": 0
                 },
                 {
                     "key": "field_68173ed3db855",
-                    "label": "Already Certified Details",
+                    "label": "If yes, please specify the name of the Certification Scheme, certification Body and Accreditation Board)",
                     "name": "already_certified_details",
                     "aria-label": "",
                     "type": "textarea",
@@ -443,12 +448,17 @@
                         "class": "",
                         "id": ""
                     },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
                     "default_value": "",
                     "maxlength": "",
                     "allow_in_bindings": 0,
                     "rows": "",
                     "placeholder": "",
-                    "new_lines": ""
+                    "new_lines": "",
+                    "cert_restrict": 0
                 }
             ]
         },
@@ -470,7 +480,7 @@
             "sub_fields": [
                 {
                     "key": "field_68173ed4005ca",
-                    "label": "organization already an applicant / certified for the certification scheme you have applied for",
+                    "label": "Is your Organization already certificed for any system or product certification scheme other than you have applied for?",
                     "name": "organization_already_an_applicant__certified_for_the_certification_scheme_you_have_applied_for",
                     "aria-label": "",
                     "type": "radio",
@@ -482,6 +492,10 @@
                         "class": "",
                         "id": ""
                     },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
                     "choices": {
                         "Yes": "Yes",
                         "No": "No"
@@ -492,15 +506,16 @@
                     "other_choice": 0,
                     "allow_in_bindings": 0,
                     "layout": "vertical",
+                    "cert_restrict": 0,
                     "save_other_choice": 0
                 },
                 {
                     "key": "field_68173ed401528",
-                    "label": "Details",
+                    "label": "(If yes, please mention the name of certification body and attach a copy of the certificate along with the last audit\/NC report)",
                     "name": "details",
                     "aria-label": "",
                     "type": "textarea",
-                    "instructions": "If yes, please mention the name of certification body and attach a copy of the certificate along with the last audit/NC report",
+                    "instructions": "If yes, please mention the name of certification body and attach a copy of the certificate along with the last audit\/NC report",
                     "required": 0,
                     "conditional_logic": [
                         [
@@ -516,12 +531,17 @@
                         "class": "",
                         "id": ""
                     },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
                     "default_value": "",
                     "maxlength": "",
                     "allow_in_bindings": 0,
                     "rows": "",
                     "placeholder": "",
-                    "new_lines": ""
+                    "new_lines": "",
+                    "cert_restrict": 0
                 },
                 {
                     "key": "field_68173ed403366",
@@ -558,7 +578,7 @@
                 },
                 {
                     "key": "field_68173ed40557a",
-                    "label": "engagement by the organization with regulatory bodies",
+                    "label": "Any current engagement by the organization with regulatory bodies in respect of legal compliance",
                     "name": "engagement_by_the_organization_with_regulatory_bodies",
                     "aria-label": "",
                     "type": "text",
@@ -578,12 +598,17 @@
                         "class": "",
                         "id": ""
                     },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
                     "default_value": "",
                     "maxlength": "",
                     "allow_in_bindings": 0,
                     "placeholder": "",
                     "prepend": "",
-                    "append": ""
+                    "append": "",
+                    "cert_restrict": 0
                 }
             ]
         },
@@ -722,7 +747,7 @@
                     "label": "Internal Audit Date",
                     "name": "internal_audit_date",
                     "aria-label": "",
-                    "type": "date_picker",
+                    "type": "clone",
                     "instructions": "",
                     "required": 0,
                     "conditional_logic": 0,
@@ -731,11 +756,18 @@
                         "class": "",
                         "id": ""
                     },
-                    "display_format": "d/m/Y",
-                    "return_format": "d/m/Y",
-                    "first_day": 1,
-                    "allow_in_bindings": 0,
-                    "default_to_current_date": 0
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "clone": [
+                        "field_0029"
+                    ],
+                    "display": "seamless",
+                    "layout": "block",
+                    "prefix_label": 0,
+                    "prefix_name": 0,
+                    "cert_restrict": 0
                 },
                 {
                     "key": "field_68173ed431ae4",
@@ -770,7 +802,7 @@
                     "label": "MRM Audit Date",
                     "name": "mrm-audit_date",
                     "aria-label": "",
-                    "type": "date_picker",
+                    "type": "clone",
                     "instructions": "",
                     "required": 0,
                     "conditional_logic": 0,
@@ -779,11 +811,18 @@
                         "class": "",
                         "id": ""
                     },
-                    "display_format": "d/m/Y",
-                    "return_format": "d/m/Y",
-                    "first_day": 1,
-                    "allow_in_bindings": 0,
-                    "default_to_current_date": 0
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "clone": [
+                        "field_0032"
+                    ],
+                    "display": "seamless",
+                    "layout": "block",
+                    "prefix_label": 0,
+                    "prefix_name": 0,
+                    "cert_restrict": 0
                 }
             ]
         },
@@ -963,7 +1002,7 @@
         },
         {
             "key": "field_68173ed2f102d",
-            "label": "Please indicate any activities/services that performed at your customer premises?",
+            "label": "Please indicate any activities\/services that performed at your customer premises?",
             "name": "please_indicate_any_activitiesservices_that_performed_at_your_customer_premises",
             "aria-label": "",
             "type": "text",
@@ -984,7 +1023,7 @@
         },
         {
             "key": "field_68173ed2f4061",
-            "label": "Types and Extent ICT used by the Organization and competency level.",
+            "label": "Types and Extent ICT used by the Organization and competency level. (clients to indicate the ICTs used and their effectiveness while using based on their regular usage)",
             "name": "types_and_extent_ict_used_by_the_organization_and_competency_level",
             "aria-label": "",
             "type": "text",
@@ -999,7 +1038,7 @@
             "default_value": "",
             "maxlength": "",
             "allow_in_bindings": 0,
-            "placeholder": "(clients to indicate the ICTs used and their effectiveness while using based on their regular usage)",
+            "placeholder": "",
             "prepend": "",
             "append": ""
         },
@@ -1053,7 +1092,7 @@
                 },
                 {
                     "key": "field_68173ed5bfabc",
-                    "label": "Supplier/Sub Contractor",
+                    "label": "Supplier\/Sub Contractor",
                     "name": "suppliersub_contractor",
                     "aria-label": "",
                     "type": "text",
@@ -1138,7 +1177,7 @@
         },
         {
             "key": "field_684806d45d7f5",
-            "label": "Consultancy  Organization/ consultant",
+            "label": "Consultancy  Organization\/ consultant",
             "name": "Consultancy__Organization_consultant",
             "aria-label": "",
             "type": "group",
@@ -1198,7 +1237,7 @@
         },
         {
             "key": "field_68480960e7d3a",
-            "label": "Process /Operations",
+            "label": "Process \/Operations",
             "name": "process",
             "aria-label": "",
             "type": "group",
@@ -1295,7 +1334,7 @@
         },
         {
             "key": "field_688bade7e934c",
-            "label": "1.0: Process/ Operations",
+            "label": "1.0: Process\/ Operations",
             "name": "10:_process_operations",
             "aria-label": "",
             "type": "clone",
@@ -1321,7 +1360,7 @@
         },
         {
             "key": "field_688bb0509b4dc",
-            "label": "2.0: Major Machinery/ Equipments",
+            "label": "2.0: Major Machinery\/ Equipments",
             "name": "20:_Major_Machinery_Equipments",
             "aria-label": "",
             "type": "group",
@@ -1415,6 +1454,27 @@
                     "new_lines": ""
                 }
             ]
+        },
+        {
+            "key": "field_69f700000cc60",
+            "label": "3.0 Quantities of Hazardous Materials Used\/Stored",
+            "name": "quantities_of_hazardous_materials_used_stored",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "rows": "",
+            "placeholder": "",
+            "new_lines": ""
         },
         {
             "key": "field_epme_matrix",
@@ -1536,7 +1596,7 @@
                 },
                 {
                     "key": "field_684813558bf29",
-                    "label": "Latest Audit (Initial/Surveillance/Re Certification) (attach report)",
+                    "label": "Latest Audit (Initial\/Surveillance\/Re Certification) (attach report)",
                     "name": "latest_audit_initialsurveillancere_certification_attach_report",
                     "aria-label": "",
                     "type": "text",
@@ -1586,7 +1646,7 @@
                 },
                 {
                     "key": "field_684813688bf2b",
-                    "label": "(Initial Certification Audit/ Re Certification Audit Report) (attach report)",
+                    "label": "(Initial Certification Audit\/ Re Certification Audit Report) (attach report)",
                     "name": "initial_certification_audit_re_certification_audit_report_attach_report",
                     "aria-label": "",
                     "type": "text",
@@ -1731,8 +1791,8 @@
         },
         {
             "key": "field_684814fe8bf31",
-            "label": "Are there any outstanding Manor Non Conformities?",
-            "name": "are_there_any_outstanding_manor_non_conformities",
+            "label": "Are there any outstanding Minor Non Conformities?",
+            "name": "are_there_any_outstanding_minor_non_conformities",
             "aria-label": "",
             "type": "text",
             "instructions": "",
@@ -1771,7 +1831,7 @@
             "choices": {
                 "Yes": "Yes",
                 "No": "No",
-                "N/A": "N/A"
+                "N\/A": "N\/A"
             },
             "default_value": "",
             "return_format": "value",
@@ -1794,7 +1854,7 @@
                     {
                         "field": "field_6848153f8bf32",
                         "operator": "==",
-                        "value": "n/a"
+                        "value": "n\/a"
                     }
                 ]
             ],
@@ -1900,7 +1960,7 @@
         },
         {
             "key": "field_684816028bf37",
-            "label": "Information about branch offices/Other sites (to be Certified)",
+            "label": "Information about branch offices\/Other sites (to be Certified)",
             "name": "information_about_branch_officesother_sites_to_be_certified",
             "aria-label": "",
             "type": "radio",
@@ -2061,7 +2121,7 @@
             ]
         },
         {
-            "key": "field_69d604ad0cc2f",
+            "key": "field_69f604000cc50",
             "label": "ISO 14001 Specific",
             "name": "iso_14001_specific",
             "aria-label": "",
@@ -2089,8 +2149,280 @@
             "layout": "row",
             "sub_fields": [
                 {
+                    "key": "field_69f615960cc51",
+                    "label": "Any Statutory\/Regulatory requirements related to the operations",
+                    "name": "any_statutoryregulatory_requirements_related_to_the_operations",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
+                },
+                {
+                    "key": "field_69f615a80cc52",
+                    "label": "Any Licence\/approvals received related to environmental issues",
+                    "name": "any_licenceapprovals_received_related_to_environmental_issues",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
+                },
+                {
+                    "key": "field_69f615b50cc53",
+                    "label": "Details of Aspects\/Significant aspects",
+                    "name": "details_of_aspects_significant_aspects",
+                    "aria-label": "",
+                    "type": "textarea",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "rows": "",
+                    "placeholder": "",
+                    "new_lines": ""
+                },
+                {
+                    "key": "field_69f615bc0cc54",
+                    "label": "ETP and Waste water management details if any",
+                    "name": "etp_and_waste_water_management_details_if_any",
+                    "aria-label": "",
+                    "type": "textarea",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "rows": "",
+                    "placeholder": "",
+                    "new_lines": ""
+                },
+                {
+                    "key": "field_69f615cf0cc55",
+                    "label": "What type of emissions your organization does",
+                    "name": "what_type_of_emissions_your_organization_does",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
+                },
+                {
+                    "key": "field_69f615e00cc56",
+                    "label": "Details of Sound Pollution management if any",
+                    "name": "details_of_sound_pollution_management_if_any",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
+                },
+                {
+                    "key": "field_69f615f10cc57",
+                    "label": "Do you Measure any Emissions, if yes define",
+                    "name": "do_you_measure_any_emissions_if_yes_define",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
+                },
+                {
+                    "key": "field_69f6160f0cc58",
+                    "label": "Did you had any environmental incident in the past, if yes detail",
+                    "name": "did_you_had_any_environmental_incident_in_the_past_if_yes_detail",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
+                },
+                {
+                    "key": "field_69f6161e0cc59",
+                    "label": "Other Information",
+                    "name": "other_information_iso14001",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
+                },
+                {
+                    "key": "field_69f6162d0cc5a",
+                    "label": "Attach EIA Document if any",
+                    "name": "attach_eia_document_if_any",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "formula": "",
+                    "calculated_format": "",
+                    "blank_if_zero": 0,
+                    "readonly": 0,
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
+                }
+            ]
+        },
+        {
+            "key": "field_69d604ad0cc2f",
+            "label": "ISO 45001 Specific",
+            "name": "iso_45001_specific",
+            "aria-label": "",
+            "type": "group",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_6852787ac0fe9",
+                        "operator": "==",
+                        "value": "IAS"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
+            "layout": "row",
+            "sub_fields": [
+                {
                     "key": "field_69d615960cc30",
-                    "label": "Any Statutory/Regulatory requirements related to the operations",
+                    "label": "Any Statutory\/Regulatory requirements related to the operations",
                     "name": "any_statutoryregulatory_requirements_related_to_the_operations",
                     "aria-label": "",
                     "type": "text",
@@ -2115,7 +2447,7 @@
                 },
                 {
                     "key": "field_69d615a80cc31",
-                    "label": "Any Licence/approvals received related to Safety issues",
+                    "label": "Any Licence\/approvals received related to Safety issues",
                     "name": "any_licenceapprovals_received_related_to_safety_issues",
                     "aria-label": "",
                     "type": "text",
@@ -2165,7 +2497,7 @@
                 },
                 {
                     "key": "field_69d615bc0cc33",
-                    "label": "Identification of the Key Hazardous and OH & S Risks/HIRA",
+                    "label": "Identification of the Key Hazardous and OH & S Risks\/HIRA",
                     "name": "identification_of_the_key_hazardous_and_oh_&_s_riskshira",
                     "aria-label": "",
                     "type": "text",
@@ -2559,8 +2891,8 @@
                 "class": "",
                 "id": ""
             },
-            "display_format": "d/m/Y",
-            "return_format": "d/m/Y",
+            "display_format": "d\/m\/Y",
+            "return_format": "d\/m\/Y",
             "first_day": 1,
             "allow_in_bindings": 0,
             "default_to_current_date": 0
@@ -2676,8 +3008,8 @@
                         "class": "",
                         "id": ""
                     },
-                    "display_format": "d/m/Y",
-                    "return_format": "d/m/Y",
+                    "display_format": "d\/m\/Y",
+                    "return_format": "d\/m\/Y",
                     "first_day": 1,
                     "allow_in_bindings": 0,
                     "default_to_current_date": 0
@@ -2706,8 +3038,8 @@
                 "Previous Certificate (for transfer only)": "Previous Certificate (for transfer only)",
                 "Previous Audit report (for transfer only)": "Previous Audit report (for transfer only)",
                 "Other Useful information, if any.": "Other Useful information, if any.",
-                "Copy of License / GST.": "Copy of License / GST.",
-                "Copy of CFO / Inspector of Factories.": "Copy of CFO / Inspector of Factories.",
+                "Copy of License \/ GST.": "Copy of License \/ GST.",
+                "Copy of CFO \/ Inspector of Factories.": "Copy of CFO \/ Inspector of Factories.",
                 "Copy Profile": "Copy Profile",
                 "Major Client List": "Major Client List"
             },
@@ -2740,5 +3072,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1777622257
+    "modified": 1780225310
 }

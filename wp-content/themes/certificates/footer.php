@@ -83,7 +83,7 @@ elseif ($is_multi_step) :
         
         // Get stages from certification_stages
         if (function_exists('get_certification_stages')) {
-            $all_stages = get_certification_stages();
+            $all_stages = get_certification_stages($post_id);
             $stages = isset($all_stages[$certification_type]) ? $all_stages[$certification_type] : [];
         }
         $show_fixed_footer = true;

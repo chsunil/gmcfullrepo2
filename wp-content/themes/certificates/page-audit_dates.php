@@ -195,7 +195,7 @@ $client_name = $client_id ? get_the_title($client_id) : '';
                     'new_post_id' => $client_id
                 ), site_url( 'create-client/' ) );
                 ?>               
-                <a href="<?= esc_url($url) ?>" class="btn btn-xs btn-outline-secondary">
+                <a href="<?= esc_url($url) ?>" class="btn btn-xs btn-primary">
                   <i class="bx bx-arrow-back me-1"></i>Back to Client
                 </a>
               </div>
@@ -246,40 +246,169 @@ $client_name = $client_id ? get_the_title($client_id) : '';
 // Enqueue Flatpickr for dd/mm/yyyy display
 wp_enqueue_style('flatpickr', 'https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css', [], '4.6.13');
 wp_enqueue_script('flatpickr', 'https://cdn.jsdelivr.net/npm/flatpickr', [], '4.6.13', true);
+wp_add_inline_style('flatpickr', '.auto-filled{background-color:#fffde7!important;border-color:#f9a825!important;transition:background-color .3s}');
 ?>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('input[type="date"]').forEach(function (el) {
-        el.type = 'text'; // convert so Flatpickr takes over
-        flatpickr(el, {
-            dateFormat   : 'Y-m-d',   // stored / submitted value
-            altInput     : true,       // show a separate human-readable input
-            altFormat    : '<?php echo esc_js( get_option( 'date_format' ) ); ?>',
-            allowInput   : true,       // allow manual typing in the picker input
-            parseDate    : function (dateStr, format) {
-                // Parse dd/mm/yyyy typed manually
-                var parts = dateStr.split('/');
-                if (parts.length === 3) {
-                    return new Date(parts[2], parts[1] - 1, parts[0]);
+    var fpInstances = {};
+
+    function addDays(d, n)   { var r = new Date(d); r.setDate(r.getDate() + n); return r; }
+    function addMonths(d, n) { var r = new Date(d); r.setMonth(r.getMonth() + n); return r; }
+
+    // ── Date dependency rules (derived from IMS Audit Pack Master tab) ─────────
+    // Bidirectional: BFS visited-map prevents loops when both directions exist.
+    // days: offset in days (negative = before anchor), months: calendar months
+    var RULES = {
+
+        // ── INITIAL COLUMN ──────────────────────────────────────────────────────
+        'application_date_initial': [
+            {to: 'application_review_date_initial', days:  2}   // forward
+        ],
+        'application_review_date_initial': [
+            {to: 'application_date_initial', days: -2},         // backward
+            {to: 'agreement_initial',        days:  2}          // forward
+        ],
+        'agreement_initial': [
+            {to: 'application_review_date_initial', days: -2},  // backward
+            {to: 'stage1_audit_initial',            days:  17}  // forward (+17d gap from Excel)
+        ],
+        'stage1_audit_initial': [
+            {to: 'agreement_initial',                                                         days: -17},  // backward
+            {to: 'auditor_allocation_initial',                                                days:  -7},
+            {to: 'stage1_intimation_date_yearly_surveillance_intimation_for_s1_&_s2_initial', days:  -7},
+            {to: 'internal_audit_date_initial',                                               days: -12},
+            {to: 'stage2_audit_surveillance_audit_date_initial',                              days:  10}   // forward
+        ],
+        'stage2_audit_surveillance_audit_date_initial': [
+            {to: 'stage1_audit_initial',                                       days: -10},  // backward
+            {to: 'stage2_intimation_date_surveillance_intimation_date_initial', days:  -7},
+            {to: 'mrm_date_initial',                                           days: -12},
+            {to: 'certification_decision_date_initial',                        days:   3}   // forward
+        ],
+        'certification_decision_date_initial': [
+            {to: 'stage2_audit_surveillance_audit_date_initial', days: -3},  // backward
+            {to: 'certificate_issue_date_initial',               days:  0},
+            {to: 'certificate_expiry_date_initial',              months: 36}
+        ],
+
+        // ── SURV-1 COLUMN ───────────────────────────────────────────────────────
+        'application_date_surv1': [
+            {to: 'application_review_date_surv1', days:  2}
+        ],
+        'application_review_date_surv1': [
+            {to: 'application_date_surv1', days: -2},
+            {to: 'agreement_surv1',        days:  2}
+        ],
+        'agreement_surv1': [
+            {to: 'application_review_date_surv1', days: -2},
+            {to: 'stage1_audit_surv1',            days:  17}
+        ],
+        'stage1_audit_surv1': [
+            {to: 'agreement_surv1',                              days: -17},  // backward
+            {to: 'stage2_audit_surveillance_audit_date_surv1',   days:  10}   // forward
+        ],
+        'stage2_audit_surveillance_audit_date_surv1': [
+            {to: 'stage1_audit_surv1',                                        days: -10},  // backward
+            {to: 'stage2_intimation_date_surveillance_intimation_date_surv1', days:  -7},
+            {to: 'auditor_allocation_surv1',                                  days:  -3},
+            {to: 'internal_audit_date_surv1',                                 days: -21},
+            {to: 'mrm_date_surv1',                                            days: -13},
+            {to: 'certification_decision_date_surv1',                         days:   2}
+        ],
+        'certification_decision_date_surv1': [
+            {to: 'stage2_audit_surveillance_audit_date_surv1', days: -2},  // backward
+            {to: 'certificate_issue_date_surv1',               days:  0}
+        ],
+
+        // ── SURV-2 COLUMN ───────────────────────────────────────────────────────
+        'application_date_surv2': [
+            {to: 'application_review_date_surv2', days:  2}
+        ],
+        'application_review_date_surv2': [
+            {to: 'application_date_surv2', days: -2},
+            {to: 'agreement_surv2',        days:  2}
+        ],
+        'agreement_surv2': [
+            {to: 'application_review_date_surv2',              days: -2},
+            {to: 'stage1_audit_surv2',                         days:  17}
+        ],
+        'stage1_audit_surv2': [
+            {to: 'agreement_surv2',                            days: -17},  // backward
+            {to: 'stage2_audit_surveillance_audit_date_surv2', days:  10}   // forward
+        ],
+        'stage2_audit_surveillance_audit_date_surv2': [
+            {to: 'stage1_audit_surv2',                                        days: -10},  // backward
+            {to: 'stage2_intimation_date_surveillance_intimation_date_surv2', days:  -7},
+            {to: 'auditor_allocation_surv2',                                  days:  -3},
+            {to: 'internal_audit_date_surv2',                                 days: -20},
+            {to: 'mrm_date_surv2',                                            days: -12},
+            {to: 'certification_decision_date_surv2',                         days:   2}
+        ],
+        'certification_decision_date_surv2': [
+            {to: 'stage2_audit_surveillance_audit_date_surv2', days: -2},  // backward
+            {to: 'certificate_issue_date_surv2',               days:  0},
+            {to: 'certificate_expiry_date_surv2',              months: 36}
+        ]
+    };
+
+    // BFS propagation: fills all downstream fields from a changed source
+    function propagate(sourceName, sourceDate) {
+        var queue   = [[sourceName, sourceDate]];
+        var visited = {};
+        while (queue.length) {
+            var pair  = queue.shift();
+            var name  = pair[0], date = pair[1];
+            if (visited[name]) continue;
+            visited[name] = true;
+            var rules = RULES[name];
+            if (!rules) continue;
+            rules.forEach(function (rule) {
+                var td = rule.months !== undefined
+                    ? addMonths(date, rule.months)
+                    : addDays(date, rule.days || 0);
+                var fp = fpInstances[rule.to];
+                if (fp) {
+                    fp.setDate(td, false); // false = don't re-trigger onChange
+                    (fp.altInput || fp.input).classList.add('auto-filled');
+                    queue.push([rule.to, td]);
                 }
-                return new Date(dateStr);
+            });
+        }
+    }
+
+    document.querySelectorAll('input[type="date"]').forEach(function (el) {
+        var fieldName = el.name;
+        el.type = 'text';
+        var fp = flatpickr(el, {
+            dateFormat : 'Y-m-d',
+            altInput   : true,
+            altFormat  : '<?php echo esc_js( get_option( 'date_format' ) ); ?>',
+            allowInput : true,
+            parseDate  : function (dateStr) {
+                var p = dateStr.split('/');
+                return p.length === 3 ? new Date(p[2], p[1] - 1, p[0]) : new Date(dateStr);
             },
-            onReady      : function (selectedDates, dateStr, instance) {
-                // Set placeholder and allow direct typing on the alt input
+            onChange   : function (sel, dateStr, instance) {
+                // Remove auto-fill marker when user manually picks a date
+                (instance.altInput || instance.input).classList.remove('auto-filled');
+                if (sel.length) propagate(fieldName, sel[0]);
+            },
+            onReady    : function (sel, dateStr, instance) {
                 if (instance.altInput) {
                     instance.altInput.placeholder = 'dd/mm/yyyy';
                     instance.altInput.addEventListener('blur', function () {
                         var val = instance.altInput.value.trim();
                         if (!val) { instance.clear(); return; }
-                        var parts = val.split('/');
-                        if (parts.length === 3 && parts[0].length <= 2 && parts[1].length <= 2 && parts[2].length === 4) {
-                            var d = new Date(parts[2], parts[1] - 1, parts[0]);
+                        var p = val.split('/');
+                        if (p.length === 3 && p[0].length <= 2 && p[1].length <= 2 && p[2].length === 4) {
+                            var d = new Date(p[2], p[1] - 1, p[0]);
                             if (!isNaN(d)) instance.setDate(d, false, 'd/m/Y');
                         }
                     });
                 }
             },
         });
+        fpInstances[fieldName] = fp;
     });
 });
 </script><?php get_footer(); ?>

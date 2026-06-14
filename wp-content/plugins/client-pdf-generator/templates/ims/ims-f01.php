@@ -78,7 +78,27 @@ $int_policy = esc_html($int_grp['4if_policy_&_objectives_are_integrated_inder_im
 $int_capa   = esc_html($int_grp['5_if_corrective_and_preventive_action_measurement_and_continual_improvement_are_integrated'] ?? '');
 $int_ops    = esc_html($int_grp['6_are_systems_processes_are_integrated_under_ims'] ?? '');
 $int_resp   = esc_html($int_grp['7are_support_and_responsibilities_are_integrated_under_ims'] ?? '');
-$hira       = esc_html($int_grp['attach_hira_if_available'] ?? '');
+
+// ISO 45001 Specific (OHSMS)
+$iso45_grp  = get_field('iso_45001_specific', $post_id) ?: [];
+$hira       = esc_html($iso45_grp['attach_hira_if_available'] ?? '');
+$hazards_mat = esc_html($iso45_grp['hazards_materials_used_in_the_process'] ?? '');
+
+// ISO 14001 Specific (EMS)
+$iso14_grp  = get_field('iso_14001_specific', $post_id) ?: [];
+$env_legal  = esc_html($iso14_grp['any_statutoryregulatory_requirements_related_to_the_operations'] ?? '');
+$env_licence = esc_html($iso14_grp['any_licenceapprovals_received_related_to_environmental_issues'] ?? '');
+$env_aspects = esc_html($iso14_grp['details_of_aspects_significant_aspects'] ?? '');
+$env_etp    = esc_html($iso14_grp['etp_and_waste_water_management_details_if_any'] ?? '');
+$env_emissions_type = esc_html($iso14_grp['what_type_of_emissions_your_organization_does'] ?? '');
+$env_noise  = esc_html($iso14_grp['details_of_sound_pollution_management_if_any'] ?? '');
+$env_measure = esc_html($iso14_grp['do_you_measure_any_emissions_if_yes_define'] ?? '');
+$env_incident = esc_html($iso14_grp['did_you_had_any_environmental_incident_in_the_past_if_yes_detail'] ?? '');
+$env_other  = esc_html($iso14_grp['other_information_iso14001'] ?? '');
+$env_eia    = esc_html($iso14_grp['attach_eia_document_if_any'] ?? '');
+
+// Quantities of hazardous materials (section 3.0)
+$hazmat_qty = ims01_field('quantities_of_hazardous_materials_used_stored', $post_id);
 
 // Already Certified
 $already_cert_group = get_field('field_68173ed2b229a', $post_id);
@@ -255,9 +275,41 @@ function ims01_footer($page, $total = 6) {
             Planned: <?= ims01_checkbox($mrm_status === 'planned') ?> &nbsp; Completed: <?= ims01_checkbox($mrm_status === 'completed') ?> &nbsp; Date: <?= $mrm_date ?>
         </td>
     </tr>
-    <!-- Add more QMS fields as needed -->
+    <tr><td class="lbl">3.0 Hazardous Materials Qty</td><td colspan="3" class="val h32"><?= $hazmat_qty ?></td></tr>
 </table>
 <?php ims01_footer(2); ?>
+
+<div class="page-break"></div>
+<!-- PAGE 3: ISO 14001 Specific -->
+<table class="form-table">
+    <tr class="section-header"><td colspan="2">ISO 14001 Specific</td></tr>
+    <tr><td class="lbl" style="width:50%">Any Statutory/Regulatory requirements related to the operations</td><td class="val h24"><?= $env_legal ?></td></tr>
+    <tr><td class="lbl">Any Licence/approvals received related to environmental issues</td><td class="val h24"><?= $env_licence ?></td></tr>
+    <tr><td class="lbl">Details of Aspects/Significant aspects</td><td class="val h32"><?= $env_aspects ?></td></tr>
+    <tr><td class="lbl">ETP and Waste water management details if any</td><td class="val h32"><?= $env_etp ?></td></tr>
+    <tr><td class="lbl">What type of emissions your organization does</td><td class="val h24"><?= $env_emissions_type ?></td></tr>
+    <tr><td class="lbl">Details of Sound Pollution management if any</td><td class="val h24"><?= $env_noise ?></td></tr>
+    <tr><td class="lbl">Do you Measure any Emissions, if yes define</td><td class="val h24"><?= $env_measure ?></td></tr>
+    <tr><td class="lbl">Did you had any environmental incident in the past, if yes detail</td><td class="val h24"><?= $env_incident ?></td></tr>
+    <tr><td class="lbl">Other Information</td><td class="val h24"><?= $env_other ?></td></tr>
+    <tr><td class="lbl">Attach EIA Document if any</td><td class="val h24"><?= $env_eia ?></td></tr>
+</table>
+
+<!-- ISO 45001 Specific -->
+<table class="form-table" style="margin-top:6px;">
+    <tr class="section-header"><td colspan="2">ISO 45001 Specific</td></tr>
+    <tr><td class="lbl" style="width:50%">Any Statutory/Regulatory requirements related to the operations</td><td class="val h24"><?= esc_html($iso45_grp['any_statutoryregulatory_requirements_related_to_the_operations'] ?? '') ?></td></tr>
+    <tr><td class="lbl">Any Licence/approvals received related to Safety issues</td><td class="val h24"><?= esc_html($iso45_grp['any_licenceapprovals_received_related_to_safety_issues'] ?? '') ?></td></tr>
+    <tr><td class="lbl">Details of any critical OH &amp; S risks identified</td><td class="val h24"><?= esc_html($iso45_grp['details_of_any_critical_occupational_health_&_safety_risks_identified'] ?? '') ?></td></tr>
+    <tr><td class="lbl">Identification of Key Hazardous and OH &amp; S Risks/HIRA</td><td class="val h24"><?= esc_html($iso45_grp['identification_of_the_key_hazardous_and_oh_&_s_riskshira'] ?? '') ?></td></tr>
+    <tr><td class="lbl">Hazards materials used in the Process</td><td class="val h24"><?= $hazards_mat ?></td></tr>
+    <tr><td class="lbl">Details of Accidents and Incidents if any</td><td class="val h24"><?= esc_html($iso45_grp['details_of_accidents_and_incidents_if_any'] ?? '') ?></td></tr>
+    <tr><td class="lbl">Relevant legal obligations from OH&amp;S legislation</td><td class="val h24"><?= esc_html($iso45_grp['any_relevant_legal_obligations_coming_from_the_applicable_oh&s_legislation_or_non-compliance_issues'] ?? '') ?></td></tr>
+    <tr><td class="lbl">Legal proceedings related to OHSMS if any</td><td class="val h24"><?= esc_html($iso45_grp['are_there_any_legal_proceeding_related_to_products_processes_services_management_ohsms_if_any'] ?? '') ?></td></tr>
+    <tr><td class="lbl">Other Information</td><td class="val h24"><?= esc_html($iso45_grp['other_information'] ?? '') ?></td></tr>
+    <tr><td class="lbl">Attach HIRA if available</td><td class="val h24"><?= $hira ?></td></tr>
+</table>
+<?php ims01_footer(3); ?>
 
 <div class="page-break"></div>
 <!-- PAGE 6: LEVEL OF INTEGRATION (IMS UNIQUE) -->

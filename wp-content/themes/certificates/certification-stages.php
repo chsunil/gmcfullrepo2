@@ -13,8 +13,8 @@
  * NOTE: The ‘ems’ array below must remain exactly as it was. We’ve simply added
  * a new ‘qms’ key, with its own stages and ACF group keys.
  */
-function get_certification_stages() {
-    return [
+function get_certification_stages( $post_id = 0 ) {
+    $stages = [
         'ems' => [
 
             'draft' => ['title'   => 'Draft', 'group'   => 'group_67dc014741369', 'next'    => 'f01',],
@@ -231,6 +231,18 @@ function get_certification_stages() {
         ],
 
     ];
+
+    // Re-Certification clients skip the Stage-1 audit forms (f05 through f13)
+    // and jump straight from F-03 into the Stage-2 block starting at f05a.
+    if ( $post_id && get_post_meta( $post_id, 'previous_certification', true ) === 'Re-Certification' ) {
+        foreach ( ['qms', 'ims'] as $track ) {
+            if ( isset( $stages[$track]['f03'] ) ) {
+                $stages[$track]['f03']['next'] = 'f05a';
+            }
+        }
+    }
+
+    return $stages;
 }
 /**
  * Returns all email templates for each certification track.

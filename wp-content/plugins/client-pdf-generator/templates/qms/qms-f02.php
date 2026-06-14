@@ -44,7 +44,7 @@ $org            = f02v('organization_name', $post_id);
 $cert_scheme    = f02v('cert_scheme', $post_id);
 $tech_area      = f02v('technical_code_area', $post_id);
 $proposal_ref   = f02v('proposal_ref_no', $post_id);
-$client_type    = get_field('client_type', $post_id); // 'Accreditation' or other
+$client_type    = get_field('organization_type', $post_id);
 
 // Requirements table (matrix_flexible — stored as array)
 $tech_review    = get_field('tech_review_2', $post_id);

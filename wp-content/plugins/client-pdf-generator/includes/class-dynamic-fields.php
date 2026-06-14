@@ -12,7 +12,7 @@ class Dynamic_Fields {
     public static function get_certification_data($post_id) {
         return [
             'CompanyName' => get_post_meta($post_id, 'organization_name', true),
-            'client_type' => get_post_meta($post_id, 'client_type', true),
+            'organization_type' => get_post_meta($post_id, 'organization_type', true),
             // Add more fields as needed
         ];
     }

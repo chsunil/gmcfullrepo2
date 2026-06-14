@@ -13,12 +13,6 @@ wp_enqueue_script('acf-input');
 wp_enqueue_style('acf-input');
 get_header();
 
-// Get certification stages
-global $certification_stages;
-if (!isset($certification_stages)) {
-    $certification_stages = get_certification_stages();
-}
-
 // Get post ID from URL or create a new post
 // $post_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 if ( isset($_GET['new_post_id']) && intval($_GET['new_post_id']) > 0 ) {
@@ -29,6 +23,12 @@ if ( isset($_GET['new_post_id']) && intval($_GET['new_post_id']) > 0 ) {
   $post_id = 'new_post';
   $submit  = 'Create Client';
   $is_new  = true;   // Creating new client
+}
+
+// Get certification stages
+global $certification_stages;
+if (!isset($certification_stages)) {
+    $certification_stages = get_certification_stages(is_numeric($post_id) ? (int) $post_id : 0);
 }
 // $is_new = false;
 
@@ -186,6 +186,17 @@ $GLOBALS['client_form_data'] = [
                                             $has_email = isset($emails[$stage_key]);
                                             $pdf_field = $has_email && !empty($emails[$stage_key]['pdf_field']) ? $emails[$stage_key]['pdf_field'] : '';
                                             $has_pdf = $pdf_field && get_field($pdf_field, $post_id);
+
+                                            // F-25 has 3 separate PDFs (one per stage); use whichever exists for the email attachment
+                                            if ($stage_key === 'f25') {
+                                                foreach (['f25_pdf_initial', 'f25_pdf_surv1', 'f25_pdf_surv2'] as $f25_field) {
+                                                    if (get_field($f25_field, $post_id)) {
+                                                        $pdf_field = $f25_field;
+                                                        $has_pdf = true;
+                                                        break;
+                                                    }
+                                                }
+                                            }
                                         ?>
                                         <div class="tab-pane fade show active" 
                                              id="<?php echo esc_attr($stage_key); ?>-pane" 
@@ -236,6 +247,101 @@ $GLOBALS['client_form_data'] = [
                                                         ],
                                                         'updated_message' => 'Client information updated successfully',
                                                     ]);
+
+                                                    // F-25: inject "Show / Print" checkboxes beside the Assessment
+                                                    // Check List matrix column headers. Unchecking a column hides it
+                                                    // in the form (decluttering) AND excludes it from the generated
+                                                    // PDF (via .f25-print-stage, read by generate-pdf.js).
+                                                    // Selection is per-visit only — not persisted.
+                                                    if ($stage_key === 'f25') {
+                                                        // Hidden per-column PDF widgets (Generate / View+Delete), moved
+                                                        // below each column's "Show / Print" checkbox by the script below.
+                                                        $f25_variants = [
+                                                            'initial' => 'initial_certification',
+                                                            'surv1'   => 'surveillance_1',
+                                                            'surv2'   => 'surveillance_2',
+                                                        ];
+                                                        foreach ($f25_variants as $variant => $f25_stage):
+                                                            $variant_pdf = get_field("f25_pdf_{$variant}", $post_id);
+                                                        ?>
+                                                        <div id="f25-pdf-widget-<?php echo esc_attr($f25_stage); ?>" class="f25-pdf-widget mt-1" style="display:none;">
+                                                            <?php if ($variant_pdf): ?>
+                                                            <div class="d-flex align-items-center gap-1">
+                                                                <a class="btn btn-outline-primary btn-sm flex-grow-1" href="<?php echo esc_url($variant_pdf); ?>" target="_blank">
+                                                                    <i class="bx bx-file me-1"></i>View PDF
+                                                                </a>
+                                                                <button type="button" class="btn btn-outline-danger btn-sm delete-pdf"
+                                                                        data-post-id="<?php echo esc_attr($post_id); ?>"
+                                                                        data-stage="f25"
+                                                                        data-scheme="<?php echo esc_attr($certification_type); ?>"
+                                                                        data-variant="<?php echo esc_attr($variant); ?>"
+                                                                        data-f25-stage="<?php echo esc_attr($f25_stage); ?>"
+                                                                        aria-label="Delete & regenerate PDF"
+                                                                        title="Delete & Regenerate">
+                                                                    <i class="bx bx-trash"></i>
+                                                                </button>
+                                                            </div>
+                                                            <?php else: ?>
+                                                            <button type="button" class="btn btn-outline-secondary btn-sm generate-pdf w-100"
+                                                                    data-scheme="<?php echo esc_attr($certification_type); ?>"
+                                                                    data-stage="f25"
+                                                                    data-variant="<?php echo esc_attr($variant); ?>"
+                                                                    data-f25-stage="<?php echo esc_attr($f25_stage); ?>"
+                                                                    data-post-id="<?php echo esc_attr($post_id); ?>">
+                                                                <i class="bx bx-file-blank me-1"></i> Generate PDF
+                                                            </button>
+                                                            <?php endif; ?>
+                                                        </div>
+                                                        <?php endforeach; ?>
+                                                    <script>
+                                                    document.addEventListener('DOMContentLoaded', function () {
+                                                      var STAGE_MAP = {
+                                                        'Evidences / Records – Initial Certification': 'initial_certification',
+                                                        'Surveillance-1': 'surveillance_1',
+                                                        'Surveillance-2': 'surveillance_2'
+                                                      };
+                                                      var pane = document.getElementById('f25-pane');
+                                                      var table = pane ? pane.querySelector('table.acf-matrix-field') : null;
+                                                      if (!table) return;
+                                                      var rows = table.querySelectorAll('tbody tr');
+
+                                                      table.querySelectorAll('thead th').forEach(function (th, colIndex) {
+                                                        var key = STAGE_MAP[th.textContent.trim()];
+                                                        if (!key) return;
+
+                                                        var label = document.createElement('label');
+                                                        label.style.cssText = 'display:flex; align-items:center; justify-content:center; gap:4px; font-weight:normal; font-size:11px; margin-top:4px; cursor:pointer;';
+
+                                                        var cb = document.createElement('input');
+                                                        cb.type = 'checkbox';
+                                                        cb.className = 'f25-print-stage form-check-input';
+                                                        cb.dataset.stageKey = key;
+                                                        cb.checked = true;
+
+                                                        cb.addEventListener('change', function () {
+                                                          var show = cb.checked;
+                                                          th.style.opacity = show ? '' : '0.4';
+                                                          rows.forEach(function (row) {
+                                                            var cell = row.children[colIndex];
+                                                            if (cell) cell.style.display = show ? '' : 'none';
+                                                          });
+                                                        });
+
+                                                        label.appendChild(cb);
+                                                        label.appendChild(document.createTextNode('Show / Print'));
+                                                        th.appendChild(label);
+
+                                                        // Move this column's Generate/View/Delete PDF widget below the checkbox
+                                                        var widget = document.getElementById('f25-pdf-widget-' + key);
+                                                        if (widget) {
+                                                          widget.style.display = '';
+                                                          th.appendChild(widget);
+                                                        }
+                                                      });
+                                                    });
+                                                    </script>
+                                                    <?php
+                                                    }
                                                 } else {
                                                     // Show error message if group doesn't exist
                                                     echo '<div class="alert alert-warning">';
@@ -257,28 +363,30 @@ $GLOBALS['client_form_data'] = [
                                                     <i class="bx bx-save me-1"></i> <?php echo esc_html($submit . ' ' . $stage_key); ?>
                                                 </button>
 
-                                                <?php 
+                                                <?php if ($stage_key !== 'f25'): ?>
+                                                <?php
                                                  $newpdf_field = $stage_key.'_pdf';
                                                  $isithas_pdf = get_field($newpdf_field, $post_id);
                                                 ?>
                                                 <?php if ($stage_key !== 'draft' && !$isithas_pdf): ?>
-                                                <button type="button" class="btn btn-outline-secondary generate-pdf" 
-                                                        data-scheme="qms" data-stage="<?php echo esc_attr($stage_key); ?>" 
+                                                <button type="button" class="btn btn-outline-secondary generate-pdf"
+                                                        data-scheme="qms" data-stage="<?php echo esc_attr($stage_key); ?>"
                                                         data-post-id="<?php echo esc_attr($post_id); ?>">
                                                     <i class="bx bx-file-blank me-1"></i> Generate PDF
                                                 </button>
                                                 <?php elseif ($stage_key !== 'draft' && $isithas_pdf) : ?>
                                                 <div class="d-inline-flex align-items-center gap-2">
                                                     <a class="btn btn-outline-primary" href="<?php echo $isithas_pdf; ?>" target="_blank"><i class="bx bx-file me-1"></i>View PDF</a>
-                                                    <button type="button" class="btn btn-outline-danger delete-pdf" 
-                                                            data-post-id="<?php echo esc_attr($post_id); ?>" 
-                                                            data-stage="<?php echo esc_attr($stage_key); ?>" 
+                                                    <button type="button" class="btn btn-outline-danger delete-pdf"
+                                                            data-post-id="<?php echo esc_attr($post_id); ?>"
+                                                            data-stage="<?php echo esc_attr($stage_key); ?>"
                                                             title="Delete & Regenerate">
                                                         <i class="bx bx-trash"></i> Delete
                                                     </button>
                                                 </div>
                                                 <?php endif; ?>
-                                                
+                                                <?php endif; ?>
+
                                                 <?php if ($has_email) : ?>
                                                 <button type="button" class="btn btn-outline-primary send-email-btn text-capitalize" 
                                                         data-bs-toggle="modal" data-bs-target="#sendEmailModal"

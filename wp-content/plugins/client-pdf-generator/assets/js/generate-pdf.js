@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
+
     // ── Handle Generate PDF (event delegation — works for dynamically created buttons too) ──
     document.addEventListener('click', function (e) {
         const button = e.target.closest('.generate-pdf');
@@ -7,6 +8,8 @@ document.addEventListener("DOMContentLoaded", function () {
             const postId = button.dataset.postId;
             const scheme = button.dataset.scheme || 'qms';    // e.g. data-scheme="qms"
             const stage = button.dataset.stage || 'f03';    // e.g. data-stage="f03"
+            const variant = button.dataset.variant || '';     // F-25 only: 'initial'|'surv1'|'surv2'
+            const f25Stage = button.dataset.f25Stage || '';   // F-25 only: full stage key for backend
 
             // Prevent double clicks
             if (button.disabled) return;
@@ -21,7 +24,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     nonce: cpdf_vars.generate_pdf_nonce,
                     post_id: postId,
                     scheme: scheme,
-                    stage: stage
+                    stage: stage,
+                    print_stages: f25Stage
                 })
             })
                 .then(r => {
@@ -38,20 +42,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     // Dynamically render "View PDF" and "Delete" button
                     const wrapper = document.createElement('div');
-                    wrapper.className = 'd-inline-flex align-items-center gap-2';
+                    wrapper.className = stage === 'f25' ? 'd-flex align-items-center gap-1' : 'd-inline-flex align-items-center gap-2';
 
                     const viewBtn = document.createElement('a');
                     viewBtn.href = data.data.pdf_url;
                     viewBtn.target = '_blank';
-                    viewBtn.className = 'btn btn-primary btn-sm';
-                    viewBtn.innerHTML = '<i class="bx bx-file"></i> <span>View PDF</span>';
+                    viewBtn.className = stage === 'f25' ? 'btn btn-outline-primary btn-sm flex-grow-1' : 'btn btn-primary btn-sm';
+                    viewBtn.innerHTML = '<i class="bx bx-file me-1"></i>View PDF';
 
                     const delBtn = document.createElement('button');
-                    delBtn.className = 'btn btn-danger btn-sm delete-pdf';
+                    delBtn.className = stage === 'f25' ? 'btn btn-outline-danger btn-sm delete-pdf' : 'btn btn-danger btn-sm delete-pdf';
                     delBtn.dataset.postId = postId;
                     delBtn.dataset.stage = stage;
+                    if (stage === 'f25') {
+                        delBtn.dataset.variant = variant;
+                        delBtn.dataset.f25Stage = f25Stage;
+                    }
                     delBtn.innerHTML = '<i class="bx bx-trash"></i>';
                     delBtn.title = 'Delete & Regenerate';
+                    delBtn.setAttribute('aria-label', 'Delete & regenerate PDF');
 
                     wrapper.appendChild(viewBtn);
                     wrapper.appendChild(delBtn);
@@ -71,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     console.error(err);
                     // Re-enable button
                     button.disabled = false;
-                    button.innerHTML = '<i class="fa-solid fa-file-circle-plus"></i>Generate PDF';
+                    button.innerHTML = '<i class="fa-solid fa-file-circle-plus"></i> Generate PDF';
 
                     if (typeof showToast === 'function') {
                         showToast('Error: ' + err.message, 'danger');
@@ -89,6 +98,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const postId = btn.dataset.postId;
             const stage = btn.dataset.stage;
+            const variant = btn.dataset.variant || '';
+            const f25Stage = btn.dataset.f25Stage || '';
 
             const doDelete = () => {
                 btn.disabled = true;
@@ -101,7 +112,8 @@ document.addEventListener("DOMContentLoaded", function () {
                         action: 'delete_pdf',
                         nonce: cpdf_vars.generate_pdf_nonce,
                         post_id: postId,
-                        stage: stage
+                        stage: stage,
+                        variant: variant
                     })
                 })
                     .then(r => r.json())
@@ -113,9 +125,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
                             // Create fresh "Generate" button
                             const genBtn = document.createElement('button');
-                            genBtn.className = 'btn btn-success btn-sm generate-pdf';
                             genBtn.dataset.postId = postId;
                             genBtn.dataset.stage = stage;
+                            genBtn.dataset.scheme = btn.dataset.scheme || 'qms';
+
+                            if (stage === 'f25') {
+                                genBtn.className = 'btn btn-outline-secondary btn-sm generate-pdf w-100';
+                                genBtn.dataset.variant = variant;
+                                genBtn.dataset.f25Stage = f25Stage;
+                            } else {
+                                genBtn.className = 'btn btn-outline-secondary generate-pdf';
+                            }
                             genBtn.innerHTML = '<i class="bx bx-file-blank me-1"></i> Generate PDF';
 
                             // Replace the wrapper

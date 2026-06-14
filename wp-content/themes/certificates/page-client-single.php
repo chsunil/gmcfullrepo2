@@ -64,7 +64,7 @@ $type   = get_field('certification_type', $new_id);
 if (!$type) {
   $type = 'qms';
 }
-$stages = get_certification_stages()[$type] ?? [];
+$stages = get_certification_stages(intval($new_id))[$type] ?? [];
 
 // 3) Determine $stage
 $stage = isset($stages[$stage_param]) ? $stage_param : 'draft';

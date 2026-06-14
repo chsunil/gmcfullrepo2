@@ -18,6 +18,28 @@ $standard  = get_field('cert_scheme', $post_id) ?: '-';
 
 $matrix = get_field( 'assessment_check_list', $post_id ) ?: [];
 
+// --------------------------------------------------
+// Which stage column(s) to print — set via query var by the AJAX handler
+// (user ticks "Print in PDF" beside Initial/Surv-1/Surv-2 column headers)
+// Empty / missing = print all 3 (default, matches old behaviour)
+// --------------------------------------------------
+$all_stage_cols = [
+    'initial_certification' => 'Initial',
+    'surveillance_1'        => 'Surv-1',
+    'surveillance_2'        => 'Surv-2',
+];
+$selected_keys = get_query_var( 'cpdf_print_stages', [] );
+if ( empty( $selected_keys ) || ! is_array( $selected_keys ) ) {
+    $selected_keys = array_keys( $all_stage_cols );
+}
+$print_cols = array_intersect_key( $all_stage_cols, array_flip( $selected_keys ) );
+if ( empty( $print_cols ) ) {
+    $print_cols = $all_stage_cols; // safety fallback — never print an empty table
+}
+$single_mode    = ( count( $print_cols ) === 1 );
+$data_col_count = count( $print_cols );
+$data_col_width = round( 75 / $data_col_count, 2 ) . '%';
+
 $logo_b64 = 'data:image/jpeg;base64,...'; // Omitted
 ?>
 <!DOCTYPE html>
@@ -57,9 +79,11 @@ $logo_b64 = 'data:image/jpeg;base64,...'; // Omitted
     <thead>
         <tr>
             <th style="width:25%;">IMS Requirement / Clause</th>
-            <th style="width:25%;">Evidence / Records (Initial)</th>
-            <th style="width:25%;">Surv-1</th>
-            <th style="width:25%;">Surv-2</th>
+            <?php foreach ( $print_cols as $col_key => $col_label ) : ?>
+                <th style="width:<?php echo esc_attr( $data_col_width ); ?>;">
+                    <?php echo $single_mode ? esc_html( 'Evidence / Records (' . $col_label . ')' ) : esc_html( $col_label ); ?>
+                </th>
+            <?php endforeach; ?>
         </tr>
     </thead>
     <tbody>
@@ -67,13 +91,13 @@ $logo_b64 = 'data:image/jpeg;base64,...'; // Omitted
             <?php foreach ($matrix as $row => $cols) : ?>
             <tr>
                 <td class="lbl"><?= esc_html($row) ?></td>
-                <td><?= nl2br(esc_html($cols['initial'] ?? '')) ?></td>
-                <td><?= nl2br(esc_html($cols['s1'] ?? '')) ?></td>
-                <td><?= nl2br(esc_html($cols['s2'] ?? '')) ?></td>
+                <?php foreach ( $print_cols as $col_key => $col_label ) : ?>
+                    <td><?= nl2br( esc_html( $cols[ $col_key ] ?? '' ) ) ?></td>
+                <?php endforeach; ?>
             </tr>
             <?php endforeach; ?>
         <?php else : ?>
-            <tr><td colspan="4" class="center">No checklist data entered.</td></tr>
+            <tr><td colspan="<?php echo esc_attr( 1 + $data_col_count ); ?>" class="center">No checklist data entered.</td></tr>
         <?php endif; ?>
     </tbody>
 </table>

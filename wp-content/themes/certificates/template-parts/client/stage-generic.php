@@ -34,7 +34,58 @@ if ($step_key != 'f03') {
   
   acf_form($acf_args);
   echo '</div>';
-  
+
+  // F-25: inject "Show / Print" checkboxes beside the Assessment Check List matrix
+  // column headers. Unchecking a column hides it in the form (decluttering) AND
+  // excludes it from the generated PDF (via .f25-print-stage, read by generate-pdf.js).
+  // Selection is per-visit only — not persisted.
+  // Note: the F-25 tab-pane is rendered for any visible stage's page load (sidebar
+  // tab switch is client-side JS, $_GET['stage'] doesn't change), so this can't be
+  // gated on $step_key === 'f25' — it self-guards via #f25 + dedup instead.
+  ?>
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var STAGE_MAP = {
+      'Evidences / Records – Initial Certification': 'initial_certification',
+      'Surveillance-1': 'surveillance_1',
+      'Surveillance-2': 'surveillance_2'
+    };
+    var pane = document.getElementById('f25');
+    var table = pane ? pane.querySelector('table.acf-matrix-field') : null;
+    if (!table) return;
+    var rows = table.querySelectorAll('tbody tr');
+
+    table.querySelectorAll('thead th').forEach(function (th, colIndex) {
+      if (th.querySelector('.f25-print-stage')) return; // already injected (script echoes once per visible stage)
+      var key = STAGE_MAP[th.textContent.trim()];
+      if (!key) return;
+
+      var label = document.createElement('label');
+      label.style.cssText = 'display:flex; align-items:center; justify-content:center; gap:4px; font-weight:normal; font-size:11px; margin-top:4px; cursor:pointer;';
+
+      var cb = document.createElement('input');
+      cb.type = 'checkbox';
+      cb.className = 'f25-print-stage form-check-input';
+      cb.dataset.stageKey = key;
+      cb.checked = true;
+
+      cb.addEventListener('change', function () {
+        var show = cb.checked;
+        th.style.opacity = show ? '' : '0.4';
+        rows.forEach(function (row) {
+          var cell = row.children[colIndex];
+          if (cell) cell.style.display = show ? '' : 'none';
+        });
+      });
+
+      label.appendChild(cb);
+      label.appendChild(document.createTextNode('Show / Print'));
+      th.appendChild(label);
+    });
+  });
+  </script>
+  <?php
+
   // Add a fallback message if the form might be empty
   echo '<script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -71,7 +122,6 @@ if ($step_key != 'f03') {
   </script>';
 }
 
-<?php
 // Hide inline action buttons — these are now handled by the Fixed Footer Bar in footer.php
 // The buttons below are rendered hidden, keeping their data attributes available for JS.
 ?>

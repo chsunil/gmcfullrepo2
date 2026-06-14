@@ -44,7 +44,7 @@ $toast_type = 'success';
         <?php get_sidebar('custom'); ?>
         <div class="layout-page">
             <div class="content-wrapper">
-                <div class="container-xxl flex-grow-1 container-p-y">
+                <div class="flex-grow-1 container-p-y">
 
                    
                             <style>
@@ -769,8 +769,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 "info": "Showing _START_ to _END_ of _TOTAL_ entries"
             },
             "initComplete": function() {
-                // Add Create Invoice button beside Export
-                const createBtn = `<a href="<?php echo site_url('/invoice-form/'); ?>" class="btn btn-primary ms-2"><i class="bx bx-plus me-1"></i> Create Invoice</a>`;
+                // Add Create Invoice dropdown (Invoice / Proforma Invoice) beside Export
+                const createBtn = `<div class="btn-group ms-2">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bx bx-plus me-1"></i> Create Invoice
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="<?php echo esc_url(site_url('/invoice-form/')); ?>"><i class="bx bx-receipt me-2"></i> Invoice</a></li>
+                        <li><a class="dropdown-item" href="<?php echo esc_url(add_query_arg('type', 'proforma', site_url('/invoice-form/'))); ?>"><i class="bx bx-file-blank me-2"></i> Proforma Invoice</a></li>
+                    </ul>
+                </div>`;
                 
                 // Add Full Screen Toggle Button next to length menu
                 const fsBtn = `<button type="button" class="btn btn-outline-primary ms-2" id="toggle-fullscreen-btn" title="Full Screen"><i class="bx bx-fullscreen"></i></button>`;

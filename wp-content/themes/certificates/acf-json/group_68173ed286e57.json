@@ -982,7 +982,7 @@
         },
         {
             "key": "field_68173ed2f4061",
-            "label": "Types and Extent ICT used by the Organization and competency level.",
+            "label": "Types and Extent ICT used by the Organization and competency level. (clients to indicate the ICTs used and their effectiveness while using based on their regular usage)",
             "name": "types_and_extent_ict_used_by_the_organization_and_competency_level",
             "aria-label": "",
             "type": "text",
@@ -997,7 +997,7 @@
             "default_value": "",
             "maxlength": "",
             "allow_in_bindings": 0,
-            "placeholder": "(clients to indicate the ICTs used and their effectiveness while using based on their regular usage)",
+            "placeholder": "",
             "prepend": "",
             "append": ""
         },

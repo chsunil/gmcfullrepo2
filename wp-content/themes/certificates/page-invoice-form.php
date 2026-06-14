@@ -3,10 +3,14 @@
  * Template Name: Invoice Form
  */
 
-// Enqueue flatpickr
+// Enqueue flatpickr and Select2
 add_action('wp_enqueue_scripts', function() {
     wp_enqueue_style('flatpickr-css', 'https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css', [], '4.6.13');
     wp_enqueue_script('flatpickr-js', 'https://cdn.jsdelivr.net/npm/flatpickr', [], '4.6.13', true);
+
+    wp_enqueue_style('select2-css', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css', [], '4.1.0-rc.0');
+    wp_enqueue_script('select2-js', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js', ['jquery'], '4.1.0-rc.0', true);
+    wp_add_inline_script('select2-js', 'jQuery(function($){ $("#client-selector").select2({ placeholder: "-- Select Client --", width: "100%", allowClear: true }); });');
 });
 
 get_header();
@@ -145,7 +149,7 @@ if (!$is_editing && empty($data['invoice_no'])) {
                                                     <?php
                                                     $clients = get_posts(['post_type' => 'client', 'posts_per_page' => -1, 'orderby' => 'title', 'order' => 'ASC']);
                                                     ?>
-                                                    <select id="client-selector" name="client_id" class="form-select form-select-sm">
+                                                    <select id="client-selector" name="client_id" class="select2 form-select form-select-sm">
                                                         <option value="">-- Select Client --</option>
                                                         <?php foreach ($clients as $c): ?>
                                                         <option value="<?php echo $c->ID; ?>"
@@ -357,7 +361,7 @@ if (!$is_editing && empty($data['invoice_no'])) {
 </div>
 
 <style>
-.invoice-paper { max-width: 900px; margin: 0 auto; font-family: "Times New Roman", serif; font-size: 13px; color: #000; }
+.invoice-paper { max-width: 1200px; margin: 0 auto; font-family: "Times New Roman", serif; font-size: 13px; color: #000; }
 .invoice-title { font-size: 1.4rem; font-weight: bold; text-decoration: underline; letter-spacing: 2px; }
 .invoice-table { border-collapse: collapse; }
 .invoice-table td, .invoice-table th { border: 1px solid #333; padding: 6px 10px; vertical-align: middle; }

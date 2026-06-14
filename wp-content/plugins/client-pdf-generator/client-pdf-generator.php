@@ -2,7 +2,7 @@
 /*
 Plugin Name: Client PDF Generator
 Description: Generate Client & QMS PDFs via AJAX using DOMPDF.
-Version:     1.2.1
+Version:     1.2.4
 Author:      Sunil
 */
 
@@ -33,6 +33,28 @@ function cpdf_handle_generate_pdf() {
     if (! $post_id || get_post_type($post_id) !== 'client') {
         wp_send_json_error(['message' => 'Invalid post ID']);
     }
+
+    // ── F-25: each PDF covers exactly ONE Assessment Check List stage column ──
+    // (Initial Certification / Surveillance-1 / Surveillance-2 — separate PDF each)
+    $f25_print_stages = [];
+    $f25_suffix = '';
+    $pdf_field_key = "{$stage}_pdf";
+    if ($stage === 'f25') {
+        $valid_stage_codes = [
+            'initial_certification' => 'initial',
+            'surveillance_1'        => 'surv1',
+            'surveillance_2'        => 'surv2',
+        ];
+        $requested = sanitize_text_field($_POST['print_stages'] ?? '');
+        if (! isset($valid_stage_codes[$requested])) {
+            wp_send_json_error(['message' => 'F-25 PDF requires a single valid stage (Initial / Surveillance-1 / Surveillance-2).']);
+        }
+        $variant_code     = $valid_stage_codes[$requested];
+        $f25_print_stages = [$requested];
+        $f25_suffix       = "-{$variant_code}";
+        $pdf_field_key    = "f25_pdf_{$variant_code}";
+    }
+    set_query_var('cpdf_print_stages', $f25_print_stages);
 
     // 3.1) Locate the HTML template (with fallback to QMS)
     $tpl = plugin_dir_path(__FILE__) . "templates/{$scheme}/{$scheme}-{$stage}.php";
@@ -70,17 +92,17 @@ function cpdf_handle_generate_pdf() {
     if (! is_dir($dir)) wp_mkdir_p($dir);
 
     $filename = sprintf(
-        '%s-%d-%s.pdf',
+        '%s-%d%s-%s.pdf',
         strtoupper("{$scheme}_{$stage}"),
         $post_id,
+        $f25_suffix,
         date('Ymd_His')
     );
     $path = $dir . $filename;
     file_put_contents($path, $dompdf->output());
 
     $url = trailingslashit($upload['baseurl']) . "client_pdfs/{$filename}";
-    $field_key = "{$stage}_pdf";
-    update_field( $field_key, $url, $post_id);
+    update_field( $pdf_field_key, $url, $post_id);
 
     wp_send_json_success(['pdf_url' => $url]);
 }
@@ -92,12 +114,20 @@ function cpdf_handle_delete_pdf() {
 
     $post_id = intval($_POST['post_id'] ?? 0);
     $stage   = sanitize_text_field($_POST['stage']  ?? '');
+    $variant = sanitize_text_field($_POST['variant'] ?? '');
 
     if (!$post_id || !$stage) {
         wp_send_json_error(['message' => 'Invalid parameters']);
     }
 
     $field_key = "{$stage}_pdf";
+    if ($stage === 'f25') {
+        if (! in_array($variant, ['initial', 'surv1', 'surv2'], true)) {
+            wp_send_json_error(['message' => 'Invalid F-25 PDF variant']);
+        }
+        $field_key = "f25_pdf_{$variant}";
+    }
+
     $pdf_url   = get_field($field_key, $post_id);
 
     if ($pdf_url) {

@@ -22,6 +22,28 @@ $rows = [];
 if ($field && !empty($field['rows'])) {
     $rows = array_filter(array_map('trim', explode('|', $field['rows'])));
 }
+
+// --------------------------------------------------
+// Which stage column(s) to print — set via query var by the AJAX handler
+// (user ticks "Print in PDF" beside Initial/Surv-1/Surv-2 column headers)
+// Empty / missing = print all 3 (default, matches old behaviour)
+// --------------------------------------------------
+$all_stage_cols = [
+    'initial_certification' => 'Initial Certification',
+    'surveillance_1'        => 'Surveillance-1',
+    'surveillance_2'        => 'Surveillance-2',
+];
+$selected_keys = get_query_var('cpdf_print_stages', []);
+if (empty($selected_keys) || !is_array($selected_keys)) {
+    $selected_keys = array_keys($all_stage_cols);
+}
+$print_cols = array_intersect_key($all_stage_cols, array_flip($selected_keys));
+if (empty($print_cols)) {
+    $print_cols = $all_stage_cols; // safety fallback — never print an empty table
+}
+$single_mode     = (count($print_cols) === 1);
+$data_col_count  = count($print_cols);
+$data_col_width  = round((100 - 18 - 25) / $data_col_count, 2) . '%';
 ?>
 <!DOCTYPE html>
 <html>
@@ -91,9 +113,11 @@ if ($field && !empty($field['rows'])) {
         <tr>
             <th class="req">Requirement (ISO 9001)</th>
             <th class="guidance">Auditor Guidance</th>
-            <th class="col">Initial Certification</th>
-            <th class="col">Surveillance-1</th>
-            <th class="col">Surveillance-2</th>
+            <?php foreach ($print_cols as $col_key => $col_label) : ?>
+                <th class="col" style="width:<?php echo esc_attr($data_col_width); ?>;">
+                    <?php echo $single_mode ? esc_html('Evidences / Records – ' . $col_label) : esc_html($col_label); ?>
+                </th>
+            <?php endforeach; ?>
         </tr>
     </thead>
 
@@ -112,22 +136,19 @@ if ($field && !empty($field['rows'])) {
                 ? $matrix_data[$row_key]
                 : [];
 
-            $initial = $row['initial_certification'] ?? '';
-            $s1      = $row['surveillance_1'] ?? '';
-            $s2      = $row['surveillance_2'] ?? '';
         ?>
             <tr>
                 <td class="req"><?php echo esc_html($requirement); ?></td>
                 <td class="guidance"><?php echo esc_html($guidance); ?></td>
-                <td><?php echo nl2br(esc_html($initial)); ?></td>
-                <td><?php echo nl2br(esc_html($s1)); ?></td>
-                <td><?php echo nl2br(esc_html($s2)); ?></td>
+                <?php foreach ($print_cols as $col_key => $col_label) : ?>
+                    <td style="width:<?php echo esc_attr($data_col_width); ?>;"><?php echo nl2br(esc_html($row[$col_key] ?? '')); ?></td>
+                <?php endforeach; ?>
             </tr>
         <?php endforeach; ?>
 
     <?php else : ?>
         <tr>
-            <td colspan="5" style="text-align:center;">No data available</td>
+            <td colspan="<?php echo esc_attr(2 + $data_col_count); ?>" style="text-align:center;">No data available</td>
         </tr>
     <?php endif; ?>
     </tbody>

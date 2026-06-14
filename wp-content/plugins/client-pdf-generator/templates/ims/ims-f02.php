@@ -35,7 +35,7 @@ function ims_audit_date($meta_key, $post_id, $format = 'd/m/Y', $fallback = '') 
 $org            = imsf02v('organization_name', $post_id);
 $cert_scheme    = imsf02v('cert_scheme', $post_id);
 $tech_area      = imsf02v('technical_code_area', $post_id);
-$client_type    = get_field('client_type', $post_id);
+$client_type    = get_field('organization_type', $post_id);
 $tech_review    = get_field('tech_review_2', $post_id);
 $conclusion_val = get_field('conclusion_of_the_contract_review', $post_id);
 

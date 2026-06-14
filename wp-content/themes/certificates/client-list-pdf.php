@@ -92,7 +92,7 @@ $auditors = get_users(array('role' => 'auditor'));
 
                                         <form method="get" action="<?php echo esc_url(get_permalink()); ?>" class="d-flex">
                                             <?php if ($is_admin_or_manager) : ?>
-                                                <select name="assigned_employee" class="form-select me-2" onchange="this.form.submit()">
+                                                <select name="assigned_employee" class="me-2" onchange="this.form.submit()">
                                                     <option value="">All Employees</option>
                                                     <?php foreach ($auditors as $auditor) : ?>
                                                         <option value="<?php echo esc_attr($auditor->ID); ?>" <?php selected($assigned_employee, $auditor->ID); ?>>
@@ -101,7 +101,7 @@ $auditors = get_users(array('role' => 'auditor'));
                                                     <?php endforeach; ?>
                                                 </select>
                                             <?php endif; ?>
-                                            <input type="text" name="search_query" value="<?php echo esc_attr($search_query); ?>" placeholder="Search Clients..." class="form-control me-2">
+                                            <input type="text" name="search_query" value="<?php echo esc_attr($search_query); ?>" placeholder="Search Clients..." class="me-2">
                                             <button type="submit" class="btn  btn-sm btn-primary">Search</button>
                                         </form>
                                     </div>

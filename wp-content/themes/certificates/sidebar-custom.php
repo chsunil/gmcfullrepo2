@@ -30,7 +30,7 @@ $active_stage = (isset($_GET['stage']) && !empty($_GET['stage']))
 // Detect client form template
 $is_create_client = is_page_template("template-client-form.php");
 
-$all_certification_stages = get_certification_stages();
+$all_certification_stages = get_certification_stages($post_id);
 $stages = $all_certification_stages[$certification_type] ?? [];
 
 // IMPORTANT
@@ -140,25 +140,12 @@ $stages = $all_certification_stages[$certification_type] ?? [];
                 ];
 
                 /**
-                 * Build visible stages and track enabled/disabled status:
-                 * - Previous stages (before current): ENABLED
-                 * - Current stage: ENABLED (and highlighted)
-                 * - Future stages (after current): DISABLED
-                 * 
-                 * We follow the 'next' chain from 'draft' to build the correct order
+                 * Sidebar shows current + past stages only (future stages hidden).
+                 * Follow the 'next' chain from 'draft' to $client_stage to build the
+                 * visible/enabled list in workflow order.
                  */
-                $visible_stages = [];
-                $enabled_stages = [];  // Stages that are clickable (previous + current)
-                
-                // First, collect all visible stages (ones with ACF groups)
-                foreach ($stages as $stage_key => $stage) {
-                    if (!empty($stage["group"])) {
-                        $visible_stages[] = $stage_key;
-                    }
-                }
-                
-                // Now follow the 'next' chain from 'draft' to build enabled stages
-                // This ensures we follow the workflow order, not the array order
+                $enabled_stages = [];
+
                 $current_key = 'draft';
                 $max_iterations = 100; // Safety limit to prevent infinite loops
                 $iterations = 0;
@@ -187,9 +174,9 @@ $stages = $all_certification_stages[$certification_type] ?? [];
  ?>
 <?php foreach ($workflow_groups as $group_title => $group_stages):
 
-    // Filter only visible stages for this group
+    // Only show stages the client has reached (current + past)
     $group_visible = array_values(
-        array_intersect($group_stages, $visible_stages)
+        array_intersect($group_stages, $enabled_stages)
     );
     if (empty($group_visible)) {
         continue;
@@ -216,19 +203,8 @@ $stages = $all_certification_stages[$certification_type] ?? [];
 
             $stage = $stages[$stage_key];
             $is_active = $stage_key === $active_stage;
-            $is_enabled = in_array($stage_key, $enabled_stages, true);
-            
-            // Determine status: 'completed', 'current', or 'future'
-            if ($is_active) {
-                $status = 'current';
-            } elseif ($is_enabled) {
-                $status = 'completed';
-            } else {
-                $status = 'future';
-            }
-            ?>
+            $status = $is_active ? 'current' : 'completed';
 
-            <?php 
             // Generate link URL if editing an existing client
             $link_url = 'javascript:void(0);';
             if (!$is_new) {
@@ -239,18 +215,15 @@ $stages = $all_certification_stages[$certification_type] ?? [];
             }
             ?>
 
-            <li class="menu-item <?php echo $is_active ? 'active' : ''; ?> <?php echo !$is_enabled ? 'disabled' : ''; ?>" 
+            <li class="menu-item <?php echo $is_active ? 'active' : ''; ?>"
                 data-status="<?php echo esc_attr($status); ?>">
               <a href="<?php echo esc_url($link_url); ?>"
-                class="menu-link m-0 px-1<?php echo !$is_enabled ? 'is-locked text-muted' : ''; ?>"
-                data-stage="<?php echo esc_attr($stage_key); ?>"
-                <?php echo !$is_enabled ? 'aria-disabled="true"' : ''; ?>>
-                <?php if ($status === 'completed'): ?>
-                    <i class="bx bx-check-circle text-success me-1"></i>
-                <?php elseif ($status === 'current'): ?>
+                class="menu-link m-0 px-1"
+                data-stage="<?php echo esc_attr($stage_key); ?>">
+                <?php if ($status === 'current'): ?>
                     <i class="bx bx-radio-circle-marked text-primary me-1"></i>
                 <?php else: ?>
-                    <i class="bx bx-lock-alt text-muted me-1"></i>
+                    <i class="bx bx-check-circle text-success me-1"></i>
                 <?php endif; ?>
                 <?php echo esc_html($stage["title"]); ?>
               </a>
@@ -458,19 +431,12 @@ document.addEventListener('DOMContentLoaded', function () {
     t.classList.add('active','show');
   };
 
-  // ---- Lock future stages
-  sidebar.querySelectorAll('.menu-item[data-status="future"] .menu-link')
-    .forEach(a => {
-      a.classList.add('is-locked');
-      a.addEventListener('click', e => e.preventDefault());
-    });
-
   // ---- Click handler (plain JS, no Bootstrap)
   sidebar.querySelectorAll('.menu-link[data-stage]')
     .forEach(link => {
       link.addEventListener('click', function () {
         const li = this.closest('.menu-item');
-        if (!li || li.dataset.status === 'future') return;
+        if (!li) return;
 
         const stage = this.dataset.stage;
 

@@ -24,41 +24,6 @@
             "append": ""
         },
         {
-            "key": "field_67d6fdc8207d3",
-            "label": "Client Type",
-            "name": "client_type",
-            "aria-label": "",
-            "type": "select",
-            "instructions": "",
-            "required": 1,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "24",
-                "class": "",
-                "id": ""
-            },
-            "formula": "",
-            "calculated_format": "",
-            "blank_if_zero": 0,
-            "readonly": 0,
-            "choices": {
-                "Company": "Company",
-                "Partner Ship": "Partner Ship",
-                "Proprietor Ship": "Proprietor Ship",
-                "Others": "Others"
-            },
-            "default_value": "Company",
-            "return_format": "value",
-            "multiple": 0,
-            "allow_null": 0,
-            "allow_in_bindings": 0,
-            "ui": 0,
-            "ajax": 0,
-            "placeholder": "",
-            "create_options": 0,
-            "save_options": 0
-        },
-        {
             "key": "field_68173ed2a2ab5",
             "label": "Top Management",
             "name": "contact_person",
@@ -164,12 +129,12 @@
             "label": "Previous Certification",
             "name": "previous_certification",
             "aria-label": "",
-            "type": "select",
+            "type": "radio",
             "instructions": "",
             "required": 1,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "24",
+                "width": "50",
                 "class": "",
                 "id": ""
             },
@@ -188,19 +153,22 @@
             "ajax": 0,
             "placeholder": "",
             "create_options": 0,
-            "save_options": 0
+            "save_options": 0,
+            "layout": "horizontal",
+            "other_choice": 0,
+            "save_other_choice": 0
         },
         {
             "key": "field_67dc0148b5c1c",
             "label": "Certification Type",
             "name": "certification_type",
             "aria-label": "",
-            "type": "select",
+            "type": "radio",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "24",
+                "width": "50",
                 "class": "",
                 "id": ""
             },
@@ -221,38 +189,43 @@
             "ajax": 0,
             "placeholder": "",
             "create_options": 0,
-            "save_options": 0
+            "save_options": 0,
+            "layout": "horizontal",
+            "other_choice": 0,
+            "save_other_choice": 0
         },
         {
             "key": "field_org_type",
             "label": "Organization Type",
             "name": "organization_type",
             "aria-label": "",
-            "type": "select",
+            "type": "radio",
             "instructions": "",
             "required": 1,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "24",
+                "width": "50",
                 "class": "",
                 "id": ""
             },
+            "formula": "",
+            "calculated_format": "",
+            "blank_if_zero": 0,
+            "readonly": 0,
             "choices": {
                 "Company": "Company",
                 "Partnership": "Partnership",
                 "Proprietorship": "Proprietorship",
                 "Other": "Other"
             },
-            "default_value": false,
+            "default_value": "",
             "return_format": "value",
-            "multiple": 0,
             "allow_null": 0,
+            "other_choice": 0,
             "allow_in_bindings": 1,
-            "ui": 0,
-            "ajax": 0,
-            "placeholder": "",
-            "create_options": 0,
-            "save_options": 0
+            "layout": "horizontal",
+            "cert_restrict": 0,
+            "save_other_choice": 0
         },
         {
             "key": "field_67cdf_assigned_employee",
@@ -264,7 +237,7 @@
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "24",
+                "width": "50",
                 "class": "",
                 "id": ""
             },
@@ -436,5 +409,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1777634116
+    "modified": 1779874279
 }

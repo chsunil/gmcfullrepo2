@@ -13,10 +13,10 @@ function qms01_field($key, $post_id) {
     return (!empty($val) && !is_array($val)) ? esc_html($val) : '';
 }
 
-// Helper: checkbox symbol — ASCII art style for DOMPDF compatibility
-// DOMPDF cannot render &#9744;/&#9746; without DejaVu font; use plain text instead
+// Helper: checkbox symbol — Unicode checkmark for better render quality
+// Use escape syntax so the source file encoding does not break the character.
 function qms01_checkbox($checked = false) {
-    return $checked ? '[X]' : '[  ]';
+    return $checked ? "\u{2714}" : ' ';
 }
 
 // ──────────────────────────────────────────────
@@ -310,7 +310,7 @@ $logo_url = plugins_url('assets/images/logo.jpg', dirname(__FILE__));
 
     /* Checkbox row */
     .cb-row td { border: 1px solid #000; padding: 4px 8px; font-size: 11pt; }
-    .cb { font-size: 11pt; font-family: Arial, sans-serif; margin-right: 2px; }
+    .cb { font-size: 13pt; font-family: "DejaVu Sans", Arial, sans-serif; margin-right: 2px; }
 
     /* footer bar — rendered as a normal table row, not fixed position */
     .page-footer-bar {
@@ -1044,3 +1044,4 @@ function qms01_footer($page, $total = 5) {
 
 </body>
 </html>
+
